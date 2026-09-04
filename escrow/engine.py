@@ -1,0 +1,319 @@
+"""The escrow insertion process (v1: categorical facets only).
+
+Implements the per-record steps of the ESCROW paper's algorithm, with one
+deliberate reordering: ALL evidence terms are computed from pre-record statistics
+(snapshotted before any update), because the escrow accumulator G_t is a sequential
+log-likelihood ratio and a statistic that incorporates the current record would
+invalidate the martingale behind the Ville guarantee (paper, Theorem 1; test UT-17).
+
+v1 scope, declared: categorical values only (numeric Student-t and text PPM are
+later phases); posting lists untruncated (B_node = infinity, reported); repair pass
+not yet wired (insertion only). Nothing here reads a statistic from the future.
+"""
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, field
+
+from .codes import ValueBlock, attach, kt, price
+
+
+@dataclass
+class KeyInfo:
+    kid: int
+    P: int = 0                                  # records that published this key
+    background: ValueBlock = field(default_factory=ValueBlock)
+    inventory: dict = field(default_factory=dict)   # value string -> vid
+    first_seen_n: int = 0
+
+    def intern(self, value: str) -> int:
+        vid = self.inventory.get(value)
+        if vid is None:
+            vid = len(self.inventory)
+            self.inventory[value] = vid
+        return vid
+
+
+@dataclass
+class Node:
+    nid: int
+    t: int = 0                                  # members
+    S: set = field(default_factory=set)         # support: key ids
+    p: dict = field(default_factory=dict)       # kid -> members publishing kid
+    blocks: dict = field(default_factory=dict)  # kid -> ValueBlock
+    members: set = field(default_factory=set)   # record ids (repair needs these)
+    pub: dict = field(default_factory=dict)     # kid -> member ids publishing kid
+    birth_n: int = 0                            # diagnostics ONLY; never in L_batch
+
+
+@dataclass
+class Candidate:
+    sig: tuple                                  # (kid, vid) seed signature
+    t: int = 0
+    keys: set = field(default_factory=set)
+    p: dict = field(default_factory=dict)
+    blocks: dict = field(default_factory=dict)
+    g: dict = field(default_factory=dict)       # per-key escrow, bits
+    G: float = 0.0                              # total escrow, bits
+    members: list = field(default_factory=list)
+
+
+@dataclass
+class Receipt:
+    """The per-record audit trail: what was decided and which facet paid for it."""
+    n: int
+    active: list                                # node ids attached (excl. background)
+    owners: dict                                # key string -> node id (0 = background)
+    per_key_bits: dict                          # key string -> signed bits vs background
+    minted: list                                # node ids minted while processing this record
+
+
+class EscrowGraph:
+    def __init__(self, cand_pool_cap: int = 4096) -> None:
+        self.n = 0
+        self.K = 0
+        self.next_id = 0                        # monotone node ids: NEVER reused
+        self.e = 0                              # edits (mints) so far
+        self.H = 0.0
+        self.keys: dict[str, KeyInfo] = {}
+        self.key_by_id: dict[int, KeyInfo] = {}
+        self.key_name: dict[int, str] = {}
+        self.nodes: dict[int, Node] = {}        # latent nodes only, 1-based ids
+        self.ix1: dict[tuple, set] = {}         # (kid, vid) -> node ids
+        self.ix2: dict[int, set] = {}           # kid -> node ids supporting kid
+        self.pool: dict[tuple, Candidate] = {}
+        self.record_vals: dict[int, dict] = {}        # n -> {kid: vid} (v1, reassign)
+        self.record_keys: dict[int, frozenset] = {}   # n -> published kids (v1: kept
+        # in memory for the repair pass's overlap accounting; a later phase replaces
+        # this with per-node published-member bitmaps)
+        self.cand_pool_cap = cand_pool_cap
+        self.mint_log: list = []
+
+    # ------------------------------------------------------------------ #
+    def _key(self, name: str) -> KeyInfo:
+        ki = self.keys.get(name)
+        if ki is None:
+            ki = KeyInfo(kid=len(self.keys), first_seen_n=self.n)
+            self.keys[name] = ki
+            self.key_by_id[ki.kid] = ki
+            self.key_name[ki.kid] = name
+        return ki
+
+    # ------------------------------------------------------------------ #
+    def process(self, record: dict) -> Receipt:
+        """record: {key string: value string}. Returns the receipt."""
+        self.n += 1
+        n = self.n
+        self.H += 1.0 / n
+        past = n - 1                            # size of the past, for every predictive
+
+        # --- 0. PARSE (register keys, intern values; all reads below are pre-update)
+        items = []                              # (kid, vid, keyinfo)
+        naming = {}                             # kid -> stage-(iii) bits, PRE-intern
+        for a, x in record.items():
+            ki = self._key(a)
+            naming[ki.kid] = math.log2(len(ki.inventory) + 1.0)
+            items.append((ki.kid, ki.intern(str(x)), ki))
+        K_r = {kid for kid, _, _ in items}
+        self.record_keys[n] = frozenset(K_r)
+        self.record_vals[n] = dict(vid_of) if False else {kid: vid for kid, vid, _ in items}
+        vid_of = {kid: vid for kid, vid, _ in items}
+
+        # --- pre-record background costs per published key (the incumbent's code) --
+        bg_val = {}                             # kid -> bits to code the value under background
+        bg_pres = {}                            # kid -> bits to code "present" under background
+        bg_abs = {}                             # kid -> bits to code "absent" under background
+        for kid, vid, ki in items:
+            bg_val[kid] = ki.background.cost(vid, naming[kid])
+            bg_pres[kid] = kt(ki.P, past, 2) if past > 0 else 1.0
+        # (bg_abs is filled lazily for candidate silence bills)
+
+        # --- 1. RETRIEVE CANDIDATE NODES ---------------------------------------- #
+        cand: set[int] = set()
+        for kid, vid, _ in items:
+            cand |= self.ix1.get((kid, vid), set())
+            cand |= self.ix2.get(kid, set())
+        cand &= self.nodes.keys()               # guard against merged-away ids
+
+        # --- 2. PER-ATTRIBUTE EVIDENCE, pre-update ------------------------------ #
+        D: dict[int, dict[int, float]] = {}     # kid -> {nid: signed bits vs background}
+        Dabs: dict[int, float] = {}             # nid -> silence bill (keys v expects, r lacks)
+        for v in cand:
+            node = self.nodes[v]
+            for kid in K_r & node.S:
+                blk = node.blocks[kid]
+                dval = bg_val[kid] - blk.cost(vid_of[kid], naming[kid])
+                dpres = bg_pres[kid] - kt(node.p.get(kid, 0), node.t, 2)
+                D.setdefault(kid, {})[v] = dval + dpres
+            silence = 0.0
+            for kid in node.S - K_r:
+                ki = self.key_by_id[kid]
+                b_abs = kt(past - ki.P, past, 2) if past > 0 else 1.0
+                silence += b_abs - kt(node.t - node.p.get(kid, 0), node.t, 2)
+            Dabs[v] = silence
+
+        # --- 3. GREEDY ACTIVE SET ----------------------------------------------- #
+        own = {kid: 0 for kid in K_r}           # 0 = background
+        Dcur = {kid: 0.0 for kid in K_r}        # background baseline is 0 by definition
+        q = {kid: 0 for kid in K_r}
+        S_r: list[int] = []
+        remaining = set(cand)
+        while remaining:
+            best_v, best_gain = None, 0.0
+            for v in sorted(remaining, key=lambda w: (self.nodes[w].birth_n, w)):
+                node = self.nodes[v]
+                g = Dabs[v] - attach(node.t, n)
+                for kid in K_r & node.S:
+                    g += max(0.0, D.get(kid, {}).get(v, -math.inf) - Dcur[kid])
+                    g -= math.log2(2 + q[kid]) - math.log2(1 + q[kid])
+                if g > best_gain:
+                    best_v, best_gain = v, g
+            if best_v is None:
+                break
+            S_r.append(best_v)
+            remaining.discard(best_v)
+            node = self.nodes[best_v]
+            for kid in K_r & node.S:
+                dv = D.get(kid, {}).get(best_v, -math.inf)
+                if dv > Dcur[kid]:
+                    own[kid] = best_v
+                    Dcur[kid] = dv
+                    q[kid] += 1
+
+        # --- 6 (moved before updates). ACCRUE ESCROW with pre-record statistics -- #
+        resid = [(kid, vid_of[kid]) for kid in K_r if own[kid] == 0]
+        touched: list[Candidate] = []
+        for sig in resid:
+            c = self.pool.get(sig)
+            if c is None:
+                if len(self.pool) >= self.cand_pool_cap:
+                    # v1 eviction: drop the lowest-escrow candidate (declared; the
+                    # spec's Space-Saving with deterministic eviction comes later)
+                    worst = min(self.pool.values(), key=lambda cc: cc.G)
+                    del self.pool[worst.sig]
+                c = Candidate(sig=sig)
+                self.pool[sig] = c
+            touched.append(c)
+        # The incumbent in the escrow log-likelihood ratio is the CURRENT OWNER's
+        # code (paper, Theorem 1: the ratio is against the owner's code), not the background. The
+        # pseudocode's c[0] shorthand is correct only when the owner IS the
+        # background; using the background for owned keys double-counts evidence a
+        # minted node already explains and mints sibling nodes (measured: K=332 on
+        # the k=4 UT-12 fixture before this fix, K=2 after).
+        own_val = {}                            # kid -> incumbent value cost, pre-update
+        own_pres = {}                           # kid -> incumbent presence cost, pre-update
+        for kid, vid, ki in items:
+            w = own[kid]
+            if w == 0:
+                own_val[kid] = bg_val[kid]
+                own_pres[kid] = bg_pres[kid]
+            else:
+                node = self.nodes[w]
+                own_val[kid] = node.blocks[kid].cost(vid, naming[kid])
+                own_pres[kid] = kt(node.p.get(kid, 0), node.t, 2)
+        for c in touched:
+            for kid, vid, ki in items:
+                blk = c.blocks.get(kid)
+                if blk is None:
+                    blk = c.blocks[kid] = ValueBlock()
+                    c.keys.add(kid)
+                delta = (own_val[kid] - blk.cost(vid, naming[kid])) \
+                        + (own_pres[kid] - kt(c.p.get(kid, 0), c.t, 2))
+                c.G += delta
+                c.g[kid] = c.g.get(kid, 0.0) + delta
+                blk.observe(vid)
+                c.p[kid] = c.p.get(kid, 0) + 1
+            # Absence runs against the GLOBAL key set, not just the keys the
+            # candidate's members have published: a candidate whose members never
+            # publish key b earns the bits the background wastes predicting b
+            # might appear. Without this credit the objective's margin is
+            # invisible to the release rule at small k (measured: the k=2
+            # positive control never mints). Keys nobody publishes contribute
+            # ~0 by themselves (UT-9); this loop is O(|A|) in v1, with the
+            # spec's Kahan absent-baseline trick as the later optimisation.
+            for kid, ki in self.key_by_id.items():
+                if kid in K_r:
+                    continue
+                b_abs = kt(past - ki.P, past, 2) if past > 0 else 1.0
+                delta = b_abs - kt(c.t - c.p.get(kid, 0), c.t, 2)
+                c.G += delta
+                c.g[kid] = c.g.get(kid, 0.0) + delta
+            c.t += 1
+            c.members.append(n)
+
+        # --- 5. UPDATE STATISTICS ------------------------------------------------ #
+        for v in S_r:
+            node = self.nodes[v]
+            node.t += 1
+            node.members.add(n)
+            for kid in node.S:
+                if kid in K_r:
+                    node.p[kid] = node.p.get(kid, 0) + 1
+                    node.pub.setdefault(kid, set()).add(n)
+        for kid, vid, ki in items:
+            ki.P += 1
+            owner = own[kid]
+            if owner == 0:
+                ki.background.observe(vid)
+            else:
+                node = self.nodes[owner]
+                node.blocks[kid].observe(vid)
+                self.ix1.setdefault((kid, vid), set()).add(owner)
+
+        # --- 7. ESCROW RELEASE (the deferred mint) ------------------------------- #
+        minted = []
+        for c in touched:
+            ordered = sorted(((k, v) for k, v in c.g.items() if k in c.keys),
+                             key=lambda kv: -kv[1])
+            # absence evidence against keys outside the published set still counts
+            # toward the total, uniformly over any support choice
+            g_outside = sum(v for k, v in c.g.items() if k not in c.keys and v > 0)
+            best_T, best_margin, running = None, 0.0, 0.0
+            for j, (kid, gk) in enumerate(ordered, start=1):
+                if gk <= 0:
+                    break
+                running += gk
+                margin = (running + g_outside
+                          - price(c.t, j, n, self.K, self.e, len(self.keys)))
+                if margin > best_margin:
+                    best_T, best_margin = ordered[:j], margin
+            if best_T is None:
+                continue
+            self._mint(c, [kid for kid, _ in best_T], n)
+            minted.append(self.next_id)
+            del self.pool[c.sig]
+
+        return Receipt(
+            n=n, active=S_r,
+            owners={self.key_name[kid]: own[kid] for kid in K_r},
+            per_key_bits={self.key_name[kid]: Dcur[kid] for kid in K_r},
+            minted=minted)
+
+    # ------------------------------------------------------------------ #
+    def _mint(self, c: Candidate, support: list, n: int) -> None:
+        self.K += 1
+        self.e += 1
+        self.next_id += 1
+        w = Node(nid=self.next_id, t=c.t, birth_n=n)
+        w.members = set(c.members)
+        for kid in support:
+            w.pub[kid] = {r for r in c.members if kid in self.record_keys.get(r, ())}
+        for kid in support:
+            w.S.add(kid)
+            w.p[kid] = len(w.pub.get(kid, ()))
+            blk = c.blocks.get(kid)
+            w.blocks[kid] = blk if blk is not None else ValueBlock()
+            self.ix2.setdefault(kid, set()).add(w.nid)
+            for vid in w.blocks[kid].counts:
+                self.ix1.setdefault((kid, vid), set()).add(w.nid)
+        self.nodes[w.nid] = w
+        self.mint_log.append({
+            "node": w.nid, "n": n, "members": c.t,
+            "G_total": round(c.G, 3),
+            "price_paid": round(price(c.t, len(support), n, self.K - 1, self.e - 1,
+                                      len(self.keys)), 3),
+            "support": [self.key_name[k] for k in support],
+            "justifying_key": self.key_name[max(support, key=lambda k: c.g[k])],
+            "per_key_bits": {self.key_name[k]: round(c.g[k], 3) for k in support},
+            "seed": (self.key_name[c.sig[0]], c.sig[1]),
+        })
