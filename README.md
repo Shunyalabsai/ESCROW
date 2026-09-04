@@ -1,6 +1,6 @@
 # ESCROW
 
-Streaming structure learning by evidence accrual at a computed price.
+Latent graphs from record streams by evidence accrual at a computed price.
 
 A stream of records arrives. Each record is a set of attribute key and value pairs. ESCROW decides,
 per record and in one pass, which latent nodes the record attaches to, whether an attribute key is a
