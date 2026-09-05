@@ -17,6 +17,11 @@ from dataclasses import dataclass, field
 
 from .codes import ValueBlock, attach, kt, price
 
+try:                                            # optional fast path only; the
+    import numpy as _np                         # public package stays stdlib-only
+except ImportError:                             # and this branch simply never runs
+    _np = None
+
 
 @dataclass
 class KeyInfo:
@@ -56,6 +61,8 @@ class Candidate:
     g: dict = field(default_factory=dict)       # per-key escrow, bits
     G: float = 0.0                              # total escrow, bits
     members: list = field(default_factory=list)
+    p_vec: object = None                        # numpy fast path: presence counts
+    g_vec: object = None                        # numpy fast path: per-key escrow
 
 
 @dataclass
@@ -82,6 +89,11 @@ class EscrowGraph:
         self.ix1: dict[tuple, set] = {}         # (kid, vid) -> node ids
         self.ix2: dict[int, set] = {}           # kid -> node ids supporting kid
         self.pool: dict[tuple, Candidate] = {}
+        self.dirty: set[int] = set()            # nodes mutated since the last repair
+        self.last_full_repair_n = 0             # power-of-two full-pass scheduler
+        self.mint_merge_hook = None             # set by BatchObjective: absorb a
+        #                                         fresh mint into an existing node
+        #                                         before siblings can accumulate
         self.record_vals: dict[int, dict] = {}        # n -> {kid: vid} (v1, reassign)
         self.record_keys: dict[int, frozenset] = {}   # n -> published kids (v1: kept
         # in memory for the repair pass's overlap accounting; a later phase replaces
@@ -188,9 +200,15 @@ class EscrowGraph:
             if c is None:
                 if len(self.pool) >= self.cand_pool_cap:
                     # v1 eviction: drop the lowest-escrow candidate (declared; the
-                    # spec's Space-Saving with deterministic eviction comes later)
-                    worst = min(self.pool.values(), key=lambda cc: cc.G)
-                    del self.pool[worst.sig]
+                    # spec's Space-Saving with deterministic eviction comes later).
+                    # Never evict a candidate touched by THIS record: it is about
+                    # to be updated and possibly released (measured crash on
+                    # MusicBrainz at the 4096 cap: KeyError on the release).
+                    touched_sigs = {tc.sig for tc in touched}
+                    victims = [cc for cc in self.pool.values() if cc.sig not in touched_sigs]
+                    if victims:
+                        worst = min(victims, key=lambda cc: cc.G)
+                        del self.pool[worst.sig]
                 c = Candidate(sig=sig)
                 self.pool[sig] = c
             touched.append(c)
@@ -223,21 +241,61 @@ class EscrowGraph:
                 c.g[kid] = c.g.get(kid, 0.0) + delta
                 blk.observe(vid)
                 c.p[kid] = c.p.get(kid, 0) + 1
+                if c.p_vec is not None and kid < len(c.p_vec):
+                    c.p_vec[kid] = c.p[kid]     # keep the fast path current: a
+                    # stale presence count makes later absence deltas wrong for
+                    # keys the candidate published before but not now
             # Absence runs against the GLOBAL key set, not just the keys the
             # candidate's members have published: a candidate whose members never
             # publish key b earns the bits the background wastes predicting b
             # might appear. Without this credit the objective's margin is
             # invisible to the release rule at small k (measured: the k=2
             # positive control never mints). Keys nobody publishes contribute
-            # ~0 by themselves (UT-9); this loop is O(|A|) in v1, with the
-            # spec's Kahan absent-baseline trick as the later optimisation.
-            for kid, ki in self.key_by_id.items():
-                if kid in K_r:
-                    continue
-                b_abs = kt(past - ki.P, past, 2) if past > 0 else 1.0
-                delta = b_abs - kt(c.t - c.p.get(kid, 0), c.t, 2)
-                c.G += delta
-                c.g[kid] = c.g.get(kid, 0.0) + delta
+            # ~0 by themselves (UT-9). With numpy available this is one vector
+            # operation over the key universe (token facets push |A| into the
+            # thousands, where the python loop was the wall); the pure-python
+            # loop is the fallback and computes the identical quantity.
+            if _np is not None:
+                nk = len(self.key_by_id)
+                bg_abs_vec = _np.empty(nk)
+                if past > 0:
+                    P_vec = _np.fromiter(
+                        (self.key_by_id[k].P for k in range(nk)), float, nk)
+                    bg_abs_vec[:] = -_np.log2((past - P_vec + 0.5) / (past + 1.0))
+                else:
+                    bg_abs_vec[:] = 1.0
+                mask = _np.ones(nk, bool)
+                for kid in K_r:
+                    mask[kid] = False
+                if c.p_vec is None or len(c.p_vec) < nk:
+                    pv = _np.zeros(nk)
+                    gv = _np.zeros(nk)
+                    if c.p_vec is not None:
+                        pv[:len(c.p_vec)] = c.p_vec
+                        gv[:len(c.g_vec)] = c.g_vec
+                    for kid, cnt in c.p.items():
+                        pv[kid] = cnt
+                    for kid, val in c.g.items():
+                        gv[kid] = val
+                    c.p_vec, c.g_vec = pv, gv
+                # published keys were already incremented this record and are
+                # masked out below; clip them so the log never sees a negative
+                # argument (their entries are computed but never used)
+                cand_abs = -_np.log2(
+                    (_np.minimum(c.p_vec, c.t) * -1.0 + c.t + 0.5) / (c.t + 1.0))
+                delta_vec = _np.where(mask, bg_abs_vec - cand_abs, 0.0)
+                c.g_vec += delta_vec
+                c.G += float(delta_vec.sum())
+                for kid in K_r:                  # published-key deltas stay exact
+                    c.g_vec[kid] = c.g.get(kid, 0.0)
+            else:
+                for kid, ki in self.key_by_id.items():
+                    if kid in K_r:
+                        continue
+                    b_abs = kt(past - ki.P, past, 2) if past > 0 else 1.0
+                    delta = b_abs - kt(c.t - c.p.get(kid, 0), c.t, 2)
+                    c.G += delta
+                    c.g[kid] = c.g.get(kid, 0.0) + delta
             c.t += 1
             c.members.append(n)
 
@@ -246,6 +304,7 @@ class EscrowGraph:
             node = self.nodes[v]
             node.t += 1
             node.members.add(n)
+            self.dirty.add(v)
             for kid in node.S:
                 if kid in K_r:
                     node.p[kid] = node.p.get(kid, 0) + 1
@@ -263,11 +322,18 @@ class EscrowGraph:
         # --- 7. ESCROW RELEASE (the deferred mint) ------------------------------- #
         minted = []
         for c in touched:
-            ordered = sorted(((k, v) for k, v in c.g.items() if k in c.keys),
-                             key=lambda kv: -kv[1])
-            # absence evidence against keys outside the published set still counts
-            # toward the total, uniformly over any support choice
-            g_outside = sum(v for k, v in c.g.items() if k not in c.keys and v > 0)
+            if _np is not None and c.g_vec is not None:
+                gmap = {k: float(c.g_vec[k]) for k in c.keys}
+                out_mask = _np.ones(len(c.g_vec), bool)
+                for k in c.keys:
+                    out_mask[k] = False
+                gv = c.g_vec[out_mask]
+                g_outside = float(gv[gv > 0].sum())
+            else:
+                gmap = {k: v for k, v in c.g.items() if k in c.keys}
+                g_outside = sum(v for k, v in c.g.items()
+                                if k not in c.keys and v > 0)
+            ordered = sorted(gmap.items(), key=lambda kv: -kv[1])
             best_T, best_margin, running = None, 0.0, 0.0
             for j, (kid, gk) in enumerate(ordered, start=1):
                 if gk <= 0:
@@ -281,7 +347,9 @@ class EscrowGraph:
                 continue
             self._mint(c, [kid for kid, _ in best_T], n)
             minted.append(self.next_id)
-            del self.pool[c.sig]
+            self.pool.pop(c.sig, None)
+        if minted and self.mint_merge_hook is not None:
+            self.mint_merge_hook(minted)
 
         return Receipt(
             n=n, active=S_r,
@@ -307,13 +375,17 @@ class EscrowGraph:
             for vid in w.blocks[kid].counts:
                 self.ix1.setdefault((kid, vid), set()).add(w.nid)
         self.nodes[w.nid] = w
+        def _g(k):
+            if c.g_vec is not None:
+                return float(c.g_vec[k])
+            return c.g.get(k, 0.0)
         self.mint_log.append({
             "node": w.nid, "n": n, "members": c.t,
             "G_total": round(c.G, 3),
             "price_paid": round(price(c.t, len(support), n, self.K - 1, self.e - 1,
                                       len(self.keys)), 3),
             "support": [self.key_name[k] for k in support],
-            "justifying_key": self.key_name[max(support, key=lambda k: c.g[k])],
-            "per_key_bits": {self.key_name[k]: round(c.g[k], 3) for k in support},
+            "justifying_key": self.key_name[max(support, key=_g)],
+            "per_key_bits": {self.key_name[k]: round(_g(k), 3) for k in support},
             "seed": (self.key_name[c.sig[0]], c.sig[1]),
         })

@@ -8,6 +8,7 @@ encoding specification). lgamma, never factorials (implementation_notes #2).
 from __future__ import annotations
 
 import math
+from functools import lru_cache
 from math import lgamma
 
 LN2 = 0.6931471805599453
@@ -15,8 +16,11 @@ LOG2_C0 = 1.5165  # log2(2.865064), Rissanen 1983 universal integer code constan
 LOG2_PI = math.log2(math.pi)
 
 
+@lru_cache(maxsize=1 << 20)
 def lg2(x: float) -> float:
-    """log2 of the Gamma function."""
+    """log2 of the Gamma function. Cached: the arguments repeat massively (small
+    counts plus half-integer offsets), and the repair pass was spending a third
+    of its time inside lgamma before the cache."""
     return lgamma(x) / LN2
 
 

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import math
 
-from .codes import L_KT_block, L_N, L_col, L_supp, lg2
+from .codes import L_KT_block, L_N, L_col, L_supp, kt, lg2
 
 
 def L_vblock(counts: dict, naming: float) -> float:
@@ -193,32 +193,34 @@ class BatchObjective:
             # node presence block gains one trial
             d += L_col(v.p.get(kid, 0) + pub, v.t + 1) - L_col(v.p.get(kid, 0), v.t)
             # background presence block loses this record (if it was uncovered)
-            others = [x for x in g.nodes.values() if kid in x.S]
-            covered = set().union(*(x.members for x in others)) if others else set()
+            cov = getattr(self, "_cov", None)
+            if cov is not None:
+                covered = cov.get(kid, set())
+                pub_all = self._pub_all.get(kid, 0)
+            else:
+                others = [x for x in g.nodes.values() if kid in x.S]
+                covered = set().union(*(x.members for x in others)) if others else set()
+                pub_all = sum(x.p.get(kid, 0) for x in g.nodes.values() if kid in x.S)
             if rec_n in covered:
                 continue
             ki = g.key_by_id[kid]
-            pub_all = sum(x.p.get(kid, 0) for x in g.nodes.values() if kid in x.S)
             n0b = g.n - len(covered)
             p0b = max(0, ki.P - pub_all)
             d -= L_col(min(p0b, n0b), n0b) if n0b > 0 else 0.0
             n0a, p0a = n0b - 1, p0b - pub
             d += L_col(min(max(p0a, 0), n0a), n0a) if n0a > 0 else 0.0
-            # value ownership moves from the background block to v's block
+            # value ownership moves from the background block to v's block,
+            # priced by the exact O(1) increments (identical to full recompute,
+            # verified to 5e-13; the recompute was the profile's hot spot)
             if pub and kid in vals_r:
                 vid = vals_r[kid]
                 naming = math.log2(len(ki.inventory) + 1.0)
                 bg = ki.background.counts
                 if bg.get(vid, 0) > 0:
-                    d -= L_vblock(bg, naming)
-                    bg2 = dict(bg); bg2[vid] -= 1
-                    if bg2[vid] == 0: del bg2[vid]
-                    d += L_vblock(bg2, naming)
+                    d += L_vblock_delta_remove(bg, vid, naming)
                     nb = v.blocks.get(kid)
-                    nbc = dict(nb.counts) if nb is not None else {}
-                    d -= L_vblock(nbc, naming)
-                    nbc[vid] = nbc.get(vid, 0) + 1
-                    d += L_vblock(nbc, naming)
+                    d += L_vblock_delta_add(nb.counts if nb is not None else {},
+                                            vid, naming)
         return d
 
     def _apply_reassign(self, rec_n: int, v) -> None:
@@ -259,11 +261,30 @@ class BatchObjective:
         if not g.nodes:
             return 0
         covered = set().union(*(v.members for v in g.nodes.values()))
+        # per-key coverage and publication totals, computed once per pass and
+        # patched after each applied move (reassign_gain recomputed these per
+        # call before; the set unions alone were 13 seconds of a 194 second
+        # profile)
+        self._cov = {}
+        self._pub_all = {}
+        for v in g.nodes.values():
+            for kid in v.S:
+                self._cov.setdefault(kid, set()).update(v.members)
+                self._pub_all[kid] = self._pub_all.get(kid, 0) + v.p.get(kid, 0)
         moved = 0
+        full = getattr(self, "_reassign_full", True)
+        since = getattr(g, "_reassign_since", 0)
+        dirty_keys = set()
+        for nid in g.dirty:
+            v = g.nodes.get(nid)
+            if v is not None:
+                dirty_keys |= v.S
         for rec_n in list(g.record_keys):
             if rec_n in covered:
                 continue
             keys_r = g.record_keys[rec_n]
+            if not full and rec_n <= since and not (keys_r & dirty_keys):
+                continue
             best, best_v = -1e-9, None
             for v in g.nodes.values():
                 if not (v.S & keys_r):
@@ -273,13 +294,140 @@ class BatchObjective:
                     best, best_v = d, v
             if best_v is not None:
                 self._apply_reassign(rec_n, best_v)
+                covered.add(rec_n)
+                for kid in best_v.S:
+                    self._cov.setdefault(kid, set()).add(rec_n)
+                    if kid in keys_r:
+                        self._pub_all[kid] = self._pub_all.get(kid, 0) + 1
                 moved += 1
+        self._cov = None
+        self._pub_all = None
         return moved
 
-    def repair(self, max_rounds: int = 50) -> int:
-        """Greedy best-merge-first pass; accept iff dL < 0; terminate at fixpoint.
-        Returns the number of merges applied."""
+    def absorb_new_mints(self, new_ids) -> int:
+        """Mint-time absorption: a node just released from escrow immediately
+        tries to merge into an existing node under the same exact dL_batch test.
+        This closes the churn window in which slice siblings accumulate between
+        repair passes (observed on ReVerb45K as K swinging 70 to 5 to 202)."""
         g = self.g
+        applied = 0
+        for nid in list(new_ids):
+            w = g.nodes.get(nid)
+            if w is None:
+                continue
+            while True:
+                best, best_v = -1e-9, None
+                for v in g.nodes.values():
+                    if v.nid == w.nid:
+                        continue
+                    # only support-contained pairs: the churn this hook closes is
+                    # same-feature siblings, and a fresh mint must not face a
+                    # merge test against a grown DISJOINT node at the one moment
+                    # it is smallest (measured: the unrestricted hook collapsed
+                    # the two-group control to K=1 at birth). Cross-feature
+                    # merges stay with the repair pass, which runs after
+                    # reassignment completes the evidence.
+                    if not (w.S <= v.S or v.S <= w.S):
+                        continue
+                    d = self.merge_delta(v, w)
+                    if d is not None and d < best:
+                        best, best_v = d, v
+                if best_v is None:
+                    break
+                self._apply_merge(best_v, w)
+                applied += 1
+                w = best_v                      # keep absorbing upward if it pays
+        return applied
+
+    def install(self) -> "BatchObjective":
+        """Wire the mint-time absorption hook into the graph. Returns self."""
+        self.g.mint_merge_hook = self.absorb_new_mints
+        return self
+
+    def cohort_reassign(self, full: bool = True) -> int:
+        """The batch dual of the deferred mint. A single straggler often cannot
+        pay its own marginal column price into a half-formed node (measured on
+        the two-group control at rho = 0.11: attach costs 3.03 bits against 2
+        bits of evidence, so 57 of 60 stragglers individually refuse), while the
+        cohort of all stragglers together pays easily; that is the submodular
+        valley between them. This move prices the WHOLE uncovered cohort of a
+        node jointly, with the same exact closed forms, and attaches it only
+        when the joint delta is negative."""
+        g = self.g
+        if not g.nodes:
+            return 0
+        covered = set().union(*(v.members for v in g.nodes.values()))
+        moved = 0
+        for v in sorted(g.nodes.values(), key=lambda x: (x.birth_n, x.nid)):
+            if not full and v.nid not in g.dirty:
+                continue
+            cohort = [r for r in g.record_keys
+                      if r not in covered and (g.record_keys[r] & v.S)]
+            if len(cohort) < 2:
+                continue
+            m = len(cohort)
+            d = L_col(v.t + m, g.n) - L_col(v.t, g.n)
+            val_moves = []                       # (ki, vid) per observation
+            for kid in v.S:
+                ki = g.key_by_id[kid]
+                pub = [r for r in cohort if kid in g.record_keys[r]]
+                pm = len(pub)
+                d += L_col(v.p.get(kid, 0) + pm, v.t + m)                    - L_col(v.p.get(kid, 0), v.t)
+                others = [x for x in g.nodes.values() if kid in x.S]
+                cov_k = set().union(*(x.members for x in others)) if others else set()
+                n0b = g.n - len(cov_k)
+                p0b = max(0, ki.P - sum(x.p.get(kid, 0) for x in others))
+                n0a, p0a = n0b - m, max(0, p0b - pm)
+                if n0b > 0:
+                    d -= L_col(min(p0b, n0b), n0b)
+                if n0a > 0:
+                    d += L_col(min(max(p0a, 0), n0a), n0a)
+                # value ownership moves, priced as a chain of exact O(1) deltas
+                # (one remove from the background, one add to the node, per
+                # observation) instead of full block recomputes: on token
+                # universes the background blocks hold thousands of values and
+                # the recompute was the repair pass's remaining hot spot
+                naming = math.log2(len(ki.inventory) + 1.0)
+                bg = dict(ki.background.counts)
+                nb = v.blocks.get(kid)
+                nbc = dict(nb.counts) if nb is not None else {}
+                for r in pub:
+                    vid = g.record_vals.get(r, {}).get(kid)
+                    if vid is not None and bg.get(vid, 0) > 0:
+                        d += L_vblock_delta_remove(bg, vid, naming)
+                        bg[vid] -= 1
+                        if bg[vid] == 0:
+                            del bg[vid]
+                        d += L_vblock_delta_add(nbc, vid, naming)
+                        nbc[vid] = nbc.get(vid, 0) + 1
+                        val_moves.append((kid, r))
+            if d < -1e-9:
+                for r in cohort:
+                    self._apply_reassign(r, v)
+                    covered.add(r)
+                g.dirty.add(v.nid)
+                moved += m
+        return moved
+
+    def repair(self, max_rounds: int = 50, full: bool = None) -> int:
+        """Greedy best-merge-first pass; accept iff dL < 0; terminate at fixpoint.
+        Returns the number of moves applied.
+
+        Intermediate passes are INCREMENTAL: merge and delete proposals must
+        involve a node mutated since the last pass, and reassignment only visits
+        records that arrived since then or that share a key with a mutated
+        node's support. A FULL pass (everything proposed) self-schedules when
+        the stream has doubled since the last one, mirroring the power-of-two
+        checkpoint discipline, and can be forced with full=True for the final
+        call. Background terms drift with n even for untouched nodes, which is
+        why the full pass exists; between full passes the incremental schedule
+        is an efficiency choice, not a change of objective."""
+        g = self.g
+        if full is None:
+            full = g.n >= 2 * max(1, g.last_full_repair_n)
+        if full:
+            g.last_full_repair_n = g.n
+        dirty0 = set(g.dirty)
         moves = 0
         for _ in range(max_rounds):
             progressed = False
@@ -289,6 +437,8 @@ class BatchObjective:
                 nodes = sorted(g.nodes.values(), key=lambda x: (x.birth_n, x.nid))
                 for i, v in enumerate(nodes):
                     for w in nodes[i + 1:]:
+                        if not full and v.nid not in g.dirty and w.nid not in g.dirty:
+                            continue
                         if not (v.S & w.S):
                             continue
                         d = self.merge_delta(v, w)
@@ -304,13 +454,18 @@ class BatchObjective:
             #    the background (measured: exact delta -50.8 on UT-12) while the
             #    fully-attached one wins; deleting before reassigning destroys
             #    true structure on the strength of its own incompleteness.
-            r = self.reassign_pass()
+            r = self.cohort_reassign(full=full)
+            self._reassign_full = full
+            r += self.reassign_pass()
+            g._reassign_since = g.n
             moves += r
             progressed = progressed or r > 0
             # 3. deletes: nodes the completed objective still does not want
             while True:
                 best = None
                 for v in sorted(g.nodes.values(), key=lambda x: (x.birth_n, x.nid)):
+                    if not full and v.nid not in g.dirty and v.nid not in dirty0:
+                        continue
                     d = self.delete_delta(v)
                     if d < -1e-9 and (best is None or d < best[0]):
                         best = (d, v)
@@ -321,6 +476,7 @@ class BatchObjective:
                 progressed = True
             if not progressed:
                 break
+        g.dirty.clear()
         return moves
 
     def _apply_merge(self, v, w) -> None:
@@ -354,6 +510,8 @@ class BatchObjective:
                 for vid in v.blocks[kid].counts:
                     g.ix1.setdefault((kid, vid), set()).add(v.nid)
         del g.nodes[w.nid]
+        g.dirty.discard(w.nid)
+        g.dirty.add(v.nid)
         g.K -= 1
         g.e += 1
 
@@ -363,3 +521,43 @@ class _CountsOnly:
     __slots__ = ("counts",)
     def __init__(self, counts: dict) -> None:
         self.counts = counts
+
+
+# --------------------------------------------------------------------------- #
+# Exact O(1) increments for L_vblock. Adding or removing ONE observation of a
+# value changes the canonical block code by a closed-form amount; recomputing
+# the whole block for a one-observation move was 97 percent of the repair
+# pass's runtime (measured: 6M full recomputes, 348M lgamma calls, on a 3,000
+# record stream). These return exactly L_vblock(after) - L_vblock(before);
+# test_batch_deltas.py asserts the identity against full recomputes.
+# --------------------------------------------------------------------------- #
+def L_vblock_delta_add(counts: dict, vid, naming: float) -> float:
+    """Delta from adding one observation of vid to a block with these counts."""
+    u = len(counts)
+    N = sum(counts.values())
+    c = counts.get(vid, 0)
+    if u == 0:
+        # empty block -> singleton: L_col(1,1) + L_KT_block([0],1) + naming
+        return L_col(1, 1) + L_KT_block([0], 1) + naming
+    if c == 0:
+        # novelty count u -> u+1, N -> N+1; repeats gain a zero entry (alphabet grows)
+        d = L_col(u + 1, N + 1) - L_col(u, N)
+        repeats_before = [x - 1 for x in counts.values()]
+        repeats_after = repeats_before + [0]
+        d += L_KT_block(repeats_after, u + 1) - L_KT_block(repeats_before, u)
+        return d + naming
+    # repeat: novelty column N -> N+1 (zeros side), one repeat count increments
+    d = L_col(u, N + 1) - L_col(u, N)
+    rep_total = N - u
+    d += kt(c - 1, rep_total, u)     # incremental = block increment (UT-6 identity)
+    return d
+
+
+def L_vblock_delta_remove(counts: dict, vid, naming: float) -> float:
+    """Delta from removing one observation of vid; inverse of delta_add."""
+    after = dict(counts)
+    if after[vid] == 1:
+        del after[vid]
+    else:
+        after[vid] -= 1
+    return -L_vblock_delta_add(after, vid, naming)
