@@ -1,0 +1,53 @@
+{
+  "flags": {
+    "tight_naming": false,
+    "unselected_statistic": false,
+    "seed_naming_charge": true,
+    "seed_naming_mode": "av",
+    "seed_naming_gamma": 0.0
+  },
+  "twogroup": {
+    "K": 2,
+    "ari": 1.0,
+    "mints": 14,
+    "background_records": 0,
+    "purity_incl_background": 1.0,
+    "node_sizes": [
+      1000,
+      1000
+    ],
+    "n": 2000
+  },
+  "planted8": {
+    "K": 8,
+    "ari": 1.0,
+    "mints": 10,
+    "background_records": 0,
+    "purity_incl_background": 1.0,
+    "node_sizes": [
+      395,
+      390,
+      385,
+      381,
+      376,
+      365,
+      357,
+      351
+    ],
+    "n": 3000
+  },
+  "wikipedia": {
+    "K": 4,
+    "ari": 0.9669,
+    "mints": 32,
+    "background_records": 2,
+    "purity_incl_background": 0.9938,
+    "node_sizes": [
+      117,
+      111,
+      89,
+      1
+    ],
+    "n": 320
+  }
+}

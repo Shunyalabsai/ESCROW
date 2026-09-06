@@ -1,0 +1,13 @@
+{
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": false
+  },
+  "accrual_steps": 318400,
+  "mean_2^dG_value_terms_realised": 0.818994,
+  "mean_2^dG_presence_terms_realised": 0.969014,
+  "mean_2^dG_all_nonseed_realised": 0.767607,
+  "mean_exact_E_P[2^dval]_per_key": 1.0,
+  "key_terms": 955200,
+  "reading": "<= 1 means the step is a supermartingale on average; the exact column is the theorem's own expectation, under the incumbent's predictive, and must be exactly 1 when both blocks are normalised"
+}

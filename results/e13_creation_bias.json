@@ -1,0 +1,1396 @@
+{
+  "design": "K* planted groups of 3 keys, alphabet 8 values per key per group. One scalar noise drives three knobs: value noise (a slot's value comes from another group's alphabet), key noise (a slot's key name is another group's key for the same slot), and random fraction (the whole record is drawn from the union of all keys and all values, planted label -1). Version 1 varied the value only, so the key set named the group at every noise rate and neither failure mode was reachable.",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "metric": "Final K against the planted K*, and the adjusted Rand index of the engine's node membership against the planted labels. Records in no node form one background cluster; the fully random records are label -1 in the truth. ari_planted_only drops the random records from both sides.",
+  "grid": {
+    "K_star": [
+      2,
+      8,
+      20
+    ],
+    "noise": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "T": [
+      1000,
+      3000,
+      10000
+    ],
+    "seeds": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "runs": 270
+  },
+  "dropped_from_grid": "T = 100000 and T = 30000, both after measurement and both for runtime. One run at K* = 8, noise = 0.3, T = 30000 costs about 235 s on one core, so T = 100000 in that cell projects past an hour for one seed. The T = 30000 tier itself was started and abandoned: 42 of its 90 runs took 35 minutes on seven workers with the K* = 20 rows not yet begun, projecting to about 75 minutes for the tier alone. The cost is concentrated in the middle of the noise range, where a half broken group manufactures many candidate supports. The lengths actually run are in grid.T and can be overridden on the command line.",
+  "regime_rule": "growing_with_T if the slope of mean K on log T is at least 0.5 and mean K at the longest stream exceeds K* + 1; plateau_below_K_star if mean K at the longest stream is below K* - 0.5; converged_to_K_star if it is within 0.5 of K*; overshoot_flat otherwise.",
+  "cells": {
+    "K2": {
+      "0.0": {
+        "1000": {
+          "K": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "mean_K": 2.0,
+          "min_K": 2,
+          "max_K": 2,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.11,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "mean_K": 2.0,
+          "min_K": 2,
+          "max_K": 2,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.27,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "mean_K": 2.0,
+          "min_K": 2,
+          "max_K": 2,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 1.7,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.1": {
+        "1000": {
+          "K": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "mean_K": 1.0,
+          "min_K": 1,
+          "max_K": 1,
+          "mean_ari": 0.53,
+          "min_ari": 0.2577,
+          "max_ari": 0.7386,
+          "mean_ari_planted_only": 0.6713,
+          "mean_seconds": 0.95,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "mean_K": 1.0,
+          "min_K": 1,
+          "max_K": 1,
+          "mean_ari": 0.5474,
+          "min_ari": 0.1251,
+          "max_ari": 0.7402,
+          "mean_ari_planted_only": 0.6797,
+          "mean_seconds": 3.76,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "mean_K": 1.0,
+          "min_K": 1,
+          "max_K": 1,
+          "mean_ari": 0.5529,
+          "min_ari": 0.1295,
+          "max_ari": 0.7352,
+          "mean_ari_planted_only": 0.6902,
+          "mean_seconds": 37.19,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.2": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.28,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.5,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 2.22,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.3": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.23,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.45,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 1.95,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.4": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.21,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.45,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 2.54,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.5": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.19,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.47,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 1.9,
+          "regime": "plateau_below_K_star"
+        }
+      }
+    },
+    "K8": {
+      "0.0": {
+        "1000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.11,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.25,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 1.37,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.1": {
+        "1000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.7526,
+          "min_ari": 0.6955,
+          "max_ari": 0.8113,
+          "mean_ari_planted_only": 0.87,
+          "mean_seconds": 0.49,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.854,
+          "min_ari": 0.8419,
+          "max_ari": 0.863,
+          "mean_ari_planted_only": 0.9426,
+          "mean_seconds": 2.08,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.8955,
+          "min_ari": 0.8905,
+          "max_ari": 0.8992,
+          "mean_ari_planted_only": 0.9749,
+          "mean_seconds": 19.79,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.2": {
+        "1000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.4565,
+          "min_ari": 0.4408,
+          "max_ari": 0.4808,
+          "mean_ari_planted_only": 0.6897,
+          "mean_seconds": 0.52,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.5629,
+          "min_ari": 0.5478,
+          "max_ari": 0.5849,
+          "mean_ari_planted_only": 0.798,
+          "mean_seconds": 2.61,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.6205,
+          "min_ari": 0.598,
+          "max_ari": 0.6535,
+          "mean_ari_planted_only": 0.8392,
+          "mean_seconds": 25.19,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.3": {
+        "1000": {
+          "K": [
+            0,
+            1,
+            1,
+            3,
+            5
+          ],
+          "mean_K": 2.0,
+          "min_K": 0,
+          "max_K": 5,
+          "mean_ari": 0.0809,
+          "min_ari": 0.0,
+          "max_ari": 0.2357,
+          "mean_ari_planted_only": 0.1193,
+          "mean_seconds": 1.06,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            6,
+            7,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 7.4,
+          "min_K": 6,
+          "max_K": 8,
+          "mean_ari": 0.3971,
+          "min_ari": 0.3251,
+          "max_ari": 0.5051,
+          "mean_ari_planted_only": 0.5355,
+          "mean_seconds": 11.05,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.4429,
+          "min_ari": 0.3982,
+          "max_ari": 0.4717,
+          "mean_ari_planted_only": 0.5927,
+          "mean_seconds": 74.71,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.4": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            1,
+            2
+          ],
+          "mean_K": 0.6,
+          "min_K": 0,
+          "max_K": 2,
+          "mean_ari": 0.012,
+          "min_ari": 0.0,
+          "max_ari": 0.053,
+          "mean_ari_planted_only": 0.0062,
+          "mean_seconds": 0.46,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            1,
+            1,
+            1,
+            2
+          ],
+          "mean_K": 1.0,
+          "min_K": 0,
+          "max_K": 2,
+          "mean_ari": 0.0187,
+          "min_ari": 0.0,
+          "max_ari": 0.0452,
+          "mean_ari_planted_only": 0.0088,
+          "mean_seconds": 1.99,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            1,
+            2,
+            3,
+            4,
+            4
+          ],
+          "mean_K": 2.8,
+          "min_K": 1,
+          "max_K": 4,
+          "mean_ari": 0.0166,
+          "min_ari": 0.0046,
+          "max_ari": 0.0408,
+          "mean_ari_planted_only": 0.0061,
+          "mean_seconds": 21.34,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.5": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.36,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.71,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 2.08,
+          "regime": "plateau_below_K_star"
+        }
+      }
+    },
+    "K20": {
+      "0.0": {
+        "1000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.23,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.31,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 1.48,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.1": {
+        "1000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.6743,
+          "min_ari": 0.6513,
+          "max_ari": 0.6974,
+          "mean_ari_planted_only": 0.823,
+          "mean_seconds": 0.42,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.8268,
+          "min_ari": 0.8107,
+          "max_ari": 0.8429,
+          "mean_ari_planted_only": 0.921,
+          "mean_seconds": 2.25,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.8934,
+          "min_ari": 0.8877,
+          "max_ari": 0.9002,
+          "mean_ari_planted_only": 0.9641,
+          "mean_seconds": 40.2,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.2": {
+        "1000": {
+          "K": [
+            14,
+            14,
+            16,
+            16,
+            18
+          ],
+          "mean_K": 15.6,
+          "min_K": 14,
+          "max_K": 18,
+          "mean_ari": 0.2829,
+          "min_ari": 0.2473,
+          "max_ari": 0.3332,
+          "mean_ari_planted_only": 0.5119,
+          "mean_seconds": 0.57,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.4956,
+          "min_ari": 0.4731,
+          "max_ari": 0.5099,
+          "mean_ari_planted_only": 0.7846,
+          "mean_seconds": 3.79,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.6795,
+          "min_ari": 0.6682,
+          "max_ari": 0.6964,
+          "mean_ari_planted_only": 0.9002,
+          "mean_seconds": 75.51,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.3": {
+        "1000": {
+          "K": [
+            2,
+            3,
+            4,
+            4,
+            5
+          ],
+          "mean_K": 3.6,
+          "min_K": 2,
+          "max_K": 5,
+          "mean_ari": 0.0378,
+          "min_ari": 0.0146,
+          "max_ari": 0.0664,
+          "mean_ari_planted_only": 0.0299,
+          "mean_seconds": 0.57,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            18,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 19.6,
+          "min_K": 18,
+          "max_K": 20,
+          "mean_ari": 0.4088,
+          "min_ari": 0.2858,
+          "max_ari": 0.4727,
+          "mean_ari_planted_only": 0.546,
+          "mean_seconds": 13.06,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.5037,
+          "min_ari": 0.4714,
+          "max_ari": 0.5336,
+          "mean_ari_planted_only": 0.7417,
+          "mean_seconds": 150.32,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.4": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.4,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "mean_K": 8.0,
+          "min_K": 6,
+          "max_K": 10,
+          "mean_ari": 0.1295,
+          "min_ari": 0.0995,
+          "max_ari": 0.1657,
+          "mean_ari_planted_only": 0.0478,
+          "mean_seconds": 9.15,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "mean_K": 20.0,
+          "min_K": 20,
+          "max_K": 20,
+          "mean_ari": 0.4607,
+          "min_ari": 0.4498,
+          "max_ari": 0.4756,
+          "mean_ari_planted_only": 0.3395,
+          "mean_seconds": 244.12,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.5": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.33,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "mean_K": 0.2,
+          "min_K": 0,
+          "max_K": 1,
+          "mean_ari": 0.0036,
+          "min_ari": 0.0,
+          "max_ari": 0.018,
+          "mean_ari_planted_only": 0.0006,
+          "mean_seconds": 3.53,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            1,
+            1,
+            1,
+            3,
+            3
+          ],
+          "mean_K": 1.8,
+          "min_K": 1,
+          "max_K": 3,
+          "mean_ari": 0.0245,
+          "min_ari": 0.0091,
+          "max_ari": 0.0441,
+          "mean_ari_planted_only": 0.0043,
+          "mean_seconds": 24.23,
+          "regime": "plateau_below_K_star"
+        }
+      }
+    }
+  },
+  "regimes": {
+    "K2": {
+      "0.0": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 2.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 2.0,
+          "3000": 2.0,
+          "10000": 2.0
+        },
+        "mean_ari_by_T": {
+          "1000": 1.0,
+          "3000": 1.0,
+          "10000": 1.0
+        }
+      },
+      "0.1": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 1.0,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 1.0,
+          "3000": 1.0,
+          "10000": 1.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.53,
+          "3000": 0.5474,
+          "10000": 0.5529
+        }
+      },
+      "0.2": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 0.0,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        }
+      },
+      "0.3": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 0.0,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        }
+      },
+      "0.4": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 0.0,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        }
+      },
+      "0.5": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 0.0,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        }
+      }
+    },
+    "K8": {
+      "0.0": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 8.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 8.0,
+          "3000": 8.0,
+          "10000": 8.0
+        },
+        "mean_ari_by_T": {
+          "1000": 1.0,
+          "3000": 1.0,
+          "10000": 1.0
+        }
+      },
+      "0.1": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 8.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 8.0,
+          "3000": 8.0,
+          "10000": 8.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.7526,
+          "3000": 0.854,
+          "10000": 0.8955
+        }
+      },
+      "0.2": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 8.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 8.0,
+          "3000": 8.0,
+          "10000": 8.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.4565,
+          "3000": 0.5629,
+          "10000": 0.6205
+        }
+      },
+      "0.3": {
+        "slope_K_vs_logT": 2.5722,
+        "slope_K_vs_T": 0.00051493,
+        "mean_K_at_max_T": 8.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 2.0,
+          "3000": 7.4,
+          "10000": 8.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0809,
+          "3000": 0.3971,
+          "10000": 0.4429
+        }
+      },
+      "0.4": {
+        "slope_K_vs_logT": 0.964,
+        "slope_K_vs_T": 0.00024776,
+        "mean_K_at_max_T": 2.8,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.6,
+          "3000": 1.0,
+          "10000": 2.8
+        },
+        "mean_ari_by_T": {
+          "1000": 0.012,
+          "3000": 0.0187,
+          "10000": 0.0166
+        }
+      },
+      "0.5": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 0.0,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.0,
+          "10000": 0.0
+        }
+      }
+    },
+    "K20": {
+      "0.0": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 20.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 20.0,
+          "3000": 20.0,
+          "10000": 20.0
+        },
+        "mean_ari_by_T": {
+          "1000": 1.0,
+          "3000": 1.0,
+          "10000": 1.0
+        }
+      },
+      "0.1": {
+        "slope_K_vs_logT": 0.0,
+        "slope_K_vs_T": 0.0,
+        "mean_K_at_max_T": 20.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 20.0,
+          "3000": 20.0,
+          "10000": 20.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.6743,
+          "3000": 0.8268,
+          "10000": 0.8934
+        }
+      },
+      "0.2": {
+        "slope_K_vs_logT": 1.8804,
+        "slope_K_vs_T": 0.00036119,
+        "mean_K_at_max_T": 20.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 15.6,
+          "3000": 20.0,
+          "10000": 20.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.2829,
+          "3000": 0.4956,
+          "10000": 0.6795
+        }
+      },
+      "0.3": {
+        "slope_K_vs_logT": 7.0142,
+        "slope_K_vs_T": 0.00136119,
+        "mean_K_at_max_T": 20.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 3.6,
+          "3000": 19.6,
+          "10000": 20.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0378,
+          "3000": 0.4088,
+          "10000": 0.5037
+        }
+      },
+      "0.4": {
+        "slope_K_vs_logT": 8.7063,
+        "slope_K_vs_T": 0.00208955,
+        "mean_K_at_max_T": 20.0,
+        "regime": "converged_to_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 8.0,
+          "10000": 20.0
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.1295,
+          "10000": 0.4607
+        }
+      },
+      "0.5": {
+        "slope_K_vs_logT": 0.7905,
+        "slope_K_vs_T": 0.00020746,
+        "mean_K_at_max_T": 1.8,
+        "regime": "plateau_below_K_star",
+        "mean_K_by_T": {
+          "1000": 0.0,
+          "3000": 0.2,
+          "10000": 1.8
+        },
+        "mean_ari_by_T": {
+          "1000": 0.0,
+          "3000": 0.0036,
+          "10000": 0.0245
+        }
+      }
+    }
+  },
+  "breakdown": {
+    "K2": {
+      "first_noise_with_mean_ari_below_0.5_at_max_T": 0.2,
+      "first_noise_not_converging_to_K_star": 0.1,
+      "mean_ari_at_max_T_by_noise": {
+        "0.0": 1.0,
+        "0.1": 0.5529,
+        "0.2": 0.0,
+        "0.3": 0.0,
+        "0.4": 0.0,
+        "0.5": 0.0
+      }
+    },
+    "K8": {
+      "first_noise_with_mean_ari_below_0.5_at_max_T": 0.3,
+      "first_noise_not_converging_to_K_star": 0.4,
+      "mean_ari_at_max_T_by_noise": {
+        "0.0": 1.0,
+        "0.1": 0.8955,
+        "0.2": 0.6205,
+        "0.3": 0.4429,
+        "0.4": 0.0166,
+        "0.5": 0.0
+      }
+    },
+    "K20": {
+      "first_noise_with_mean_ari_below_0.5_at_max_T": 0.4,
+      "first_noise_not_converging_to_K_star": 0.5,
+      "mean_ari_at_max_T_by_noise": {
+        "0.0": 1.0,
+        "0.1": 0.8934,
+        "0.2": 0.6795,
+        "0.3": 0.5037,
+        "0.4": 0.4607,
+        "0.5": 0.0245
+      }
+    }
+  },
+  "runtime_seconds": 544.4,
+  "workers": 8,
+  "reading": "The fixture can now fail. With value noise, key noise and a fraction of fully random records all driven by one dial, the noise level at which mean ARI at the longest stream first falls below 0.5 is 0.2 for K* = 2, 0.3 for K* = 8, 0.4 for K* = 20; the breakdown comes later the more groups are planted, which is what key noise predicts, since with few groups a swapped key lands on one of very few alternatives and wipes the key set out faster. Of the 18 rows in the grid, 10 converge to K*, 8 plateau below K*, 0 sit above K* without climbing, and 0 grow with T. Some rows do climb with stream length, up to a slope of 8.7063 in log T and 0.00208955 in T, but every one of them is climbing toward K* from below and the largest K in any single run anywhere in the grid is exactly K*, so the growth is recovery and not the Kearns failure of noise absorbed as structure; past the breakdown noise the engine writes the structure off instead, which is the opposite failure.",
+  "provenance": {
+    "date": "2026-09-05",
+    "engine_md5": {
+      "engine.py": "21cc574ad69acb8c4a0d27fdd4b4b18d",
+      "batch.py": "9bf3a5f3550970e6e1df924fbb75de96",
+      "codes.py": "d45ce4330686488e78522e19803307b4"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "experiment": "E16-wide",
+  "arm": "both",
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": true
+  },
+  "design": "300 independent null streams of T=2000, 4 categorical keys, 10 iid uniform values each",
+  "statistic": "sup_t (G_t - g_t[seed key])",
+  "streams": 300,
+  "candidates": 12000,
+  "mints": 0,
+  "mean_K": 0.0,
+  "max_K": 0,
+  "exceedance": {
+    "1": {
+      "empirical": 0.40025,
+      "bound_2^-b": 0.5,
+      "holds": true,
+      "standard_error": 0.004473
+    },
+    "2": {
+      "empirical": 0.308833,
+      "bound_2^-b": 0.25,
+      "holds": false,
+      "standard_error": 0.004218
+    },
+    "4": {
+      "empirical": 0.1695,
+      "bound_2^-b": 0.0625,
+      "holds": false,
+      "standard_error": 0.003425
+    },
+    "8": {
+      "empirical": 0.0395,
+      "bound_2^-b": 0.00390625,
+      "holds": false,
+      "standard_error": 0.001778
+    },
+    "12": {
+      "empirical": 0.00775,
+      "bound_2^-b": 0.000244140625,
+      "holds": false,
+      "standard_error": 0.000801
+    }
+  },
+  "sup_stats": {
+    "max": 20.4738,
+    "mean": 1.7296
+  },
+  "runtime_seconds": 176.8
+}

@@ -1,0 +1,187 @@
+{
+  "experiment": "E16-arms",
+  "arm": "unselected",
+  "flags": {
+    "tight_naming": false,
+    "unselected_statistic": true
+  },
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "design": "E8 plateau: lengths 2000, 5000, 10000, 20000 by 12 seeds = 48 streams, 4 independent categorical keys, 10 iid uniform values each",
+  "statistic": "sup_t (G_t - g_t[seed key])",
+  "candidates": 1920,
+  "streams": 48,
+  "mean_K": 0.0,
+  "max_K": 0,
+  "mints": 0,
+  "exceedance": {
+    "1": {
+      "empirical": 0.733333,
+      "bound_2^-b": 0.5,
+      "holds": false
+    },
+    "2": {
+      "empirical": 0.5875,
+      "bound_2^-b": 0.25,
+      "holds": false
+    },
+    "4": {
+      "empirical": 0.322917,
+      "bound_2^-b": 0.0625,
+      "holds": false
+    },
+    "8": {
+      "empirical": 0.0375,
+      "bound_2^-b": 0.00390625,
+      "holds": false
+    },
+    "12": {
+      "empirical": 0.0,
+      "bound_2^-b": 0.000244140625,
+      "holds": true
+    }
+  },
+  "sup_stats": {
+    "max": 10.6521,
+    "min": 0.0,
+    "mean": 3.0089
+  },
+  "by_length": {
+    "2000": {
+      "streams": 12,
+      "candidates": 480,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "mints": 0,
+      "exceedance": {
+        "1": {
+          "empirical": 0.733333,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.5875,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.322917,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.0375,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": true
+        }
+      }
+    },
+    "5000": {
+      "streams": 12,
+      "candidates": 480,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "mints": 0,
+      "exceedance": {
+        "1": {
+          "empirical": 0.733333,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.5875,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.322917,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.0375,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": true
+        }
+      }
+    },
+    "10000": {
+      "streams": 12,
+      "candidates": 480,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "mints": 0,
+      "exceedance": {
+        "1": {
+          "empirical": 0.733333,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.5875,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.322917,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.0375,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": true
+        }
+      }
+    },
+    "20000": {
+      "streams": 12,
+      "candidates": 480,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "mints": 0,
+      "exceedance": {
+        "1": {
+          "empirical": 0.733333,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.5875,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.322917,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.0375,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": true
+        }
+      }
+    }
+  },
+  "runtime_seconds": 121.7
+}

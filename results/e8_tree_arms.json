@@ -1,0 +1,168 @@
+{
+  "design": "predict key k0 from k1..k3 on iid uniform null; every split is false structure",
+  "vfdt": {
+    "delta=0.01 T=2000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=0.01 T=5000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=0.01 T=10000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=0.01 T=20000": {
+      "mean_nodes": 19.0,
+      "all": [
+        31,
+        31,
+        11,
+        11,
+        11
+      ]
+    },
+    "delta=1e-07 T=2000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=1e-07 T=5000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=1e-07 T=10000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=1e-07 T=20000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "efdt": {
+    "delta=0.01 T=2000": {
+      "mean_nodes": 15.0,
+      "all": [
+        1,
+        11,
+        11,
+        21,
+        31
+      ]
+    },
+    "delta=0.01 T=5000": {
+      "mean_nodes": 73.0,
+      "all": [
+        1,
+        91,
+        101,
+        81,
+        91
+      ]
+    },
+    "delta=0.01 T=10000": {
+      "mean_nodes": 73.0,
+      "all": [
+        1,
+        91,
+        101,
+        81,
+        91
+      ]
+    },
+    "delta=0.01 T=20000": {
+      "mean_nodes": 91.0,
+      "all": [
+        111,
+        111,
+        111,
+        11,
+        111
+      ]
+    },
+    "delta=1e-07 T=2000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=1e-07 T=5000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=1e-07 T=10000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "delta=1e-07 T=20000": {
+      "mean_nodes": 1.0,
+      "all": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "ours_reference": "results/e8_false_mint_null.json: mean K = 0.0 at every length"
+}

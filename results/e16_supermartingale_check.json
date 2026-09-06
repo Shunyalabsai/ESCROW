@@ -1,0 +1,1827 @@
+{
+  "experiment": "E16",
+  "question": "The shipped three-stage value block is a sub-probability, so the martingale step of Theorem 1 is wrong as written. Which way does the error point, how big is it, and does the Ville bound survive?",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "algebra": {
+    "block_mass": "Z(u, N, inv) = p_old + p_new (inv - u + 1)/(inv + 1) = 1 - u(u + 1/2)/((N + 1)(inv + 1))",
+    "deficiency": "delta(u, N, inv) = u(u + 1/2)/((N + 1)(inv + 1)); zero iff u = 0",
+    "presence_is_exact": "the KT presence/absence Bernoulli sums to 1 exactly, so every bit of the deficiency comes from the value blocks",
+    "record_mass": "Z_model = prod over the key universe of [1 - pi_a delta_a], pi_a the model's KT presence probability for key a",
+    "per_step_expectation": "E[M_t / M_{t-1} | F_{t-1}] = Z_candidate / Z_incumbent under the normalised incumbent",
+    "supermartingale_condition": "Z_candidate <= Z_incumbent, that is sum_a log(1 - pi^c_a delta^c_a) <= sum_a log(1 - pi^w_a delta^w_a). Conditioning on the key set and with equal presence weights this is the per-key condition phi(u_c, N_c) >= phi(u_w, N_w) with phi(u, N) = u(u + 1/2)/(N + 1), the shared inventory factor inv_a + 1 cancelling: the candidate's block must be at least as novelty-prone per observation as the incumbent's block for the same key. It fails whenever the candidate is thin and the incumbent's block for that key is nearly all-distinct, and it fails outright on a candidate's first observation of a key, where u_c = 0 makes the candidate exactly normalised and any incumbent deficiency inflates the ratio."
+  },
+  "self_check": {
+    "trials": 400,
+    "max_abs_error": 4.440892098500626e-16,
+    "worst_case": {
+      "u": 4,
+      "N": 4,
+      "inv": 25,
+      "brute_force": 0.861538461538462,
+      "closed_form": 0.8615384615384616
+    },
+    "statement": "mass = 1 - u(u+1/2)/((N+1)(inv+1)), exact against ValueBlock.cost",
+    "stage_i_and_ii_only": "p_mass_check() returns 1.0 because it omits the stage-three naming charge; the deficiency is entirely the naming stage handing escape mass to the u values that the no-escape branch already codes."
+  },
+  "two_block_null": {
+    "design": "20000 runs, T=200, alphabet d=10, background warmed on 200 draws; both blocks see the same draws (no seed selection)",
+    "ratio_distribution": {
+      "steps": 400000,
+      "fraction_ratio_above_one": 0.005562,
+      "mean_ratio": 0.8925780845965073,
+      "geometric_mean_ratio": 0.8855273542300266,
+      "max_ratio": 1.0498575498575498,
+      "min_ratio": 0.13849688217919265,
+      "quantiles_of_ratio": {
+        "p01": 0.5476190476190476,
+        "p25": 0.8585858585858587,
+        "median": 0.9360017553804238,
+        "p75": 0.9636699571305495,
+        "p99": 0.9755529685681025
+      },
+      "mean_log2_ratio_bits": -0.175391,
+      "total_log2_ratio_bits": -70156.4888
+    },
+    "inflation_factor_max_over_run": {
+      "max": 1.0632758900946653,
+      "mean": 1.049870968197787,
+      "max_bits": 0.0885
+    },
+    "exceedance_shipped_accumulator": {
+      "1": {
+        "empirical": 0.09785,
+        "bound_2^-b": 0.5,
+        "holds": true
+      },
+      "2": {
+        "empirical": 0.0324,
+        "bound_2^-b": 0.25,
+        "holds": true
+      },
+      "4": {
+        "empirical": 0.0064,
+        "bound_2^-b": 0.0625,
+        "holds": true
+      },
+      "8": {
+        "empirical": 0.0002,
+        "bound_2^-b": 0.00390625,
+        "holds": true
+      },
+      "12": {
+        "empirical": 0.0,
+        "bound_2^-b": 0.000244140625,
+        "holds": true
+      }
+    },
+    "exceedance_mass_corrected_accumulator": {
+      "1": {
+        "empirical": 0.195,
+        "bound_2^-b": 0.5,
+        "holds": true
+      },
+      "2": {
+        "empirical": 0.074,
+        "bound_2^-b": 0.25,
+        "holds": true
+      },
+      "4": {
+        "empirical": 0.0135,
+        "bound_2^-b": 0.0625,
+        "holds": true
+      },
+      "8": {
+        "empirical": 0.0015,
+        "bound_2^-b": 0.00390625,
+        "holds": true
+      },
+      "12": {
+        "empirical": 0.0,
+        "bound_2^-b": 0.000244140625,
+        "holds": true
+      }
+    }
+  },
+  "cardinality_sweep": {
+    "design": "one key, background warmed on 200 draws, T=400 further draws, iid uniform on d values, both blocks fed the same draws",
+    "by_alphabet_size": {
+      "2": {
+        "phi_candidate_end": 0.0125,
+        "phi_incumbent_end": 0.0083,
+        "mean_log2_ratio_bits": -0.02753,
+        "total_log2_ratio_bits": -11.0119,
+        "fraction_ratio_above_one": 0.0025,
+        "supermartingale_over_the_run": true,
+        "reading": "candidate more deficient, conservative"
+      },
+      "5": {
+        "phi_candidate_end": 0.0686,
+        "phi_incumbent_end": 0.0458,
+        "mean_log2_ratio_bits": -0.063768,
+        "total_log2_ratio_bits": -25.5072,
+        "fraction_ratio_above_one": 0.0025,
+        "supermartingale_over_the_run": true,
+        "reading": "candidate more deficient, conservative"
+      },
+      "10": {
+        "phi_candidate_end": 0.2618,
+        "phi_incumbent_end": 0.1747,
+        "mean_log2_ratio_bits": -0.101406,
+        "total_log2_ratio_bits": -40.5622,
+        "fraction_ratio_above_one": 0.0025,
+        "supermartingale_over_the_run": true,
+        "reading": "candidate more deficient, conservative"
+      },
+      "50": {
+        "phi_candidate_end": 6.2968,
+        "phi_incumbent_end": 4.2013,
+        "mean_log2_ratio_bits": -0.237371,
+        "total_log2_ratio_bits": -94.9485,
+        "fraction_ratio_above_one": 0.03,
+        "supermartingale_over_the_run": true,
+        "reading": "candidate more deficient, conservative"
+      },
+      "200": {
+        "phi_candidate_end": 75.7182,
+        "phi_incumbent_end": 60.2246,
+        "mean_log2_ratio_bits": 0.070798,
+        "total_log2_ratio_bits": 28.3191,
+        "fraction_ratio_above_one": 0.3675,
+        "supermartingale_over_the_run": false,
+        "reading": "incumbent more deficient, ANTI-conservative"
+      },
+      "1000": {
+        "phi_candidate_end": 263.8092,
+        "phi_incumbent_end": 338.8128,
+        "mean_log2_ratio_bits": 0.213704,
+        "total_log2_ratio_bits": 85.4815,
+        "fraction_ratio_above_one": 1.0,
+        "supermartingale_over_the_run": false,
+        "reading": "incumbent more deficient, ANTI-conservative"
+      },
+      "5000": {
+        "phi_candidate_end": 362.4726,
+        "phi_incumbent_end": 525.9983,
+        "mean_log2_ratio_bits": 0.055224,
+        "total_log2_ratio_bits": 22.0896,
+        "fraction_ratio_above_one": 1.0,
+        "supermartingale_over_the_run": false,
+        "reading": "incumbent more deficient, ANTI-conservative"
+      }
+    }
+  },
+  "streams": {
+    "planted8": {
+      "records": 3000,
+      "K_final": 8,
+      "keys": 24,
+      "first_steps": [
+        {
+          "n": 1,
+          "sig": [
+            0,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            1,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            2,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 2,
+          "sig": [
+            0,
+            1
+          ],
+          "Z_incumbent": 0.371307373046875,
+          "Z_candidate": 1.0,
+          "ratio": 2.693186488041423,
+          "Z_incumbent_published_keys": 0.244140625,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 4.096
+        },
+        {
+          "n": 2,
+          "sig": [
+            1,
+            1
+          ],
+          "Z_incumbent": 0.371307373046875,
+          "Z_candidate": 1.0,
+          "ratio": 2.693186488041423,
+          "Z_incumbent_published_keys": 0.244140625,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 4.096
+        },
+        {
+          "n": 2,
+          "sig": [
+            2,
+            1
+          ],
+          "Z_incumbent": 0.371307373046875,
+          "Z_candidate": 1.0,
+          "ratio": 2.693186488041423,
+          "Z_incumbent_published_keys": 0.244140625,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 4.096
+        },
+        {
+          "n": 3,
+          "sig": [
+            3,
+            0
+          ],
+          "Z_incumbent": 0.15488619620992727,
+          "Z_candidate": 1.0,
+          "ratio": 6.456353274016978,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 3,
+          "sig": [
+            4,
+            0
+          ],
+          "Z_incumbent": 0.15488619620992727,
+          "Z_candidate": 1.0,
+          "ratio": 6.456353274016978,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        }
+      ],
+      "ratio_distribution": {
+        "steps": 836,
+        "fraction_ratio_above_one": 0.888756,
+        "mean_ratio": 3.1509094124032635,
+        "geometric_mean_ratio": 2.3056591397014348,
+        "max_ratio": 9.092007244949219,
+        "min_ratio": 0.6163937764124151,
+        "quantiles_of_ratio": {
+          "p01": 0.7315196890315946,
+          "p25": 1.244541771484998,
+          "median": 1.7976230337316919,
+          "p75": 4.9677405820130724,
+          "p99": 8.86324289322109
+        },
+        "mean_log2_ratio_bits": 1.205179,
+        "total_log2_ratio_bits": 1007.5298
+      },
+      "ratio_distribution_published_keys_only": {
+        "steps": 836,
+        "fraction_ratio_above_one": 0.7811,
+        "mean_ratio": 6.621815990415197,
+        "geometric_mean_ratio": 3.053298577013176,
+        "max_ratio": 75.97150417260322,
+        "min_ratio": 0.3532556947191093,
+        "quantiles_of_ratio": {
+          "p01": 0.6655348287482366,
+          "p25": 1.0713058213870656,
+          "median": 2.0843966406017826,
+          "p75": 8.197511531271388,
+          "p99": 48.51158405172414
+        },
+        "mean_log2_ratio_bits": 1.610369,
+        "total_log2_ratio_bits": 1346.2682
+      },
+      "trajectories": {
+        "candidates": 443,
+        "accrual_steps": 836,
+        "inflation_factor_over_a_run": {
+          "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+          "max": 3407.089886252581,
+          "mean": 44.26588264176627,
+          "median": 1.8510012321557072,
+          "fraction_above_one": 0.997743,
+          "max_bits": 11.7343,
+          "mean_bits": 2.314
+        },
+        "inflation_factor_published_keys_only": {
+          "max": 107205.83118701927,
+          "max_bits": 16.71
+        },
+        "final_accumulated_log2_ratio_bits": {
+          "max": 11.7343,
+          "min": -4.3291,
+          "mean": 2.2743
+        },
+        "minted": 2
+      },
+      "exceedance_shipped_accumulator": {
+        "1": {
+          "empirical": 0.257336,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.252822,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.234763,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.200903,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.167043,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_mass_corrected": {
+        "1": {
+          "empirical": 0.221219,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.218962,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.198646,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.167043,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.137698,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_seed_key_removed": {
+        "1": {
+          "empirical": 0.148984,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.139955,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.117381,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.074492,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.056433,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_seed_key_removed_and_mass_corrected": {
+        "1": {
+          "empirical": 0.083521,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.076749,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.060948,
+          "bound_2^-b": 0.0625,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.042889,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.022573,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      }
+    },
+    "wikipedia": {
+      "records": 320,
+      "K_final": 5,
+      "keys": 121,
+      "not_a_null": "Wikipedia carries real structure, so its exceedance rows are a description of the shipped accumulator, not a test of the bound",
+      "worst_blocks_at_end_of_stream": [
+        {
+          "key": "name",
+          "block": "background",
+          "u": 286,
+          "N": 286,
+          "inventory": 286,
+          "mass": 0.005220410591363245,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "image",
+          "block": "background",
+          "u": 247,
+          "N": 248,
+          "inventory": 247,
+          "mass": 0.010032063738826258,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "birth_name",
+          "block": "background",
+          "u": 64,
+          "N": 64,
+          "inventory": 64,
+          "mass": 0.022958579881656838,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "studio",
+          "block": "background",
+          "u": 45,
+          "N": 45,
+          "inventory": 45,
+          "mass": 0.03237240075614367,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "director",
+          "block": "node 7",
+          "u": 113,
+          "N": 115,
+          "inventory": 114,
+          "mass": 0.03856821589205395,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "elevation_m",
+          "block": "node 4",
+          "u": 80,
+          "N": 81,
+          "inventory": 81,
+          "mass": 0.042236763831052904,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "cinematography",
+          "block": "node 7",
+          "u": 86,
+          "N": 86,
+          "inventory": 89,
+          "mass": 0.04993614303959126,
+          "mass_naming_tight": 1.0
+        },
+        {
+          "key": "gross",
+          "block": "background",
+          "u": 27,
+          "N": 27,
+          "inventory": 27,
+          "mass": 0.05293367346938771,
+          "mass_naming_tight": 1.0
+        }
+      ],
+      "first_steps": [
+        {
+          "n": 1,
+          "sig": [
+            0,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            1,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            2,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            3,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            4,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            5,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 1,
+          "sig": [
+            6,
+            0
+          ],
+          "Z_incumbent": 1.0,
+          "Z_candidate": 1.0,
+          "ratio": 1.0,
+          "Z_incumbent_published_keys": 1.0,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.0
+        },
+        {
+          "n": 2,
+          "sig": [
+            0,
+            1
+          ],
+          "Z_incumbent": 0.09909346254426057,
+          "Z_candidate": 1.0,
+          "ratio": 10.091483073904548,
+          "Z_incumbent_published_keys": 0.625,
+          "Z_candidate_published_keys": 1.0,
+          "ratio_published_keys": 1.6
+        }
+      ],
+      "ratio_distribution": {
+        "steps": 2116,
+        "fraction_ratio_above_one": 0.996692,
+        "mean_ratio": 123686.52870273517,
+        "geometric_mean_ratio": 5915.168042559231,
+        "max_ratio": 14176428.391016506,
+        "min_ratio": 1.0,
+        "quantiles_of_ratio": {
+          "p01": 51.6204572901452,
+          "p25": 1386.0446677725754,
+          "median": 2793.491368981393,
+          "p75": 18076.474595989475,
+          "p99": 2662947.0874910336
+        },
+        "mean_log2_ratio_bits": 12.530203,
+        "total_log2_ratio_bits": 26513.9105
+      },
+      "ratio_distribution_published_keys_only": {
+        "steps": 2116,
+        "fraction_ratio_above_one": 0.996692,
+        "mean_ratio": 55582556430.782974,
+        "geometric_mean_ratio": 1964880.1284044601,
+        "max_ratio": 9681077535009.049,
+        "min_ratio": 1.0,
+        "quantiles_of_ratio": {
+          "p01": 6.545454545454544,
+          "p25": 54763.52578945291,
+          "median": 1482810.2204660596,
+          "p75": 118143029.22798121,
+          "p99": 1031249664253.097
+        },
+        "mean_log2_ratio_bits": 20.90601,
+        "total_log2_ratio_bits": 44237.1169
+      },
+      "trajectories": {
+        "candidates": 1872,
+        "accrual_steps": 2116,
+        "inflation_factor_over_a_run": {
+          "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+          "max": 4.853163930514322e+33,
+          "mean": 2.592502100577219e+30,
+          "median": 9617.362395053467,
+          "fraction_above_one": 0.996795,
+          "max_bits": 111.9026,
+          "mean_bits": 14.1634
+        },
+        "inflation_factor_published_keys_only": {
+          "max": 2.05668402408355e+56,
+          "max_bits": 187.0683
+        },
+        "final_accumulated_log2_ratio_bits": {
+          "max": 111.9026,
+          "min": 0.0,
+          "mean": 14.1634
+        },
+        "minted": 24
+      },
+      "exceedance_shipped_accumulator": {
+        "1": {
+          "empirical": 0.058226,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.058226,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.047009,
+          "bound_2^-b": 0.0625,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.045406,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.040598,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_mass_corrected": {
+        "1": {
+          "empirical": 0.040598,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.040598,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.03312,
+          "bound_2^-b": 0.0625,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.024573,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.023504,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_seed_key_removed": {
+        "1": {
+          "empirical": 0.046474,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.044872,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.041667,
+          "bound_2^-b": 0.0625,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.040598,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.036859,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_seed_key_removed_and_mass_corrected": {
+        "1": {
+          "empirical": 0.038996,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.038462,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.030983,
+          "bound_2^-b": 0.0625,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.024573,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.019231,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      }
+    },
+    "null_example_first_steps": [
+      {
+        "n": 1,
+        "sig": [
+          0,
+          0
+        ],
+        "Z_incumbent": 1.0,
+        "Z_candidate": 1.0,
+        "ratio": 1.0,
+        "Z_incumbent_published_keys": 1.0,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 1.0
+      },
+      {
+        "n": 1,
+        "sig": [
+          1,
+          0
+        ],
+        "Z_incumbent": 1.0,
+        "Z_candidate": 1.0,
+        "ratio": 1.0,
+        "Z_incumbent_published_keys": 1.0,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 1.0
+      },
+      {
+        "n": 1,
+        "sig": [
+          2,
+          0
+        ],
+        "Z_incumbent": 1.0,
+        "Z_candidate": 1.0,
+        "ratio": 1.0,
+        "Z_incumbent_published_keys": 1.0,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 1.0
+      },
+      {
+        "n": 1,
+        "sig": [
+          3,
+          0
+        ],
+        "Z_incumbent": 1.0,
+        "Z_candidate": 1.0,
+        "ratio": 1.0,
+        "Z_incumbent_published_keys": 1.0,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 1.0
+      },
+      {
+        "n": 2,
+        "sig": [
+          0,
+          1
+        ],
+        "Z_incumbent": 0.2668771743774414,
+        "Z_candidate": 1.0,
+        "ratio": 3.747042070318502,
+        "Z_incumbent_published_keys": 0.15258789062499997,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 6.553600000000001
+      },
+      {
+        "n": 2,
+        "sig": [
+          1,
+          1
+        ],
+        "Z_incumbent": 0.2668771743774414,
+        "Z_candidate": 1.0,
+        "ratio": 3.747042070318502,
+        "Z_incumbent_published_keys": 0.15258789062499997,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 6.553600000000001
+      },
+      {
+        "n": 2,
+        "sig": [
+          2,
+          1
+        ],
+        "Z_incumbent": 0.2668771743774414,
+        "Z_candidate": 1.0,
+        "ratio": 3.747042070318502,
+        "Z_incumbent_published_keys": 0.15258789062499997,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 6.553600000000001
+      },
+      {
+        "n": 2,
+        "sig": [
+          3,
+          1
+        ],
+        "Z_incumbent": 0.2668771743774414,
+        "Z_candidate": 1.0,
+        "ratio": 3.747042070318502,
+        "Z_incumbent_published_keys": 0.15258789062499997,
+        "Z_candidate_published_keys": 1.0,
+        "ratio_published_keys": 6.553600000000001
+      }
+    ],
+    "null_e8_protocol": {
+      "design": "E8 plateau: lengths 2000, 5000, 10000, 20000 by 12 seeds = 48 streams, 4 independent categorical keys, 10 iid uniform values each",
+      "streams": 48,
+      "ratio_distribution": {
+        "steps": 1776000,
+        "fraction_ratio_above_one": 0.005164,
+        "mean_ratio": 0.9309806983653565,
+        "geometric_mean_ratio": 0.8987451285105748,
+        "max_ratio": 65.13723901415547,
+        "min_ratio": 0.099925557549945,
+        "quantiles_of_ratio": {
+          "p01": 0.32341778486197525,
+          "p25": 0.8730657237623479,
+          "median": 0.9525094573058472,
+          "p75": 0.976138752035568,
+          "p99": 0.9876765822181897
+        },
+        "mean_log2_ratio_bits": -0.154016,
+        "total_log2_ratio_bits": -273532.5034
+      },
+      "ratio_distribution_published_keys_only": {
+        "steps": 1776000,
+        "fraction_ratio_above_one": 0.004885,
+        "mean_ratio": 0.9461121145749112,
+        "geometric_mean_ratio": 0.8970420267036225,
+        "max_ratio": 162.69262807163673,
+        "min_ratio": 0.08263252197453866,
+        "quantiles_of_ratio": {
+          "p01": 0.30295982301198987,
+          "p25": 0.8709847464867461,
+          "median": 0.9524047362980126,
+          "p75": 0.9759443815650767,
+          "p99": 0.9876771621548155
+        },
+        "mean_log2_ratio_bits": -0.156753,
+        "total_log2_ratio_bits": -278392.471
+      },
+      "trajectories": {
+        "candidates": 1920,
+        "accrual_steps": 1776000,
+        "inflation_factor_over_a_run": {
+          "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+          "max": 560059.2582998899,
+          "mean": 10243.512148677279,
+          "median": 588.1066364211996,
+          "fraction_above_one": 1.0,
+          "max_bits": 19.0952,
+          "mean_bits": 9.1603
+        },
+        "inflation_factor_published_keys_only": {
+          "max": 2103219.3340750225,
+          "max_bits": 21.0042
+        },
+        "final_accumulated_log2_ratio_bits": {
+          "max": -73.6402,
+          "min": -210.3304,
+          "mean": -142.4648
+        },
+        "minted": 0
+      },
+      "exceedance_shipped_accumulator": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_mass_corrected": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": false
+        }
+      },
+      "exceedance_seed_key_removed": {
+        "1": {
+          "empirical": 0.733333,
+          "bound_2^-b": 0.5,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.5875,
+          "bound_2^-b": 0.25,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.322917,
+          "bound_2^-b": 0.0625,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.0375,
+          "bound_2^-b": 0.00390625,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": true
+        }
+      },
+      "exceedance_seed_key_removed_and_mass_corrected": {
+        "1": {
+          "empirical": 0.027083,
+          "bound_2^-b": 0.5,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.010417,
+          "bound_2^-b": 0.25,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.002083,
+          "bound_2^-b": 0.0625,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.00390625,
+          "holds": true
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "holds": true
+        }
+      },
+      "by_length": {
+        "2000": {
+          "streams": 12,
+          "mean_K": 0.0,
+          "max_K": 0,
+          "ratio_distribution": {
+            "steps": 96000,
+            "fraction_ratio_above_one": 0.023885,
+            "mean_ratio": 0.8307964735485077,
+            "geometric_mean_ratio": 0.7107890265874751,
+            "max_ratio": 65.13723901415547,
+            "min_ratio": 0.099925557549945,
+            "quantiles_of_ratio": {
+              "p01": 0.25125252221939687,
+              "p25": 0.6250592108338099,
+              "median": 0.7829154232010695,
+              "p75": 0.8479080223073814,
+              "p99": 3.6206885089621945
+            },
+            "mean_log2_ratio_bits": -0.492507,
+            "total_log2_ratio_bits": -47280.6419
+          },
+          "ratio_distribution_published_keys_only": {
+            "steps": 96000,
+            "fraction_ratio_above_one": 0.022594,
+            "mean_ratio": 0.878000671955068,
+            "geometric_mean_ratio": 0.7047293691128996,
+            "max_ratio": 162.69262807163673,
+            "min_ratio": 0.08263252197453866,
+            "quantiles_of_ratio": {
+              "p01": 0.23050032990314967,
+              "p25": 0.6204368305322592,
+              "median": 0.7808421450026363,
+              "p75": 0.847023039443167,
+              "p99": 3.858726318825758
+            },
+            "mean_log2_ratio_bits": -0.504859,
+            "total_log2_ratio_bits": -48466.4406
+          },
+          "trajectories": {
+            "candidates": 480,
+            "accrual_steps": 96000,
+            "inflation_factor_over_a_run": {
+              "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+              "max": 560059.2582998899,
+              "mean": 10243.512148677279,
+              "median": 588.1066364211996,
+              "fraction_above_one": 1.0,
+              "max_bits": 19.0952,
+              "mean_bits": 9.1603
+            },
+            "inflation_factor_published_keys_only": {
+              "max": 2103219.3340750225,
+              "max_bits": 21.0042
+            },
+            "final_accumulated_log2_ratio_bits": {
+              "max": -73.6402,
+              "min": -122.6965,
+              "mean": -98.5013
+            },
+            "minted": 0
+          },
+          "exceedance_shipped_accumulator": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_mass_corrected": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_seed_key_removed": {
+            "1": {
+              "empirical": 0.733333,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 0.5875,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 0.322917,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 0.0375,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          },
+          "exceedance_seed_key_removed_and_mass_corrected": {
+            "1": {
+              "empirical": 0.027083,
+              "bound_2^-b": 0.5,
+              "holds": true
+            },
+            "2": {
+              "empirical": 0.010417,
+              "bound_2^-b": 0.25,
+              "holds": true
+            },
+            "4": {
+              "empirical": 0.002083,
+              "bound_2^-b": 0.0625,
+              "holds": true
+            },
+            "8": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.00390625,
+              "holds": true
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          }
+        },
+        "5000": {
+          "streams": 12,
+          "mean_K": 0.0,
+          "max_K": 0,
+          "ratio_distribution": {
+            "steps": 240000,
+            "fraction_ratio_above_one": 0.009554,
+            "mean_ratio": 0.8908682655409,
+            "geometric_mean_ratio": 0.8327507801076647,
+            "max_ratio": 65.13723901415547,
+            "min_ratio": 0.099925557549945,
+            "quantiles_of_ratio": {
+              "p01": 0.30001470247037954,
+              "p25": 0.8220250948550515,
+              "median": 0.9060921587898367,
+              "p75": 0.9360523065266267,
+              "p99": 0.965959687322816
+            },
+            "mean_log2_ratio_bits": -0.264043,
+            "total_log2_ratio_bits": -63370.3907
+          },
+          "ratio_distribution_published_keys_only": {
+            "steps": 240000,
+            "fraction_ratio_above_one": 0.009038,
+            "mean_ratio": 0.9175173396473583,
+            "geometric_mean_ratio": 0.8298303390265549,
+            "max_ratio": 162.69262807163673,
+            "min_ratio": 0.08263252197453866,
+            "quantiles_of_ratio": {
+              "p01": 0.28612906686383793,
+              "p25": 0.8212390046511803,
+              "median": 0.9053970251869105,
+              "p75": 0.9356376304350147,
+              "p99": 0.9996212599419266
+            },
+            "mean_log2_ratio_bits": -0.269112,
+            "total_log2_ratio_bits": -64586.8058
+          },
+          "trajectories": {
+            "candidates": 480,
+            "accrual_steps": 240000,
+            "inflation_factor_over_a_run": {
+              "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+              "max": 560059.2582998899,
+              "mean": 10243.512148677279,
+              "median": 588.1066364211996,
+              "fraction_above_one": 1.0,
+              "max_bits": 19.0952,
+              "mean_bits": 9.1603
+            },
+            "inflation_factor_published_keys_only": {
+              "max": 2103219.3340750225,
+              "max_bits": 21.0042
+            },
+            "final_accumulated_log2_ratio_bits": {
+              "max": -106.8648,
+              "min": -159.1574,
+              "mean": -132.0216
+            },
+            "minted": 0
+          },
+          "exceedance_shipped_accumulator": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_mass_corrected": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_seed_key_removed": {
+            "1": {
+              "empirical": 0.733333,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 0.5875,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 0.322917,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 0.0375,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          },
+          "exceedance_seed_key_removed_and_mass_corrected": {
+            "1": {
+              "empirical": 0.027083,
+              "bound_2^-b": 0.5,
+              "holds": true
+            },
+            "2": {
+              "empirical": 0.010417,
+              "bound_2^-b": 0.25,
+              "holds": true
+            },
+            "4": {
+              "empirical": 0.002083,
+              "bound_2^-b": 0.0625,
+              "holds": true
+            },
+            "8": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.00390625,
+              "holds": true
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          }
+        },
+        "10000": {
+          "streams": 12,
+          "mean_K": 0.0,
+          "max_K": 0,
+          "ratio_distribution": {
+            "steps": 480000,
+            "fraction_ratio_above_one": 0.004777,
+            "mean_ratio": 0.9347988310319326,
+            "geometric_mean_ratio": 0.8967964382279197,
+            "max_ratio": 65.13723901415547,
+            "min_ratio": 0.099925557549945,
+            "quantiles_of_ratio": {
+              "p01": 0.34795607847335297,
+              "p25": 0.9055622757036502,
+              "median": 0.9514097378592741,
+              "p75": 0.9672079712629997,
+              "p99": 0.9758485119876584
+            },
+            "mean_log2_ratio_bits": -0.157148,
+            "total_log2_ratio_bits": -75430.8224
+          },
+          "ratio_distribution_published_keys_only": {
+            "steps": 480000,
+            "fraction_ratio_above_one": 0.004519,
+            "mean_ratio": 0.9404646999647969,
+            "geometric_mean_ratio": 0.8952096256102601,
+            "max_ratio": 162.69262807163673,
+            "min_ratio": 0.08263252197453866,
+            "quantiles_of_ratio": {
+              "p01": 0.33534764116134125,
+              "p25": 0.9052725127100294,
+              "median": 0.9515342297979248,
+              "p75": 0.9673428303503756,
+              "p99": 0.9757896651329449
+            },
+            "mean_log2_ratio_bits": -0.159703,
+            "total_log2_ratio_bits": -76657.2221
+          },
+          "trajectories": {
+            "candidates": 480,
+            "accrual_steps": 480000,
+            "inflation_factor_over_a_run": {
+              "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+              "max": 560059.2582998899,
+              "mean": 10243.512148677279,
+              "median": 588.1066364211996,
+              "fraction_above_one": 1.0,
+              "max_bits": 19.0952,
+              "mean_bits": 9.1603
+            },
+            "inflation_factor_published_keys_only": {
+              "max": 2103219.3340750225,
+              "max_bits": 21.0042
+            },
+            "final_accumulated_log2_ratio_bits": {
+              "max": -130.8962,
+              "min": -186.1495,
+              "mean": -157.1475
+            },
+            "minted": 0
+          },
+          "exceedance_shipped_accumulator": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_mass_corrected": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_seed_key_removed": {
+            "1": {
+              "empirical": 0.733333,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 0.5875,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 0.322917,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 0.0375,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          },
+          "exceedance_seed_key_removed_and_mass_corrected": {
+            "1": {
+              "empirical": 0.027083,
+              "bound_2^-b": 0.5,
+              "holds": true
+            },
+            "2": {
+              "empirical": 0.010417,
+              "bound_2^-b": 0.25,
+              "holds": true
+            },
+            "4": {
+              "empirical": 0.002083,
+              "bound_2^-b": 0.0625,
+              "holds": true
+            },
+            "8": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.00390625,
+              "holds": true
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          }
+        },
+        "20000": {
+          "streams": 12,
+          "mean_K": 0.0,
+          "max_K": 0,
+          "ratio_distribution": {
+            "steps": 960000,
+            "fraction_ratio_above_one": 0.002389,
+            "mean_ratio": 0.9590892166128642,
+            "geometric_mean_ratio": 0.938810299486411,
+            "max_ratio": 65.13723901415547,
+            "min_ratio": 0.099925557549945,
+            "quantiles_of_ratio": {
+              "p01": 0.42685341079815187,
+              "p25": 0.951955122754487,
+              "median": 0.9754890781690052,
+              "p75": 0.9835615834610267,
+              "p99": 0.9876583668017219
+            },
+            "mean_log2_ratio_bits": -0.091094,
+            "total_log2_ratio_bits": -87450.6484
+          },
+          "ratio_distribution_published_keys_only": {
+            "steps": 960000,
+            "fraction_ratio_above_one": 0.002259,
+            "mean_ratio": 0.9644328942428252,
+            "geometric_mean_ratio": 0.9379760000695955,
+            "max_ratio": 162.69262807163673,
+            "min_ratio": 0.08263252197453866,
+            "quantiles_of_ratio": {
+              "p01": 0.4096693274691443,
+              "p25": 0.9514810336850933,
+              "median": 0.9753123467881819,
+              "p75": 0.9834789970904739,
+              "p99": 0.987656523362797
+            },
+            "mean_log2_ratio_bits": -0.092377,
+            "total_log2_ratio_bits": -88682.0024
+          },
+          "trajectories": {
+            "candidates": 480,
+            "accrual_steps": 960000,
+            "inflation_factor_over_a_run": {
+              "note": "2^max_t sum_{u<=t} log2 R_u per candidate: the factor by which Ville's bound is multiplied for that candidate",
+              "max": 560059.2582998899,
+              "mean": 10243.512148677279,
+              "median": 588.1066364211996,
+              "fraction_above_one": 1.0,
+              "max_bits": 19.0952,
+              "mean_bits": 9.1603
+            },
+            "inflation_factor_published_keys_only": {
+              "max": 2103219.3340750225,
+              "max_bits": 21.0042
+            },
+            "final_accumulated_log2_ratio_bits": {
+              "max": -155.8518,
+              "min": -210.3304,
+              "mean": -182.1889
+            },
+            "minted": 0
+          },
+          "exceedance_shipped_accumulator": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_mass_corrected": {
+            "1": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 1.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": false
+            }
+          },
+          "exceedance_seed_key_removed": {
+            "1": {
+              "empirical": 0.733333,
+              "bound_2^-b": 0.5,
+              "holds": false
+            },
+            "2": {
+              "empirical": 0.5875,
+              "bound_2^-b": 0.25,
+              "holds": false
+            },
+            "4": {
+              "empirical": 0.322917,
+              "bound_2^-b": 0.0625,
+              "holds": false
+            },
+            "8": {
+              "empirical": 0.0375,
+              "bound_2^-b": 0.00390625,
+              "holds": false
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          },
+          "exceedance_seed_key_removed_and_mass_corrected": {
+            "1": {
+              "empirical": 0.027083,
+              "bound_2^-b": 0.5,
+              "holds": true
+            },
+            "2": {
+              "empirical": 0.010417,
+              "bound_2^-b": 0.25,
+              "holds": true
+            },
+            "4": {
+              "empirical": 0.002083,
+              "bound_2^-b": 0.0625,
+              "holds": true
+            },
+            "8": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.00390625,
+              "holds": true
+            },
+            "12": {
+              "empirical": 0.0,
+              "bound_2^-b": 0.000244140625,
+              "holds": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "headline": {
+    "fraction_of_accrual_steps_with_ratio_above_one": {
+      "null_e8_protocol": 0.005164,
+      "planted8": 0.888756,
+      "wikipedia": 0.996692,
+      "two_block_null": 0.005562
+    },
+    "geometric_mean_ratio": {
+      "null_e8_protocol": 0.8987451285105748,
+      "planted8": 2.3056591397014348,
+      "wikipedia": 5915.168042559231,
+      "two_block_null": 0.8855273542300266
+    },
+    "worst_inflation_bits": {
+      "null_e8_protocol": 19.0952,
+      "planted8": 11.7343,
+      "wikipedia": 111.9026,
+      "two_block_null": 0.0885
+    }
+  },
+  "verdict": {
+    "is_the_shipped_accumulator_a_supermartingale": "NOT ALWAYS",
+    "per_step": {
+      "low_cardinality_null_two_block": "yes at 99.4 percent of steps; geometric mean ratio below one; peak inflation 1.06",
+      "low_cardinality_null_engine_e8": "yes at 99.5 percent of steps; geometric mean ratio below one, but every candidate's opening steps violate it and the running product peaks at 2^19",
+      "planted_eight_group": "no: 89 percent of steps have ratio above one",
+      "wikipedia_infoboxes": "no: 99.7 percent of steps have ratio above one, geometric mean ratio 5.9e3, that is 12.5 bits of unearned evidence per accrual step"
+    },
+    "why": "The condition fails outright at u_c = 0, a candidate's first observation of a key: an empty block is exactly normalised while the incumbent's block for the same key is not, so every candidate's opening steps are inflated. It fails persistently when the incumbent's block for a key is nearly all-distinct (u_w close to N_w close to inv), where the shipped naming charge spends log2(inv + 1) bits on an escape with one reachable slot and the block keeps only about 1/(inv + 1) of its mass. See streams.wikipedia.worst_blocks_at_end_of_stream for the measured blocks.",
+    "what_it_costs": {
+      "exact_correction": "Ville becomes P(exists t: M_t >= c) <= A/c with A = sup_t prod_{u<=t} Z_Q,u / Z_P,u",
+      "A_measured_max_bits": {
+        "null_e8_protocol": 19.0952,
+        "planted8": 11.7343,
+        "wikipedia": 111.9026,
+        "two_block_null": 0.0885
+      },
+      "caveat": "A is the exact worst-case multiplier, not the realised drift. The large values come from a right tail the normalised null puts mass on (a repeat value the incumbent prices at 16 bits and an empty candidate block at 7.5) which the actual all-distinct key never realises. The realised damage is the exceedance table below."
+    },
+    "empirical_bound_check_on_the_e8_null": {
+      "shipped_accumulator": "VIOLATED at every level: P(sup_t G_t >= b) = 1.0 for b = 1, 2, 4, 8, 12 against 2^-b, over 1920 candidate trajectories in 48 streams",
+      "dominant_cause": "seed selection, not the sub-probability: the engine accrues only on records carrying the seed pattern, so the seed key's value is constant by construction and its term is not a fair bet. This is the caveat the appendix already states about post-selection subsequences, now quantified.",
+      "seed_key_removed": "still violated (0.73, 0.59, 0.32, 0.04, 0.00 against 0.5, 0.25, 0.0625, 0.0039, 0.00024)",
+      "seed_key_removed_and_mass_corrected": "HOLDS at every level (0.027, 0.010, 0.0021, 0.0, 0.0). So the residual violation, once selection is removed, is exactly the sub-probability.",
+      "mints_on_the_null": 0,
+      "note": "The shipped RELEASE gate mints nothing on any of the 48 null streams (K = 0 everywhere), because release is gated on the price of Equation eq:mintprice, whose column term L_col(t, n) grows faster than the drift. The practical false-mint claim survives; the intermediate martingale claim, as written, does not."
+    },
+    "the_fix_that_restores_the_theorem": "naming = log2(inv - u + 1) instead of log2(inv + 1) puts p_new on exactly the reachable slots, making every block mass 1 and Z_Q = Z_P = 1, so the martingale step holds verbatim. Measured in E12 (value_naming_term_finding, mass_naming_tight = 1.0 on every worst block). Not shipped in this draft.",
+    "measurement_caveat": "The incumbent's per-key owner is chosen by the greedy active set using the current record, so the incumbent is not a fixed measure; Z_P here freezes the owner map the receipt reports. That is the post-selection gap of GAPS Block 7(b), separate from the sub-probability measured here.",
+    "note_2026_09_06": "the both-corrections column of this file is superseded; see superseded_column"
+  },
+  "reading": "The martingale step of Theorem 1 is wrong as written, and the direction of the error is not fixed: it depends on which of the two blocks is more novelty-prone per observation. The exact per-step expectation under the normalised incumbent is Z_candidate / Z_incumbent, and the accumulator is a supermartingale exactly when phi(u_c, N_c) >= phi(u_w, N_w) on every published key, phi(u, N) = u(u + 1/2)/(N + 1). On a low-cardinality null the candidate is the thinner and therefore more deficient block and the condition holds at 99.5 percent of steps; on real infoboxes the incumbent's blocks are nearly all-distinct and the condition fails at 99.7 percent of steps, worth 12.5 bits per accrual step against E12 mint prices of 32 to 157 bits. Theorem 1 should say supermartingale, should state the condition, and should carry the multiplier A; the empirical false-mint claim survives because the release gate is the price, not the accumulator, and no null stream mints.",
+  "runtime_seconds": 121.2,
+  "provenance": {
+    "date": "2026-09-05",
+    "engine_md5": {
+      "engine.py": "21cc574ad69acb8c4a0d27fdd4b4b18d",
+      "batch.py": "9bf3a5f3550970e6e1df924fbb75de96",
+      "codes.py": "d45ce4330686488e78522e19803307b4"
+    }
+  },
+  "superseded_column": {
+    "which": "seed_key_removed_and_mass_corrected",
+    "what_it_said": "0.027, 0.010, 0.0021, 0.0, 0.0 at b = 1, 2, 4, 8, 12, inside the nominal 2^-b everywhere",
+    "why_it_is_wrong": "that column deflates the shipped paths by the realised mass ratio after the fact. It is a valid statement about expectations under the incumbent measure, but it is not what the corrected code does. Running the two corrections inside the engine on 300 independent null streams and 12,000 trajectories gives 0.400, 0.309, 0.170, 0.0395, 0.0077, which holds only at b = 1 and misses by 32 times at b = 12.",
+    "what_replaces_it": "the corrections do not restore the empirical bound, because the dominant residual cause is post-selection: the accrual index set is chosen by the current record and the null's generating law is not the incumbent's predictive. What the tight naming charge does restore, exactly, is the per-step identity: the expectation of the one-step ratio under the incumbent is 1.000000 with it and 0.862862 without, measured over 955,200 null key-steps.",
+    "source": "code/experiments/theorem1/ (e16_arms.py, e16_wide.py, e16_stepwise.py, quick_controls.py, planted8_margin.py, e13_subset.py, e13_k20_tail.py, mass_check.py), arm outputs in results/theorem1_arms/, written up in findings/THEOREM1_CORRECTIONS.md and decided in findings/THEOREM1.md"
+  }
+}

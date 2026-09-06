@@ -1,0 +1,40 @@
+{
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": true
+  },
+  "twogroup": {
+    "K": 2,
+    "ari": 1.0,
+    "mints": 2,
+    "background_records": 0,
+    "purity_incl_background": 1.0,
+    "node_sizes": [
+      1000,
+      1000
+    ],
+    "n": 2000
+  },
+  "planted8": {
+    "K": 0,
+    "ari": 0.0,
+    "mints": 0,
+    "background_records": 3000,
+    "purity_incl_background": 0.1317,
+    "node_sizes": [],
+    "n": 3000
+  },
+  "wikipedia": {
+    "K": 3,
+    "ari": 0.843,
+    "mints": 12,
+    "background_records": 35,
+    "purity_incl_background": 0.9844,
+    "node_sizes": [
+      119,
+      86,
+      80
+    ],
+    "n": 320
+  }
+}

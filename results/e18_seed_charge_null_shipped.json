@@ -1,0 +1,865 @@
+{
+  "experiment": "E18-seed-naming-charge-null",
+  "arm": "shipped",
+  "flags": {
+    "tight_naming": false,
+    "unselected_statistic": false
+  },
+  "design": "300 independent null streams per T ((100 for T>2000)), 4 independent categorical keys, 10 iid uniform values each; E16's null_stream and protocol, so the numbers are like for like",
+  "charges": {
+    "av_log2A_plus_log2d": 5.3219,
+    "ln_rank_code_mean": 8.1967,
+    "ln_rank_code_max": 11.8794
+  },
+  "by_T": {
+    "500": {
+      "streams": 300,
+      "candidates": 12000,
+      "mints": 0,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "sup_G": {
+        "mean": 71.051,
+        "min": 32.4044,
+        "max": 119.4195,
+        "quantiles": {
+          "0.5": 70.6423,
+          "0.75": 78.8431,
+          "0.9": 86.5641,
+          "0.9375": 89.7777,
+          "0.99": 100.7093,
+          "0.99609": 104.7533,
+          "0.999": 109.4027,
+          "0.99976": 118.952,
+          "1.0": 119.4195
+        }
+      },
+      "sup_G_minus_seed_key": {
+        "mean": 3.0326,
+        "max": 16.6852,
+        "quantiles": {
+          "0.5": 2.5979,
+          "0.75": 4.6348,
+          "0.9": 6.7249,
+          "0.9375": 7.5552,
+          "0.99": 10.4508,
+          "0.99609": 11.6039,
+          "0.999": 13.6554,
+          "0.99976": 15.5128,
+          "1.0": 16.6852
+        }
+      },
+      "exceedance_charge_0": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_av": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_ln_mean": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_unselected_charge_0": {
+        "1": {
+          "empirical": 0.726667,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.004068,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.583,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.004501,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.316417,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.004246,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.04975,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.001985,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.003167,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.000513,
+          "holds": true
+        }
+      },
+      "exceedance_unselected_charge_av": {
+        "1": {
+          "empirical": 0.12,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.002966,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.071667,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.002355,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.022917,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.001366,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.001417,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.000343,
+          "holds": true
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": true
+        }
+      },
+      "required_gamma": {
+        "1": 69.64,
+        "2": 76.84,
+        "4": 85.78,
+        "8": 96.75,
+        "12": 106.95
+      },
+      "required_gamma_unselected": {
+        "1": 1.6,
+        "2": 2.63,
+        "4": 3.56,
+        "8": 3.6,
+        "12": 3.51
+      }
+    },
+    "1000": {
+      "streams": 300,
+      "candidates": 12000,
+      "mints": 0,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "sup_G": {
+        "mean": 192.5646,
+        "min": 111.4135,
+        "max": 271.1268,
+        "quantiles": {
+          "0.5": 192.5684,
+          "0.75": 205.3747,
+          "0.9": 216.4961,
+          "0.9375": 221.554,
+          "0.99": 235.8702,
+          "0.99609": 242.5693,
+          "0.999": 251.957,
+          "0.99976": 266.184,
+          "1.0": 271.1268
+        }
+      },
+      "sup_G_minus_seed_key": {
+        "mean": 3.0326,
+        "max": 16.6852,
+        "quantiles": {
+          "0.5": 2.5979,
+          "0.75": 4.6348,
+          "0.9": 6.7249,
+          "0.9375": 7.5552,
+          "0.99": 10.4508,
+          "0.99609": 11.6039,
+          "0.999": 13.6554,
+          "0.99976": 15.5128,
+          "1.0": 16.6852
+        }
+      },
+      "exceedance_charge_0": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_av": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_ln_mean": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_unselected_charge_0": {
+        "1": {
+          "empirical": 0.726667,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.004068,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.583,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.004501,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.316417,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.004246,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.04975,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.001985,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.003167,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.000513,
+          "holds": true
+        }
+      },
+      "exceedance_unselected_charge_av": {
+        "1": {
+          "empirical": 0.12,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.002966,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.071667,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.002355,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.022917,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.001366,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.001417,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.000343,
+          "holds": true
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": true
+        }
+      },
+      "required_gamma": {
+        "1": 191.57,
+        "2": 203.37,
+        "4": 217.55,
+        "8": 234.57,
+        "12": 254.18
+      },
+      "required_gamma_unselected": {
+        "1": 1.6,
+        "2": 2.63,
+        "4": 3.56,
+        "8": 3.6,
+        "12": 3.51
+      }
+    },
+    "2000": {
+      "streams": 300,
+      "candidates": 12000,
+      "mints": 0,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "sup_G": {
+        "mean": 481.2993,
+        "min": 368.5541,
+        "max": 582.4335,
+        "quantiles": {
+          "0.5": 481.2436,
+          "0.75": 500.1968,
+          "0.9": 517.2993,
+          "0.9375": 525.2541,
+          "0.99": 547.6494,
+          "0.99609": 556.427,
+          "0.999": 566.8702,
+          "0.99976": 579.2216,
+          "1.0": 582.4335
+        }
+      },
+      "sup_G_minus_seed_key": {
+        "mean": 3.0326,
+        "max": 16.6852,
+        "quantiles": {
+          "0.5": 2.5979,
+          "0.75": 4.6348,
+          "0.9": 6.7249,
+          "0.9375": 7.5552,
+          "0.99": 10.4508,
+          "0.99609": 11.6039,
+          "0.999": 13.6554,
+          "0.99976": 15.5128,
+          "1.0": 16.6852
+        }
+      },
+      "exceedance_charge_0": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_av": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_ln_mean": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_unselected_charge_0": {
+        "1": {
+          "empirical": 0.726667,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.004068,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.583,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.004501,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.316417,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.004246,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.04975,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.001985,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.003167,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.000513,
+          "holds": true
+        }
+      },
+      "exceedance_unselected_charge_av": {
+        "1": {
+          "empirical": 0.12,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.002966,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.071667,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.002355,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.022917,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.001366,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.001417,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.000343,
+          "holds": true
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": true
+        }
+      },
+      "required_gamma": {
+        "1": 480.24,
+        "2": 498.2,
+        "4": 521.25,
+        "8": 548.43,
+        "12": 567.22
+      },
+      "required_gamma_unselected": {
+        "1": 1.6,
+        "2": 2.63,
+        "4": 3.56,
+        "8": 3.6,
+        "12": 3.51
+      }
+    },
+    "4000": {
+      "streams": 100,
+      "candidates": 4000,
+      "mints": 0,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "sup_G": {
+        "mean": 1103.0007,
+        "min": 938.1929,
+        "max": 1234.7642,
+        "quantiles": {
+          "0.5": 1103.654,
+          "0.75": 1131.5353,
+          "0.9": 1153.9634,
+          "0.9375": 1164.5809,
+          "0.99": 1201.8447,
+          "0.99609": 1212.8041,
+          "0.999": 1231.6326,
+          "0.99976": 1234.7642,
+          "1.0": 1234.7642
+        }
+      },
+      "sup_G_minus_seed_key": {
+        "mean": 3.0206,
+        "max": 14.2804,
+        "quantiles": {
+          "0.5": 2.6394,
+          "0.75": 4.6249,
+          "0.9": 6.5658,
+          "0.9375": 7.3958,
+          "0.99": 10.3601,
+          "0.99609": 11.4046,
+          "0.999": 13.4221,
+          "0.99976": 14.2804,
+          "1.0": 14.2804
+        }
+      },
+      "exceedance_charge_0": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_av": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_ln_mean": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_unselected_charge_0": {
+        "1": {
+          "empirical": 0.73025,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.007018,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.58375,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.007794,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.3185,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.007366,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.04525,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.003286,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0025,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.00079,
+          "holds": true
+        }
+      },
+      "exceedance_unselected_charge_av": {
+        "1": {
+          "empirical": 0.11325,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.005011,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.06525,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.003905,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.02,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.002214,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.00125,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.000559,
+          "holds": true
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": true
+        }
+      },
+      "required_gamma": {
+        "1": 1102.65,
+        "2": 1129.54,
+        "4": 1160.58,
+        "8": 1204.8,
+        "12": 1222.76
+      },
+      "required_gamma_unselected": {
+        "1": 1.64,
+        "2": 2.62,
+        "4": 3.4,
+        "8": 3.4,
+        "12": 2.28
+      }
+    }
+  },
+  "runtime_seconds": 218.0
+}

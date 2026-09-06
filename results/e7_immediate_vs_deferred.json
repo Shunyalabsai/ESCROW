@@ -1,0 +1,384 @@
+{
+  "n": 6000,
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "unseeded": {
+    "mints": 0,
+    "mean_deficit_bits": 30.56,
+    "prediction": "0 mints; deficit = sum KL(q||U) + C(u)"
+  },
+  "seeded": {
+    "mints": 0,
+    "typo_fraction": 0.0,
+    "prediction": "mints on rare values, i.e. on typos"
+  },
+  "deferred": {
+    "final_K": 2,
+    "total_mints": 9,
+    "typo_justified_nodes": 0,
+    "supports": [
+      [
+        "g0k0",
+        "g0k1",
+        "g0k2"
+      ],
+      [
+        "g1k0",
+        "g1k1",
+        "g1k2"
+      ]
+    ],
+    "prediction": "K=2, zero typo nodes"
+  },
+  "seeds": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "note": "the single-seed rows above are seed 0; only the stream seed moves",
+    "per_seed": [
+      {
+        "seed": 0,
+        "unseeded_mints": 0,
+        "unseeded_mean_deficit_bits": 30.56,
+        "seeded_mints": 0,
+        "seeded_typo_fraction": 0.0,
+        "mean_price_bits": 39.79,
+        "deferred_final_K": 2,
+        "deferred_total_mints": 9,
+        "deferred_typo_justified_nodes": 0
+      },
+      {
+        "seed": 1,
+        "unseeded_mints": 0,
+        "unseeded_mean_deficit_bits": 30.96,
+        "seeded_mints": 0,
+        "seeded_typo_fraction": 0.0,
+        "mean_price_bits": 39.8,
+        "deferred_final_K": 2,
+        "deferred_total_mints": 4,
+        "deferred_typo_justified_nodes": 0
+      },
+      {
+        "seed": 2,
+        "unseeded_mints": 0,
+        "unseeded_mean_deficit_bits": 31.61,
+        "seeded_mints": 0,
+        "seeded_typo_fraction": 0.0,
+        "mean_price_bits": 39.8,
+        "deferred_final_K": 2,
+        "deferred_total_mints": 6,
+        "deferred_typo_justified_nodes": 0
+      },
+      {
+        "seed": 3,
+        "unseeded_mints": 0,
+        "unseeded_mean_deficit_bits": 31.6,
+        "seeded_mints": 0,
+        "seeded_typo_fraction": 0.0,
+        "mean_price_bits": 39.77,
+        "deferred_final_K": 2,
+        "deferred_total_mints": 9,
+        "deferred_typo_justified_nodes": 0
+      },
+      {
+        "seed": 4,
+        "unseeded_mints": 0,
+        "unseeded_mean_deficit_bits": 32.08,
+        "seeded_mints": 0,
+        "seeded_typo_fraction": 0.0,
+        "mean_price_bits": 39.77,
+        "deferred_final_K": 2,
+        "deferred_total_mints": 9,
+        "deferred_typo_justified_nodes": 0
+      }
+    ],
+    "spread": {
+      "unseeded_mints": {
+        "mean": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "unseeded_mean_deficit_bits": {
+        "mean": 31.362,
+        "min": 30.56,
+        "max": 32.08
+      },
+      "seeded_mints": {
+        "mean": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "mean_price_bits": {
+        "mean": 39.786,
+        "min": 39.77,
+        "max": 39.8
+      },
+      "deferred_final_K": {
+        "mean": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "deferred_total_mints": {
+        "mean": 7.4,
+        "min": 4,
+        "max": 9
+      },
+      "deferred_typo_justified_nodes": {
+        "mean": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "deferred_supports_identical_across_seeds": true
+  },
+  "seeded_deficit_profile": {
+    "mean_price_bits": 39.79,
+    "typo_records": 59,
+    "mean_record_cost_bits_typo": 23.06,
+    "mean_record_cost_bits_clean": 20.5,
+    "mean_rarest_cell_bits_typo": 9.75,
+    "mean_rarest_cell_bits_clean": 9.33,
+    "max_record_cost_bits": 33.71,
+    "deficit_at_the_most_expensive_record_bits": 6.08
+  },
+  "seeded_sweep": {
+    "design": "d in {2,4,8,32,100} x typo_rate in {0,0.01,0.05,0.2}, k=3, n=6000, seed 0; arm 2 (record-seeded immediate) unchanged",
+    "p2_statistic": "rare_cell_fraction is the fraction of published cells whose value has empirical probability below 1/m_a; P2 predicted the seeded mint rate would track it",
+    "grid": [
+      {
+        "d": 2,
+        "typo_rate": 0.0,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.4905,
+        "rare_cell_fraction_prequential": 0.4908,
+        "mean_price_bits": 40.04
+      },
+      {
+        "d": 2,
+        "typo_rate": 0.01,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0033,
+        "rare_cell_fraction_prequential": 0.0358,
+        "mean_price_bits": 39.94
+      },
+      {
+        "d": 2,
+        "typo_rate": 0.05,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0167,
+        "rare_cell_fraction_prequential": 0.026,
+        "mean_price_bits": 40.17
+      },
+      {
+        "d": 2,
+        "typo_rate": 0.2,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0654,
+        "rare_cell_fraction_prequential": 0.0684,
+        "mean_price_bits": 40.17
+      },
+      {
+        "d": 4,
+        "typo_rate": 0.0,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.5278,
+        "rare_cell_fraction_prequential": 0.5064,
+        "mean_price_bits": 39.92
+      },
+      {
+        "d": 4,
+        "typo_rate": 0.01,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0033,
+        "rare_cell_fraction_prequential": 0.04,
+        "mean_price_bits": 39.94
+      },
+      {
+        "d": 4,
+        "typo_rate": 0.05,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0167,
+        "rare_cell_fraction_prequential": 0.0304,
+        "mean_price_bits": 39.91
+      },
+      {
+        "d": 4,
+        "typo_rate": 0.2,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0654,
+        "rare_cell_fraction_prequential": 0.0708,
+        "mean_price_bits": 39.9
+      },
+      {
+        "d": 8,
+        "typo_rate": 0.0,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.4378,
+        "rare_cell_fraction_prequential": 0.4924,
+        "mean_price_bits": 39.81
+      },
+      {
+        "d": 8,
+        "typo_rate": 0.01,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0033,
+        "rare_cell_fraction_prequential": 0.0729,
+        "mean_price_bits": 39.79
+      },
+      {
+        "d": 8,
+        "typo_rate": 0.05,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0167,
+        "rare_cell_fraction_prequential": 0.0422,
+        "mean_price_bits": 39.8
+      },
+      {
+        "d": 8,
+        "typo_rate": 0.2,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0654,
+        "rare_cell_fraction_prequential": 0.0767,
+        "mean_price_bits": 39.78
+      },
+      {
+        "d": 32,
+        "typo_rate": 0.0,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.4187,
+        "rare_cell_fraction_prequential": 0.5121,
+        "mean_price_bits": 39.76
+      },
+      {
+        "d": 32,
+        "typo_rate": 0.01,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0464,
+        "rare_cell_fraction_prequential": 0.2558,
+        "mean_price_bits": 39.76
+      },
+      {
+        "d": 32,
+        "typo_rate": 0.05,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0167,
+        "rare_cell_fraction_prequential": 0.1133,
+        "mean_price_bits": 39.76
+      },
+      {
+        "d": 32,
+        "typo_rate": 0.2,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0654,
+        "rare_cell_fraction_prequential": 0.1119,
+        "mean_price_bits": 39.77
+      },
+      {
+        "d": 100,
+        "typo_rate": 0.0,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.4123,
+        "rare_cell_fraction_prequential": 0.5371,
+        "mean_price_bits": 39.85
+      },
+      {
+        "d": 100,
+        "typo_rate": 0.01,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.2444,
+        "rare_cell_fraction_prequential": 0.4504,
+        "mean_price_bits": 39.85
+      },
+      {
+        "d": 100,
+        "typo_rate": 0.05,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.041,
+        "rare_cell_fraction_prequential": 0.298,
+        "mean_price_bits": 39.86
+      },
+      {
+        "d": 100,
+        "typo_rate": 0.2,
+        "seeded_mints": 0,
+        "rare_cell_fraction_final": 0.0686,
+        "rare_cell_fraction_prequential": 0.2093,
+        "mean_price_bits": 39.83
+      }
+    ],
+    "total_seeded_mints": 0,
+    "rare_cell_fraction_range": [
+      0.0033,
+      0.5278
+    ],
+    "verdict": "zero seeded mints in all 20 cells at the full node price"
+  },
+  "seeded_constant_price": {
+    "rule": "record-seeded immediate mint with a CONSTANT price of lam bits (the DP-means shape): mint iff no incumbent codes the record within lam bits; the record then joins the cheapest incumbent",
+    "design": "k=3, d=8, typo_rate=0.01, n=6000, seed 0; own cell ownership ledger, the deferred engine is not run underneath",
+    "typo_records_in_stream": 59,
+    "grid": [
+      {
+        "price_bits": 2.0,
+        "mints": 5998,
+        "never_reused": 5998,
+        "never_reused_fraction": 1.0,
+        "typo_seeded_nodes": 59,
+        "typo_seeded_fraction": 0.01,
+        "typo_seeded_and_never_reused": 59,
+        "node_cap_hit": false
+      },
+      {
+        "price_bits": 4.0,
+        "mints": 5998,
+        "never_reused": 5998,
+        "never_reused_fraction": 1.0,
+        "typo_seeded_nodes": 59,
+        "typo_seeded_fraction": 0.01,
+        "typo_seeded_and_never_reused": 59,
+        "node_cap_hit": false
+      },
+      {
+        "price_bits": 8.0,
+        "mints": 200,
+        "never_reused": 31,
+        "never_reused_fraction": 0.155,
+        "typo_seeded_nodes": 30,
+        "typo_seeded_fraction": 0.15,
+        "typo_seeded_and_never_reused": 26,
+        "node_cap_hit": false
+      },
+      {
+        "price_bits": 16.0,
+        "mints": 5,
+        "never_reused": 0,
+        "never_reused_fraction": 0.0,
+        "typo_seeded_nodes": 5,
+        "typo_seeded_fraction": 1.0,
+        "typo_seeded_and_never_reused": 0,
+        "node_cap_hit": false
+      },
+      {
+        "price_bits": 39.0,
+        "mints": 0,
+        "never_reused": 0,
+        "never_reused_fraction": 0.0,
+        "typo_seeded_nodes": 0,
+        "typo_seeded_fraction": 0.0,
+        "typo_seeded_and_never_reused": 0,
+        "node_cap_hit": false
+      }
+    ]
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "ccba8e071c61d30dfe0cd2cadbca4131",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "8400b64c5229d82fa549e6182b636d79"
+    }
+  }
+}

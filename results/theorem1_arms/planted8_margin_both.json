@@ -1,0 +1,103 @@
+{
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": true
+  },
+  "rows": [
+    {
+      "noise": 0.0,
+      "K": 8,
+      "mints": 9,
+      "pool": 183,
+      "best_candidate": {
+        "sig": [
+          "c1k1",
+          7
+        ],
+        "t": 61,
+        "G": 777.18,
+        "g_seed": 332.01,
+        "G_minus_seed": 445.17,
+        "best_margin_shipped": 312.76,
+        "best_margin_unselected_T_plus_1": -19.25,
+        "best_margin_unselected_T": -15.13
+      }
+    },
+    {
+      "noise": 0.02,
+      "K": 8,
+      "mints": 10,
+      "pool": 307,
+      "best_candidate": {
+        "sig": [
+          "c1k2",
+          6
+        ],
+        "t": 54,
+        "G": 717.41,
+        "g_seed": 299.73,
+        "G_minus_seed": 417.68,
+        "best_margin_shipped": 292.98,
+        "best_margin_unselected_T_plus_1": -6.75,
+        "best_margin_unselected_T": -2.62
+      }
+    },
+    {
+      "noise": 0.05,
+      "K": 7,
+      "mints": 8,
+      "pool": 503,
+      "best_candidate": {
+        "sig": [
+          "c3k0",
+          3
+        ],
+        "t": 55,
+        "G": 734.07,
+        "g_seed": 313.54,
+        "G_minus_seed": 420.53,
+        "best_margin_shipped": 303.61,
+        "best_margin_unselected_T_plus_1": -9.94,
+        "best_margin_unselected_T": -5.81
+      }
+    },
+    {
+      "noise": 0.1,
+      "K": 0,
+      "mints": 0,
+      "pool": 779,
+      "best_candidate": {
+        "sig": [
+          "c4k0",
+          0
+        ],
+        "t": 59,
+        "G": 778.42,
+        "g_seed": 330.54,
+        "G_minus_seed": 447.88,
+        "best_margin_shipped": 322.81,
+        "best_margin_unselected_T_plus_1": -7.73,
+        "best_margin_unselected_T": -3.61
+      }
+    },
+    {
+      "noise": 0.2,
+      "K": 0,
+      "mints": 0,
+      "pool": 1116,
+      "best_candidate": {
+        "sig": [
+          "c4k0",
+          1
+        ],
+        "t": 62,
+        "G": 812.32,
+        "g_seed": 347.95,
+        "G_minus_seed": 464.37,
+        "best_margin_shipped": 339.9,
+        "best_margin_unselected_T_plus_1": -8.05,
+        "best_margin_unselected_T": -3.93
+      }
+    }
+  ]
+}

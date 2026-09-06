@@ -1,0 +1,943 @@
+{
+  "design": "E13 planted streams, K* = 8, lengths {'vfdt': (2000, 30000), 'efdt': (2000,)}, noise driving value noise, key noise and the random record fraction together, as in e13_creation_bias.py. The trees predict the lexicographically first key's value from the rest of the record, one feature per remaining key named by that key, as in e8_tree_arms.py.",
+  "why": "e8_tree_arms.py runs these trees on the null only, where every split is false. This file supplies the planted arm, which is where a strict delta pays detection delay.",
+  "river_version": "0.26.1",
+  "river_default_delta": 1e-07,
+  "grid": {
+    "K_star": 8,
+    "T_by_model": {
+      "vfdt": [
+        2000,
+        30000
+      ],
+      "efdt": [
+        2000
+      ]
+    },
+    "noise": [
+      0.0,
+      0.2,
+      0.4
+    ],
+    "delta": [
+      0.01,
+      1e-07
+    ],
+    "targets": [
+      "value",
+      "group"
+    ],
+    "seeds": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "grace_period": 200,
+    "runs": 180
+  },
+  "targets": {
+    "value": "predict the lexicographically first key's value from the other key value pairs, the e8_tree_arms.py conversion",
+    "group": "predict the planted group label from the whole record, supervision ESCROW never receives; random records carry the label noise"
+  },
+  "note_on_node_scale": "river counts the root, so a tree that never splits reads 1 node while ESCROW's silence reads 0 minted nodes.",
+  "note_on_lengths": "VFDT runs at T = 2000 and T = 30000; EFDT at T = 2000 only. Measured reason: one EFDT fit costs about 79 s at T = 2000 and did not finish inside twenty five minutes at T = 10000 on one core, because EFDT reconsiders every split at every node on the path for every record and every key name here is a nominal level. T = 2000 is the length at which the two models are compared; T = 30000 is where the strict delta's delay becomes visible for VFDT.",
+  "cells": {
+    "target=value vfdt T=2000 delta=0.01 noise=0.0": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.75
+    },
+    "target=value vfdt T=2000 delta=0.01 noise=0.2": {
+      "n_nodes": [
+        1,
+        1,
+        18,
+        24,
+        26
+      ],
+      "mean_nodes": 14.0,
+      "min_nodes": 1,
+      "max_nodes": 26,
+      "first_split_index": [
+        1400,
+        null,
+        null,
+        1600,
+        1600
+      ],
+      "mean_first_split": 1533.3,
+      "min_first_split": 1400,
+      "max_first_split": 1600,
+      "seeds_that_never_split": 2,
+      "mean_seconds": 1.23
+    },
+    "target=value vfdt T=2000 delta=0.01 noise=0.4": {
+      "n_nodes": [
+        1,
+        26,
+        31,
+        35,
+        38
+      ],
+      "mean_nodes": 26.2,
+      "min_nodes": 1,
+      "max_nodes": 38,
+      "first_split_index": [
+        1800,
+        null,
+        1600,
+        1400,
+        1400
+      ],
+      "mean_first_split": 1550.0,
+      "min_first_split": 1400,
+      "max_first_split": 1800,
+      "seeds_that_never_split": 1,
+      "mean_seconds": 1.33
+    },
+    "target=value vfdt T=2000 delta=1e-07 noise=0.0": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.73
+    },
+    "target=value vfdt T=2000 delta=1e-07 noise=0.2": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        18
+      ],
+      "mean_nodes": 4.4,
+      "min_nodes": 1,
+      "max_nodes": 18,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        2000,
+        null
+      ],
+      "mean_first_split": 2000.0,
+      "min_first_split": 2000,
+      "max_first_split": 2000,
+      "seeds_that_never_split": 4,
+      "mean_seconds": 1.38
+    },
+    "target=value vfdt T=2000 delta=1e-07 noise=0.4": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        35,
+        38
+      ],
+      "mean_nodes": 15.2,
+      "min_nodes": 1,
+      "max_nodes": 38,
+      "first_split_index": [
+        2000,
+        null,
+        null,
+        null,
+        1600
+      ],
+      "mean_first_split": 1800.0,
+      "min_first_split": 1600,
+      "max_first_split": 2000,
+      "seeds_that_never_split": 3,
+      "mean_seconds": 1.49
+    },
+    "target=value vfdt T=30000 delta=0.01 noise=0.0": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 8.76
+    },
+    "target=value vfdt T=30000 delta=0.01 noise=0.2": {
+      "n_nodes": [
+        127,
+        128,
+        129,
+        129,
+        129
+      ],
+      "mean_nodes": 128.4,
+      "min_nodes": 127,
+      "max_nodes": 129,
+      "first_split_index": [
+        1400,
+        2600,
+        3600,
+        1600,
+        1600
+      ],
+      "mean_first_split": 2160.0,
+      "min_first_split": 1400,
+      "max_first_split": 3600,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 11.86
+    },
+    "target=value vfdt T=30000 delta=0.01 noise=0.4": {
+      "n_nodes": [
+        128,
+        129,
+        129,
+        129,
+        129
+      ],
+      "mean_nodes": 128.8,
+      "min_nodes": 128,
+      "max_nodes": 129,
+      "first_split_index": [
+        1800,
+        2400,
+        1600,
+        1400,
+        1400
+      ],
+      "mean_first_split": 1720.0,
+      "min_first_split": 1400,
+      "max_first_split": 2400,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 11.98
+    },
+    "target=value vfdt T=30000 delta=1e-07 noise=0.0": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 8.76
+    },
+    "target=value vfdt T=30000 delta=1e-07 noise=0.2": {
+      "n_nodes": [
+        127,
+        128,
+        129,
+        129,
+        129
+      ],
+      "mean_nodes": 128.4,
+      "min_nodes": 127,
+      "max_nodes": 129,
+      "first_split_index": [
+        4000,
+        5800,
+        4000,
+        2000,
+        3000
+      ],
+      "mean_first_split": 3760.0,
+      "min_first_split": 2000,
+      "max_first_split": 5800,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 14.88
+    },
+    "target=value vfdt T=30000 delta=1e-07 noise=0.4": {
+      "n_nodes": [
+        128,
+        129,
+        129,
+        129,
+        129
+      ],
+      "mean_nodes": 128.8,
+      "min_nodes": 128,
+      "max_nodes": 129,
+      "first_split_index": [
+        2000,
+        2800,
+        2600,
+        1600,
+        2600
+      ],
+      "mean_first_split": 2320.0,
+      "min_first_split": 1600,
+      "max_first_split": 2800,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 16.86
+    },
+    "target=value efdt T=2000 delta=0.01 noise=0.0": {
+      "n_nodes": [
+        27,
+        49,
+        53,
+        54,
+        56
+      ],
+      "mean_nodes": 47.8,
+      "min_nodes": 27,
+      "max_nodes": 56,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 31.01
+    },
+    "target=value efdt T=2000 delta=0.01 noise=0.2": {
+      "n_nodes": [
+        40,
+        54,
+        60,
+        166,
+        177
+      ],
+      "mean_nodes": 99.4,
+      "min_nodes": 40,
+      "max_nodes": 177,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 163.94
+    },
+    "target=value efdt T=2000 delta=0.01 noise=0.4": {
+      "n_nodes": [
+        68,
+        73,
+        89,
+        99,
+        123
+      ],
+      "mean_nodes": 90.4,
+      "min_nodes": 68,
+      "max_nodes": 123,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 216.11
+    },
+    "target=value efdt T=2000 delta=1e-07 noise=0.0": {
+      "n_nodes": [
+        49,
+        52,
+        53,
+        54,
+        54
+      ],
+      "mean_nodes": 52.4,
+      "min_nodes": 49,
+      "max_nodes": 54,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 31.35
+    },
+    "target=value efdt T=2000 delta=1e-07 noise=0.2": {
+      "n_nodes": [
+        47,
+        56,
+        117,
+        123,
+        182
+      ],
+      "mean_nodes": 105.0,
+      "min_nodes": 47,
+      "max_nodes": 182,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 193.55
+    },
+    "target=value efdt T=2000 delta=1e-07 noise=0.4": {
+      "n_nodes": [
+        35,
+        57,
+        87,
+        131,
+        142
+      ],
+      "mean_nodes": 90.4,
+      "min_nodes": 35,
+      "max_nodes": 142,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 256.86
+    },
+    "target=group vfdt T=2000 delta=0.01 noise=0.0": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.18
+    },
+    "target=group vfdt T=2000 delta=0.01 noise=0.2": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.61
+    },
+    "target=group vfdt T=2000 delta=0.01 noise=0.4": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.75
+    },
+    "target=group vfdt T=2000 delta=1e-07 noise=0.0": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.18
+    },
+    "target=group vfdt T=2000 delta=1e-07 noise=0.2": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.56
+    },
+    "target=group vfdt T=2000 delta=1e-07 noise=0.4": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 0.61
+    },
+    "target=group vfdt T=30000 delta=0.01 noise=0.0": {
+      "n_nodes": [
+        17,
+        17,
+        17,
+        25,
+        25
+      ],
+      "mean_nodes": 20.2,
+      "min_nodes": 17,
+      "max_nodes": 25,
+      "first_split_index": [
+        8400,
+        8400,
+        8400,
+        8400,
+        8400
+      ],
+      "mean_first_split": 8400.0,
+      "min_first_split": 8400,
+      "max_first_split": 8400,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 2.58
+    },
+    "target=group vfdt T=30000 delta=0.01 noise=0.2": {
+      "n_nodes": [
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "mean_nodes": 129.0,
+      "min_nodes": 129,
+      "max_nodes": 129,
+      "first_split_index": [
+        9400,
+        9400,
+        9400,
+        9400,
+        9400
+      ],
+      "mean_first_split": 9400.0,
+      "min_first_split": 9400,
+      "max_first_split": 9400,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 11.7
+    },
+    "target=group vfdt T=30000 delta=0.01 noise=0.4": {
+      "n_nodes": [
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "mean_nodes": 129.0,
+      "min_nodes": 129,
+      "max_nodes": 129,
+      "first_split_index": [
+        9400,
+        8600,
+        9400,
+        9400,
+        7200
+      ],
+      "mean_first_split": 8800.0,
+      "min_first_split": 7200,
+      "max_first_split": 9400,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 11.19
+    },
+    "target=group vfdt T=30000 delta=1e-07 noise=0.0": {
+      "n_nodes": [
+        9,
+        9,
+        9,
+        9,
+        9
+      ],
+      "mean_nodes": 9.0,
+      "min_nodes": 9,
+      "max_nodes": 9,
+      "first_split_index": [
+        29200,
+        29200,
+        29200,
+        29200,
+        29200
+      ],
+      "mean_first_split": 29200.0,
+      "min_first_split": 29200,
+      "max_first_split": 29200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 2.5
+    },
+    "target=group vfdt T=30000 delta=1e-07 noise=0.2": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 21.81
+    },
+    "target=group vfdt T=30000 delta=1e-07 noise=0.4": {
+      "n_nodes": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mean_nodes": 1.0,
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "first_split_index": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "mean_first_split": null,
+      "min_first_split": null,
+      "max_first_split": null,
+      "seeds_that_never_split": 5,
+      "mean_seconds": 29.33
+    },
+    "target=group efdt T=2000 delta=0.01 noise=0.0": {
+      "n_nodes": [
+        48,
+        49,
+        52,
+        53,
+        55
+      ],
+      "mean_nodes": 51.4,
+      "min_nodes": 48,
+      "max_nodes": 55,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 14.32
+    },
+    "target=group efdt T=2000 delta=0.01 noise=0.2": {
+      "n_nodes": [
+        56,
+        77,
+        92,
+        130,
+        152
+      ],
+      "mean_nodes": 101.4,
+      "min_nodes": 56,
+      "max_nodes": 152,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 67.75
+    },
+    "target=group efdt T=2000 delta=0.01 noise=0.4": {
+      "n_nodes": [
+        107,
+        121,
+        123,
+        135,
+        173
+      ],
+      "mean_nodes": 131.8,
+      "min_nodes": 107,
+      "max_nodes": 173,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 115.03
+    },
+    "target=group efdt T=2000 delta=1e-07 noise=0.0": {
+      "n_nodes": [
+        48,
+        49,
+        52,
+        53,
+        55
+      ],
+      "mean_nodes": 51.4,
+      "min_nodes": 48,
+      "max_nodes": 55,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 19.99
+    },
+    "target=group efdt T=2000 delta=1e-07 noise=0.2": {
+      "n_nodes": [
+        106,
+        110,
+        140,
+        264,
+        268
+      ],
+      "mean_nodes": 177.6,
+      "min_nodes": 106,
+      "max_nodes": 268,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 110.47
+    },
+    "target=group efdt T=2000 delta=1e-07 noise=0.4": {
+      "n_nodes": [
+        144,
+        168,
+        180,
+        310,
+        311
+      ],
+      "mean_nodes": 222.6,
+      "min_nodes": 144,
+      "max_nodes": 311,
+      "first_split_index": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "mean_first_split": 200.0,
+      "min_first_split": 200,
+      "max_first_split": 200,
+      "seeds_that_never_split": 0,
+      "mean_seconds": 183.63
+    }
+  },
+  "detection_delay_records_strict_minus_loose": {
+    "target=value vfdt T=2000 noise=0.0": null,
+    "target=value vfdt T=2000 noise=0.2": 466.7,
+    "target=value vfdt T=2000 noise=0.4": 250.0,
+    "target=value vfdt T=30000 noise=0.0": null,
+    "target=value vfdt T=30000 noise=0.2": 1600.0,
+    "target=value vfdt T=30000 noise=0.4": 600.0,
+    "target=value efdt T=2000 noise=0.0": 0.0,
+    "target=value efdt T=2000 noise=0.2": 0.0,
+    "target=value efdt T=2000 noise=0.4": 0.0,
+    "target=group vfdt T=2000 noise=0.0": null,
+    "target=group vfdt T=2000 noise=0.2": null,
+    "target=group vfdt T=2000 noise=0.4": null,
+    "target=group vfdt T=30000 noise=0.0": 20800.0,
+    "target=group vfdt T=30000 noise=0.2": null,
+    "target=group vfdt T=30000 noise=0.4": null,
+    "target=group efdt T=2000 noise=0.0": 0.0,
+    "target=group efdt T=2000 noise=0.2": 0.0,
+    "target=group efdt T=2000 noise=0.4": 0.0
+  },
+  "runtime_seconds": 981.2,
+  "workers": 8,
+  "reading": "24 of the 36 cells split at least once, so on planted structure the trees are not silent the way they are on the E8 null, and the price of a strict delta shows up as a delay in the first split index rather than as silence. Every cell where both deltas split gives that delay in records: target=value vfdt T=2000 noise=0.2 466.7; target=value vfdt T=2000 noise=0.4 250.0; target=value vfdt T=30000 noise=0.2 1600.0; target=value vfdt T=30000 noise=0.4 600.0; target=value efdt T=2000 noise=0.0 0.0; target=value efdt T=2000 noise=0.2 0.0; target=value efdt T=2000 noise=0.4 0.0; target=group vfdt T=30000 noise=0.0 20800.0; target=group efdt T=2000 noise=0.0 0.0; target=group efdt T=2000 noise=0.2 0.0; target=group efdt T=2000 noise=0.4 0.0. Cells where the strict delta never split inside the stream are recorded with a null first split index and a seeds_that_never_split count, and they are the same statement in a stronger form. The node counts are the other half of the trade, since the loose delta ends with more nodes, which on the E8 null was pure false structure. Both files use the same generator, seeds and deltas, so the null table and this table are two halves of one trade-off and not two experiments.",
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8067d4bac3df0f703fa2ea8831bfb490",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "8400b64c5229d82fa549e6182b636d79"
+    }
+  }
+}

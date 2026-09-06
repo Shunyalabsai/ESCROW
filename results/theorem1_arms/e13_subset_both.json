@@ -1,0 +1,96 @@
+{
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": true
+  },
+  "cells": {
+    "K2_noise0.0": {
+      "mean_K": 0.4,
+      "K_all": [
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "mean_ari": 0.4
+    },
+    "K2_noise0.1": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    },
+    "K2_noise0.2": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    },
+    "K2_noise0.3": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    },
+    "K8_noise0.0": {
+      "mean_K": 8.0,
+      "K_all": [
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "mean_ari": 1.0
+    },
+    "K8_noise0.1": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    },
+    "K8_noise0.2": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    },
+    "K8_noise0.3": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    }
+  }
+}

@@ -1,14 +1,15 @@
 # Data: every external input, where it comes from, and where to put it
 
-The engine and the tests need no data. The mechanism experiments (e5, e7, e8, e9, e12, e13)
-generate their own streams. Five inputs come from outside the repository. This file is the
-source for each one.
+The engine and the tests need no data. The mechanism experiments e7, e8, e9, e12 and e13
+generate their own streams, and so do two of the three streams e5 runs, whose third is the
+Wikipedia cache described in section 4 and committed here. Five inputs come from outside the
+repository, and this file is the source for each one.
 
 Every path below is relative to `ESCROW_ROOT`. Scripts read that environment variable and fall
 back to the repository root, which is the directory holding `code/`, `results/` and `paper/`:
 
 ```bash
-export ESCROW_ROOT=/path/to/graph-construction     # optional; the repository root by default
+export ESCROW_ROOT=/path/to/escrow     # optional; the repository root by default
 ```
 
 Each URL below was checked with `curl -sI -L` on 2026-09-05. Where a size is given, it is the
@@ -256,13 +257,17 @@ reader who cannot get it can still reproduce all of them.
 One honest exception: the appendix does print a catalogue exhibit (the "Raw records: a catalogue
 department" subsection, and the `catalogue` entry in the results-file walkthrough): 993 footwear
 records, 43 raw keys, K = 6 from 51 mint events, 303.4 records per second. Those numbers are
-read from `results/catalogue_footwear.json`, which is committed, so the numbers are checkable;
-but that one run is the only run in the paper that an outside reader cannot repeat.
+read from a results file that this repository does not ship, because it carries the private
+catalogue's own attribute keys and value counts. That one run is therefore the only run in the
+paper whose numbers an outside reader can neither repeat nor check. Every other number the paper
+prints has its file under `results/` here.
 
 ---
 
-## Already in the repository, and read by nothing
+## Mentioned in the paper, and not shipped here
 
-`data/alaska/` holds three zips (`camera.zip`, `monitor.zip`, `notebook.zip`, about 270 KB
-each) from the Alaska entity-resolution benchmark. No script in `code/` reads them. They are
-kept for the planned key-identity run and are listed here so nobody hunts for the loader.
+The Alaska entity-resolution benchmark (`camera`, `monitor` and `notebook`, about 270 KB each)
+is held for the planned key-identity run. No script in `code/` reads it yet, so this repository
+does not ship it, and it is named here only so that nobody hunts for a loader that does not
+exist. It is published by the DI2KG organisers at `github.com/merialdo/research.alaska` under
+the MIT licence.

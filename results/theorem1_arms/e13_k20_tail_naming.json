@@ -1,0 +1,43 @@
+{
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": false
+  },
+  "T": 10000,
+  "cells": {
+    "0.3": {
+      "mean_K": 20.0,
+      "K_all": [
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "mean_ari": 0.4793
+    },
+    "0.4": {
+      "mean_K": 12.8,
+      "K_all": [
+        11,
+        11,
+        14,
+        14,
+        14
+      ],
+      "mean_ari": 0.227
+    },
+    "0.5": {
+      "mean_K": 0.0,
+      "K_all": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_ari": 0.0
+    }
+  },
+  "runtime_seconds": 158.7
+}

@@ -1,120 +1,180 @@
 # ESCROW
 
-**When does a record stream earn a new node?**
+A stream of records arrives and does not stop. A record might be a product listing, a page with an
+infobox, a song, or a person, and whatever it is, it arrives as a small set of named parts, one key
+and one value at a time. ESCROW builds a graph over that stream while it is still running, deciding
+at every arrival which existing nodes the record joins and whether the stream has now earned a new
+one. One description length makes both decisions, and no quantity in the rule is calibrated on data.
 
-A stream of records arrives. Each record is a set of attribute key and value pairs. ESCROW decides,
-per record and in one pass, which existing nodes the record joins and when the stream has earned a
-brand new one. Every decision is made by one description length, and no quantity in the rule is
-calibrated on data.
-
-The idea in three sentences. A new node has a price in bits, and that price is computed from the
-stream rather than chosen. No fresh node can pay its price on its own first record under any valid
-code, so evidence accrues in escrow against a node that does not yet exist. The node is created at
-the first moment its account covers its price, and never before, and it carries a receipt in bits
-naming the key that paid for it.
+A new node has a price in bits, and that price is computed from the stream rather than chosen. No
+fresh node can pay its price on its own first record under any valid code, so the evidence has to
+wait: it accrues in an account named by the (key, value) pair that opened it, and every later record
+that goes unexplained in the same way pays into that account. The node is created at the first
+moment the account covers the price, and never before. It arrives with a receipt in bits naming the
+key that paid for it.
 
 The paper is in this repository: [paper/escrow.pdf](paper/escrow.pdf).
 
 ## Why this exists
 
-Almost every system that builds a graph from a stream answers the same question with a number
-somebody chose. A distance cut-off in streaming clustering. The penalty that the small-variance
-limit leaves behind in DP-means and BP-means. The sampling temperature of a language-model
-pipeline. XGBoost adds a leaf only when the gain beats a per-leaf charge whose default is zero and
-for which its paper reports no value.
+The word worth defending is *earned*. If a node exists because the data paid for it then there is a
+price, and something has to say what that price is. Almost every system that builds a graph from a
+stream answers with a number somebody chose. A streaming clustering rule opens a node when the
+distance from a record to the nearest one exceeds a chosen value. XGBoost adds a leaf only when the
+gain beats a per-leaf charge whose default is zero and for which its own paper reports no value.
+DP-means and BP-means come closer, because they begin from a model of how many groups a stream
+contains, but they obtain their new-node penalty by sending the noise that model assumes to zero.
+Language-model pipelines state no price at all; they ask a model, record by record, and keep what it
+samples.
 
-The constant is not an accident of engineering. Before the small-variance limit is taken, the
-new-node penalty is a codelength; the limit erases every part of it that could have been computed
-and keeps only the part a person inserted. We do not take the limit. We read the price off a code
-that predicts each record before it sees it.
+The Bayesian rules are the interesting failure, because their constant was not there at the start.
+Before the limit is taken, the new-node penalty is a codelength that the model works out for itself.
+The limit erases every part of it that could have been computed and keeps only the part a person
+inserted, so the constant is what a deletion left behind. We do not take the limit.
+
+What we do instead is read the price off a code. A probability model of a stream is also a code for
+it, because a prediction that gives probability P to what happens can write it down in minus log P
+bits. The model here is the Indian buffet process, in which a new feature may appear at any time,
+and its creation rate is given a prior and integrated out rather than fixed. What comes out is a
+price that grows with the logarithm of the stream, with the constant on that logarithm equal to one.
+Both sides of the comparison are bits, so there is no exchange rate to set.
+
+One assumption is declared rather than removed. The starting prior on the stream's own minting rate
+is a choice, and it is worth 0.19 bits per mint at a hundred thousand records on a declared
+trajectory, and 0.34 on the trajectory our own run walks. That is the honest residue, and the paper
+states it in the same breath as the claim.
 
 ## What is here
 
 ```
-escrow/codes.py        codelength primitives: KT codes, the membership column, the mint price
-escrow/engine.py       the insertion process: parse, retrieve, attach, accrue, release
-escrow/batch.py        the batch objective and the repair operators: merge, reassign, delete
-escrow/fastrepair.py   a faster reassign pass with the same result as batch.py
-escrow/protocol.py     the one run protocol every experiment uses
-escrow/provenance.py   stamps each results file with the engine checksums and the date
-tests/                 24 tests, including the Kraft identities and the cell ownership invariant
-experiments/           the mechanism experiments, the demonstrations and the benchmark runners
-experiments/theorem1/  the measurements behind the paper's theorem, kept separate
-paper/escrow.pdf       the paper
-DATA.md                every external dataset: what it is, where it comes from, where to put it
-requirements.txt       what each runner needs; the engine and the tests need only the standard library
+code/escrow/codes.py        the codelength primitives, including the KT codes, the membership
+                            column and the mint price
+code/escrow/engine.py       the insertion process: parse, retrieve, attach, accrue, release
+code/escrow/batch.py        the batch objective and its repair operators, merge, reassign and delete
+code/escrow/fastrepair.py   a faster reassign pass with the same result as batch.py
+code/escrow/protocol.py     the one run protocol every experiment uses
+code/escrow/provenance.py   returns the engine checksums and the date; most runners stamp their
+                            results file with it
+code/tests/                 24 tests, including the Kraft identities and the invariant that every
+                            cell is coded exactly once
+code/experiments/           the mechanism experiments, the demonstrations, the benchmark runners
+                            and the figure scripts
+code/experiments/theorem1/  the measurements behind the paper's theorem, with their own README
+results/                    every result file the paper reads its numbers from
+paper/escrow.pdf            the paper
+DATA.md                     every external dataset: what it is, where it comes from, where to put it
+requirements.txt            what each runner needs
 ```
 
-The engine and the tests are pure Python with no dependencies. `numpy` is used when it is installed
-and is not required; the two paths are asserted to give identical results.
+The engine and the tests are pure Python over the standard library. `numpy` is used when it is
+installed and is not required. On the two test streams the vector path and the pure-Python path are
+asserted to give the same node count, the same mints with the same members, and the same objective
+to within 1e-6, by `test_numpy_path_equals_pure_path`.
 
 ## Run it
 
 ```bash
-python3 tests/test_codes.py      # code-level gates, including three Kraft identities
-python3 tests/test_engine.py     # engine gates: positive control, null control, degenerate data
-python3 tests/test_batch.py      # the repair operators, exactness, determinism, cell ownership
+python3 code/tests/test_codes.py      # code-level gates, including the Kraft identities
+python3 code/tests/test_engine.py     # engine gates: positive control, null control, degenerate data
+python3 code/tests/test_batch.py      # repair operators, exactness, determinism, cell ownership
 
-python3 experiments/e7_immediate_vs_deferred.py   # why immediate minting cannot work
-python3 experiments/e8_false_mint_null.py         # nothing is born on noise
-python3 experiments/e9_support_curve.py           # the release fires exactly at the price
-python3 experiments/e13_creation_bias.py          # creation bias over 270 runs
-python3 experiments/e5_order_dependence.py        # what the arrival order costs
-python3 experiments/wikipedia_demo.py             # raw Wikipedia infoboxes to typed structure
+python3 code/experiments/e7_immediate_vs_deferred.py   # why immediate minting cannot work
+python3 code/experiments/e8_false_mint_null.py         # no node is created on noise
+python3 code/experiments/e9_support_curve.py           # the release fires exactly at the price
+python3 code/experiments/e13_creation_bias.py          # creation bias over 270 runs (about 10 min)
+python3 code/experiments/e5_order_dependence.py        # what the arrival order costs
+python3 code/experiments/wikipedia_demo.py             # raw infoboxes to typed structure
 ```
 
-The Wikipedia demonstration fetches a few hundred pages from the public API on first run and caches
-them. The benchmark runners need data and extra packages; `DATA.md` says where every input comes
-from and `requirements.txt` says what each runner needs.
+Every one of these runs on the standard library alone, and each writes its result into `results/`.
+The three Wikipedia caches are committed, so the Wikipedia numbers replay offline; delete a cache
+file and the demo rebuilds it from the public MediaWiki API. The benchmark runners need data and
+extra packages, and `DATA.md` says where every input comes from.
 
 ## What it does, and what it does not
 
-Reported honestly, because the paper reports it that way.
+**It recovers structure that is discrete and identifiable, and it does so without a knob.** On a
+planted eight-group stream of 3,000 records it returns the right eight nodes with an adjusted Rand
+index of 1.0. It does so on every one of twenty arrival orders. It also does so under every one of
+the nine valid prefix codes among the eleven encodings we tried, with not one record in three
+thousand changing node between them.
 
-**It works where structure is discrete and identifiable.** Planted structure is recovered exactly,
-with the right number of nodes, on every one of twenty arrival orders and under every one of eleven
-valid encodings, with not one record in three thousand changing node across codes.
+**Where the structure is not identifiable, the choice of code does move the answer, and we say so.**
+On the two harder streams the encoding sweep changes which nodes exist and not merely when they are
+born. The comparison that matters is against what a change of arrival order alone already does to
+the same code: the spread tracks that band on one stream and exceeds it on the other. That is
+reported in the paper rather than buried.
 
-**Nothing is born on noise.** Across 48 pure-noise streams from two thousand to twenty thousand
-records, and 300 wider ones, no node is ever created. The streaming decision trees people use
-invent 15 to 111 false nodes on the same data at their usual setting.
+**No node is created on noise.** Across 48 pure-noise streams from two thousand to twenty thousand
+records, and 300 further streams of the same shape, no node is ever created. The streaming decision
+trees grow on that same noise at a loose confidence level, which is not their library's default:
+EFDT reaches five-seed means of 15, 73, 73 and 91 nodes as the stream lengthens, with 111 in its
+worst single run, and VFDT reaches a mean of 19. At the library's own default both stay at the root
+and invent nothing, and that silence costs them up to 20,800 records of delay before they notice
+real structure.
 
 **It does not absorb noise as structure.** Over a 270-run creation-bias grid, no run ever returned
 more nodes than were planted. Past a breakdown noise level the method writes structure off rather
 than inventing it, which is the opposite of the failure the classical analysis predicts for
 penalty-based rules.
 
-**It is deterministic and it explains itself.** The same records give the same graph every run, and
-every node carries a receipt in bits. A 14B language model given the identical records returns 24,
-78 and 28 nodes across three seeds, forms a catch-all node holding up to 85 percent of the records,
-and would spend millions of tokens on the full stream.
+**Against tuned baselines given the same input, it holds its own with nothing tuned.** On both
+synthetic streams it recovers the truth exactly while transferred knobs, tuned on one stream and
+applied to another, collapse to zero. On raw Wikipedia infoboxes its mean adjusted Rand index over
+twenty orders is 0.84, above every transferred knob and below the two baselines that are allowed to
+look at the labels.
 
-**Where identity lives in free text, version 1 is weak, and that is the honest limit.** On a
-noun-phrase benchmark its macro F1 is 0.016 and its pairwise score sits just below the benchmark's
-own no-merge floor. On a music benchmark bridged through title tokens it reaches 0.0011 where tuned
-embedding baselines reach 0.61 to 0.78. Identity there is a title one token apart, which an
-embedding sees at once and a categorical facet cannot see at all. Numeric and text facets are the
-next version.
+**It is deterministic, and every node explains itself.** The same records in the same order give the
+same graph on every run, and every node carries a receipt in bits. A different arrival order gives a
+different graph, which is the cost of a one-pass greedy sequence and is measured rather than hidden:
+on Wikipedia the index runs from 0.64 to 0.99 with 3 to 6 nodes. For contrast, a 14B language model
+given the first 1,000 raw Lazada listings in the identical order returns 24, 78 and 28 nodes across
+three seeds, agreeing with itself at a mean pairwise index of 0.1647, with a catch-all node holding
+23 to 85 percent of the records. It spends 107,512 to 157,821 tokens on those thousand listings,
+which extrapolates to 2.3 to 3.4 million on the full 21,365-record stream, and that is a lower bound
+because the prompt grows with the node list. ESCROW returns the same six nodes on every run.
+
+**Where identity lives in free text, version 1 is weak, and that is the honest limit.** Free text is
+quarantined because any code for it must first choose a tokenisation, which we measure at 5 to 75
+bits per field, more than any constant the method removes. On a music benchmark whose five
+categorical fields carry no identity signal for anyone, every method scores null; bridged through
+title tokens, three of four oracle-tuned embedding baselines reach 0.61 to 0.78 pairwise F1 and
+ESCROW reaches 0.0011. Identity there is a title one token apart, which an embedding sees at once
+and a categorical facet cannot see at all. On a noun-phrase benchmark its macro F1 is 0.016, because
+7,009 subjects end as singletons and most gold clusters are never formed; its micro and pairwise F1
+of 0.7777 and 0.7160 sit just below that benchmark's no-merge floor, which is what the embedding
+baselines reach by returning close to one cluster per surface string. Numeric and text facets, and
+the operator that would price two keys as one, are the next version.
 
 **One theorem is stated more carefully than it was, and we know exactly why.** The lifetime
 false-mint bound holds in the idealised setting. For the shipped engine we measured the exceedance
-instead of claiming it, because the released statistic is computed on a subsequence the data chose.
-We then tried the repair the theorem itself proposes, charging for the choice of seed on the price
-side, in three codes, and it does not work: a price is constant in the stream length while the
-deficit grows, from 97 bits at five hundred records to 1,205 at four thousand. Remove the seed key's
-own term and the requirement drops to 3.5 bits and stops growing, and the same charge covers it, so
-the charge is a correct multiplicity correction being asked to pay for a drift. That arm is not
-shippable because removing the term destroys the mint. The practical result, that nothing is born on
-noise, never depended on the bound: the gate fires on the computed price, which outgrows the drift.
-All of it is in `experiments/theorem1/`.
+instead of claiming it, because the released statistic is computed on the records that carry the
+candidate's pattern, which is a subsequence the data chose. We then tried the repair the theorem
+itself proposes, charging for the choice of seed on the price side, in three codes. It does not
+work. The reason is that the null accumulator drifts, so the slack the bound would need grows with
+the stream, from 97 bits at five hundred records to 1,205 at four thousand, while a naming charge is
+constant in the stream length by construction. Remove the seed key's own term from the statistic and
+the requirement becomes 3.4 to 3.6 bits and stays flat, and the same charge then covers it at every
+level, which is what a multiplicity correction should look like; that arm is not shippable, because
+removing the term destroys the mint. The practical result never depended on the bound, because the
+gate fires on the computed price, which outgrows the drift. All of it is in
+`code/experiments/theorem1/`.
 
 **The candidate budget is a resource bound, not a hidden knob.** A fair objection to any method like
-this is that the parameter has moved from the creation penalty to the machinery around it. Swept over
-sixteen values from 1 to 32,768 on four streams, the output stops moving at 128, 256, 2,048 and
-3,072 and is identical at every larger budget, so the shipped default of 4,096 is on the flat part of
-all four curves. Each plateau is where the pool stops evicting, fixed by the peak number of live
-candidates the stream itself produces, so the budget is set above a property of the data rather than
-searched (`experiments/e19_budget_curve.py`).
+this is that the parameter has moved from the creation penalty into the machinery around it. Swept
+over sixteen values from 1 to 32,768 on four streams at five seeds each, the output stops moving at
+128, 256, 2,048 and 3,072 and is identical at every larger budget, so the shipped default of 4,096
+sits on the flat part of all four curves. On three of the four streams the plateau is exactly where
+the pool stops evicting, which is a property of the stream and not a value we searched for; on the
+fourth the output settles at 256 while eviction continues to 512. Below the plateau the budget does
+change the output, and not monotonically, which is why it is a resource bound rather than a quality
+knob. Those four streams run 320 to 3,000 records, and on the full Lazada stream and on MusicBrainz
+20K the cap does bind, so the claim is made at that scale and not beyond it.
+
+**What it costs.** The insertion step is flat in the node count when supports are disjoint, at 48.6
+microseconds per record for 8 nodes and 45.0 for 128, and it is not flat when the supports all
+overlap. End-to-end throughput falls from 7,892 to 909 records per second between a thousand and a
+hundred thousand records, because at the top the repair pass takes 95.8 percent of the time.
 
 ## License
 

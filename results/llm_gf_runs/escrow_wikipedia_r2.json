@@ -1,0 +1,1493 @@
+{
+ "dataset": "wikipedia",
+ "method": "escrow",
+ "rep": 2,
+ "n_records": 320,
+ "K": 5,
+ "mints": 43,
+ "merges": 36,
+ "keys": 121,
+ "tokens_in": 0,
+ "tokens_out": 0,
+ "wall_s": 0.18,
+ "repair_s": 0.05,
+ "assignments": [
+  11,
+  4,
+  4,
+  11,
+  2,
+  4,
+  11,
+  4,
+  2,
+  4,
+  4,
+  2,
+  11,
+  2,
+  11,
+  2,
+  4,
+  11,
+  4,
+  2,
+  2,
+  11,
+  2,
+  4,
+  2,
+  11,
+  11,
+  4,
+  11,
+  11,
+  4,
+  4,
+  4,
+  4,
+  11,
+  2,
+  2,
+  11,
+  11,
+  4,
+  4,
+  4,
+  11,
+  11,
+  2,
+  2,
+  4,
+  2,
+  11,
+  11,
+  11,
+  2,
+  4,
+  11,
+  4,
+  4,
+  4,
+  4,
+  2,
+  4,
+  4,
+  4,
+  11,
+  11,
+  2,
+  11,
+  4,
+  11,
+  4,
+  4,
+  11,
+  2,
+  4,
+  4,
+  2,
+  4,
+  2,
+  4,
+  2,
+  4,
+  4,
+  2,
+  4,
+  4,
+  4,
+  4,
+  2,
+  11,
+  11,
+  4,
+  11,
+  11,
+  4,
+  11,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  11,
+  4,
+  11,
+  4,
+  4,
+  2,
+  11,
+  4,
+  11,
+  4,
+  2,
+  2,
+  2,
+  13,
+  11,
+  2,
+  4,
+  11,
+  2,
+  2,
+  11,
+  4,
+  11,
+  2,
+  2,
+  11,
+  4,
+  11,
+  11,
+  11,
+  11,
+  2,
+  2,
+  11,
+  4,
+  4,
+  2,
+  11,
+  2,
+  2,
+  4,
+  4,
+  11,
+  11,
+  2,
+  2,
+  11,
+  4,
+  11,
+  11,
+  2,
+  4,
+  2,
+  11,
+  2,
+  4,
+  4,
+  2,
+  11,
+  11,
+  4,
+  2,
+  11,
+  4,
+  2,
+  2,
+  2,
+  11,
+  2,
+  4,
+  4,
+  2,
+  11,
+  11,
+  11,
+  4,
+  11,
+  11,
+  2,
+  4,
+  4,
+  4,
+  11,
+  4,
+  4,
+  4,
+  11,
+  11,
+  4,
+  11,
+  4,
+  4,
+  2,
+  4,
+  2,
+  11,
+  2,
+  4,
+  2,
+  4,
+  4,
+  4,
+  11,
+  2,
+  11,
+  2,
+  11,
+  4,
+  11,
+  11,
+  4,
+  11,
+  11,
+  2,
+  2,
+  4,
+  2,
+  2,
+  4,
+  11,
+  11,
+  4,
+  4,
+  11,
+  -1,
+  11,
+  11,
+  2,
+  2,
+  4,
+  4,
+  11,
+  4,
+  11,
+  4,
+  4,
+  4,
+  11,
+  4,
+  11,
+  4,
+  4,
+  2,
+  11,
+  2,
+  2,
+  4,
+  4,
+  2,
+  4,
+  4,
+  2,
+  4,
+  4,
+  11,
+  41,
+  2,
+  2,
+  4,
+  11,
+  11,
+  4,
+  2,
+  2,
+  11,
+  4,
+  4,
+  11,
+  4,
+  11,
+  4,
+  4,
+  4,
+  4,
+  11,
+  11,
+  2,
+  4,
+  11,
+  4,
+  4,
+  2,
+  4,
+  4,
+  2,
+  11,
+  2,
+  2,
+  4,
+  11,
+  11,
+  4,
+  4,
+  2,
+  2,
+  11,
+  4,
+  4,
+  11,
+  4,
+  2,
+  11,
+  4,
+  2,
+  11,
+  4,
+  2,
+  4,
+  2,
+  4,
+  2,
+  11,
+  -1,
+  2,
+  2,
+  11,
+  4,
+  11,
+  4
+ ],
+ "receipts": [
+  {
+   "node": 4,
+   "members": 130,
+   "support_size": 14,
+   "support": [
+    [
+     "country",
+     116
+    ],
+    [
+     "director",
+     115
+    ],
+    [
+     "language",
+     115
+    ],
+    [
+     "runtime",
+     101
+    ],
+    [
+     "music",
+     91
+    ],
+    [
+     "cinematography",
+     90
+    ],
+    [
+     "writer",
+     88
+    ],
+    [
+     "producer",
+     85
+    ],
+    [
+     "starring",
+     83
+    ],
+    [
+     "caption",
+     80
+    ],
+    [
+     "editing",
+     73
+    ],
+    [
+     "distributor",
+     46
+    ]
+   ],
+   "justifying_key": "country",
+   "mint_bits": 84.895,
+   "mint_price": 63.732,
+   "mint_seed": [
+    "language",
+    0
+   ],
+   "mint_at_record": 32,
+   "per_key_bits": {
+    "country": 11.049,
+    "language": 10.996,
+    "cinematography": 5.383,
+    "director": 5.063,
+    "runtime": 4.625,
+    "writer": 4.167
+   },
+   "absorbed_nodes": [
+    {
+     "node": 7,
+     "justifying_key": "caption",
+     "members_at_mint": 7
+    },
+    {
+     "node": 17,
+     "justifying_key": "caption",
+     "members_at_mint": 8
+    },
+    {
+     "node": 8,
+     "justifying_key": "country",
+     "members_at_mint": 7
+    },
+    {
+     "node": 3,
+     "justifying_key": "country",
+     "members_at_mint": 5
+    }
+   ],
+   "top_values": {
+    "country": [
+     [
+      "United States",
+      37
+     ],
+     [
+      "India",
+      30
+     ],
+     [
+      "Spain",
+      4
+     ]
+    ],
+    "director": [
+     [
+      "Muthyala Subbaiah",
+      2
+     ],
+     [
+      "Kanti Shah",
+      2
+     ],
+     [
+      "Donald Shebib Rick Ridgeway Mark Haber",
+      1
+     ]
+    ],
+    "language": [
+     [
+      "English",
+      47
+     ],
+     [
+      "Hindi",
+      16
+     ],
+     [
+      "Telugu",
+      5
+     ]
+    ],
+    "runtime": [
+     [
+      "100 minutes",
+      6
+     ],
+     [
+      "98 minutes",
+      4
+     ],
+     [
+      "95 minutes",
+      4
+     ]
+    ],
+    "music": [
+     [
+      "Bappi Lahiri",
+      2
+     ],
+     [
+      "Ilaiyaraaja",
+      2
+     ],
+     [
+      "Anand\u2013Milind",
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "node": 11,
+   "members": 101,
+   "support_size": 5,
+   "support": [
+    [
+     "birth_place",
+     93
+    ],
+    [
+     "years_active",
+     86
+    ],
+    [
+     "occupation",
+     84
+    ],
+    [
+     "education",
+     29
+    ],
+    [
+     "children",
+     24
+    ]
+   ],
+   "justifying_key": "birth_place",
+   "mint_bits": 1.069,
+   "mint_price": 61.083,
+   "mint_seed": [
+    "birth_place",
+    8
+   ],
+   "mint_at_record": 124,
+   "per_key_bits": {
+    "birth_place": 37.686,
+    "years_active": 8.497
+   },
+   "absorbed_nodes": [
+    {
+     "node": 23,
+     "justifying_key": "children",
+     "members_at_mint": 7
+    },
+    {
+     "node": 42,
+     "justifying_key": "occupation",
+     "members_at_mint": 12
+    },
+    {
+     "node": 12,
+     "justifying_key": "occupation",
+     "members_at_mint": 11
+    },
+    {
+     "node": 16,
+     "justifying_key": "years_active",
+     "members_at_mint": 11
+    }
+   ],
+   "top_values": {
+    "birth_place": [
+     [
+      "London , England",
+      14
+     ],
+     [
+      "London",
+      2
+     ],
+     [
+      "Surrey , England",
+      2
+     ]
+    ],
+    "years_active": [
+     [
+      "2006\u2013present",
+      3
+     ],
+     [
+      "1999\u2013present",
+      3
+     ],
+     [
+      "2008\u2013present",
+      3
+     ]
+    ],
+    "occupation": [
+     [
+      "Actor",
+      70
+     ],
+     [
+      "Actor, writer",
+      2
+     ],
+     [
+      "Comedian, actor, writer and presenter",
+      1
+     ]
+    ],
+    "education": [
+     [
+      "London Academy of Music and Dramatic Art",
+      1
+     ],
+     [
+      "Webber Douglas Academy of Dramatic Art",
+      1
+     ],
+     [
+      "Central School of Speech and Drama",
+      1
+     ]
+    ],
+    "children": [
+     [
+      "1",
+      7
+     ],
+     [
+      "4, including Daniel Abineri",
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "node": 2,
+   "members": 86,
+   "support_size": 26,
+   "support": [
+    [
+     "pushpin_map",
+     86
+    ],
+    [
+     "elevation_m",
+     84
+    ],
+    [
+     "map_caption",
+     77
+    ],
+    [
+     "image_caption",
+     76
+    ],
+    [
+     "range",
+     71
+    ],
+    [
+     "location",
+     71
+    ],
+    [
+     "first_ascent",
+     65
+    ],
+    [
+     "parent_peak",
+     62
+    ],
+    [
+     "prominence_ref",
+     50
+    ],
+    [
+     "easiest_route",
+     50
+    ],
+    [
+     "prominence_m",
+     48
+    ],
+    [
+     "image_size",
+     38
+    ]
+   ],
+   "justifying_key": "range",
+   "mint_bits": 74.115,
+   "mint_price": 71.097,
+   "mint_seed": [
+    "range",
+    1
+   ],
+   "mint_at_record": 21,
+   "per_key_bits": {
+    "range": 12.311,
+    "pushpin_map": 8.537,
+    "parent_peak": 7.866,
+    "first_ascent": 7.866,
+    "map_caption": 7.392,
+    "image_caption": 6.018,
+    "elevation_m": 5.758,
+    "prominence": 4.342,
+    "isolation": 4.342,
+    "location": 3.789,
+    "easiest_route": 3.538
+   },
+   "absorbed_nodes": [
+    {
+     "node": 43,
+     "justifying_key": "pushpin_label_position",
+     "members_at_mint": 4
+    },
+    {
+     "node": 20,
+     "justifying_key": "pushpin_label_position",
+     "members_at_mint": 4
+    },
+    {
+     "node": 19,
+     "justifying_key": "pushpin_label_position",
+     "members_at_mint": 4
+    },
+    {
+     "node": 21,
+     "justifying_key": "pushpin_label_position",
+     "members_at_mint": 4
+    },
+    {
+     "node": 18,
+     "justifying_key": "pushpin_label_position",
+     "members_at_mint": 6
+    },
+    {
+     "node": 10,
+     "justifying_key": "range",
+     "members_at_mint": 5
+    },
+    {
+     "node": 14,
+     "justifying_key": "parent",
+     "members_at_mint": 5
+    },
+    {
+     "node": 15,
+     "justifying_key": "subdivision2_type",
+     "members_at_mint": 3
+    },
+    {
+     "node": 6,
+     "justifying_key": "map_caption",
+     "members_at_mint": 4
+    },
+    {
+     "node": 5,
+     "justifying_key": "map_caption",
+     "members_at_mint": 4
+    },
+    {
+     "node": 9,
+     "justifying_key": "image_size",
+     "members_at_mint": 6
+    }
+   ],
+   "top_values": {
+    "pushpin_map": [
+     [
+      "Switzerland",
+      37
+     ],
+     [
+      "Alps",
+      28
+     ],
+     [
+      "France",
+      8
+     ]
+    ],
+    "elevation_m": [
+     [
+      "4013",
+      3
+     ],
+     [
+      "4035",
+      2
+     ],
+     [
+      "4634",
+      1
+     ]
+    ],
+    "map_caption": [
+     [
+      "Location in Switzerland",
+      34
+     ],
+     [
+      "Location in the Alps",
+      22
+     ],
+     [
+      "France",
+      6
+     ]
+    ],
+    "image_caption": [
+     [
+      "From the peak to the southeast towards I",
+      1
+     ],
+     [
+      "The Zumsteinspitze (centre) with the Sig",
+      1
+     ],
+     [
+      "The Grenzgipfel to the left of the Dunan",
+      1
+     ]
+    ],
+    "range": [
+     [
+      "Pennine Alps",
+      38
+     ],
+     [
+      "Graian Alps",
+      10
+     ],
+     [
+      "Bernese Alps",
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "node": 13,
+   "members": 10,
+   "support_size": 6,
+   "support": [
+    [
+     "genre",
+     10
+    ],
+    [
+     "executive_producer",
+     10
+    ],
+    [
+     "editor",
+     9
+    ],
+    [
+     "company",
+     9
+    ],
+    [
+     "network",
+     9
+    ],
+    [
+     "alt_name",
+     2
+    ]
+   ],
+   "justifying_key": "network",
+   "mint_bits": -36.33,
+   "mint_price": 62.755,
+   "mint_seed": [
+    "network",
+    2
+   ],
+   "mint_at_record": 137,
+   "per_key_bits": {
+    "network": 12.344,
+    "editor": 10.982,
+    "genre": 10.982,
+    "executive_producer": 10.982,
+    "company": 8.578,
+    "alt_name": 6.098
+   },
+   "absorbed_nodes": [],
+   "top_values": {
+    "genre": [
+     [
+      "Drama",
+      2
+     ],
+     [
+      "Drama Thriller",
+      1
+     ],
+     [
+      "Biographical film|Biography",
+      1
+     ]
+    ],
+    "executive_producer": [
+     [
+      "Barney Cohen",
+      1
+     ],
+     [
+      "Michael Jaffe",
+      1
+     ],
+     [
+      "Randy Robinson",
+      1
+     ]
+    ],
+    "editor": [
+     [
+      "Jack Bender",
+      1
+     ],
+     [
+      "Bill Goddard",
+      1
+     ],
+     [
+      "Michael D. Ornstein",
+      1
+     ]
+    ],
+    "company": [
+     [
+      "Gillian Productions Republic Pictures",
+      1
+     ],
+     [
+      "Babymaker Productions Heartstar Producti",
+      1
+     ],
+     [
+      "Avenue Pictures Productions Turner Pictu",
+      1
+     ]
+    ],
+    "network": [
+     [
+      "CBS",
+      2
+     ],
+     [
+      "TNT (American TV network)|TNT",
+      1
+     ],
+     [
+      "USA Network",
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "node": 41,
+   "members": 1,
+   "support_size": 12,
+   "support": [
+    [
+     "office",
+     1
+    ],
+    [
+     "term_start",
+     1
+    ],
+    [
+     "term_end",
+     1
+    ],
+    [
+     "predecessor",
+     1
+    ],
+    [
+     "successor",
+     1
+    ],
+    [
+     "constituency",
+     1
+    ],
+    [
+     "office2",
+     1
+    ],
+    [
+     "term_start2",
+     1
+    ],
+    [
+     "term_end2",
+     1
+    ],
+    [
+     "predecessor2",
+     1
+    ],
+    [
+     "successor2",
+     1
+    ],
+    [
+     "party",
+     1
+    ]
+   ],
+   "justifying_key": "office",
+   "mint_bits": 14.581,
+   "mint_price": 83.128,
+   "mint_seed": [
+    "party",
+    0
+   ],
+   "mint_at_record": 257,
+   "per_key_bits": {
+    "office": 8.006,
+    "term_start": 8.006,
+    "term_end": 8.006,
+    "predecessor": 8.006,
+    "successor": 8.006,
+    "constituency": 8.006,
+    "office2": 8.006,
+    "term_start2": 8.006,
+    "term_end2": 8.006,
+    "predecessor2": 8.006,
+    "successor2": 8.006,
+    "party": 8.006
+   },
+   "absorbed_nodes": [
+    {
+     "node": 40,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 39,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 38,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 37,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 36,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 35,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 34,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 33,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 32,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 31,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 30,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 29,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 28,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 27,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 26,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 25,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    },
+    {
+     "node": 24,
+     "justifying_key": "office",
+     "members_at_mint": 1
+    }
+   ],
+   "top_values": {
+    "office": [
+     [
+      "Leader of the Nova Scotia New Democratic",
+      1
+     ]
+    ],
+    "term_start": [
+     [
+      "1968",
+      1
+     ]
+    ],
+    "term_end": [
+     [
+      "1980",
+      1
+     ]
+    ],
+    "predecessor": [
+     [
+      "James H. Aitchison",
+      1
+     ]
+    ],
+    "successor": [
+     [
+      "Buddy MacEachern|James 'Buddy' MacEacher",
+      1
+     ]
+    ]
+   }
+  }
+ ],
+ "node_members": {
+  "2": [
+   4,
+   8,
+   11,
+   13,
+   15,
+   19,
+   20,
+   22,
+   24,
+   35,
+   36,
+   44,
+   45,
+   47,
+   51,
+   58,
+   64,
+   71,
+   74,
+   76,
+   78,
+   81,
+   86,
+   97,
+   106,
+   111,
+   112,
+   113,
+   116,
+   119,
+   120,
+   124,
+   125,
+   132,
+   133,
+   137,
+   139,
+   140,
+   145,
+   146,
+   151,
+   153,
+   155,
+   158,
+   162,
+   165,
+   166,
+   167,
+   169,
+   172,
+   179,
+   193,
+   195,
+   197,
+   199,
+   204,
+   206,
+   214,
+   215,
+   217,
+   218,
+   228,
+   229,
+   243,
+   245,
+   246,
+   249,
+   252,
+   257,
+   258,
+   263,
+   264,
+   277,
+   282,
+   285,
+   287,
+   288,
+   294,
+   295,
+   301,
+   304,
+   307,
+   309,
+   311,
+   314,
+   315
+  ],
+  "4": [
+   1,
+   2,
+   5,
+   7,
+   9,
+   10,
+   16,
+   18,
+   23,
+   27,
+   30,
+   31,
+   32,
+   33,
+   39,
+   40,
+   41,
+   46,
+   52,
+   54,
+   55,
+   56,
+   57,
+   59,
+   60,
+   61,
+   66,
+   68,
+   69,
+   72,
+   73,
+   75,
+   77,
+   79,
+   80,
+   82,
+   83,
+   84,
+   85,
+   89,
+   92,
+   94,
+   95,
+   96,
+   97,
+   98,
+   99,
+   100,
+   102,
+   104,
+   105,
+   108,
+   110,
+   117,
+   122,
+   127,
+   135,
+   136,
+   141,
+   142,
+   148,
+   152,
+   156,
+   157,
+   161,
+   164,
+   170,
+   171,
+   176,
+   180,
+   181,
+   182,
+   184,
+   185,
+   186,
+   189,
+   191,
+   192,
+   194,
+   198,
+   200,
+   201,
+   202,
+   208,
+   211,
+   216,
+   219,
+   222,
+   223,
+   230,
+   231,
+   233,
+   235,
+   236,
+   237,
+   239,
+   241,
+   242,
+   247,
+   248,
+   250,
+   251,
+   253,
+   254,
+   259,
+   262,
+   266,
+   267,
+   269,
+   271,
+   272,
+   273,
+   274,
+   278,
+   280,
+   281,
+   283,
+   284,
+   289,
+   292,
+   293,
+   297,
+   298,
+   300,
+   303,
+   306,
+   308,
+   310,
+   317,
+   319
+  ],
+  "11": [
+   0,
+   3,
+   6,
+   12,
+   14,
+   17,
+   21,
+   25,
+   26,
+   28,
+   29,
+   34,
+   37,
+   38,
+   42,
+   43,
+   48,
+   49,
+   50,
+   53,
+   62,
+   63,
+   65,
+   67,
+   70,
+   87,
+   88,
+   90,
+   91,
+   93,
+   101,
+   103,
+   107,
+   109,
+   115,
+   118,
+   121,
+   123,
+   126,
+   128,
+   129,
+   130,
+   131,
+   134,
+   138,
+   143,
+   144,
+   147,
+   149,
+   150,
+   154,
+   159,
+   160,
+   163,
+   168,
+   173,
+   174,
+   175,
+   177,
+   178,
+   183,
+   187,
+   188,
+   190,
+   196,
+   203,
+   205,
+   207,
+   209,
+   210,
+   212,
+   213,
+   220,
+   221,
+   224,
+   226,
+   227,
+   232,
+   234,
+   238,
+   240,
+   244,
+   255,
+   260,
+   261,
+   265,
+   268,
+   270,
+   275,
+   276,
+   279,
+   286,
+   290,
+   291,
+   296,
+   299,
+   302,
+   305,
+   312,
+   316,
+   318
+  ],
+  "13": [
+   114,
+   122,
+   136,
+   186,
+   198,
+   223,
+   239,
+   250,
+   251,
+   267
+  ],
+  "41": [
+   256
+  ]
+ }
+}

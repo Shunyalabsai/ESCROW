@@ -1,0 +1,406 @@
+{
+  "twogroup": {
+    "n": 2000,
+    "true_K": 2,
+    "ours": {
+      "ARI": 1.0,
+      "K": 2,
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)"
+    },
+    "kmeans_oracleK": {
+      "ARI": 1.0,
+      "note": "given the true K"
+    },
+    "kmeans_silhouette": {
+      "ARI": 1.0,
+      "K_chosen": 2
+    },
+    "hdbscan": {
+      "oracle_param": 100,
+      "oracle_ARI": 1.0,
+      "sweep": {
+        "3": 0.5121,
+        "5": 1.0,
+        "10": 1.0,
+        "20": 1.0,
+        "50": 1.0,
+        "100": 1.0
+      },
+      "transferred_ARI": {
+        "planted8": 1.0,
+        "wikipedia": 0.5121
+      }
+    },
+    "agglo_threshold": {
+      "oracle_param": 0.05,
+      "oracle_ARI": 1.0,
+      "sweep": {
+        "0.05": 1.0,
+        "0.1": 0.0,
+        "0.2": 0.0,
+        "0.3": 0.0,
+        "0.4": 0.0,
+        "0.5": 0.0,
+        "0.7": 0.0
+      },
+      "transferred_ARI": {
+        "planted8": 0.0,
+        "wikipedia": 0.0
+      }
+    },
+    "cosine_components": {
+      "oracle_param": 0.95,
+      "oracle_ARI": 0.0,
+      "sweep": {
+        "0.5": 0.0,
+        "0.6": 0.0,
+        "0.7": 0.0,
+        "0.8": 0.0,
+        "0.9": 0.0,
+        "0.95": 0.0
+      },
+      "transferred_ARI": {
+        "planted8": 0.0,
+        "wikipedia": 0.0
+      }
+    },
+    "dp_means": {
+      "oracle_param": 0.25,
+      "oracle_ARI": 0.994,
+      "sweep": {
+        "0.1": 0.5131,
+        "0.25": 0.994,
+        "0.5": 0.0,
+        "0.75": 0.0,
+        "1.0": 0.0,
+        "1.25": 0.0,
+        "1.5": 0.0
+      },
+      "transferred_ARI": {
+        "planted8": 0.994,
+        "wikipedia": 0.0
+      }
+    },
+    "ours_seeds": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "stream generator seed (records resampled)",
+      "default_seed_of_ours_row": 0,
+      "per_seed": [
+        {
+          "seed": 0,
+          "ARI": 1.0,
+          "K": 2
+        },
+        {
+          "seed": 1,
+          "ARI": 1.0,
+          "K": 2
+        },
+        {
+          "seed": 2,
+          "ARI": 1.0,
+          "K": 2
+        },
+        {
+          "seed": 3,
+          "ARI": 1.0,
+          "K": 2
+        },
+        {
+          "seed": 4,
+          "ARI": 1.0,
+          "K": 2
+        }
+      ],
+      "ARI": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "K": {
+        "mean": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)"
+    }
+  },
+  "planted8": {
+    "n": 3000,
+    "true_K": 8,
+    "ours": {
+      "ARI": 1.0,
+      "K": 8,
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)"
+    },
+    "kmeans_oracleK": {
+      "ARI": 0.9977,
+      "note": "given the true K"
+    },
+    "kmeans_silhouette": {
+      "ARI": 0.9977,
+      "K_chosen": 8
+    },
+    "hdbscan": {
+      "oracle_param": 50,
+      "oracle_ARI": 0.9565,
+      "sweep": {
+        "3": 0.0184,
+        "5": 0.3846,
+        "10": 0.836,
+        "20": 0.9103,
+        "50": 0.9565,
+        "100": 0.9398
+      },
+      "transferred_ARI": {
+        "twogroup": 0.9398,
+        "wikipedia": 0.0184
+      }
+    },
+    "agglo_threshold": {
+      "oracle_param": 0.1,
+      "oracle_ARI": 1.0,
+      "sweep": {
+        "0.05": 0.9617,
+        "0.1": 1.0,
+        "0.2": 0.156,
+        "0.3": 0.0,
+        "0.4": 0.0,
+        "0.5": 0.0,
+        "0.7": 0.0
+      },
+      "transferred_ARI": {
+        "twogroup": 0.9617,
+        "wikipedia": 0.0
+      }
+    },
+    "cosine_components": {
+      "oracle_param": 0.95,
+      "oracle_ARI": 0.0,
+      "sweep": {
+        "0.5": 0.0,
+        "0.6": 0.0,
+        "0.7": 0.0,
+        "0.8": 0.0,
+        "0.9": 0.0,
+        "0.95": 0.0
+      },
+      "transferred_ARI": {
+        "twogroup": 0.0,
+        "wikipedia": 0.0
+      }
+    },
+    "dp_means": {
+      "oracle_param": 0.25,
+      "oracle_ARI": 0.9845,
+      "sweep": {
+        "0.1": 0.6899,
+        "0.25": 0.9845,
+        "0.5": 0.1085,
+        "0.75": 0.0,
+        "1.0": 0.0,
+        "1.25": 0.0,
+        "1.5": 0.0
+      },
+      "transferred_ARI": {
+        "twogroup": 0.9845,
+        "wikipedia": 0.0
+      }
+    },
+    "ours_seeds": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "stream generator seed (records resampled)",
+      "default_seed_of_ours_row": 7,
+      "per_seed": [
+        {
+          "seed": 0,
+          "ARI": 1.0,
+          "K": 8
+        },
+        {
+          "seed": 1,
+          "ARI": 1.0,
+          "K": 8
+        },
+        {
+          "seed": 2,
+          "ARI": 1.0,
+          "K": 8
+        },
+        {
+          "seed": 3,
+          "ARI": 1.0,
+          "K": 8
+        },
+        {
+          "seed": 4,
+          "ARI": 1.0,
+          "K": 8
+        }
+      ],
+      "ARI": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "K": {
+        "mean": 8.0,
+        "min": 8.0,
+        "max": 8.0
+      },
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)"
+    }
+  },
+  "wikipedia": {
+    "n": 320,
+    "true_K": 3,
+    "ours": {
+      "ARI": 0.679,
+      "K": 5,
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)"
+    },
+    "kmeans_oracleK": {
+      "ARI": 0.9898,
+      "note": "given the true K"
+    },
+    "kmeans_silhouette": {
+      "ARI": 0.502,
+      "K_chosen": 2
+    },
+    "hdbscan": {
+      "oracle_param": 3,
+      "oracle_ARI": 0.4989,
+      "sweep": {
+        "3": 0.4989,
+        "5": 0.4976,
+        "10": 0.4954,
+        "20": 0.4935,
+        "50": 0.4509,
+        "100": 0.0
+      },
+      "transferred_ARI": {
+        "twogroup": 0.0,
+        "planted8": 0.4509
+      }
+    },
+    "agglo_threshold": {
+      "oracle_param": 0.7,
+      "oracle_ARI": 0.9645,
+      "sweep": {
+        "0.05": 0.0002,
+        "0.1": 0.0007,
+        "0.2": 0.0099,
+        "0.3": 0.0797,
+        "0.4": 0.2186,
+        "0.5": 0.4545,
+        "0.7": 0.9645
+      },
+      "transferred_ARI": {
+        "twogroup": 0.0002,
+        "planted8": 0.0007
+      }
+    },
+    "cosine_components": {
+      "oracle_param": 0.5,
+      "oracle_ARI": 0.4938,
+      "sweep": {
+        "0.5": 0.4938,
+        "0.6": 0.4459,
+        "0.7": 0.3246,
+        "0.8": 0.1017,
+        "0.9": 0.0012,
+        "0.95": 0.0002
+      },
+      "transferred_ARI": {
+        "twogroup": 0.0002,
+        "planted8": 0.0002
+      }
+    },
+    "dp_means": {
+      "oracle_param": 1.5,
+      "oracle_ARI": 0.7286,
+      "sweep": {
+        "0.1": 0.0002,
+        "0.25": 0.0017,
+        "0.5": 0.0245,
+        "0.75": 0.1534,
+        "1.0": 0.3292,
+        "1.25": 0.6649,
+        "1.5": 0.7286
+      },
+      "transferred_ARI": {
+        "twogroup": 0.0017,
+        "planted8": 0.0017
+      }
+    },
+    "ours_seeds": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "arrival-order shuffle seed (the 320 records are fixed)",
+      "default_seed_of_ours_row": 0,
+      "per_seed": [
+        {
+          "seed": 0,
+          "ARI": 0.679,
+          "K": 5
+        },
+        {
+          "seed": 1,
+          "ARI": 0.6553,
+          "K": 3
+        },
+        {
+          "seed": 2,
+          "ARI": 0.9608,
+          "K": 4
+        },
+        {
+          "seed": 3,
+          "ARI": 0.6408,
+          "K": 4
+        },
+        {
+          "seed": 4,
+          "ARI": 0.9488,
+          "K": 4
+        }
+      ],
+      "ARI": {
+        "mean": 0.7769,
+        "min": 0.6408,
+        "max": 0.9608
+      },
+      "K": {
+        "mean": 4.0,
+        "min": 3.0,
+        "max": 5.0
+      },
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)"
+    }
+  },
+  "provenance": {
+    "date": "2026-09-05",
+    "engine_md5": {
+      "engine.py": "21cc574ad69acb8c4a0d27fdd4b4b18d",
+      "batch.py": "9bf3a5f3550970e6e1df924fbb75de96",
+      "codes.py": "d45ce4330686488e78522e19803307b4"
+    }
+  }
+}

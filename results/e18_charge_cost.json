@@ -1,0 +1,1979 @@
+{
+  "experiment": "E18-seed-naming-charge-cost",
+  "question": "what a price-side seed naming charge costs the mint, given that it cannot change the accumulator",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "arms": {
+    "off": {
+      "tight_naming": false,
+      "seed_naming_charge": false,
+      "mode": "av",
+      "gamma": 0.0
+    },
+    "seed_av": {
+      "tight_naming": false,
+      "seed_naming_charge": true,
+      "mode": "av",
+      "gamma": 0.0
+    },
+    "seed_ln": {
+      "tight_naming": false,
+      "seed_naming_charge": true,
+      "mode": "ln",
+      "gamma": 0.0
+    },
+    "seed_av_naming": {
+      "tight_naming": true,
+      "seed_naming_charge": true,
+      "mode": "av",
+      "gamma": 0.0
+    },
+    "seed_ln_naming": {
+      "tight_naming": true,
+      "seed_naming_charge": true,
+      "mode": "ln",
+      "gamma": 0.0
+    }
+  },
+  "gamma_sweep_bits": [
+    0.0,
+    2.0,
+    4.0,
+    8.0,
+    16.0,
+    32.0,
+    64.0,
+    128.0,
+    256.0,
+    512.0
+  ],
+  "controls_by_arm": {
+    "off": {
+      "flags": {
+        "tight_naming": false,
+        "unselected_statistic": false
+      },
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 22,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 0.0,
+        "min_release_margin_bits": 0.162
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 13,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 0.0,
+        "min_release_margin_bits": 0.047
+      },
+      "wikipedia": {
+        "K": 5,
+        "ari": 0.679,
+        "mints": 49,
+        "background_records": 1,
+        "purity_incl_background": 0.9,
+        "node_sizes": [
+          143,
+          87,
+          79,
+          9,
+          1
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 0.0,
+        "min_release_margin_bits": 0.091
+      }
+    },
+    "seed_av": {
+      "flags": {
+        "tight_naming": false,
+        "unselected_statistic": false,
+        "seed_naming_charge": true,
+        "seed_naming_mode": "av",
+        "seed_naming_gamma": 0.0
+      },
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 14,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 6.245,
+        "min_release_margin_bits": 0.206
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 10,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 7.844,
+        "min_release_margin_bits": 0.152
+      },
+      "wikipedia": {
+        "K": 4,
+        "ari": 0.9669,
+        "mints": 32,
+        "background_records": 2,
+        "purity_incl_background": 0.9938,
+        "node_sizes": [
+          117,
+          111,
+          89,
+          1
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 8.171,
+        "min_release_margin_bits": 0.541
+      }
+    },
+    "seed_ln": {
+      "flags": {
+        "tight_naming": false,
+        "unselected_statistic": false,
+        "seed_naming_charge": true,
+        "seed_naming_mode": "ln",
+        "seed_naming_gamma": 0.0
+      },
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 12,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 9.217,
+        "min_release_margin_bits": 0.568
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 9,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 10.374,
+        "min_release_margin_bits": 0.166
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.9218,
+        "mints": 18,
+        "background_records": 0,
+        "purity_incl_background": 0.9719,
+        "node_sizes": [
+          117,
+          113,
+          90
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 12.169,
+        "min_release_margin_bits": 0.031
+      }
+    },
+    "seed_av_naming": {
+      "flags": {
+        "tight_naming": true,
+        "unselected_statistic": false,
+        "seed_naming_charge": true,
+        "seed_naming_mode": "av",
+        "seed_naming_gamma": 0.0
+      },
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 11,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 6.237,
+        "min_release_margin_bits": 0.13
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 9,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 7.893,
+        "min_release_margin_bits": 0.433
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.8098,
+        "mints": 27,
+        "background_records": 131,
+        "purity_incl_background": 0.9375,
+        "node_sizes": [
+          102,
+          86,
+          1
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 7.811,
+        "min_release_margin_bits": 0.614
+      }
+    },
+    "seed_ln_naming": {
+      "flags": {
+        "tight_naming": true,
+        "unselected_statistic": false,
+        "seed_naming_charge": true,
+        "seed_naming_mode": "ln",
+        "seed_naming_gamma": 0.0
+      },
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 7,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 8.388,
+        "min_release_margin_bits": 0.537
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 8,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 9.902,
+        "min_release_margin_bits": 0.159
+      },
+      "wikipedia": {
+        "K": 4,
+        "ari": 0.8235,
+        "mints": 11,
+        "background_records": 13,
+        "purity_incl_background": 0.9969,
+        "node_sizes": [
+          113,
+          86,
+          79,
+          29
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 11.072,
+        "min_release_margin_bits": 0.847
+      }
+    }
+  },
+  "controls_by_gamma": {
+    "0.0": {
+      "gamma_bits": 0.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 22,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 0.0,
+        "min_release_margin_bits": 0.162
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 13,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 0.0,
+        "min_release_margin_bits": 0.047
+      },
+      "wikipedia": {
+        "K": 5,
+        "ari": 0.679,
+        "mints": 49,
+        "background_records": 1,
+        "purity_incl_background": 0.9,
+        "node_sizes": [
+          143,
+          87,
+          79,
+          9,
+          1
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 0.0,
+        "min_release_margin_bits": 0.091
+      }
+    },
+    "2.0": {
+      "gamma_bits": 2.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 17,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 2.0,
+        "min_release_margin_bits": 0.212
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 13,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 2.0,
+        "min_release_margin_bits": 0.285
+      },
+      "wikipedia": {
+        "K": 5,
+        "ari": 0.679,
+        "mints": 46,
+        "background_records": 1,
+        "purity_incl_background": 0.9,
+        "node_sizes": [
+          143,
+          87,
+          79,
+          9,
+          1
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 2.0,
+        "min_release_margin_bits": 0.088
+      }
+    },
+    "4.0": {
+      "gamma_bits": 4.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 14,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 4.0,
+        "min_release_margin_bits": 0.637
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 9,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 4.0,
+        "min_release_margin_bits": 0.004
+      },
+      "wikipedia": {
+        "K": 4,
+        "ari": 0.9847,
+        "mints": 44,
+        "background_records": 2,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          118,
+          112,
+          87,
+          1
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 4.0,
+        "min_release_margin_bits": 0.121
+      }
+    },
+    "8.0": {
+      "gamma_bits": 8.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 17,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 8.0,
+        "min_release_margin_bits": 0.102
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 10,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 8.0,
+        "min_release_margin_bits": 0.21
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.9558,
+        "mints": 21,
+        "background_records": 0,
+        "purity_incl_background": 0.9844,
+        "node_sizes": [
+          123,
+          113,
+          84
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 8.0,
+        "min_release_margin_bits": 0.944
+      }
+    },
+    "16.0": {
+      "gamma_bits": 16.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 9,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 16.0,
+        "min_release_margin_bits": 0.073
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 9,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 16.0,
+        "min_release_margin_bits": 1.331
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.991,
+        "mints": 20,
+        "background_records": 0,
+        "purity_incl_background": 0.9969,
+        "node_sizes": [
+          121,
+          113,
+          86
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 16.0,
+        "min_release_margin_bits": 0.118
+      }
+    },
+    "32.0": {
+      "gamma_bits": 32.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 8,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 32.0,
+        "min_release_margin_bits": 0.969
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 11,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 32.0,
+        "min_release_margin_bits": 0.143
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.9644,
+        "mints": 14,
+        "background_records": 0,
+        "purity_incl_background": 0.9875,
+        "node_sizes": [
+          120,
+          113,
+          87
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 32.0,
+        "min_release_margin_bits": 2.825
+      }
+    },
+    "64.0": {
+      "gamma_bits": 64.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 9,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 64.0,
+        "min_release_margin_bits": 0.046
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 10,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 64.0,
+        "min_release_margin_bits": 2.284
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.9732,
+        "mints": 11,
+        "background_records": 0,
+        "purity_incl_background": 0.9906,
+        "node_sizes": [
+          123,
+          113,
+          84
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 64.0,
+        "min_release_margin_bits": 1.612
+      }
+    },
+    "128.0": {
+      "gamma_bits": 128.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 2,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 128.0,
+        "min_release_margin_bits": 2.597
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 17,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 128.0,
+        "min_release_margin_bits": 0.677
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.6849,
+        "mints": 4,
+        "background_records": 2,
+        "purity_incl_background": 0.8844,
+        "node_sizes": [
+          115,
+          102,
+          101
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 128.0,
+        "min_release_margin_bits": 4.354
+      }
+    },
+    "256.0": {
+      "gamma_bits": 256.0,
+      "twogroup": {
+        "K": 2,
+        "ari": 1.0,
+        "mints": 2,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          1000,
+          1000
+        ],
+        "n": 2000,
+        "mean_seed_charge_bits": 256.0,
+        "min_release_margin_bits": 2.413
+      },
+      "planted8": {
+        "K": 8,
+        "ari": 1.0,
+        "mints": 14,
+        "background_records": 0,
+        "purity_incl_background": 1.0,
+        "node_sizes": [
+          395,
+          390,
+          385,
+          381,
+          376,
+          365,
+          357,
+          351
+        ],
+        "n": 3000,
+        "mean_seed_charge_bits": 256.0,
+        "min_release_margin_bits": 0.909
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.8385,
+        "mints": 6,
+        "background_records": 0,
+        "purity_incl_background": 0.9375,
+        "node_sizes": [
+          140,
+          113,
+          67
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 256.0,
+        "min_release_margin_bits": 0.141
+      }
+    },
+    "512.0": {
+      "gamma_bits": 512.0,
+      "twogroup": {
+        "K": 0,
+        "ari": 0.0,
+        "mints": 0,
+        "background_records": 2000,
+        "purity_incl_background": 0.5,
+        "node_sizes": [],
+        "n": 2000,
+        "mean_seed_charge_bits": null,
+        "min_release_margin_bits": null
+      },
+      "planted8": {
+        "K": 0,
+        "ari": 0.0,
+        "mints": 0,
+        "background_records": 3000,
+        "purity_incl_background": 0.1317,
+        "node_sizes": [],
+        "n": 3000,
+        "mean_seed_charge_bits": null,
+        "min_release_margin_bits": null
+      },
+      "wikipedia": {
+        "K": 3,
+        "ari": 0.5096,
+        "mints": 3,
+        "background_records": 0,
+        "purity_incl_background": 0.8187,
+        "node_sizes": [
+          178,
+          71,
+          71
+        ],
+        "n": 320,
+        "mean_seed_charge_bits": 512.0,
+        "min_release_margin_bits": 1.169
+      }
+    }
+  },
+  "e5_order_dependence": {
+    "permutations": 20,
+    "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+    "arms": {
+      "off": {
+        "twogroup": {
+          "true_K": 2,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 2.0,
+            "sd": 0.0,
+            "min": 2,
+            "max": 2,
+            "all": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          }
+        },
+        "planted8": {
+          "true_K": 8,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 8.0,
+            "sd": 0.0,
+            "min": 8,
+            "max": 8,
+            "all": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ]
+          }
+        },
+        "wikipedia": {
+          "true_K": 3,
+          "ARI": {
+            "mean": 0.8438,
+            "sd": 0.1029,
+            "min": 0.6389,
+            "max": 0.986
+          },
+          "K": {
+            "mean": 4.0,
+            "sd": 0.77,
+            "min": 3,
+            "max": 6,
+            "all": [
+              4,
+              4,
+              5,
+              4,
+              4,
+              4,
+              3,
+              5,
+              4,
+              4,
+              5,
+              3,
+              4,
+              3,
+              3,
+              6,
+              4,
+              3,
+              4,
+              4
+            ]
+          }
+        }
+      },
+      "seed_av": {
+        "twogroup": {
+          "true_K": 2,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 2.0,
+            "sd": 0.0,
+            "min": 2,
+            "max": 2,
+            "all": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          }
+        },
+        "planted8": {
+          "true_K": 8,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 8.0,
+            "sd": 0.0,
+            "min": 8,
+            "max": 8,
+            "all": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ]
+          }
+        },
+        "wikipedia": {
+          "true_K": 3,
+          "ARI": {
+            "mean": 0.8713,
+            "sd": 0.1105,
+            "min": 0.6621,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 3.7,
+            "sd": 0.64,
+            "min": 3,
+            "max": 5,
+            "all": [
+              4,
+              3,
+              4,
+              4,
+              4,
+              4,
+              3,
+              4,
+              5,
+              3,
+              3,
+              3,
+              4,
+              3,
+              3,
+              4,
+              4,
+              3,
+              5,
+              4
+            ]
+          }
+        }
+      },
+      "seed_ln": {
+        "twogroup": {
+          "true_K": 2,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 2.0,
+            "sd": 0.0,
+            "min": 2,
+            "max": 2,
+            "all": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          }
+        },
+        "planted8": {
+          "true_K": 8,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 8.0,
+            "sd": 0.0,
+            "min": 8,
+            "max": 8,
+            "all": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ]
+          }
+        },
+        "wikipedia": {
+          "true_K": 3,
+          "ARI": {
+            "mean": 0.8654,
+            "sd": 0.1081,
+            "min": 0.6558,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 3.25,
+            "sd": 0.62,
+            "min": 3,
+            "max": 5,
+            "all": [
+              4,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              5,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              5,
+              3
+            ]
+          }
+        }
+      },
+      "seed_av_naming": {
+        "twogroup": {
+          "true_K": 2,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 2.0,
+            "sd": 0.0,
+            "min": 2,
+            "max": 2,
+            "all": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          }
+        },
+        "planted8": {
+          "true_K": 8,
+          "ARI": {
+            "mean": 1.0,
+            "sd": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "K": {
+            "mean": 8.0,
+            "sd": 0.0,
+            "min": 8,
+            "max": 8,
+            "all": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ]
+          }
+        },
+        "wikipedia": {
+          "true_K": 3,
+          "ARI": {
+            "mean": 0.8363,
+            "sd": 0.1097,
+            "min": 0.5433,
+            "max": 0.95
+          },
+          "K": {
+            "mean": 3.5,
+            "sd": 1.07,
+            "min": 2,
+            "max": 5,
+            "all": [
+              3,
+              2,
+              4,
+              3,
+              3,
+              4,
+              3,
+              4,
+              5,
+              4,
+              2,
+              2,
+              5,
+              5,
+              3,
+              3,
+              5,
+              2,
+              5,
+              3
+            ]
+          }
+        }
+      }
+    }
+  },
+  "e7_deferred": {
+    "n": 6000,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "arms": {
+      "off": {
+        "per_seed": [
+          {
+            "seed": 0,
+            "final_K": 2,
+            "total_mints": 9,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 1,
+            "final_K": 2,
+            "total_mints": 4,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 2,
+            "final_K": 2,
+            "total_mints": 6,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 3,
+            "final_K": 2,
+            "total_mints": 9,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 4,
+            "final_K": 2,
+            "total_mints": 9,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          }
+        ],
+        "final_K": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "total_mints": [
+          9,
+          4,
+          6,
+          9,
+          9
+        ],
+        "typo_justified_nodes": 0,
+        "supports_identical_across_seeds": true,
+        "supports_seed0": [
+          [
+            "g0k0",
+            "g0k1",
+            "g0k2"
+          ],
+          [
+            "g1k0",
+            "g1k1",
+            "g1k2"
+          ]
+        ]
+      },
+      "seed_av": {
+        "per_seed": [
+          {
+            "seed": 0,
+            "final_K": 2,
+            "total_mints": 5,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 1,
+            "final_K": 2,
+            "total_mints": 6,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 2,
+            "final_K": 2,
+            "total_mints": 3,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 3,
+            "final_K": 2,
+            "total_mints": 10,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 4,
+            "final_K": 2,
+            "total_mints": 6,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          }
+        ],
+        "final_K": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "total_mints": [
+          5,
+          6,
+          3,
+          10,
+          6
+        ],
+        "typo_justified_nodes": 0,
+        "supports_identical_across_seeds": true,
+        "supports_seed0": [
+          [
+            "g0k0",
+            "g0k1",
+            "g0k2"
+          ],
+          [
+            "g1k0",
+            "g1k1",
+            "g1k2"
+          ]
+        ]
+      },
+      "seed_ln": {
+        "per_seed": [
+          {
+            "seed": 0,
+            "final_K": 2,
+            "total_mints": 4,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 1,
+            "final_K": 2,
+            "total_mints": 4,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 2,
+            "final_K": 2,
+            "total_mints": 5,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 3,
+            "final_K": 2,
+            "total_mints": 5,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 4,
+            "final_K": 2,
+            "total_mints": 2,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          }
+        ],
+        "final_K": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "total_mints": [
+          4,
+          4,
+          5,
+          5,
+          2
+        ],
+        "typo_justified_nodes": 0,
+        "supports_identical_across_seeds": true,
+        "supports_seed0": [
+          [
+            "g0k0",
+            "g0k1",
+            "g0k2"
+          ],
+          [
+            "g1k0",
+            "g1k1",
+            "g1k2"
+          ]
+        ]
+      },
+      "seed_av_naming": {
+        "per_seed": [
+          {
+            "seed": 0,
+            "final_K": 2,
+            "total_mints": 11,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 1,
+            "final_K": 2,
+            "total_mints": 5,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 2,
+            "final_K": 2,
+            "total_mints": 3,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 3,
+            "final_K": 2,
+            "total_mints": 4,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          },
+          {
+            "seed": 4,
+            "final_K": 2,
+            "total_mints": 10,
+            "typo_justified_nodes": 0,
+            "supports": [
+              [
+                "g0k0",
+                "g0k1",
+                "g0k2"
+              ],
+              [
+                "g1k0",
+                "g1k1",
+                "g1k2"
+              ]
+            ]
+          }
+        ],
+        "final_K": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "total_mints": [
+          11,
+          5,
+          3,
+          4,
+          10
+        ],
+        "typo_justified_nodes": 0,
+        "supports_identical_across_seeds": true,
+        "supports_seed0": [
+          [
+            "g0k0",
+            "g0k1",
+            "g0k2"
+          ],
+          [
+            "g1k0",
+            "g1k1",
+            "g1k2"
+          ]
+        ]
+      }
+    }
+  },
+  "wikipedia_demo": {
+    "n": 320,
+    "arms": {
+      "off": {
+        "K": 5,
+        "mints": 49,
+        "nodes": [
+          {
+            "nid": 7,
+            "t": 156,
+            "mix": {
+              "film": 119,
+              "person": 37
+            },
+            "pure": false
+          },
+          {
+            "nid": 4,
+            "t": 87,
+            "mix": {
+              "mountain": 87
+            },
+            "pure": true
+          },
+          {
+            "nid": 10,
+            "t": 79,
+            "mix": {
+              "person": 79
+            },
+            "pure": true
+          },
+          {
+            "nid": 11,
+            "t": 9,
+            "mix": {
+              "film": 9
+            },
+            "pure": true
+          },
+          {
+            "nid": 36,
+            "t": 1,
+            "mix": {
+              "person": 1
+            },
+            "pure": true
+          }
+        ],
+        "background_records": 1,
+        "all_nodes_pure": false
+      },
+      "seed_av": {
+        "K": 4,
+        "mints": 32,
+        "nodes": [
+          {
+            "nid": 5,
+            "t": 117,
+            "mix": {
+              "film": 117
+            },
+            "pure": true
+          },
+          {
+            "nid": 10,
+            "t": 111,
+            "mix": {
+              "person": 111
+            },
+            "pure": true
+          },
+          {
+            "nid": 3,
+            "t": 89,
+            "mix": {
+              "mountain": 87,
+              "film": 1,
+              "person": 1
+            },
+            "pure": false
+          },
+          {
+            "nid": 23,
+            "t": 1,
+            "mix": {
+              "person": 1
+            },
+            "pure": true
+          }
+        ],
+        "background_records": 2,
+        "all_nodes_pure": false
+      },
+      "seed_ln": {
+        "K": 3,
+        "mints": 18,
+        "nodes": [
+          {
+            "nid": 5,
+            "t": 117,
+            "mix": {
+              "film": 114,
+              "mountain": 3
+            },
+            "pure": false
+          },
+          {
+            "nid": 1,
+            "t": 113,
+            "mix": {
+              "person": 113
+            },
+            "pure": true
+          },
+          {
+            "nid": 3,
+            "t": 91,
+            "mix": {
+              "mountain": 85,
+              "film": 6
+            },
+            "pure": false
+          }
+        ],
+        "background_records": 0,
+        "all_nodes_pure": false
+      },
+      "seed_av_naming": {
+        "K": 3,
+        "mints": 27,
+        "nodes": [
+          {
+            "nid": 5,
+            "t": 102,
+            "mix": {
+              "film": 101,
+              "mountain": 1
+            },
+            "pure": false
+          },
+          {
+            "nid": 3,
+            "t": 87,
+            "mix": {
+              "mountain": 87
+            },
+            "pure": true
+          },
+          {
+            "nid": 22,
+            "t": 1,
+            "mix": {
+              "person": 1
+            },
+            "pure": true
+          }
+        ],
+        "background_records": 131,
+        "all_nodes_pure": false
+      }
+    }
+  },
+  "runtime_seconds": 43.1
+}

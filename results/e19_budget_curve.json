@@ -1,0 +1,6753 @@
+{
+  "experiment": "e19_budget_curve",
+  "title": "the candidate-pool budget curve",
+  "purpose": "answer the objection that the new-node penalty lambda was not removed but moved into the candidate-pool budget, by measuring the curve instead of the two-point stress test in code/tests/test_batch.py",
+  "parameter": "EscrowGraph(cand_pool_cap=...) (engine.py:80), shipped default 4096",
+  "eviction_rule": "drop the live candidate with the lowest accrued escrow G, never one touched by the current record (engine.py:207-221)",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "protocol_note": "every run goes through escrow.protocol.new_run(cand_pool_cap=c); the cand_pool_cap keyword was added to protocol.new_run and protocol.run_stream as a defaulted additive argument, so no existing caller and no default changed",
+  "budgets": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
+    2048,
+    3072,
+    4096,
+    16384,
+    32768
+  ],
+  "budgets_requested": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    256,
+    1024,
+    4096,
+    16384,
+    32768
+  ],
+  "budgets_added": [
+    128,
+    512,
+    2048,
+    3072
+  ],
+  "budgets_added_why": "the requested grid jumps 1024 to 4096, which put the Wikipedia and Lazada plateau exactly at the shipped default; 128, 512, 2048 and 3072 locate the plateau inside that jump",
+  "budgets_dropped": [],
+  "shipped_default": 4096,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "metrics": {
+    "K": "final node count after the final full repair pass",
+    "ARI": "adjusted Rand index of record labels against the truth; background = one cluster",
+    "mints": "len(g.mint_log), releases attempted over the stream (nodes can later merge)",
+    "background": "records that end in no node",
+    "peak_pool": "max len(g.pool) observed after any record",
+    "evictions": "exact count of candidate accounts dropped by the eviction rule",
+    "seconds": "wall time of the stream plus its repair passes"
+  },
+  "streams": {
+    "twogroup": {
+      "stream": "twogroup",
+      "n_records": 2000,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "stream generator seed (records resampled)",
+      "truth": "planted group id, K* = 2",
+      "cells": [
+        {
+          "budget": 1,
+          "per_seed": [
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.152,
+              "seed": 0
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.152,
+              "seed": 1
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.149,
+              "seed": 2
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.152,
+              "seed": 3
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.15,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "mints": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "background": {
+            "mean": 2000.0,
+            "min": 2000,
+            "max": 2000
+          },
+          "peak_pool": {
+            "mean": 4.0,
+            "min": 4,
+            "max": 4
+          },
+          "evictions": {
+            "mean": 7996.0,
+            "min": 7996,
+            "max": 7996
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.151,
+            "min": 0.149,
+            "max": 0.152
+          },
+          "seconds_total": 0.755,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 2,
+          "per_seed": [
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.148,
+              "seed": 0
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.15,
+              "seed": 1
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.151,
+              "seed": 2
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.174,
+              "seed": 3
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.15,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "mints": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "background": {
+            "mean": 2000.0,
+            "min": 2000,
+            "max": 2000
+          },
+          "peak_pool": {
+            "mean": 4.0,
+            "min": 4,
+            "max": 4
+          },
+          "evictions": {
+            "mean": 7996.0,
+            "min": 7996,
+            "max": 7996
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1546,
+            "min": 0.148,
+            "max": 0.174
+          },
+          "seconds_total": 0.773,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 4,
+          "per_seed": [
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.151,
+              "seed": 0
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.153,
+              "seed": 1
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.151,
+              "seed": 2
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.15,
+              "seed": 3
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 2000,
+              "peak_pool": 4,
+              "evictions": 7996,
+              "cap_bound": true,
+              "seconds": 0.149,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "mints": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "background": {
+            "mean": 2000.0,
+            "min": 2000,
+            "max": 2000
+          },
+          "peak_pool": {
+            "mean": 4.0,
+            "min": 4,
+            "max": 4
+          },
+          "evictions": {
+            "mean": 7996.0,
+            "min": 7996,
+            "max": 7996
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1508,
+            "min": 0.149,
+            "max": 0.153
+          },
+          "seconds_total": 0.754,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 8,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 3,
+              "background": 0,
+              "peak_pool": 8,
+              "evictions": 2000,
+              "cap_bound": true,
+              "seconds": 0.1,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 5,
+              "background": 0,
+              "peak_pool": 8,
+              "evictions": 1039,
+              "cap_bound": true,
+              "seconds": 0.075,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 5,
+              "background": 0,
+              "peak_pool": 8,
+              "evictions": 990,
+              "cap_bound": true,
+              "seconds": 0.077,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 6,
+              "background": 0,
+              "peak_pool": 8,
+              "evictions": 1069,
+              "cap_bound": true,
+              "seconds": 0.08,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 4,
+              "background": 0,
+              "peak_pool": 8,
+              "evictions": 1013,
+              "cap_bound": true,
+              "seconds": 0.075,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 4.6,
+            "min": 3,
+            "max": 6
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "evictions": {
+            "mean": 1222.2,
+            "min": 990,
+            "max": 2000
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.0814,
+            "min": 0.075,
+            "max": 0.1
+          },
+          "seconds_total": 0.407,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 16,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 942,
+              "cap_bound": true,
+              "seconds": 0.078,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 6,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 754,
+              "cap_bound": true,
+              "seconds": 0.079,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 8,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 846,
+              "cap_bound": true,
+              "seconds": 0.083,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 792,
+              "cap_bound": true,
+              "seconds": 0.079,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 3,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 226,
+              "cap_bound": true,
+              "seconds": 0.054,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 7.4,
+            "min": 3,
+            "max": 10
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 16.0,
+            "min": 16,
+            "max": 16
+          },
+          "evictions": {
+            "mean": 712.0,
+            "min": 226,
+            "max": 942
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.0746,
+            "min": 0.054,
+            "max": 0.083
+          },
+          "seconds_total": 0.373,
+          "seeds_answer_equals_largest_budget": 1,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 32,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 17,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 302,
+              "cap_bound": true,
+              "seconds": 0.074,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 396,
+              "cap_bound": true,
+              "seconds": 0.079,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 655,
+              "cap_bound": true,
+              "seconds": 0.078,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 408,
+              "cap_bound": true,
+              "seconds": 0.079,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 15,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 288,
+              "cap_bound": true,
+              "seconds": 0.071,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 12.8,
+            "min": 10,
+            "max": 17
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 32.0,
+            "min": 32,
+            "max": 32
+          },
+          "evictions": {
+            "mean": 409.8,
+            "min": 288,
+            "max": 655
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.0762,
+            "min": 0.071,
+            "max": 0.079
+          },
+          "seconds_total": 0.381,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 64,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 21,
+              "cap_bound": true,
+              "seconds": 0.078,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 13,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 35,
+              "cap_bound": true,
+              "seconds": 0.066,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 24,
+              "cap_bound": true,
+              "seconds": 0.072,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 74,
+              "cap_bound": true,
+              "seconds": 0.085,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 31,
+              "cap_bound": true,
+              "seconds": 0.069,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.4,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 64.0,
+            "min": 64,
+            "max": 64
+          },
+          "evictions": {
+            "mean": 37.0,
+            "min": 21,
+            "max": 74
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.074,
+            "min": 0.066,
+            "max": 0.085
+          },
+          "seconds_total": 0.37,
+          "seeds_answer_equals_largest_budget": 4,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 128,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.075,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.069,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.07,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.07,
+            "min": 0.068,
+            "max": 0.075
+          },
+          "seconds_total": 0.35,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 256,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.078,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.067,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.067,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0708,
+            "min": 0.067,
+            "max": 0.078
+          },
+          "seconds_total": 0.354,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 512,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.075,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.08,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.072,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.069,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0728,
+            "min": 0.068,
+            "max": 0.08
+          },
+          "seconds_total": 0.364,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 1024,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.078,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.067,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.072,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0712,
+            "min": 0.067,
+            "max": 0.078
+          },
+          "seconds_total": 0.356,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 2048,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.075,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.069,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.069,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.07,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0708,
+            "min": 0.069,
+            "max": 0.075
+          },
+          "seconds_total": 0.354,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 3072,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.079,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.072,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0716,
+            "min": 0.068,
+            "max": 0.079
+          },
+          "seconds_total": 0.358,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 4096,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.075,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.072,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.069,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.071,
+            "min": 0.068,
+            "max": 0.075
+          },
+          "seconds_total": 0.355,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 16384,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.096,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0748,
+            "min": 0.068,
+            "max": 0.096
+          },
+          "seconds_total": 0.374,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 32768,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 22,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.075,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 14,
+              "background": 0,
+              "peak_pool": 72,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.07,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 19,
+              "background": 0,
+              "peak_pool": 71,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.071,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 73,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.069,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 1.0,
+              "mints": 23,
+              "background": 0,
+              "peak_pool": 74,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.068,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 2,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 17.6,
+            "min": 10,
+            "max": 23
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 72.4,
+            "min": 71,
+            "max": 74
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.0706,
+            "min": 0.068,
+            "max": 0.075
+          },
+          "seconds_total": 0.353,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        }
+      ],
+      "plateau_budget": 128,
+      "plateau_budget_partition_identical": 8,
+      "smallest_budget_that_never_evicts": 128,
+      "max_peak_pool_over_all_cells": 74,
+      "is_the_budget_a_quality_knob": {
+        "ari_range_over_seeds_at_default": 0.0,
+        "ari_range_over_budget_means_from_128_up": 0.0,
+        "budget_moves_ari_less_than_the_seed_does": true,
+        "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+      },
+      "default_on_flat_part": true,
+      "never_stops_moving": false,
+      "seconds_total": 7.03
+    },
+    "planted8": {
+      "stream": "planted8",
+      "n_records": 3000,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "stream generator seed (records resampled)",
+      "truth": "planted group id, K* = 8, 10 percent value noise",
+      "cells": [
+        {
+          "budget": 1,
+          "per_seed": [
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8876,
+              "cap_bound": true,
+              "seconds": 0.189,
+              "seed": 0
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8868,
+              "cap_bound": true,
+              "seconds": 0.186,
+              "seed": 1
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8854,
+              "cap_bound": true,
+              "seconds": 0.185,
+              "seed": 2
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8874,
+              "cap_bound": true,
+              "seconds": 0.188,
+              "seed": 3
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8909,
+              "cap_bound": true,
+              "seconds": 0.185,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "mints": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "background": {
+            "mean": 3000.0,
+            "min": 3000,
+            "max": 3000
+          },
+          "peak_pool": {
+            "mean": 3.0,
+            "min": 3,
+            "max": 3
+          },
+          "evictions": {
+            "mean": 8876.2,
+            "min": 8854,
+            "max": 8909
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1866,
+            "min": 0.185,
+            "max": 0.189
+          },
+          "seconds_total": 0.933,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 2,
+          "per_seed": [
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8876,
+              "cap_bound": true,
+              "seconds": 0.185,
+              "seed": 0
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8868,
+              "cap_bound": true,
+              "seconds": 0.187,
+              "seed": 1
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8854,
+              "cap_bound": true,
+              "seconds": 0.185,
+              "seed": 2
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8874,
+              "cap_bound": true,
+              "seconds": 0.187,
+              "seed": 3
+            },
+            {
+              "K": 0,
+              "ARI": 0.0,
+              "mints": 0,
+              "background": 3000,
+              "peak_pool": 3,
+              "evictions": 8909,
+              "cap_bound": true,
+              "seconds": 0.185,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "mints": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "background": {
+            "mean": 3000.0,
+            "min": 3000,
+            "max": 3000
+          },
+          "peak_pool": {
+            "mean": 3.0,
+            "min": 3,
+            "max": 3
+          },
+          "evictions": {
+            "mean": 8876.2,
+            "min": 8854,
+            "max": 8909
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1858,
+            "min": 0.185,
+            "max": 0.187
+          },
+          "seconds_total": 0.929,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 4,
+          "per_seed": [
+            {
+              "K": 3,
+              "ARI": 0.306802,
+              "mints": 3,
+              "background": 1885,
+              "peak_pool": 4,
+              "evictions": 7419,
+              "cap_bound": true,
+              "seconds": 0.203,
+              "seed": 0
+            },
+            {
+              "K": 4,
+              "ARI": 0.48257,
+              "mints": 4,
+              "background": 1490,
+              "peak_pool": 4,
+              "evictions": 6739,
+              "cap_bound": true,
+              "seconds": 0.212,
+              "seed": 1
+            },
+            {
+              "K": 3,
+              "ARI": 0.305264,
+              "mints": 3,
+              "background": 1890,
+              "peak_pool": 4,
+              "evictions": 7175,
+              "cap_bound": true,
+              "seconds": 0.206,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.314561,
+              "mints": 3,
+              "background": 1864,
+              "peak_pool": 4,
+              "evictions": 6855,
+              "cap_bound": true,
+              "seconds": 0.214,
+              "seed": 3
+            },
+            {
+              "K": 3,
+              "ARI": 0.304236,
+              "mints": 3,
+              "background": 1892,
+              "peak_pool": 4,
+              "evictions": 6927,
+              "cap_bound": true,
+              "seconds": 0.201,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 3.2,
+            "min": 3,
+            "max": 4
+          },
+          "ARI": {
+            "mean": 0.3427,
+            "min": 0.304236,
+            "max": 0.48257
+          },
+          "mints": {
+            "mean": 3.2,
+            "min": 3,
+            "max": 4
+          },
+          "background": {
+            "mean": 1804.2,
+            "min": 1490,
+            "max": 1892
+          },
+          "peak_pool": {
+            "mean": 4.0,
+            "min": 4,
+            "max": 4
+          },
+          "evictions": {
+            "mean": 7023.0,
+            "min": 6739,
+            "max": 7419
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.2072,
+            "min": 0.201,
+            "max": 0.214
+          },
+          "seconds_total": 1.036,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 8,
+          "per_seed": [
+            {
+              "K": 6,
+              "ARI": 0.869357,
+              "mints": 7,
+              "background": 756,
+              "peak_pool": 8,
+              "evictions": 5779,
+              "cap_bound": true,
+              "seconds": 0.247,
+              "seed": 0
+            },
+            {
+              "K": 7,
+              "ARI": 1.0,
+              "mints": 8,
+              "background": 394,
+              "peak_pool": 8,
+              "evictions": 4272,
+              "cap_bound": true,
+              "seconds": 0.192,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 0.854807,
+              "mints": 8,
+              "background": 801,
+              "peak_pool": 8,
+              "evictions": 5589,
+              "cap_bound": true,
+              "seconds": 0.208,
+              "seed": 2
+            },
+            {
+              "K": 6,
+              "ARI": 0.865162,
+              "mints": 6,
+              "background": 770,
+              "peak_pool": 8,
+              "evictions": 4534,
+              "cap_bound": true,
+              "seconds": 0.218,
+              "seed": 3
+            },
+            {
+              "K": 5,
+              "ARI": 0.656881,
+              "mints": 5,
+              "background": 1168,
+              "peak_pool": 8,
+              "evictions": 5359,
+              "cap_bound": true,
+              "seconds": 0.2,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 6.0,
+            "min": 5,
+            "max": 7
+          },
+          "ARI": {
+            "mean": 0.8492,
+            "min": 0.656881,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 6.8,
+            "min": 5,
+            "max": 8
+          },
+          "background": {
+            "mean": 777.8,
+            "min": 394,
+            "max": 1168
+          },
+          "peak_pool": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "evictions": {
+            "mean": 5106.6,
+            "min": 4272,
+            "max": 5779
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.213,
+            "min": 0.192,
+            "max": 0.247
+          },
+          "seconds_total": 1.065,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 16,
+          "per_seed": [
+            {
+              "K": 7,
+              "ARI": 1.0,
+              "mints": 9,
+              "background": 398,
+              "peak_pool": 16,
+              "evictions": 3150,
+              "cap_bound": true,
+              "seconds": 0.185,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 12,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 2899,
+              "cap_bound": true,
+              "seconds": 0.18,
+              "seed": 1
+            },
+            {
+              "K": 7,
+              "ARI": 1.0,
+              "mints": 8,
+              "background": 404,
+              "peak_pool": 16,
+              "evictions": 2895,
+              "cap_bound": true,
+              "seconds": 0.171,
+              "seed": 2
+            },
+            {
+              "K": 7,
+              "ARI": 1.0,
+              "mints": 8,
+              "background": 363,
+              "peak_pool": 16,
+              "evictions": 2745,
+              "cap_bound": true,
+              "seconds": 0.177,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 9,
+              "background": 0,
+              "peak_pool": 16,
+              "evictions": 1725,
+              "cap_bound": true,
+              "seconds": 0.152,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 7.4,
+            "min": 7,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 9.2,
+            "min": 8,
+            "max": 12
+          },
+          "background": {
+            "mean": 233.0,
+            "min": 0,
+            "max": 404
+          },
+          "peak_pool": {
+            "mean": 16.0,
+            "min": 16,
+            "max": 16
+          },
+          "evictions": {
+            "mean": 2682.8,
+            "min": 1725,
+            "max": 3150
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.173,
+            "min": 0.152,
+            "max": 0.185
+          },
+          "seconds_total": 0.865,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 2
+        },
+        {
+          "budget": 32,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 1065,
+              "cap_bound": true,
+              "seconds": 0.136,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 1262,
+              "cap_bound": true,
+              "seconds": 0.136,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 9,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 983,
+              "cap_bound": true,
+              "seconds": 0.142,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 9,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 1303,
+              "cap_bound": true,
+              "seconds": 0.148,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 9,
+              "background": 0,
+              "peak_pool": 32,
+              "evictions": 1091,
+              "cap_bound": true,
+              "seconds": 0.14,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 9.8,
+            "min": 9,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 32.0,
+            "min": 32,
+            "max": 32
+          },
+          "evictions": {
+            "mean": 1140.8,
+            "min": 983,
+            "max": 1303
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1404,
+            "min": 0.136,
+            "max": 0.148
+          },
+          "seconds_total": 0.702,
+          "seeds_answer_equals_largest_budget": 1,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 64,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 863,
+              "cap_bound": true,
+              "seconds": 0.137,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 13,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 816,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 749,
+              "cap_bound": true,
+              "seconds": 0.136,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 757,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 8,
+              "background": 0,
+              "peak_pool": 64,
+              "evictions": 770,
+              "cap_bound": true,
+              "seconds": 0.137,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.2,
+            "min": 8,
+            "max": 13
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 64.0,
+            "min": 64,
+            "max": 64
+          },
+          "evictions": {
+            "mean": 791.0,
+            "min": 749,
+            "max": 863
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.136,
+            "min": 0.135,
+            "max": 0.137
+          },
+          "seconds_total": 0.68,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 128,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 128,
+              "evictions": 518,
+              "cap_bound": true,
+              "seconds": 0.131,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 128,
+              "evictions": 521,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 128,
+              "evictions": 429,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 128,
+              "evictions": 518,
+              "cap_bound": true,
+              "seconds": 0.141,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 128,
+              "evictions": 456,
+              "cap_bound": true,
+              "seconds": 0.136,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 128.0,
+            "min": 128,
+            "max": 128
+          },
+          "evictions": {
+            "mean": 488.4,
+            "min": 429,
+            "max": 521
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1356,
+            "min": 0.131,
+            "max": 0.141
+          },
+          "seconds_total": 0.678,
+          "seeds_answer_equals_largest_budget": 3,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 256,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 256,
+              "evictions": 223,
+              "cap_bound": true,
+              "seconds": 0.131,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 256,
+              "evictions": 198,
+              "cap_bound": true,
+              "seconds": 0.131,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 256,
+              "evictions": 162,
+              "cap_bound": true,
+              "seconds": 0.167,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 256,
+              "evictions": 221,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 256,
+              "evictions": 183,
+              "cap_bound": true,
+              "seconds": 0.146,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 256.0,
+            "min": 256,
+            "max": 256
+          },
+          "evictions": {
+            "mean": 197.4,
+            "min": 162,
+            "max": 223
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.142,
+            "min": 0.131,
+            "max": 0.167
+          },
+          "seconds_total": 0.71,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 512,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.15,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.128,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.132,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.134,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.131,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.135,
+            "min": 0.128,
+            "max": 0.15
+          },
+          "seconds_total": 0.675,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 1024,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.128,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.128,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.131,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.133,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.131,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1302,
+            "min": 0.128,
+            "max": 0.133
+          },
+          "seconds_total": 0.651,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 2048,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.126,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.13,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.131,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.132,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.184,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1406,
+            "min": 0.126,
+            "max": 0.184
+          },
+          "seconds_total": 0.703,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 3072,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.127,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.127,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.132,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.132,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.131,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1298,
+            "min": 0.127,
+            "max": 0.132
+          },
+          "seconds_total": 0.649,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 4096,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.127,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.128,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.13,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.133,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.133,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1302,
+            "min": 0.127,
+            "max": 0.133
+          },
+          "seconds_total": 0.651,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 16384,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.126,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.13,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.131,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.13,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.133,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.13,
+            "min": 0.126,
+            "max": 0.133
+          },
+          "seconds_total": 0.65,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 32768,
+          "per_seed": [
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 468,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.171,
+              "seed": 0
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 450,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.127,
+              "seed": 1
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 410,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.132,
+              "seed": 2
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 11,
+              "background": 0,
+              "peak_pool": 465,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.133,
+              "seed": 3
+            },
+            {
+              "K": 8,
+              "ARI": 1.0,
+              "mints": 10,
+              "background": 0,
+              "peak_pool": 436,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.13,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 8.0,
+            "min": 8,
+            "max": 8
+          },
+          "ARI": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "mints": {
+            "mean": 10.6,
+            "min": 10,
+            "max": 11
+          },
+          "background": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "peak_pool": {
+            "mean": 445.8,
+            "min": 410,
+            "max": 468
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1386,
+            "min": 0.127,
+            "max": 0.171
+          },
+          "seconds_total": 0.693,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        }
+      ],
+      "plateau_budget": 256,
+      "plateau_budget_partition_identical": 32,
+      "smallest_budget_that_never_evicts": 512,
+      "max_peak_pool_over_all_cells": 468,
+      "is_the_budget_a_quality_knob": {
+        "ari_range_over_seeds_at_default": 0.0,
+        "ari_range_over_budget_means_from_128_up": 0.0,
+        "budget_moves_ari_less_than_the_seed_does": true,
+        "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+      },
+      "default_on_flat_part": true,
+      "never_stops_moving": false,
+      "seconds_total": 12.27
+    },
+    "wikipedia": {
+      "stream": "wikipedia",
+      "n_records": 320,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "arrival-order shuffle seed (the 320 records are fixed); seed 0 is the E4 order",
+      "truth": "infobox category (film, person, mountain), K* = 3",
+      "cells": [
+        {
+          "budget": 1,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 19,
+              "background": 222,
+              "peak_pool": 20,
+              "evictions": 2912,
+              "cap_bound": true,
+              "seconds": 0.143,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.481219,
+              "mints": 1,
+              "background": 228,
+              "peak_pool": 21,
+              "evictions": 3161,
+              "cap_bound": true,
+              "seconds": 0.139,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 0.479582,
+              "mints": 19,
+              "background": 226,
+              "peak_pool": 22,
+              "evictions": 3031,
+              "cap_bound": true,
+              "seconds": 0.151,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.898459,
+              "mints": 20,
+              "background": 106,
+              "peak_pool": 20,
+              "evictions": 2473,
+              "cap_bound": true,
+              "seconds": 0.14,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 20,
+              "background": 222,
+              "peak_pool": 21,
+              "evictions": 2953,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.5562,
+            "min": 0.460886,
+            "max": 0.898459
+          },
+          "mints": {
+            "mean": 15.8,
+            "min": 1,
+            "max": 20
+          },
+          "background": {
+            "mean": 200.8,
+            "min": 106,
+            "max": 228
+          },
+          "peak_pool": {
+            "mean": 20.8,
+            "min": 20,
+            "max": 22
+          },
+          "evictions": {
+            "mean": 2906.0,
+            "min": 2473,
+            "max": 3161
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1416,
+            "min": 0.135,
+            "max": 0.151
+          },
+          "seconds_total": 0.708,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 2,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 19,
+              "background": 222,
+              "peak_pool": 20,
+              "evictions": 2912,
+              "cap_bound": true,
+              "seconds": 0.141,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.481219,
+              "mints": 1,
+              "background": 228,
+              "peak_pool": 21,
+              "evictions": 3161,
+              "cap_bound": true,
+              "seconds": 0.137,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 0.479582,
+              "mints": 19,
+              "background": 226,
+              "peak_pool": 22,
+              "evictions": 3031,
+              "cap_bound": true,
+              "seconds": 0.143,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.898459,
+              "mints": 20,
+              "background": 106,
+              "peak_pool": 20,
+              "evictions": 2473,
+              "cap_bound": true,
+              "seconds": 0.14,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 20,
+              "background": 222,
+              "peak_pool": 21,
+              "evictions": 2953,
+              "cap_bound": true,
+              "seconds": 0.138,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.5562,
+            "min": 0.460886,
+            "max": 0.898459
+          },
+          "mints": {
+            "mean": 15.8,
+            "min": 1,
+            "max": 20
+          },
+          "background": {
+            "mean": 200.8,
+            "min": 106,
+            "max": 228
+          },
+          "peak_pool": {
+            "mean": 20.8,
+            "min": 20,
+            "max": 22
+          },
+          "evictions": {
+            "mean": 2906.0,
+            "min": 2473,
+            "max": 3161
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1398,
+            "min": 0.137,
+            "max": 0.143
+          },
+          "seconds_total": 0.699,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 4,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 19,
+              "background": 222,
+              "peak_pool": 20,
+              "evictions": 2912,
+              "cap_bound": true,
+              "seconds": 0.141,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.481219,
+              "mints": 1,
+              "background": 228,
+              "peak_pool": 21,
+              "evictions": 3161,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 0.479582,
+              "mints": 19,
+              "background": 226,
+              "peak_pool": 22,
+              "evictions": 3031,
+              "cap_bound": true,
+              "seconds": 0.147,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.898459,
+              "mints": 20,
+              "background": 106,
+              "peak_pool": 20,
+              "evictions": 2473,
+              "cap_bound": true,
+              "seconds": 0.139,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 20,
+              "background": 222,
+              "peak_pool": 21,
+              "evictions": 2953,
+              "cap_bound": true,
+              "seconds": 0.137,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.5562,
+            "min": 0.460886,
+            "max": 0.898459
+          },
+          "mints": {
+            "mean": 15.8,
+            "min": 1,
+            "max": 20
+          },
+          "background": {
+            "mean": 200.8,
+            "min": 106,
+            "max": 228
+          },
+          "peak_pool": {
+            "mean": 20.8,
+            "min": 20,
+            "max": 22
+          },
+          "evictions": {
+            "mean": 2906.0,
+            "min": 2473,
+            "max": 3161
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1398,
+            "min": 0.135,
+            "max": 0.147
+          },
+          "seconds_total": 0.699,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 8,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 19,
+              "background": 222,
+              "peak_pool": 20,
+              "evictions": 2912,
+              "cap_bound": true,
+              "seconds": 0.145,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.481219,
+              "mints": 1,
+              "background": 228,
+              "peak_pool": 21,
+              "evictions": 3161,
+              "cap_bound": true,
+              "seconds": 0.134,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 0.479582,
+              "mints": 19,
+              "background": 226,
+              "peak_pool": 22,
+              "evictions": 3031,
+              "cap_bound": true,
+              "seconds": 0.144,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.898459,
+              "mints": 20,
+              "background": 106,
+              "peak_pool": 20,
+              "evictions": 2473,
+              "cap_bound": true,
+              "seconds": 0.144,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 20,
+              "background": 222,
+              "peak_pool": 21,
+              "evictions": 2953,
+              "cap_bound": true,
+              "seconds": 0.137,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.5562,
+            "min": 0.460886,
+            "max": 0.898459
+          },
+          "mints": {
+            "mean": 15.8,
+            "min": 1,
+            "max": 20
+          },
+          "background": {
+            "mean": 200.8,
+            "min": 106,
+            "max": 228
+          },
+          "peak_pool": {
+            "mean": 20.8,
+            "min": 20,
+            "max": 22
+          },
+          "evictions": {
+            "mean": 2906.0,
+            "min": 2473,
+            "max": 3161
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1408,
+            "min": 0.134,
+            "max": 0.145
+          },
+          "seconds_total": 0.704,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 16,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 19,
+              "background": 222,
+              "peak_pool": 20,
+              "evictions": 2912,
+              "cap_bound": true,
+              "seconds": 0.141,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.481219,
+              "mints": 1,
+              "background": 228,
+              "peak_pool": 21,
+              "evictions": 3161,
+              "cap_bound": true,
+              "seconds": 0.133,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 0.479582,
+              "mints": 19,
+              "background": 226,
+              "peak_pool": 22,
+              "evictions": 3029,
+              "cap_bound": true,
+              "seconds": 0.146,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.898459,
+              "mints": 20,
+              "background": 106,
+              "peak_pool": 20,
+              "evictions": 2471,
+              "cap_bound": true,
+              "seconds": 0.141,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": 0.460886,
+              "mints": 20,
+              "background": 222,
+              "peak_pool": 21,
+              "evictions": 2953,
+              "cap_bound": true,
+              "seconds": 0.139,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.0,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.5562,
+            "min": 0.460886,
+            "max": 0.898459
+          },
+          "mints": {
+            "mean": 15.8,
+            "min": 1,
+            "max": 20
+          },
+          "background": {
+            "mean": 200.8,
+            "min": 106,
+            "max": 228
+          },
+          "peak_pool": {
+            "mean": 20.8,
+            "min": 20,
+            "max": 22
+          },
+          "evictions": {
+            "mean": 2905.2,
+            "min": 2471,
+            "max": 3161
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.14,
+            "min": 0.133,
+            "max": 0.146
+          },
+          "seconds_total": 0.7,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 32,
+          "per_seed": [
+            {
+              "K": 3,
+              "ARI": 0.528803,
+              "mints": 26,
+              "background": 44,
+              "peak_pool": 32,
+              "evictions": 2516,
+              "cap_bound": true,
+              "seconds": 0.135,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.465668,
+              "mints": 2,
+              "background": 224,
+              "peak_pool": 32,
+              "evictions": 2852,
+              "cap_bound": true,
+              "seconds": 0.125,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": 0.479582,
+              "mints": 21,
+              "background": 226,
+              "peak_pool": 32,
+              "evictions": 2872,
+              "cap_bound": true,
+              "seconds": 0.146,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.934244,
+              "mints": 23,
+              "background": 107,
+              "peak_pool": 32,
+              "evictions": 2113,
+              "cap_bound": true,
+              "seconds": 0.178,
+              "seed": 3
+            },
+            {
+              "K": 3,
+              "ARI": 0.528803,
+              "mints": 23,
+              "background": 44,
+              "peak_pool": 32,
+              "evictions": 2563,
+              "cap_bound": true,
+              "seconds": 0.14,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.4,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.5874,
+            "min": 0.465668,
+            "max": 0.934244
+          },
+          "mints": {
+            "mean": 19.0,
+            "min": 2,
+            "max": 26
+          },
+          "background": {
+            "mean": 129.0,
+            "min": 44,
+            "max": 226
+          },
+          "peak_pool": {
+            "mean": 32.0,
+            "min": 32,
+            "max": 32
+          },
+          "evictions": {
+            "mean": 2583.2,
+            "min": 2113,
+            "max": 2872
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1448,
+            "min": 0.125,
+            "max": 0.178
+          },
+          "seconds_total": 0.724,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 64,
+          "per_seed": [
+            {
+              "K": 3,
+              "ARI": 0.757207,
+              "mints": 30,
+              "background": 100,
+              "peak_pool": 64,
+              "evictions": 2347,
+              "cap_bound": true,
+              "seconds": 0.174,
+              "seed": 0
+            },
+            {
+              "K": 1,
+              "ARI": 0.461968,
+              "mints": 4,
+              "background": 223,
+              "peak_pool": 64,
+              "evictions": 2812,
+              "cap_bound": true,
+              "seconds": 0.133,
+              "seed": 1
+            },
+            {
+              "K": 3,
+              "ARI": 0.522059,
+              "mints": 23,
+              "background": 44,
+              "peak_pool": 64,
+              "evictions": 2501,
+              "cap_bound": true,
+              "seconds": 0.147,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.934244,
+              "mints": 23,
+              "background": 107,
+              "peak_pool": 64,
+              "evictions": 2060,
+              "cap_bound": true,
+              "seconds": 0.186,
+              "seed": 3
+            },
+            {
+              "K": 3,
+              "ARI": 0.934244,
+              "mints": 28,
+              "background": 107,
+              "peak_pool": 64,
+              "evictions": 2199,
+              "cap_bound": true,
+              "seconds": 0.291,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.6,
+            "min": 1,
+            "max": 3
+          },
+          "ARI": {
+            "mean": 0.7219,
+            "min": 0.461968,
+            "max": 0.934244
+          },
+          "mints": {
+            "mean": 21.6,
+            "min": 4,
+            "max": 30
+          },
+          "background": {
+            "mean": 116.2,
+            "min": 44,
+            "max": 223
+          },
+          "peak_pool": {
+            "mean": 64.0,
+            "min": 64,
+            "max": 64
+          },
+          "evictions": {
+            "mean": 2383.8,
+            "min": 2060,
+            "max": 2812
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1862,
+            "min": 0.133,
+            "max": 0.291
+          },
+          "seconds_total": 0.931,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 128,
+          "per_seed": [
+            {
+              "K": 3,
+              "ARI": 0.899882,
+              "mints": 32,
+              "background": 104,
+              "peak_pool": 128,
+              "evictions": 2228,
+              "cap_bound": true,
+              "seconds": 0.205,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 0.919857,
+              "mints": 12,
+              "background": 109,
+              "peak_pool": 128,
+              "evictions": 2157,
+              "cap_bound": true,
+              "seconds": 0.17,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.94626,
+              "mints": 30,
+              "background": 1,
+              "peak_pool": 128,
+              "evictions": 2016,
+              "cap_bound": true,
+              "seconds": 0.15,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.857379,
+              "mints": 31,
+              "background": 100,
+              "peak_pool": 128,
+              "evictions": 1903,
+              "cap_bound": true,
+              "seconds": 0.176,
+              "seed": 3
+            },
+            {
+              "K": 3,
+              "ARI": 0.934244,
+              "mints": 31,
+              "background": 107,
+              "peak_pool": 128,
+              "evictions": 2232,
+              "cap_bound": true,
+              "seconds": 0.171,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 3.0,
+            "min": 2,
+            "max": 4
+          },
+          "ARI": {
+            "mean": 0.9115,
+            "min": 0.857379,
+            "max": 0.94626
+          },
+          "mints": {
+            "mean": 27.2,
+            "min": 12,
+            "max": 32
+          },
+          "background": {
+            "mean": 84.2,
+            "min": 1,
+            "max": 109
+          },
+          "peak_pool": {
+            "mean": 128.0,
+            "min": 128,
+            "max": 128
+          },
+          "evictions": {
+            "mean": 2107.2,
+            "min": 1903,
+            "max": 2232
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1744,
+            "min": 0.15,
+            "max": 0.205
+          },
+          "seconds_total": 0.872,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 256,
+          "per_seed": [
+            {
+              "K": 4,
+              "ARI": 0.917069,
+              "mints": 40,
+              "background": 2,
+              "peak_pool": 256,
+              "evictions": 1890,
+              "cap_bound": true,
+              "seconds": 0.194,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 0.929131,
+              "mints": 15,
+              "background": 107,
+              "peak_pool": 256,
+              "evictions": 1995,
+              "cap_bound": true,
+              "seconds": 0.187,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 29,
+              "background": 0,
+              "peak_pool": 256,
+              "evictions": 1660,
+              "cap_bound": true,
+              "seconds": 0.148,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.857379,
+              "mints": 37,
+              "background": 100,
+              "peak_pool": 256,
+              "evictions": 1708,
+              "cap_bound": true,
+              "seconds": 0.201,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.913807,
+              "mints": 35,
+              "background": 107,
+              "peak_pool": 256,
+              "evictions": 1946,
+              "cap_bound": true,
+              "seconds": 0.2,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 3.4,
+            "min": 2,
+            "max": 4
+          },
+          "ARI": {
+            "mean": 0.9156,
+            "min": 0.857379,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 31.2,
+            "min": 15,
+            "max": 40
+          },
+          "background": {
+            "mean": 63.2,
+            "min": 0,
+            "max": 107
+          },
+          "peak_pool": {
+            "mean": 256.0,
+            "min": 256,
+            "max": 256
+          },
+          "evictions": {
+            "mean": 1839.8,
+            "min": 1660,
+            "max": 1995
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.186,
+            "min": 0.148,
+            "max": 0.201
+          },
+          "seconds_total": 0.93,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 1
+        },
+        {
+          "budget": 512,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.88338,
+              "mints": 48,
+              "background": 1,
+              "peak_pool": 512,
+              "evictions": 1520,
+              "cap_bound": true,
+              "seconds": 0.212,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.579948,
+              "mints": 24,
+              "background": 59,
+              "peak_pool": 512,
+              "evictions": 1583,
+              "cap_bound": true,
+              "seconds": 0.195,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 33,
+              "background": 0,
+              "peak_pool": 512,
+              "evictions": 1323,
+              "cap_bound": true,
+              "seconds": 0.168,
+              "seed": 2
+            },
+            {
+              "K": 3,
+              "ARI": 0.889564,
+              "mints": 40,
+              "background": 104,
+              "peak_pool": 512,
+              "evictions": 1365,
+              "cap_bound": true,
+              "seconds": 0.232,
+              "seed": 3
+            },
+            {
+              "K": 3,
+              "ARI": 0.888096,
+              "mints": 38,
+              "background": 109,
+              "peak_pool": 512,
+              "evictions": 1611,
+              "cap_bound": true,
+              "seconds": 0.241,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 3.6,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.8404,
+            "min": 0.579948,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 36.6,
+            "min": 24,
+            "max": 48
+          },
+          "background": {
+            "mean": 54.6,
+            "min": 0,
+            "max": 109
+          },
+          "peak_pool": {
+            "mean": 512.0,
+            "min": 512,
+            "max": 512
+          },
+          "evictions": {
+            "mean": 1480.4,
+            "min": 1323,
+            "max": 1611
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.2096,
+            "min": 0.168,
+            "max": 0.241
+          },
+          "seconds_total": 1.048,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 1
+        },
+        {
+          "budget": 1024,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.665934,
+              "mints": 48,
+              "background": 1,
+              "peak_pool": 1024,
+              "evictions": 914,
+              "cap_bound": true,
+              "seconds": 0.205,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.735056,
+              "mints": 26,
+              "background": 0,
+              "peak_pool": 1024,
+              "evictions": 884,
+              "cap_bound": true,
+              "seconds": 0.202,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 37,
+              "background": 0,
+              "peak_pool": 1024,
+              "evictions": 736,
+              "cap_bound": true,
+              "seconds": 0.225,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.833914,
+              "mints": 41,
+              "background": 0,
+              "peak_pool": 1024,
+              "evictions": 752,
+              "cap_bound": true,
+              "seconds": 0.191,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.930466,
+              "mints": 40,
+              "background": 6,
+              "peak_pool": 1024,
+              "evictions": 946,
+              "cap_bound": true,
+              "seconds": 0.218,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.8252,
+            "min": 0.665934,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 38.4,
+            "min": 26,
+            "max": 48
+          },
+          "background": {
+            "mean": 1.4,
+            "min": 0,
+            "max": 6
+          },
+          "peak_pool": {
+            "mean": 1024.0,
+            "min": 1024,
+            "max": 1024
+          },
+          "evictions": {
+            "mean": 846.4,
+            "min": 736,
+            "max": 946
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.2082,
+            "min": 0.191,
+            "max": 0.225
+          },
+          "seconds_total": 1.041,
+          "seeds_answer_equals_largest_budget": 1,
+          "seeds_partition_identical_to_largest_budget": 1
+        },
+        {
+          "budget": 2048,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.679018,
+              "mints": 49,
+              "background": 1,
+              "peak_pool": 1881,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.147,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.65535,
+              "mints": 27,
+              "background": 1,
+              "peak_pool": 1848,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.143,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 37,
+              "background": 0,
+              "peak_pool": 1721,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.179,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.640768,
+              "mints": 44,
+              "background": 0,
+              "peak_pool": 1806,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.148,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.948789,
+              "mints": 40,
+              "background": 6,
+              "peak_pool": 1921,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.157,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.7769,
+            "min": 0.640768,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 39.4,
+            "min": 27,
+            "max": 49
+          },
+          "background": {
+            "mean": 1.6,
+            "min": 0,
+            "max": 6
+          },
+          "peak_pool": {
+            "mean": 1835.4,
+            "min": 1721,
+            "max": 1921
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1548,
+            "min": 0.143,
+            "max": 0.179
+          },
+          "seconds_total": 0.774,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 3072,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.679018,
+              "mints": 49,
+              "background": 1,
+              "peak_pool": 1881,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.144,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.65535,
+              "mints": 27,
+              "background": 1,
+              "peak_pool": 1848,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.192,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 37,
+              "background": 0,
+              "peak_pool": 1721,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.127,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.640768,
+              "mints": 44,
+              "background": 0,
+              "peak_pool": 1806,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.156,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.948789,
+              "mints": 40,
+              "background": 6,
+              "peak_pool": 1921,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.157,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.7769,
+            "min": 0.640768,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 39.4,
+            "min": 27,
+            "max": 49
+          },
+          "background": {
+            "mean": 1.6,
+            "min": 0,
+            "max": 6
+          },
+          "peak_pool": {
+            "mean": 1835.4,
+            "min": 1721,
+            "max": 1921
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1552,
+            "min": 0.127,
+            "max": 0.192
+          },
+          "seconds_total": 0.776,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 4096,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.679018,
+              "mints": 49,
+              "background": 1,
+              "peak_pool": 1881,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.145,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.65535,
+              "mints": 27,
+              "background": 1,
+              "peak_pool": 1848,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.211,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 37,
+              "background": 0,
+              "peak_pool": 1721,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.128,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.640768,
+              "mints": 44,
+              "background": 0,
+              "peak_pool": 1806,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.146,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.948789,
+              "mints": 40,
+              "background": 6,
+              "peak_pool": 1921,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.161,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.7769,
+            "min": 0.640768,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 39.4,
+            "min": 27,
+            "max": 49
+          },
+          "background": {
+            "mean": 1.6,
+            "min": 0,
+            "max": 6
+          },
+          "peak_pool": {
+            "mean": 1835.4,
+            "min": 1721,
+            "max": 1921
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1582,
+            "min": 0.128,
+            "max": 0.211
+          },
+          "seconds_total": 0.791,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 16384,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.679018,
+              "mints": 49,
+              "background": 1,
+              "peak_pool": 1881,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.192,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.65535,
+              "mints": 27,
+              "background": 1,
+              "peak_pool": 1848,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.144,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 37,
+              "background": 0,
+              "peak_pool": 1721,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.126,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.640768,
+              "mints": 44,
+              "background": 0,
+              "peak_pool": 1806,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.146,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.948789,
+              "mints": 40,
+              "background": 6,
+              "peak_pool": 1921,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.156,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.7769,
+            "min": 0.640768,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 39.4,
+            "min": 27,
+            "max": 49
+          },
+          "background": {
+            "mean": 1.6,
+            "min": 0,
+            "max": 6
+          },
+          "peak_pool": {
+            "mean": 1835.4,
+            "min": 1721,
+            "max": 1921
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.1528,
+            "min": 0.126,
+            "max": 0.192
+          },
+          "seconds_total": 0.764,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 32768,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.679018,
+              "mints": 49,
+              "background": 1,
+              "peak_pool": 1881,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.202,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.65535,
+              "mints": 27,
+              "background": 1,
+              "peak_pool": 1848,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.146,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.96079,
+              "mints": 37,
+              "background": 0,
+              "peak_pool": 1721,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.127,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.640768,
+              "mints": 44,
+              "background": 0,
+              "peak_pool": 1806,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.161,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 0.948789,
+              "mints": 40,
+              "background": 6,
+              "peak_pool": 1921,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 0.204,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 3,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.7769,
+            "min": 0.640768,
+            "max": 0.96079
+          },
+          "mints": {
+            "mean": 39.4,
+            "min": 27,
+            "max": 49
+          },
+          "background": {
+            "mean": 1.6,
+            "min": 0,
+            "max": 6
+          },
+          "peak_pool": {
+            "mean": 1835.4,
+            "min": 1721,
+            "max": 1921
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 0.168,
+            "min": 0.127,
+            "max": 0.204
+          },
+          "seconds_total": 0.84,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        }
+      ],
+      "plateau_budget": 2048,
+      "plateau_budget_partition_identical": 2048,
+      "smallest_budget_that_never_evicts": 2048,
+      "max_peak_pool_over_all_cells": 1921,
+      "is_the_budget_a_quality_knob": {
+        "ari_range_over_seeds_at_default": 0.32,
+        "ari_range_over_budget_means_from_128_up": 0.1387,
+        "budget_moves_ari_less_than_the_seed_does": true,
+        "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+      },
+      "default_on_flat_part": true,
+      "never_stops_moving": false,
+      "seconds_total": 13.0
+    },
+    "lazada": {
+      "stream": "lazada",
+      "n_records": 1000,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_kind": "arrival-order seed (the 1,000 records are fixed); order 0 is the shipped file order, orders 1 to 4 are permutations of it",
+      "truth": "silver of_type from the AutoPKG KG, 759 types over 1,000 records; ARI is reported but is uninformative at that type count (see findings/TODO.md item 5)",
+      "cells": [
+        {
+          "budget": 1,
+          "per_seed": [
+            {
+              "K": 1,
+              "ARI": -0.0,
+              "mints": 19,
+              "background": 999,
+              "peak_pool": 20,
+              "evictions": 3149,
+              "cap_bound": true,
+              "seconds": 0.132,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 4.8e-05,
+              "mints": 21,
+              "background": 942,
+              "peak_pool": 17,
+              "evictions": 3103,
+              "cap_bound": true,
+              "seconds": 0.427,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": -1.7e-05,
+              "mints": 4,
+              "background": 987,
+              "peak_pool": 17,
+              "evictions": 3146,
+              "cap_bound": true,
+              "seconds": 0.148,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 17,
+              "evictions": 3135,
+              "cap_bound": true,
+              "seconds": 0.14,
+              "seed": 3
+            },
+            {
+              "K": 1,
+              "ARI": 8e-06,
+              "mints": 4,
+              "background": 997,
+              "peak_pool": 17,
+              "evictions": 3167,
+              "cap_bound": true,
+              "seconds": 0.144,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 1.4,
+            "min": 1,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": -1.7e-05,
+            "max": 4.8e-05
+          },
+          "mints": {
+            "mean": 13.6,
+            "min": 4,
+            "max": 21
+          },
+          "background": {
+            "mean": 984.2,
+            "min": 942,
+            "max": 999
+          },
+          "peak_pool": {
+            "mean": 17.6,
+            "min": 17,
+            "max": 20
+          },
+          "evictions": {
+            "mean": 3140.0,
+            "min": 3103,
+            "max": 3167
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1982,
+            "min": 0.132,
+            "max": 0.427
+          },
+          "seconds_total": 0.991,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 2,
+          "per_seed": [
+            {
+              "K": 1,
+              "ARI": -0.0,
+              "mints": 19,
+              "background": 999,
+              "peak_pool": 20,
+              "evictions": 3149,
+              "cap_bound": true,
+              "seconds": 0.131,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 4.8e-05,
+              "mints": 21,
+              "background": 942,
+              "peak_pool": 17,
+              "evictions": 3103,
+              "cap_bound": true,
+              "seconds": 0.424,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": -1.7e-05,
+              "mints": 4,
+              "background": 987,
+              "peak_pool": 17,
+              "evictions": 3146,
+              "cap_bound": true,
+              "seconds": 0.147,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 17,
+              "evictions": 3135,
+              "cap_bound": true,
+              "seconds": 0.139,
+              "seed": 3
+            },
+            {
+              "K": 1,
+              "ARI": 8e-06,
+              "mints": 4,
+              "background": 997,
+              "peak_pool": 17,
+              "evictions": 3167,
+              "cap_bound": true,
+              "seconds": 0.147,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 1.4,
+            "min": 1,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": -1.7e-05,
+            "max": 4.8e-05
+          },
+          "mints": {
+            "mean": 13.6,
+            "min": 4,
+            "max": 21
+          },
+          "background": {
+            "mean": 984.2,
+            "min": 942,
+            "max": 999
+          },
+          "peak_pool": {
+            "mean": 17.6,
+            "min": 17,
+            "max": 20
+          },
+          "evictions": {
+            "mean": 3140.0,
+            "min": 3103,
+            "max": 3167
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1976,
+            "min": 0.131,
+            "max": 0.424
+          },
+          "seconds_total": 0.988,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 4,
+          "per_seed": [
+            {
+              "K": 1,
+              "ARI": -0.0,
+              "mints": 19,
+              "background": 999,
+              "peak_pool": 20,
+              "evictions": 3149,
+              "cap_bound": true,
+              "seconds": 0.129,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 4.8e-05,
+              "mints": 21,
+              "background": 942,
+              "peak_pool": 17,
+              "evictions": 3103,
+              "cap_bound": true,
+              "seconds": 0.43,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": -1.7e-05,
+              "mints": 4,
+              "background": 987,
+              "peak_pool": 17,
+              "evictions": 3146,
+              "cap_bound": true,
+              "seconds": 0.15,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 17,
+              "evictions": 3135,
+              "cap_bound": true,
+              "seconds": 0.141,
+              "seed": 3
+            },
+            {
+              "K": 1,
+              "ARI": 8e-06,
+              "mints": 4,
+              "background": 997,
+              "peak_pool": 17,
+              "evictions": 3167,
+              "cap_bound": true,
+              "seconds": 0.146,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 1.4,
+            "min": 1,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": -1.7e-05,
+            "max": 4.8e-05
+          },
+          "mints": {
+            "mean": 13.6,
+            "min": 4,
+            "max": 21
+          },
+          "background": {
+            "mean": 984.2,
+            "min": 942,
+            "max": 999
+          },
+          "peak_pool": {
+            "mean": 17.6,
+            "min": 17,
+            "max": 20
+          },
+          "evictions": {
+            "mean": 3140.0,
+            "min": 3103,
+            "max": 3167
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.1992,
+            "min": 0.129,
+            "max": 0.43
+          },
+          "seconds_total": 0.996,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 8,
+          "per_seed": [
+            {
+              "K": 1,
+              "ARI": -0.0,
+              "mints": 19,
+              "background": 999,
+              "peak_pool": 20,
+              "evictions": 3149,
+              "cap_bound": true,
+              "seconds": 0.129,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 4.8e-05,
+              "mints": 21,
+              "background": 942,
+              "peak_pool": 17,
+              "evictions": 3103,
+              "cap_bound": true,
+              "seconds": 0.426,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": -1.7e-05,
+              "mints": 4,
+              "background": 987,
+              "peak_pool": 17,
+              "evictions": 3146,
+              "cap_bound": true,
+              "seconds": 0.148,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 17,
+              "evictions": 3135,
+              "cap_bound": true,
+              "seconds": 0.139,
+              "seed": 3
+            },
+            {
+              "K": 1,
+              "ARI": 8e-06,
+              "mints": 4,
+              "background": 997,
+              "peak_pool": 17,
+              "evictions": 3167,
+              "cap_bound": true,
+              "seconds": 0.148,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 1.4,
+            "min": 1,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": -1.7e-05,
+            "max": 4.8e-05
+          },
+          "mints": {
+            "mean": 13.6,
+            "min": 4,
+            "max": 21
+          },
+          "background": {
+            "mean": 984.2,
+            "min": 942,
+            "max": 999
+          },
+          "peak_pool": {
+            "mean": 17.6,
+            "min": 17,
+            "max": 20
+          },
+          "evictions": {
+            "mean": 3140.0,
+            "min": 3103,
+            "max": 3167
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.198,
+            "min": 0.129,
+            "max": 0.426
+          },
+          "seconds_total": 0.99,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 16,
+          "per_seed": [
+            {
+              "K": 1,
+              "ARI": -0.0,
+              "mints": 19,
+              "background": 999,
+              "peak_pool": 20,
+              "evictions": 3148,
+              "cap_bound": true,
+              "seconds": 0.129,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 0.000207,
+              "mints": 21,
+              "background": 883,
+              "peak_pool": 17,
+              "evictions": 2987,
+              "cap_bound": true,
+              "seconds": 0.87,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": -1.7e-05,
+              "mints": 4,
+              "background": 987,
+              "peak_pool": 17,
+              "evictions": 3142,
+              "cap_bound": true,
+              "seconds": 0.149,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 17,
+              "evictions": 3134,
+              "cap_bound": true,
+              "seconds": 0.143,
+              "seed": 3
+            },
+            {
+              "K": 1,
+              "ARI": 8e-06,
+              "mints": 3,
+              "background": 997,
+              "peak_pool": 17,
+              "evictions": 3165,
+              "cap_bound": true,
+              "seconds": 0.127,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 1.4,
+            "min": 1,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 0.0,
+            "min": -1.7e-05,
+            "max": 0.000207
+          },
+          "mints": {
+            "mean": 13.4,
+            "min": 3,
+            "max": 21
+          },
+          "background": {
+            "mean": 972.4,
+            "min": 883,
+            "max": 999
+          },
+          "peak_pool": {
+            "mean": 17.6,
+            "min": 17,
+            "max": 20
+          },
+          "evictions": {
+            "mean": 3115.2,
+            "min": 2987,
+            "max": 3165
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.2836,
+            "min": 0.127,
+            "max": 0.87
+          },
+          "seconds_total": 1.418,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 32,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.000138,
+              "mints": 19,
+              "background": 944,
+              "peak_pool": 32,
+              "evictions": 3004,
+              "cap_bound": true,
+              "seconds": 0.716,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 0.000159,
+              "mints": 22,
+              "background": 937,
+              "peak_pool": 32,
+              "evictions": 2985,
+              "cap_bound": true,
+              "seconds": 0.924,
+              "seed": 1
+            },
+            {
+              "K": 2,
+              "ARI": -1.7e-05,
+              "mints": 4,
+              "background": 987,
+              "peak_pool": 32,
+              "evictions": 3120,
+              "cap_bound": true,
+              "seconds": 0.153,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 32,
+              "evictions": 3116,
+              "cap_bound": true,
+              "seconds": 0.144,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": -3.4e-05,
+              "mints": 4,
+              "background": 969,
+              "peak_pool": 32,
+              "evictions": 3118,
+              "cap_bound": true,
+              "seconds": 0.175,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 1.8,
+            "min": 1,
+            "max": 2
+          },
+          "ARI": {
+            "mean": 0.0001,
+            "min": -3.4e-05,
+            "max": 0.000159
+          },
+          "mints": {
+            "mean": 13.8,
+            "min": 4,
+            "max": 22
+          },
+          "background": {
+            "mean": 966.6,
+            "min": 937,
+            "max": 996
+          },
+          "peak_pool": {
+            "mean": 32.0,
+            "min": 32,
+            "max": 32
+          },
+          "evictions": {
+            "mean": 3068.6,
+            "min": 2985,
+            "max": 3120
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.4224,
+            "min": 0.144,
+            "max": 0.924
+          },
+          "seconds_total": 2.112,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 64,
+          "per_seed": [
+            {
+              "K": 2,
+              "ARI": 0.000138,
+              "mints": 19,
+              "background": 944,
+              "peak_pool": 64,
+              "evictions": 2966,
+              "cap_bound": true,
+              "seconds": 0.717,
+              "seed": 0
+            },
+            {
+              "K": 2,
+              "ARI": 0.000159,
+              "mints": 22,
+              "background": 937,
+              "peak_pool": 64,
+              "evictions": 2912,
+              "cap_bound": true,
+              "seconds": 0.91,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.000243,
+              "mints": 6,
+              "background": 886,
+              "peak_pool": 64,
+              "evictions": 2909,
+              "cap_bound": true,
+              "seconds": 1.987,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 64,
+              "evictions": 3080,
+              "cap_bound": true,
+              "seconds": 0.177,
+              "seed": 3
+            },
+            {
+              "K": 2,
+              "ARI": -5e-05,
+              "mints": 4,
+              "background": 972,
+              "peak_pool": 64,
+              "evictions": 3063,
+              "cap_bound": true,
+              "seconds": 0.17,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 2.2,
+            "min": 1,
+            "max": 4
+          },
+          "ARI": {
+            "mean": 0.0001,
+            "min": -5e-05,
+            "max": 0.000243
+          },
+          "mints": {
+            "mean": 14.2,
+            "min": 4,
+            "max": 22
+          },
+          "background": {
+            "mean": 947.0,
+            "min": 886,
+            "max": 996
+          },
+          "peak_pool": {
+            "mean": 64.0,
+            "min": 64,
+            "max": 64
+          },
+          "evictions": {
+            "mean": 2986.0,
+            "min": 2909,
+            "max": 3080
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 0.7922,
+            "min": 0.17,
+            "max": 1.987
+          },
+          "seconds_total": 3.961,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 128,
+          "per_seed": [
+            {
+              "K": 3,
+              "ARI": 3.5e-05,
+              "mints": 19,
+              "background": 882,
+              "peak_pool": 128,
+              "evictions": 2771,
+              "cap_bound": true,
+              "seconds": 1.408,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.000141,
+              "mints": 23,
+              "background": 933,
+              "peak_pool": 128,
+              "evictions": 2810,
+              "cap_bound": true,
+              "seconds": 0.987,
+              "seed": 1
+            },
+            {
+              "K": 4,
+              "ARI": 0.000138,
+              "mints": 6,
+              "background": 835,
+              "peak_pool": 128,
+              "evictions": 2760,
+              "cap_bound": true,
+              "seconds": 1.276,
+              "seed": 2
+            },
+            {
+              "K": 1,
+              "ARI": 1.2e-05,
+              "mints": 20,
+              "background": 996,
+              "peak_pool": 128,
+              "evictions": 2991,
+              "cap_bound": true,
+              "seconds": 0.164,
+              "seed": 3
+            },
+            {
+              "K": 4,
+              "ARI": 2.5e-05,
+              "mints": 8,
+              "background": 891,
+              "peak_pool": 128,
+              "evictions": 2859,
+              "cap_bound": true,
+              "seconds": 2.313,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 3.0,
+            "min": 1,
+            "max": 4
+          },
+          "ARI": {
+            "mean": 0.0001,
+            "min": 1.2e-05,
+            "max": 0.000141
+          },
+          "mints": {
+            "mean": 15.2,
+            "min": 6,
+            "max": 23
+          },
+          "background": {
+            "mean": 907.4,
+            "min": 835,
+            "max": 996
+          },
+          "peak_pool": {
+            "mean": 128.0,
+            "min": 128,
+            "max": 128
+          },
+          "evictions": {
+            "mean": 2838.2,
+            "min": 2760,
+            "max": 2991
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 1.2296,
+            "min": 0.164,
+            "max": 2.313
+          },
+          "seconds_total": 6.148,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 256,
+          "per_seed": [
+            {
+              "K": 4,
+              "ARI": 0.00017,
+              "mints": 20,
+              "background": 811,
+              "peak_pool": 256,
+              "evictions": 2572,
+              "cap_bound": true,
+              "seconds": 1.449,
+              "seed": 0
+            },
+            {
+              "K": 4,
+              "ARI": 0.000152,
+              "mints": 24,
+              "background": 815,
+              "peak_pool": 256,
+              "evictions": 2455,
+              "cap_bound": true,
+              "seconds": 2.822,
+              "seed": 1
+            },
+            {
+              "K": 5,
+              "ARI": 0.000127,
+              "mints": 7,
+              "background": 826,
+              "peak_pool": 256,
+              "evictions": 2543,
+              "cap_bound": true,
+              "seconds": 1.11,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 8.9e-05,
+              "mints": 19,
+              "background": 913,
+              "peak_pool": 256,
+              "evictions": 2668,
+              "cap_bound": true,
+              "seconds": 0.177,
+              "seed": 3
+            },
+            {
+              "K": 5,
+              "ARI": 0.000171,
+              "mints": 9,
+              "background": 837,
+              "peak_pool": 256,
+              "evictions": 2540,
+              "cap_bound": true,
+              "seconds": 2.832,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.0,
+            "min": 2,
+            "max": 5
+          },
+          "ARI": {
+            "mean": 0.0001,
+            "min": 8.9e-05,
+            "max": 0.000171
+          },
+          "mints": {
+            "mean": 15.8,
+            "min": 7,
+            "max": 24
+          },
+          "background": {
+            "mean": 840.4,
+            "min": 811,
+            "max": 913
+          },
+          "peak_pool": {
+            "mean": 256.0,
+            "min": 256,
+            "max": 256
+          },
+          "evictions": {
+            "mean": 2555.6,
+            "min": 2455,
+            "max": 2668
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 1.678,
+            "min": 0.177,
+            "max": 2.832
+          },
+          "seconds_total": 8.39,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 512,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 0.000165,
+              "mints": 21,
+              "background": 811,
+              "peak_pool": 512,
+              "evictions": 2212,
+              "cap_bound": true,
+              "seconds": 1.444,
+              "seed": 0
+            },
+            {
+              "K": 4,
+              "ARI": 0.000152,
+              "mints": 25,
+              "background": 815,
+              "peak_pool": 512,
+              "evictions": 2076,
+              "cap_bound": true,
+              "seconds": 2.869,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 6.5e-05,
+              "mints": 8,
+              "background": 794,
+              "peak_pool": 512,
+              "evictions": 2151,
+              "cap_bound": true,
+              "seconds": 1.726,
+              "seed": 2
+            },
+            {
+              "K": 2,
+              "ARI": 8.9e-05,
+              "mints": 19,
+              "background": 913,
+              "peak_pool": 512,
+              "evictions": 2310,
+              "cap_bound": true,
+              "seconds": 0.212,
+              "seed": 3
+            },
+            {
+              "K": 5,
+              "ARI": 0.000171,
+              "mints": 10,
+              "background": 837,
+              "peak_pool": 512,
+              "evictions": 2185,
+              "cap_bound": true,
+              "seconds": 2.933,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.4,
+            "min": 2,
+            "max": 6
+          },
+          "ARI": {
+            "mean": 0.0001,
+            "min": 6.5e-05,
+            "max": 0.000171
+          },
+          "mints": {
+            "mean": 16.6,
+            "min": 8,
+            "max": 25
+          },
+          "background": {
+            "mean": 834.0,
+            "min": 794,
+            "max": 913
+          },
+          "peak_pool": {
+            "mean": 512.0,
+            "min": 512,
+            "max": 512
+          },
+          "evictions": {
+            "mean": 2186.8,
+            "min": 2076,
+            "max": 2310
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 1.8368,
+            "min": 0.212,
+            "max": 2.933
+          },
+          "seconds_total": 9.184,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 1024,
+          "per_seed": [
+            {
+              "K": 4,
+              "ARI": 0.000261,
+              "mints": 21,
+              "background": 754,
+              "peak_pool": 1024,
+              "evictions": 1535,
+              "cap_bound": true,
+              "seconds": 1.306,
+              "seed": 0
+            },
+            {
+              "K": 3,
+              "ARI": 0.000178,
+              "mints": 29,
+              "background": 811,
+              "peak_pool": 1024,
+              "evictions": 1443,
+              "cap_bound": true,
+              "seconds": 3.492,
+              "seed": 1
+            },
+            {
+              "K": 5,
+              "ARI": 0.000137,
+              "mints": 13,
+              "background": 831,
+              "peak_pool": 1024,
+              "evictions": 1494,
+              "cap_bound": true,
+              "seconds": 2.186,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.00034,
+              "mints": 22,
+              "background": 751,
+              "peak_pool": 1024,
+              "evictions": 1503,
+              "cap_bound": true,
+              "seconds": 1.607,
+              "seed": 3
+            },
+            {
+              "K": 6,
+              "ARI": 0.000111,
+              "mints": 13,
+              "background": 832,
+              "peak_pool": 1024,
+              "evictions": 1492,
+              "cap_bound": true,
+              "seconds": 2.891,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 4.4,
+            "min": 3,
+            "max": 6
+          },
+          "ARI": {
+            "mean": 0.0002,
+            "min": 0.000111,
+            "max": 0.00034
+          },
+          "mints": {
+            "mean": 19.6,
+            "min": 13,
+            "max": 29
+          },
+          "background": {
+            "mean": 795.8,
+            "min": 751,
+            "max": 832
+          },
+          "peak_pool": {
+            "mean": 1024.0,
+            "min": 1024,
+            "max": 1024
+          },
+          "evictions": {
+            "mean": 1493.4,
+            "min": 1443,
+            "max": 1535
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 2.2964,
+            "min": 1.306,
+            "max": 3.492
+          },
+          "seconds_total": 11.482,
+          "seeds_answer_equals_largest_budget": 0,
+          "seeds_partition_identical_to_largest_budget": 0
+        },
+        {
+          "budget": 2048,
+          "per_seed": [
+            {
+              "K": 5,
+              "ARI": 6.6e-05,
+              "mints": 29,
+              "background": 724,
+              "peak_pool": 2048,
+              "evictions": 337,
+              "cap_bound": true,
+              "seconds": 1.432,
+              "seed": 0
+            },
+            {
+              "K": 4,
+              "ARI": 0.000284,
+              "mints": 30,
+              "background": 788,
+              "peak_pool": 2048,
+              "evictions": 312,
+              "cap_bound": true,
+              "seconds": 3.309,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 0.000143,
+              "mints": 13,
+              "background": 829,
+              "peak_pool": 2048,
+              "evictions": 340,
+              "cap_bound": true,
+              "seconds": 2.211,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.000314,
+              "mints": 23,
+              "background": 752,
+              "peak_pool": 2048,
+              "evictions": 325,
+              "cap_bound": true,
+              "seconds": 1.555,
+              "seed": 3
+            },
+            {
+              "K": 6,
+              "ARI": 0.000111,
+              "mints": 13,
+              "background": 832,
+              "peak_pool": 2048,
+              "evictions": 348,
+              "cap_bound": true,
+              "seconds": 2.929,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 5.0,
+            "min": 4,
+            "max": 6
+          },
+          "ARI": {
+            "mean": 0.0002,
+            "min": 6.6e-05,
+            "max": 0.000314
+          },
+          "mints": {
+            "mean": 21.6,
+            "min": 13,
+            "max": 30
+          },
+          "background": {
+            "mean": 785.0,
+            "min": 724,
+            "max": 832
+          },
+          "peak_pool": {
+            "mean": 2048.0,
+            "min": 2048,
+            "max": 2048
+          },
+          "evictions": {
+            "mean": 332.4,
+            "min": 312,
+            "max": 348
+          },
+          "seeds_with_eviction": 5,
+          "seconds": {
+            "mean": 2.2872,
+            "min": 1.432,
+            "max": 3.309
+          },
+          "seconds_total": 11.436,
+          "seeds_answer_equals_largest_budget": 2,
+          "seeds_partition_identical_to_largest_budget": 2
+        },
+        {
+          "budget": 3072,
+          "per_seed": [
+            {
+              "K": 6,
+              "ARI": 0.000173,
+              "mints": 30,
+              "background": 701,
+              "peak_pool": 2365,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.596,
+              "seed": 0
+            },
+            {
+              "K": 5,
+              "ARI": 0.000216,
+              "mints": 31,
+              "background": 783,
+              "peak_pool": 2347,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.345,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 0.000143,
+              "mints": 13,
+              "background": 829,
+              "peak_pool": 2378,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 2.161,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.000314,
+              "mints": 23,
+              "background": 752,
+              "peak_pool": 2353,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.541,
+              "seed": 3
+            },
+            {
+              "K": 7,
+              "ARI": 0.000211,
+              "mints": 14,
+              "background": 809,
+              "peak_pool": 2376,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.104,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 5.6,
+            "min": 4,
+            "max": 7
+          },
+          "ARI": {
+            "mean": 0.0002,
+            "min": 0.000143,
+            "max": 0.000314
+          },
+          "mints": {
+            "mean": 22.2,
+            "min": 13,
+            "max": 31
+          },
+          "background": {
+            "mean": 774.8,
+            "min": 701,
+            "max": 829
+          },
+          "peak_pool": {
+            "mean": 2363.8,
+            "min": 2347,
+            "max": 2378
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 2.3494,
+            "min": 1.541,
+            "max": 3.345
+          },
+          "seconds_total": 11.747,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 4096,
+          "per_seed": [
+            {
+              "K": 6,
+              "ARI": 0.000173,
+              "mints": 30,
+              "background": 701,
+              "peak_pool": 2365,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.683,
+              "seed": 0
+            },
+            {
+              "K": 5,
+              "ARI": 0.000216,
+              "mints": 31,
+              "background": 783,
+              "peak_pool": 2347,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.508,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 0.000143,
+              "mints": 13,
+              "background": 829,
+              "peak_pool": 2378,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 2.215,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.000314,
+              "mints": 23,
+              "background": 752,
+              "peak_pool": 2353,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.556,
+              "seed": 3
+            },
+            {
+              "K": 7,
+              "ARI": 0.000211,
+              "mints": 14,
+              "background": 809,
+              "peak_pool": 2376,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.16,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 5.6,
+            "min": 4,
+            "max": 7
+          },
+          "ARI": {
+            "mean": 0.0002,
+            "min": 0.000143,
+            "max": 0.000314
+          },
+          "mints": {
+            "mean": 22.2,
+            "min": 13,
+            "max": 31
+          },
+          "background": {
+            "mean": 774.8,
+            "min": 701,
+            "max": 829
+          },
+          "peak_pool": {
+            "mean": 2363.8,
+            "min": 2347,
+            "max": 2378
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 2.4244,
+            "min": 1.556,
+            "max": 3.508
+          },
+          "seconds_total": 12.122,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 16384,
+          "per_seed": [
+            {
+              "K": 6,
+              "ARI": 0.000173,
+              "mints": 30,
+              "background": 701,
+              "peak_pool": 2365,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.656,
+              "seed": 0
+            },
+            {
+              "K": 5,
+              "ARI": 0.000216,
+              "mints": 31,
+              "background": 783,
+              "peak_pool": 2347,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.469,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 0.000143,
+              "mints": 13,
+              "background": 829,
+              "peak_pool": 2378,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 2.23,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.000314,
+              "mints": 23,
+              "background": 752,
+              "peak_pool": 2353,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.576,
+              "seed": 3
+            },
+            {
+              "K": 7,
+              "ARI": 0.000211,
+              "mints": 14,
+              "background": 809,
+              "peak_pool": 2376,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.165,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 5.6,
+            "min": 4,
+            "max": 7
+          },
+          "ARI": {
+            "mean": 0.0002,
+            "min": 0.000143,
+            "max": 0.000314
+          },
+          "mints": {
+            "mean": 22.2,
+            "min": 13,
+            "max": 31
+          },
+          "background": {
+            "mean": 774.8,
+            "min": 701,
+            "max": 829
+          },
+          "peak_pool": {
+            "mean": 2363.8,
+            "min": 2347,
+            "max": 2378
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 2.4192,
+            "min": 1.576,
+            "max": 3.469
+          },
+          "seconds_total": 12.096,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        },
+        {
+          "budget": 32768,
+          "per_seed": [
+            {
+              "K": 6,
+              "ARI": 0.000173,
+              "mints": 30,
+              "background": 701,
+              "peak_pool": 2365,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.628,
+              "seed": 0
+            },
+            {
+              "K": 5,
+              "ARI": 0.000216,
+              "mints": 31,
+              "background": 783,
+              "peak_pool": 2347,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.505,
+              "seed": 1
+            },
+            {
+              "K": 6,
+              "ARI": 0.000143,
+              "mints": 13,
+              "background": 829,
+              "peak_pool": 2378,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 2.212,
+              "seed": 2
+            },
+            {
+              "K": 4,
+              "ARI": 0.000314,
+              "mints": 23,
+              "background": 752,
+              "peak_pool": 2353,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 1.556,
+              "seed": 3
+            },
+            {
+              "K": 7,
+              "ARI": 0.000211,
+              "mints": 14,
+              "background": 809,
+              "peak_pool": 2376,
+              "evictions": 0,
+              "cap_bound": false,
+              "seconds": 3.175,
+              "seed": 4
+            }
+          ],
+          "K": {
+            "mean": 5.6,
+            "min": 4,
+            "max": 7
+          },
+          "ARI": {
+            "mean": 0.0002,
+            "min": 0.000143,
+            "max": 0.000314
+          },
+          "mints": {
+            "mean": 22.2,
+            "min": 13,
+            "max": 31
+          },
+          "background": {
+            "mean": 774.8,
+            "min": 701,
+            "max": 829
+          },
+          "peak_pool": {
+            "mean": 2363.8,
+            "min": 2347,
+            "max": 2378
+          },
+          "evictions": {
+            "mean": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "seeds_with_eviction": 0,
+          "seconds": {
+            "mean": 2.4152,
+            "min": 1.556,
+            "max": 3.505
+          },
+          "seconds_total": 12.076,
+          "seeds_answer_equals_largest_budget": 5,
+          "seeds_partition_identical_to_largest_budget": 5
+        }
+      ],
+      "plateau_budget": 3072,
+      "plateau_budget_partition_identical": 3072,
+      "smallest_budget_that_never_evicts": 3072,
+      "max_peak_pool_over_all_cells": 2378,
+      "is_the_budget_a_quality_knob": {
+        "ari_range_over_seeds_at_default": 0.0002,
+        "ari_range_over_budget_means_from_128_up": 0.0001,
+        "budget_moves_ari_less_than_the_seed_does": true,
+        "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+      },
+      "default_on_flat_part": true,
+      "never_stops_moving": false,
+      "seconds_total": 106.14
+    }
+  },
+  "skipped": {},
+  "validity_check": {
+    "ran": true,
+    "all_match": true,
+    "compared": 15,
+    "rows": [
+      {
+        "stream": "twogroup",
+        "seed": 0,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 2,
+        "e19_K": 2,
+        "match": true
+      },
+      {
+        "stream": "twogroup",
+        "seed": 1,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 2,
+        "e19_K": 2,
+        "match": true
+      },
+      {
+        "stream": "twogroup",
+        "seed": 2,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 2,
+        "e19_K": 2,
+        "match": true
+      },
+      {
+        "stream": "twogroup",
+        "seed": 3,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 2,
+        "e19_K": 2,
+        "match": true
+      },
+      {
+        "stream": "twogroup",
+        "seed": 4,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 2,
+        "e19_K": 2,
+        "match": true
+      },
+      {
+        "stream": "planted8",
+        "seed": 0,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 8,
+        "e19_K": 8,
+        "match": true
+      },
+      {
+        "stream": "planted8",
+        "seed": 1,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 8,
+        "e19_K": 8,
+        "match": true
+      },
+      {
+        "stream": "planted8",
+        "seed": 2,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 8,
+        "e19_K": 8,
+        "match": true
+      },
+      {
+        "stream": "planted8",
+        "seed": 3,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 8,
+        "e19_K": 8,
+        "match": true
+      },
+      {
+        "stream": "planted8",
+        "seed": 4,
+        "e4_ARI": 1.0,
+        "e19_ARI": 1.0,
+        "e4_K": 8,
+        "e19_K": 8,
+        "match": true
+      },
+      {
+        "stream": "wikipedia",
+        "seed": 0,
+        "e4_ARI": 0.679,
+        "e19_ARI": 0.679,
+        "e4_K": 5,
+        "e19_K": 5,
+        "match": true
+      },
+      {
+        "stream": "wikipedia",
+        "seed": 1,
+        "e4_ARI": 0.6553,
+        "e19_ARI": 0.6553,
+        "e4_K": 3,
+        "e19_K": 3,
+        "match": true
+      },
+      {
+        "stream": "wikipedia",
+        "seed": 2,
+        "e4_ARI": 0.9608,
+        "e19_ARI": 0.9608,
+        "e4_K": 4,
+        "e19_K": 4,
+        "match": true
+      },
+      {
+        "stream": "wikipedia",
+        "seed": 3,
+        "e4_ARI": 0.6408,
+        "e19_ARI": 0.6408,
+        "e4_K": 4,
+        "e19_K": 4,
+        "match": true
+      },
+      {
+        "stream": "wikipedia",
+        "seed": 4,
+        "e4_ARI": 0.9488,
+        "e19_ARI": 0.9488,
+        "e4_K": 4,
+        "e19_K": 4,
+        "match": true
+      }
+    ],
+    "what": "the budget-4096 column of this sweep against the ours_seeds rows of results/e4_first_tier.json, ARI to 4 decimals and K exactly"
+  },
+  "reading": {
+    "question": "At what budget does the answer stop moving, and is the shipped default of 4096 on the flat part of that curve for every stream tested?",
+    "answer_definition": "the tuple (final node count K, ARI against the truth, number of mints, records left in the background); 'stops moving' means this tuple equals its value at the largest budget in the grid, on every seed, at this budget and at every larger budget in the grid",
+    "default_on_flat_part_for_every_stream": true,
+    "streams_where_it_never_stops_moving": [],
+    "streams_where_the_plateau_is_above_the_default": [],
+    "smallest_budget_reaching_the_plateau": {
+      "twogroup": 128,
+      "planted8": 256,
+      "wikipedia": 2048,
+      "lazada": 3072
+    },
+    "smallest_budget_reaching_the_plateau_partition_identical": {
+      "twogroup": 8,
+      "planted8": 32,
+      "wikipedia": 2048,
+      "lazada": 3072
+    },
+    "smallest_budget_that_never_evicts": {
+      "twogroup": 128,
+      "planted8": 512,
+      "wikipedia": 2048,
+      "lazada": 3072
+    },
+    "per_stream": {
+      "twogroup": {
+        "plateau_budget": 128,
+        "plateau_budget_partition_identical": 8,
+        "smallest_budget_that_never_evicts": 128,
+        "max_peak_pool": 74,
+        "is_the_budget_a_quality_knob": {
+          "ari_range_over_seeds_at_default": 0.0,
+          "ari_range_over_budget_means_from_128_up": 0.0,
+          "budget_moves_ari_less_than_the_seed_does": true,
+          "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+        },
+        "default_4096_on_flat_part": true,
+        "never_stops_moving": false
+      },
+      "planted8": {
+        "plateau_budget": 256,
+        "plateau_budget_partition_identical": 32,
+        "smallest_budget_that_never_evicts": 512,
+        "max_peak_pool": 468,
+        "is_the_budget_a_quality_knob": {
+          "ari_range_over_seeds_at_default": 0.0,
+          "ari_range_over_budget_means_from_128_up": 0.0,
+          "budget_moves_ari_less_than_the_seed_does": true,
+          "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+        },
+        "default_4096_on_flat_part": true,
+        "never_stops_moving": false
+      },
+      "wikipedia": {
+        "plateau_budget": 2048,
+        "plateau_budget_partition_identical": 2048,
+        "smallest_budget_that_never_evicts": 2048,
+        "max_peak_pool": 1921,
+        "is_the_budget_a_quality_knob": {
+          "ari_range_over_seeds_at_default": 0.32,
+          "ari_range_over_budget_means_from_128_up": 0.1387,
+          "budget_moves_ari_less_than_the_seed_does": true,
+          "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+        },
+        "default_4096_on_flat_part": true,
+        "never_stops_moving": false
+      },
+      "lazada": {
+        "plateau_budget": 3072,
+        "plateau_budget_partition_identical": 3072,
+        "smallest_budget_that_never_evicts": 3072,
+        "max_peak_pool": 2378,
+        "is_the_budget_a_quality_knob": {
+          "ari_range_over_seeds_at_default": 0.0002,
+          "ari_range_over_budget_means_from_128_up": 0.0001,
+          "budget_moves_ari_less_than_the_seed_does": true,
+          "note": "the budget is not monotone in ARI; what is reported is the size of the movement, not its direction"
+        },
+        "default_4096_on_flat_part": true,
+        "never_stops_moving": false
+      }
+    },
+    "summary": "On every stream tested the answer stops moving at or below a budget of 3072, which is below the shipped default of 4096, so the default is on the flat part of the curve for all four. Smallest budget that reaches the plateau, per stream: twogroup 128, planted8 256, wikipedia 2048, lazada 3072. The budget stops mattering once it exceeds the peak number of live candidate accounts the stream produces, which is a property of the stream and not a tuned value: peaks here are twogroup 74, planted8 468, wikipedia 1921, lazada 2378. Below the plateau the budget does move the answer, and not monotonically: on Wikipedia the mean ARI rises to a peak at a small budget and settles lower at the plateau. From a budget of 128 up, the ARI moves with the budget by twogroup 0.0 against 0.0 with the seed at the default, planted8 0.0 against 0.0 with the seed at the default, wikipedia 0.1387 against 0.32 with the seed at the default, lazada 0.0001 against 0.0002 with the seed at the default. Scope: these four streams are 320 to 3,000 records. The cap is documented to bind on the full Lazada stream (21,365 records) and on MusicBrainz 20K (results/mb20k_full2.json records the cap raised from 4096 to 32768 mid-run), so the flat-part claim is made for streams of this size and is not a claim about arbitrarily long streams."
+  },
+  "seconds_total": 138.61,
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

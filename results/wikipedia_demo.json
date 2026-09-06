@@ -1,0 +1,109 @@
+{
+  "n": 320,
+  "K": 5,
+  "keys": 121,
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "nodes": [
+    {
+      "t": 130,
+      "purity": {
+        "film": 119,
+        "person": 9,
+        "mountain": 2
+      },
+      "support": [
+        "budget",
+        "caption",
+        "cinematography",
+        "country",
+        "director",
+        "distributor",
+        "editing",
+        "gross",
+        "language",
+        "music",
+        "producer",
+        "runtime",
+        "starring",
+        "writer"
+      ]
+    },
+    {
+      "t": 101,
+      "purity": {
+        "person": 101
+      },
+      "support": [
+        "birth_place",
+        "children",
+        "education",
+        "occupation",
+        "years_active"
+      ]
+    },
+    {
+      "t": 86,
+      "purity": {
+        "mountain": 86
+      },
+      "support": [
+        "country",
+        "easiest_route",
+        "elevation_m",
+        "first_ascent",
+        "image_caption",
+        "image_size",
+        "isolation",
+        "isolation_km",
+        "isolation_ref",
+        "location",
+        "map_caption",
+        "map_size",
+        "mountain_type",
+        "other_name"
+      ]
+    },
+    {
+      "t": 10,
+      "purity": {
+        "film": 10
+      },
+      "support": [
+        "alt_name",
+        "company",
+        "editor",
+        "executive_producer",
+        "genre",
+        "network"
+      ]
+    },
+    {
+      "t": 1,
+      "purity": {
+        "person": 1
+      },
+      "support": [
+        "constituency",
+        "office",
+        "office2",
+        "party",
+        "predecessor",
+        "predecessor2",
+        "successor",
+        "successor2",
+        "term_end",
+        "term_end2",
+        "term_start",
+        "term_start2"
+      ]
+    }
+  ],
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "ccba8e071c61d30dfe0cd2cadbca4131",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "8400b64c5229d82fa549e6182b636d79"
+    }
+  }
+}

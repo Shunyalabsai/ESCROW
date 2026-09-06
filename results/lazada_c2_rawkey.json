@@ -1,0 +1,5286 @@
+{
+ "benchmark": "LAZADA RAW-KEY STREAM (C2 preview, structure exhibit)",
+ "date": "2026-09-05 20:43:00",
+ "limit": null,
+ "declared_choices": [
+  "spec parsing: bracket-aware scan of the Java-map string '{k1=[v1, v2], ...}': key = text between the previous ']' (or the opening '{') and the next '=[', stripped of leading ',' and whitespace; value list = text to the first following ']'; pairs with an empty key or an unclosed bracket are skipped",
+  "multi-valued lists: split on ', ' (comma-space, the Java List.toString separator), strip each item, drop empties, sort lexicographically, join with ', ' -> one categorical value string (declared)",
+  "records: one per spec-bearing listing (specifications field present and not the literal 'null'); listings whose spec string parses to zero pairs are dropped and counted",
+  "keys: RAW spec keys exactly as published; no case folding, no trimming beyond the parser's whitespace strip; ground-truth columns (KG) never enter the record",
+  "stream order: random.Random(0).shuffle over the parsed record list (seed 0); the dry-run slice is a prefix of this same stream",
+  "repair cadence: BatchObjective.repair() every 200 records and once at the end; guard: if K exceeds 300 right after a record, repair immediately (contract's K-explosion clause)",
+  "record label for ARI: each record is assigned to the live node containing it with the most members (tie -> lowest node id); records in no node form one background cluster labelled -1 (honest, same convention as e4)",
+  "silver product types: of_type edges (source=Product node, target='Product Type' node); every product has at most one type in this KG; ARI computed over streamed records whose product_id has a silver type, labelled silver",
+  "case-variant normalisation: lowercase + strip every non-alphanumeric character; families are normalised forms with >=2 distinct raw keys; the survey counts all unordered raw-key pairs inside families",
+  "no embedding baselines: this benchmark is a structure exhibit per protocol"
+ ],
+ "deviations": [
+  "repair uses FastBatchObjective (escrow/fastrepair.py), a PERFORMANCE-ONLY override of reassign_pass: identical candidate set, iteration order, and acceptance rule; the L_vblock terms are the exact analytic O(1) difference of the same closed form the stock pass re-sums per call. Verified: delta self-test worst error 1.0e-13; stock-vs-fast A/B on the true 2,600-record stream prefix gives identical K (15), identical mints (45), identical node member sets, and L_batch total difference 0.0 (stock 49.7s, fast 10.5s). Motivated by a cProfile showing 86% of wall time inside the stock re-summation (196M lg2 calls at n=2,600); without it the declared every-200 cadence does not finish overnight on 21,365 records.",
+  "engine.py patched before this run (recorded, minimal): the release step now guard-deletes a minting candidate from the pool (if pool.get(sig) is c) instead of an unconditional del; the unguarded del raised KeyError at n~3.6k on this stream when the 4096-cap pool capacity-evicted a candidate that later minted within the same record. No same-sig candidate can be recreated before release within a record, so the guard is exact; mint accounting is unchanged."
+ ],
+ "data": {
+  "rows_total": 36927,
+  "spec_rows": 21365,
+  "dropped_empty_parse": 0,
+  "parsed_records": 21365,
+  "unique_raw_keys_in_stream": 3033
+ },
+ "runtime": {
+  "stream_wall_s": 12362.1,
+  "process_s": 80.0,
+  "repair_s": 12282.0,
+  "rec_per_s": 1.73,
+  "repair_calls": 107,
+  "repair_every": 200,
+  "total_wall_s": 12365.5
+ },
+ "structure": {
+  "K": 68,
+  "node_sizes_top20": [
+   2719,
+   1574,
+   1364,
+   746,
+   621,
+   354,
+   334,
+   279,
+   275,
+   216,
+   200,
+   181,
+   110,
+   84,
+   81,
+   79,
+   75,
+   72,
+   66,
+   64
+  ],
+  "size_histogram": {
+   ">1000": 3,
+   "101-1000": 10,
+   "21-100": 23,
+   "6-20": 30,
+   "2-5": 2
+  },
+  "covered_records": 9752,
+  "top_nodes": [
+   {
+    "node": 18,
+    "members": 2719,
+    "support_size": 6,
+    "top_support": {
+     "color_family": {
+      "p": 2594,
+      "top_values": [
+       [
+        "Black",
+        811
+       ],
+       [
+        "Not Specified",
+        712
+       ],
+       [
+        "White",
+        252
+       ]
+      ]
+     },
+     "model": {
+      "p": 2098,
+      "top_values": [
+       [
+        "Not Specified",
+        958
+       ],
+       [
+        "Ask Customer Support",
+        105
+       ],
+       [
+        "Lainnya",
+        71
+       ]
+      ]
+     },
+     "brand": {
+      "p": 816,
+      "top_values": [
+       [
+        "Japan",
+        155
+       ],
+       [
+        "Captain Stag",
+        9
+       ],
+       [
+        "Canon",
+        7
+       ]
+      ]
+     },
+     "Variation": {
+      "p": 81,
+      "top_values": [
+       [
+        "New",
+        50
+       ],
+       [
+        "Not Specified",
+        7
+       ],
+       [
+        "None",
+        4
+       ]
+      ]
+     },
+     "year": {
+      "p": 28,
+      "top_values": [
+       [
+        "2000",
+        4
+       ],
+       [
+        "2024",
+        3
+       ],
+       [
+        "2007",
+        2
+       ]
+      ]
+     },
+     "la_installation": {
+      "p": 5,
+      "top_values": [
+       [
+        "NO",
+        4
+       ],
+       [
+        "Install",
+        1
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Game Book",
+      15
+     ],
+     [
+      "Remote Controller",
+      15
+     ],
+     [
+      "Fuel Injector",
+      14
+     ]
+    ]
+   },
+   {
+    "node": 7,
+    "members": 1574,
+    "support_size": 39,
+    "top_support": {
+     "brand": {
+      "p": 993,
+      "top_values": [
+       [
+        "Builtamart",
+        77
+       ],
+       [
+        "RedMan",
+        18
+       ],
+       [
+        "!ACCEZZ",
+        13
+       ]
+      ]
+     },
+     "dietary_needs": {
+      "p": 945,
+      "top_values": [
+       [
+        "Halal",
+        182
+       ],
+       [
+        "Healthier Choice",
+        142
+       ],
+       [
+        "Organic",
+        130
+       ]
+      ]
+     },
+     "pack_type": {
+      "p": 923,
+      "top_values": [
+       [
+        "Single",
+        593
+       ],
+       [
+        "Multipack",
+        129
+       ],
+       [
+        "Carton",
+        110
+       ]
+      ]
+     },
+     "packaging_type": {
+      "p": 921,
+      "top_values": [
+       [
+        "Bag",
+        229
+       ],
+       [
+        "Bottle",
+        173
+       ],
+       [
+        "Glass bottles",
+        98
+       ]
+      ]
+     },
+     "organic": {
+      "p": 797,
+      "top_values": [
+       [
+        "No",
+        512
+       ],
+       [
+        "Yes",
+        284
+       ]
+      ]
+     },
+     "storage_type_gr": {
+      "p": 688,
+      "top_values": [
+       [
+        "Cupboard",
+        372
+       ],
+       [
+        "Chilled",
+        191
+       ],
+       [
+        "Frozen",
+        125
+       ]
+      ]
+     },
+     "country_origin_hb": {
+      "p": 441,
+      "top_values": [
+       [
+        "Indonesia",
+        143
+       ],
+       [
+        "Vietnam",
+        54
+       ],
+       [
+        "Singapore",
+        33
+       ]
+      ]
+     },
+     "flavor": {
+      "p": 242,
+      "top_values": [
+       [
+        "Not Specified",
+        8
+       ],
+       [
+        "Chocolate",
+        5
+       ],
+       [
+        "NA",
+        3
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Alcoholic Drink",
+      91
+     ],
+     [
+      "Scotch whiskey",
+      45
+     ],
+     [
+      "Fresh Vegetables and Spices",
+      40
+     ]
+    ]
+   },
+   {
+    "node": 22,
+    "members": 1364,
+    "support_size": 48,
+    "top_support": {
+     "clothing_material": {
+      "p": 823,
+      "top_values": [
+       [
+        "Polyester",
+        146
+       ],
+       [
+        "cotton",
+        88
+       ],
+       [
+        "Lace",
+        39
+       ]
+      ]
+     },
+     "size": {
+      "p": 800,
+      "top_values": [
+       [
+        "Int:L, Int:M, Int:S, Int:XL",
+        27
+       ],
+       [
+        "Int: One size",
+        27
+       ],
+       [
+        "Not Specified",
+        24
+       ]
+      ]
+     },
+     "fa_pattern": {
+      "p": 688,
+      "top_values": [
+       [
+        "Plain",
+        288
+       ],
+       [
+        "Floral",
+        38
+       ],
+       [
+        "Graphic",
+        34
+       ]
+      ]
+     },
+     "fa_general_styles": {
+      "p": 198,
+      "top_values": [
+       [
+        "Casual",
+        90
+       ],
+       [
+        "Elegant",
+        18
+       ],
+       [
+        "Romantic",
+        11
+       ]
+      ]
+     },
+     "Sports_Material": {
+      "p": 194,
+      "top_values": [
+       [
+        "Polyester",
+        60
+       ],
+       [
+        "nylon",
+        20
+       ],
+       [
+        "Bamboo Fiber",
+        14
+       ]
+      ]
+     },
+     "activity_type": {
+      "p": 132,
+      "top_values": [
+       [
+        "Football",
+        15
+       ],
+       [
+        "Cycling",
+        12
+       ],
+       [
+        "Yoga",
+        9
+       ]
+      ]
+     },
+     "fa_season": {
+      "p": 127,
+      "top_values": [
+       [
+        "Summer",
+        45
+       ],
+       [
+        "All Seasons",
+        25
+       ],
+       [
+        "Winter",
+        15
+       ]
+      ]
+     },
+     "Size": {
+      "p": 111,
+      "top_values": [
+       [
+        "35, 36, 37, 38, 39, 40",
+        3
+       ],
+       [
+        "18-24 months, 3-4 yrs, 4-5 yrs, 6-7 yrs, 7-8 yrs",
+        3
+       ],
+       [
+        "34, 35, 36, 37, 38, 39, 40",
+        3
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Children's Clothing Set",
+      106
+     ],
+     [
+      "Women's summer pants",
+      65
+     ],
+     [
+      "Jacket and Pants",
+      54
+     ]
+    ]
+   },
+   {
+    "node": 20,
+    "members": 746,
+    "support_size": 20,
+    "top_support": {
+     "formulation_supplement": {
+      "p": 380,
+      "top_values": [
+       [
+        "Capsules",
+        114
+       ],
+       [
+        "Powders",
+        70
+       ],
+       [
+        "Liquids",
+        43
+       ]
+      ]
+     },
+     "units_hb": {
+      "p": 344,
+      "top_values": [
+       [
+        "Single Item",
+        248
+       ],
+       [
+        "Multi-pack",
+        91
+       ],
+       [
+        "1 \u0e01\u0e25\u0e48\u0e2d\u0e07",
+        1
+       ]
+      ]
+     },
+     "ingredient": {
+      "p": 210,
+      "top_values": [
+       [
+        "Collagen",
+        8
+       ],
+       [
+        "Jamu",
+        5
+       ],
+       [
+        "Amino Acids",
+        5
+       ]
+      ]
+     },
+     "brand_classification": {
+      "p": 98,
+      "top_values": [
+       [
+        "Premium",
+        30
+       ],
+       [
+        "Masstige",
+        28
+       ],
+       [
+        "Dermacare",
+        21
+       ]
+      ]
+     },
+     "skin_type": {
+      "p": 91,
+      "top_values": [
+       [
+        "All types",
+        19
+       ],
+       [
+        "Normal",
+        14
+       ],
+       [
+        "Oily",
+        7
+       ]
+      ]
+     },
+     "skin_benefit": {
+      "p": 87,
+      "top_values": [
+       [
+        "Moisturizing",
+        14
+       ],
+       [
+        "Brightening",
+        6
+       ],
+       [
+        "Anti-Aging",
+        5
+       ]
+      ]
+     },
+     "ingredient_preference": {
+      "p": 68,
+      "top_values": [
+       [
+        "AHAs",
+        6
+       ],
+       [
+        "Alcohol-free",
+        5
+       ],
+       [
+        "Paraben-free",
+        3
+       ]
+      ]
+     },
+     "travel_size": {
+      "p": 67,
+      "top_values": [
+       [
+        "Regular size",
+        46
+       ],
+       [
+        "Travel Size",
+        20
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Nutrient Supplement",
+      173
+     ],
+     [
+      "Coffee Creamer",
+      20
+     ],
+     [
+      "Herbal Tincture",
+      19
+     ]
+    ]
+   },
+   {
+    "node": 26,
+    "members": 621,
+    "support_size": 7,
+    "top_support": {
+     "language": {
+      "p": 564,
+      "top_values": [
+       [
+        "English",
+        287
+       ],
+       [
+        "Indonesian",
+        101
+       ],
+       [
+        "Vietnamese",
+        57
+       ]
+      ]
+     },
+     "isbn_issn": {
+      "p": 298,
+      "top_values": [
+       [
+        "100% Authentic",
+        8
+       ],
+       [
+        "-",
+        5
+       ],
+       [
+        "ISBN",
+        4
+       ]
+      ]
+     },
+     "model": {
+      "p": 141,
+      "top_values": [
+       [
+        "DVD",
+        8
+       ],
+       [
+        "CD",
+        3
+       ],
+       [
+        "Blu ray Disc",
+        2
+       ]
+      ]
+     },
+     "media_format": {
+      "p": 134,
+      "top_values": [
+       [
+        "DVD",
+        43
+       ],
+       [
+        "CD",
+        34
+       ],
+       [
+        "Blu Ray",
+        23
+       ]
+      ]
+     },
+     "author": {
+      "p": 90,
+      "top_values": [
+       [
+        "blank",
+        18
+       ],
+       [
+        "Nhi\u1ec1u t\u00e1c gi\u1ea3",
+        5
+       ],
+       [
+        "National Geographic",
+        2
+       ]
+      ]
+     },
+     "artist": {
+      "p": 31,
+      "top_values": [
+       [
+        "DON WILLIAMS",
+        2
+       ],
+       [
+        "Natalie Imbruglia",
+        2
+       ],
+       [
+        "Charlie Rich",
+        1
+       ]
+      ]
+     },
+     "publish_date": {
+      "p": 24,
+      "top_values": [
+       [
+        "Plastic box",
+        4
+       ],
+       [
+        "DVD",
+        2
+       ],
+       [
+        "Blu Ray",
+        2
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Game Book",
+      229
+     ],
+     [
+      "DVD",
+      53
+     ],
+     [
+      "Music Album (Vinyl)",
+      52
+     ]
+    ]
+   },
+   {
+    "node": 43,
+    "members": 354,
+    "support_size": 18,
+    "top_support": {
+     "color_family": {
+      "p": 229,
+      "top_values": [
+       [
+        "AsthePicture-NotSpecified",
+        4
+       ],
+       [
+        "Blue, Pink, Red, Yellow",
+        2
+       ],
+       [
+        "Red, Yellow",
+        2
+       ]
+      ]
+     },
+     "recommended_gender": {
+      "p": 211,
+      "top_values": [
+       [
+        "unisex",
+        137
+       ],
+       [
+        "Unisex",
+        48
+       ],
+       [
+        "Women",
+        5
+       ]
+      ]
+     },
+     "recommended_age": {
+      "p": 195,
+      "top_values": [
+       [
+        "8 years and above",
+        38
+       ],
+       [
+        "3 years and above",
+        16
+       ],
+       [
+        "1 year and above",
+        10
+       ]
+      ]
+     },
+     "model": {
+      "p": 193,
+      "top_values": [
+       [
+        "Ohters",
+        25
+       ],
+       [
+        "Sesuai gambar dan deskripsi",
+        3
+       ],
+       [
+        "1",
+        2
+       ]
+      ]
+     },
+     "interest": {
+      "p": 125,
+      "top_values": [
+       [
+        "Sports",
+        48
+       ],
+       [
+        "Children Development",
+        20
+       ],
+       [
+        "Collection",
+        11
+       ]
+      ]
+     },
+     "Nursery_Furniture_Material": {
+      "p": 21,
+      "top_values": [
+       [
+        "Fabric",
+        6
+       ],
+       [
+        "Metal",
+        4
+       ],
+       [
+        "PU Leather",
+        3
+       ]
+      ]
+     },
+     "material_filter": {
+      "p": 19,
+      "top_values": [
+       [
+        "Leather",
+        2
+       ],
+       [
+        "PU Leather",
+        1
+       ],
+       [
+        "Rubber",
+        1
+       ]
+      ]
+     },
+     "toe_shape": {
+      "p": 14,
+      "top_values": [
+       [
+        "Round Toe",
+        8
+       ],
+       [
+        "Closed Toe",
+        2
+       ],
+       [
+        "Open toe",
+        1
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Boots for Pets",
+      7
+     ],
+     [
+      "Toy Hat",
+      7
+     ],
+     [
+      "Electric KickScooter",
+      6
+     ]
+    ]
+   },
+   {
+    "node": 69,
+    "members": 334,
+    "support_size": 3,
+    "top_support": {
+     "motorcycle_make": {
+      "p": 265,
+      "top_values": [
+       [
+        "Honda",
+        104
+       ],
+       [
+        "Yamaha",
+        75
+       ],
+       [
+        "Universal",
+        30
+       ]
+      ]
+     },
+     "motorcycle_model": {
+      "p": 171,
+      "top_values": [
+       [
+        "Universal",
+        65
+       ],
+       [
+        "YAMAHA NMAX",
+        5
+       ],
+       [
+        "YAMAHA MIO",
+        5
+       ]
+      ]
+     },
+     "brand": {
+      "p": 149,
+      "top_values": [
+       [
+        "Honda",
+        57
+       ],
+       [
+        "NGK",
+        1
+       ],
+       [
+        "KTM ACCESSORIES",
+        1
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Disc Brake Rotor",
+      7
+     ],
+     [
+      "Clutch Disc Assembly",
+      7
+     ],
+     [
+      "Transmission Assembly",
+      7
+     ]
+    ]
+   },
+   {
+    "node": 78,
+    "members": 279,
+    "support_size": 4,
+    "top_support": {
+     "style": {
+      "p": 244,
+      "top_values": [
+       [
+        "Modern",
+        61
+       ],
+       [
+        "Vintage",
+        28
+       ],
+       [
+        "Traditional",
+        23
+       ]
+      ]
+     },
+     "material": {
+      "p": 221,
+      "top_values": [
+       [
+        "Wood",
+        16
+       ],
+       [
+        "Plastic",
+        16
+       ],
+       [
+        "Rubber",
+        11
+       ]
+      ]
+     },
+     "color_family": {
+      "p": 155,
+      "top_values": [
+       [
+        "Outer Window-45mm, Outer Window-55mm, Slot 15-20-25mm, Slot ",
+        6
+       ],
+       [
+        "10CM-Heart, 15CM-Heart, 15CM-Round, 20CM-Heart, 20CM-Round, ",
+        4
+       ],
+       [
+        "A",
+        2
+       ]
+      ]
+     },
+     "pattern": {
+      "p": 129,
+      "top_values": [
+       [
+        "Holiday",
+        41
+       ],
+       [
+        "Plain",
+        15
+       ],
+       [
+        "Floral",
+        14
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Night Lamp",
+      14
+     ],
+     [
+      "Coffee Table",
+      9
+     ],
+     [
+      "Dining Chair",
+      9
+     ]
+    ]
+   },
+   {
+    "node": 102,
+    "members": 275,
+    "support_size": 5,
+    "top_support": {
+     "services": {
+      "p": 275,
+      "top_values": [
+       [
+        "products only",
+        258
+       ],
+       [
+        "product with services",
+        10
+       ],
+       [
+        "service",
+        7
+       ]
+      ]
+     },
+     "make": {
+      "p": 89,
+      "top_values": [
+       [
+        "Honda",
+        9
+       ],
+       [
+        "Proton",
+        6
+       ],
+       [
+        "Toyota",
+        6
+       ]
+      ]
+     },
+     "motor_type": {
+      "p": 25,
+      "top_values": [
+       [
+        "Car",
+        16
+       ],
+       [
+        "Automotive",
+        6
+       ],
+       [
+        "car",
+        3
+       ]
+      ]
+     },
+     "car_model": {
+      "p": 19,
+      "top_values": [
+       [
+        "Fits All Cars",
+        4
+       ],
+       [
+        "Toyota Corolla",
+        2
+       ],
+       [
+        "Toyota Vios, Toyota Yaris",
+        1
+       ]
+      ]
+     },
+     "product_warranty_en": {
+      "p": 14,
+      "top_values": [
+       [
+        "7 Days Easy Return",
+        14
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Racing Tire",
+      6
+     ],
+     [
+      "Retifier",
+      5
+     ],
+     [
+      "Tie Rod End Ball Joint",
+      5
+     ]
+    ]
+   },
+   {
+    "node": 39,
+    "members": 216,
+    "support_size": 13,
+    "top_support": {
+     "Plug_Type": {
+      "p": 138,
+      "top_values": [
+       [
+        "Universal",
+        69
+       ],
+       [
+        "2 Pin",
+        11
+       ],
+       [
+        "3 Pin",
+        10
+       ]
+      ]
+     },
+     "power_consumption": {
+      "p": 130,
+      "top_values": [
+       [
+        "1-500",
+        63
+       ],
+       [
+        "1000-2000",
+        5
+       ],
+       [
+        "3000-4000",
+        5
+       ]
+      ]
+     },
+     "input_voltage": {
+      "p": 90,
+      "top_values": [
+       [
+        "220V",
+        26
+       ],
+       [
+        "12V",
+        8
+       ],
+       [
+        "100-240 V",
+        8
+       ]
+      ]
+     },
+     "security_camera_feature": {
+      "p": 18,
+      "top_values": [
+       [
+        "Indoor & Outdoor",
+        4
+       ],
+       [
+        "Wireless",
+        4
+       ],
+       [
+        "Zoom Lens",
+        3
+       ]
+      ]
+     },
+     "security_camera_style": {
+      "p": 17,
+      "top_values": [
+       [
+        "Bullet",
+        10
+       ],
+       [
+        "Turret",
+        2
+       ],
+       [
+        "Not applicable",
+        1
+       ]
+      ]
+     },
+     "recorder_channel_cap": {
+      "p": 11,
+      "top_values": [
+       [
+        "8 channel",
+        4
+       ],
+       [
+        "16 channel",
+        4
+       ],
+       [
+        "4 channel",
+        2
+       ]
+      ]
+     },
+     "power_source": {
+      "p": 10,
+      "top_values": [
+       [
+        "Direct Power Supply (Plug-in)",
+        5
+       ],
+       [
+        "Power over Ethernet (PoE)",
+        2
+       ],
+       [
+        "none",
+        1
+       ]
+      ]
+     },
+     "Installation": {
+      "p": 9,
+      "top_values": [
+       [
+        "Yes",
+        5
+       ],
+       [
+        "No",
+        2
+       ],
+       [
+        "Basic Replacement, Delivery Only, New Installation",
+        1
+       ]
+      ]
+     }
+    },
+    "silver_top_types_reporting_only": [
+     [
+      "Intelligent Flight Battery",
+      12
+     ],
+     [
+      "Door Camera",
+      5
+     ],
+     [
+      "DVR NVR System",
+      5
+     ]
+    ]
+   }
+  ]
+ },
+ "case_variant_survey": {
+  "variant_families": 167,
+  "variant_pairs": 340,
+  "buckets": {
+   "same_node": 2,
+   "both_supported_no_shared_node": 4,
+   "one_supported": 74,
+   "neither_supported": 260
+  },
+  "co_support_rate_given_both_supported": 0.3333,
+  "families_sample": {
+   "colorfamily": [
+    "Color Family",
+    "Color family",
+    "color_family"
+   ],
+   "model": [
+    "MODEL",
+    "Model",
+    "model"
+   ],
+   "brand": [
+    "Brand",
+    "brand"
+   ],
+   "material": [
+    "Material",
+    "material"
+   ],
+   "size": [
+    "SIZE",
+    "SIZe",
+    "Size",
+    "Size.",
+    "size",
+    "size.",
+    "\u0e02\u0e19\u0e32\u0e14 size"
+   ],
+   "packtype": [
+    "Pack Type",
+    "pack_type"
+   ],
+   "colorclassification": [
+    "Color classification",
+    "Color_classification"
+   ],
+   "services": [
+    "SERVICES",
+    "Services",
+    "services"
+   ],
+   "style": [
+    "STYLE",
+    "Style",
+    "style"
+   ],
+   "color": [
+    "COLOR",
+    "Color",
+    "Color.",
+    "color"
+   ],
+   "language": [
+    "Language",
+    "language"
+   ],
+   "flavor": [
+    "FLAVOR",
+    "Flavor",
+    "flavor",
+    "flavor \u0e23\u0e2a\u0e0a\u0e32\u0e15\u0e34"
+   ],
+   "variation": [
+    "VARIATION",
+    "Variation",
+    "variation"
+   ],
+   "isbnissn": [
+    "ISBN/ISSN",
+    "isbn_issn"
+   ],
+   "ingredient": [
+    "Ingredient",
+    "ingredient"
+   ]
+  },
+  "same_node_examples": [
+   {
+    "family": "size",
+    "key_a": "Size",
+    "key_b": "size",
+    "P_a": 384,
+    "P_b": 1104,
+    "nodes_a": 2,
+    "nodes_b": 2,
+    "shared_nodes": [
+     22
+    ],
+    "bucket": "same_node"
+   },
+   {
+    "family": "occasion",
+    "key_a": "Occasion",
+    "key_b": "occasion",
+    "P_a": 19,
+    "P_b": 122,
+    "nodes_a": 1,
+    "nodes_b": 1,
+    "shared_nodes": [
+     22
+    ],
+    "bucket": "same_node"
+   }
+  ],
+  "pairs_listed": [
+   {
+    "family": "1",
+    "key_a": "1",
+    "key_b": "\u0e15\u0e31\u0e27\u0e40\u0e25\u0e37\u0e2d\u0e011",
+    "P_a": 3,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "2",
+    "key_a": "\u0e23\u0e39\u0e1b\u0e41\u0e1a\u0e1a\u0e2a\u0e34\u0e19\u0e04\u0e49\u0e32 2",
+    "key_b": "\u0e23\u0e39\u0e1b\u0e41\u0e1a\u0e1a\u0e2a\u0e34\u0e19\u0e04\u0e49\u0e322",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "add",
+    "key_a": "ADD",
+    "key_b": "add",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "applicableage",
+    "key_a": "Applicable age",
+    "key_b": "Applicable_age",
+    "P_a": 2,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "aroma",
+    "key_a": "AROMA",
+    "key_b": "Aroma",
+    "P_a": 2,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "aroma",
+    "key_a": "AROMA",
+    "key_b": "aroma",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "aroma",
+    "key_a": "Aroma",
+    "key_b": "aroma",
+    "P_a": 7,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "assembly",
+    "key_a": "Assembly",
+    "key_b": "assembly",
+    "P_a": 1,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "bagian",
+    "key_a": "BAGIAN",
+    "key_b": "Bagian",
+    "P_a": 3,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "bahan",
+    "key_a": "BAHAN",
+    "key_b": "Bahan",
+    "P_a": 1,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "basketballsize",
+    "key_a": "Basketball size",
+    "key_b": "Basketball_Size",
+    "P_a": 1,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "berat",
+    "key_a": "BERAT",
+    "key_b": "Berat",
+    "P_a": 2,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "berat",
+    "key_a": "BERAT",
+    "key_b": "berat",
+    "P_a": 2,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "berat",
+    "key_a": "Berat",
+    "key_b": "berat",
+    "P_a": 7,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "bodybenefits",
+    "key_a": "Body Benefits",
+    "key_b": "body_benefits",
+    "P_a": 1,
+    "P_b": 103,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "bohnh",
+    "key_a": "B\u1ea3o H\u00e0nh",
+    "key_b": "B\u1ea3o h\u00e0nh",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "box",
+    "key_a": "Box",
+    "key_b": "box",
+    "P_a": 3,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "brand",
+    "key_a": "Brand",
+    "key_b": "brand",
+    "P_a": 23,
+    "P_b": 7366,
+    "nodes_a": 0,
+    "nodes_b": 13,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "brandclassification",
+    "key_a": "Brand Classification",
+    "key_b": "brand_classification",
+    "P_a": 2,
+    "P_b": 121,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "bundle",
+    "key_a": "BUNDLE",
+    "key_b": "Bundle",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "bundle",
+    "key_a": "BUNDLE",
+    "key_b": "bundle",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "bundle",
+    "key_a": "Bundle",
+    "key_b": "bundle",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "cablelength",
+    "key_a": "Cable_Length",
+    "key_b": "cable_length",
+    "P_a": 1,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "capacity",
+    "key_a": "Capacity",
+    "key_b": "capacity",
+    "P_a": 9,
+    "P_b": 104,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "ccloi",
+    "key_a": "C\u00e1c Lo\u1ea1i",
+    "key_b": "C\u00e1c lo\u1ea1i :",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "chiudi",
+    "key_a": "Chi\u1ec1u d\u00e0i",
+    "key_b": "chi\u1ec1u d\u00e0i",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "chn",
+    "key_a": "CH\u1eccN",
+    "key_b": "Ch\u1ecdn",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "choices",
+    "key_a": "CHOICES",
+    "key_b": "Choices",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "choices",
+    "key_a": "CHOICES",
+    "key_b": "choices",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "choices",
+    "key_a": "Choices",
+    "key_b": "choices",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "classification",
+    "key_a": "Classification",
+    "key_b": "Classification-",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "code",
+    "key_a": "CODE",
+    "key_b": "Code",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "color",
+    "key_a": "COLOR",
+    "key_b": "Color",
+    "P_a": 10,
+    "P_b": 352,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "color",
+    "key_a": "COLOR",
+    "key_b": "Color.",
+    "P_a": 10,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "color",
+    "key_a": "COLOR",
+    "key_b": "color",
+    "P_a": 10,
+    "P_b": 608,
+    "nodes_a": 0,
+    "nodes_b": 3,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "color",
+    "key_a": "Color",
+    "key_b": "Color.",
+    "P_a": 352,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "color",
+    "key_a": "Color",
+    "key_b": "color",
+    "P_a": 352,
+    "P_b": 608,
+    "nodes_a": 0,
+    "nodes_b": 3,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "color",
+    "key_a": "Color.",
+    "key_b": "color",
+    "P_a": 12,
+    "P_b": 608,
+    "nodes_a": 0,
+    "nodes_b": 3,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "colorclassification",
+    "key_a": "Color classification",
+    "key_b": "Color_classification",
+    "P_a": 838,
+    "P_b": 7,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "colorfamily",
+    "key_a": "Color Family",
+    "key_b": "Color family",
+    "P_a": 45,
+    "P_b": 19,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "colorfamily",
+    "key_a": "Color Family",
+    "key_b": "color_family",
+    "P_a": 45,
+    "P_b": 8672,
+    "nodes_a": 1,
+    "nodes_b": 6,
+    "shared_nodes": [],
+    "bucket": "both_supported_no_shared_node"
+   },
+   {
+    "family": "colorfamily",
+    "key_a": "Color family",
+    "key_b": "color_family",
+    "P_a": 19,
+    "P_b": 8672,
+    "nodes_a": 0,
+    "nodes_b": 6,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "colors",
+    "key_a": "COLORS",
+    "key_b": "Colors",
+    "P_a": 2,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "colour",
+    "key_a": "COLOUR",
+    "key_b": "Colour",
+    "P_a": 4,
+    "P_b": 27,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "colour",
+    "key_a": "COLOUR",
+    "key_b": "colour",
+    "P_a": 4,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "colour",
+    "key_a": "Colour",
+    "key_b": "colour",
+    "P_a": 27,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "combo",
+    "key_a": "Combo",
+    "key_b": "combo",
+    "P_a": 3,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "compatibility",
+    "key_a": "Compatibility",
+    "key_b": "compatibility",
+    "P_a": 15,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "connectiontype",
+    "key_a": "Connection_Type",
+    "key_b": "connection_type",
+    "P_a": 10,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "connectivity",
+    "key_a": "Connectivity",
+    "key_b": "connectivity",
+    "P_a": 11,
+    "P_b": 15,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "consoletype",
+    "key_a": "Console Type",
+    "key_b": "console_type",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "count",
+    "key_a": "Count",
+    "key_b": "count",
+    "P_a": 2,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "cuisine",
+    "key_a": "Cuisine",
+    "key_b": "cuisine",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "datapackage",
+    "key_a": "Data Package",
+    "key_b": "data package",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "daysofsupply",
+    "key_a": "Days of Supply",
+    "key_b": "days_of_supply",
+    "P_a": 1,
+    "P_b": 37,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "default",
+    "key_a": "Default",
+    "key_b": "default",
+    "P_a": 10,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "desain",
+    "key_a": "DESAIN",
+    "key_b": "Desain",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "design",
+    "key_a": "DESIGN",
+    "key_b": "Design",
+    "P_a": 1,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "design",
+    "key_a": "DESIGN",
+    "key_b": "design",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "design",
+    "key_a": "Design",
+    "key_b": "design",
+    "P_a": 8,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "dogsize",
+    "key_a": "Dog Size",
+    "key_b": "dog_size",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "dungtch",
+    "key_a": "Dung T\u00edch",
+    "key_b": "Dung t\u00edch",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "dungtch",
+    "key_a": "Dung T\u00edch",
+    "key_b": "dung t\u00edch",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "dungtch",
+    "key_a": "Dung t\u00edch",
+    "key_b": "dung t\u00edch",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "duration",
+    "key_a": "DURATION",
+    "key_b": "Duration",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "expirydate",
+    "key_a": "Expiry date",
+    "key_b": "Expiry_Date",
+    "P_a": 1,
+    "P_b": 67,
+    "nodes_a": 1,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "both_supported_no_shared_node"
+   },
+   {
+    "family": "flavor",
+    "key_a": "FLAVOR",
+    "key_b": "Flavor",
+    "P_a": 7,
+    "P_b": 23,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavor",
+    "key_a": "FLAVOR",
+    "key_b": "flavor",
+    "P_a": 7,
+    "P_b": 404,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "flavor",
+    "key_a": "FLAVOR",
+    "key_b": "flavor \u0e23\u0e2a\u0e0a\u0e32\u0e15\u0e34",
+    "P_a": 7,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavor",
+    "key_a": "Flavor",
+    "key_b": "flavor",
+    "P_a": 23,
+    "P_b": 404,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "flavor",
+    "key_a": "Flavor",
+    "key_b": "flavor \u0e23\u0e2a\u0e0a\u0e32\u0e15\u0e34",
+    "P_a": 23,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavor",
+    "key_a": "flavor",
+    "key_b": "flavor \u0e23\u0e2a\u0e0a\u0e32\u0e15\u0e34",
+    "P_a": 404,
+    "P_b": 1,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "flavors",
+    "key_a": "FLAVORS",
+    "key_b": "Flavors",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavour",
+    "key_a": "FLAVOUR",
+    "key_b": "Flavour",
+    "P_a": 3,
+    "P_b": 11,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavours",
+    "key_a": "FLAVOURS",
+    "key_b": "Flavours",
+    "P_a": 1,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavours",
+    "key_a": "FLAVOURS",
+    "key_b": "flavours",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flavours",
+    "key_a": "Flavours",
+    "key_b": "flavours",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "flowlevel",
+    "key_a": "Flow Level",
+    "key_b": "flow_level",
+    "P_a": 1,
+    "P_b": 14,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "framecolor",
+    "key_a": "Frame Color",
+    "key_b": "Frame color",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "framecolor",
+    "key_a": "Frame Color",
+    "key_b": "frame_color",
+    "P_a": 4,
+    "P_b": 43,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "framecolor",
+    "key_a": "Frame color",
+    "key_b": "frame_color",
+    "P_a": 1,
+    "P_b": 43,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "gamegenre",
+    "key_a": "Game Genre",
+    "key_b": "Game_Genre",
+    "P_a": 1,
+    "P_b": 19,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "gamegenre",
+    "key_a": "Game Genre",
+    "key_b": "game_genre",
+    "P_a": 1,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "gamegenre",
+    "key_a": "Game_Genre",
+    "key_b": "game_genre",
+    "P_a": 19,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "gender",
+    "key_a": "GENDER",
+    "key_b": "Gender",
+    "P_a": 1,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "hng",
+    "key_a": "H\u00c3NG",
+    "key_b": "H\u00e3ng",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "hng",
+    "key_a": "H\u00c3NG",
+    "key_b": "H\u01b0\u01a1ng",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "hng",
+    "key_a": "H\u00e3ng",
+    "key_b": "H\u01b0\u01a1ng",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "hngv",
+    "key_a": "H\u01b0\u01a1ng V\u1ecb",
+    "key_b": "H\u01b0\u01a1ng v\u1ecb",
+    "P_a": 1,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "hngv",
+    "key_a": "H\u01b0\u01a1ng V\u1ecb",
+    "key_b": "h\u01b0\u01a1ng v\u1ecb",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "hngv",
+    "key_a": "H\u01b0\u01a1ng v\u1ecb",
+    "key_b": "h\u01b0\u01a1ng v\u1ecb",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "ingredient",
+    "key_a": "Ingredient",
+    "key_b": "ingredient",
+    "P_a": 2,
+    "P_b": 218,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "inputvoltage",
+    "key_a": "Input voltage",
+    "key_b": "input_voltage",
+    "P_a": 1,
+    "P_b": 116,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "isbnissn",
+    "key_a": "ISBN/ISSN",
+    "key_b": "isbn_issn",
+    "P_a": 1,
+    "P_b": 304,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "isi",
+    "key_a": "ISI",
+    "key_b": "Isi",
+    "P_a": 3,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "isi",
+    "key_a": "ISI",
+    "key_b": "isi",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "isi",
+    "key_a": "Isi",
+    "key_b": "isi",
+    "P_a": 5,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "issue",
+    "key_a": "Issue",
+    "key_b": "issue",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "jenis",
+    "key_a": "JENIS",
+    "key_b": "Jenis",
+    "P_a": 3,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "jeniskemasan",
+    "key_a": "JENIS KEMASAN",
+    "key_b": "Jenis Kemasan",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "jenispaket",
+    "key_a": "Jenis Paket",
+    "key_b": "Jenis paket",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "jumlah",
+    "key_a": "JUMLAH",
+    "key_b": "Jumlah",
+    "P_a": 3,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "jumlah",
+    "key_a": "JUMLAH",
+    "key_b": "jumlah",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "jumlah",
+    "key_a": "Jumlah",
+    "key_b": "jumlah",
+    "P_a": 6,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "karakter",
+    "key_a": "Karakter",
+    "key_b": "karakter",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchc",
+    "key_a": "K\u00edch C\u1ee1",
+    "key_b": "K\u00edch c\u1ee1",
+    "P_a": 1,
+    "P_b": 11,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchc",
+    "key_a": "K\u00edch C\u1ee1",
+    "key_b": "k\u00edch c\u1ee1",
+    "P_a": 1,
+    "P_b": 20,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchc",
+    "key_a": "K\u00edch c\u1ee1",
+    "key_b": "k\u00edch c\u1ee1",
+    "P_a": 11,
+    "P_b": 20,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchthc",
+    "key_a": "K\u00cdCH TH\u01af\u1edaC",
+    "key_b": "K\u00edch Th\u01b0\u1edbc",
+    "P_a": 4,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchthc",
+    "key_a": "K\u00cdCH TH\u01af\u1edaC",
+    "key_b": "K\u00edch th\u01b0\u1edbc",
+    "P_a": 4,
+    "P_b": 61,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchthc",
+    "key_a": "K\u00cdCH TH\u01af\u1edaC",
+    "key_b": "k\u00edch th\u01b0\u1edbc",
+    "P_a": 4,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchthc",
+    "key_a": "K\u00edch Th\u01b0\u1edbc",
+    "key_b": "K\u00edch th\u01b0\u1edbc",
+    "P_a": 2,
+    "P_b": 61,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchthc",
+    "key_a": "K\u00edch Th\u01b0\u1edbc",
+    "key_b": "k\u00edch th\u01b0\u1edbc",
+    "P_a": 2,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kchthc",
+    "key_a": "K\u00edch th\u01b0\u1edbc",
+    "key_b": "k\u00edch th\u01b0\u1edbc",
+    "P_a": 61,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kemasan",
+    "key_a": "Kemasan",
+    "key_b": "kemasan",
+    "P_a": 5,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "kiudng",
+    "key_a": "KI\u1ec2U D\u00c1NG",
+    "key_b": "ki\u1ec3u d\u00e1ng",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "lachn",
+    "key_a": "L\u1ef1a ch\u1ecdn",
+    "key_b": "l\u1ef1a ch\u1ecdn",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "language",
+    "key_a": "Language",
+    "key_b": "language",
+    "P_a": 1,
+    "P_b": 594,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "length",
+    "key_a": "LENGTH",
+    "key_b": "Length",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "length",
+    "key_a": "LENGTH",
+    "key_b": "length",
+    "P_a": 1,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "length",
+    "key_a": "Length",
+    "key_b": "length",
+    "P_a": 9,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "logo",
+    "key_a": "Logo",
+    "key_b": "logo",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "loi",
+    "key_a": "LO\u1ea0I",
+    "key_b": "Lo\u1ea1i",
+    "P_a": 4,
+    "P_b": 26,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "loi",
+    "key_a": "LO\u1ea0I",
+    "key_b": "Lo\u1ea1i:",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "loi",
+    "key_a": "LO\u1ea0I",
+    "key_b": "lo\u1ea1i",
+    "P_a": 4,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "loi",
+    "key_a": "Lo\u1ea1i",
+    "key_b": "Lo\u1ea1i:",
+    "P_a": 26,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "loi",
+    "key_a": "Lo\u1ea1i",
+    "key_b": "lo\u1ea1i",
+    "P_a": 26,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "loi",
+    "key_a": "Lo\u1ea1i:",
+    "key_b": "lo\u1ea1i",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "material",
+    "key_a": "Material",
+    "key_b": "material",
+    "P_a": 1,
+    "P_b": 1585,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "mausc",
+    "key_a": "MAU S\u1eaeC",
+    "key_b": "MA\u0300U S\u0102\u0301C",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "merk",
+    "key_a": "MERK",
+    "key_b": "Merk",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mihng",
+    "key_a": "M\u00f9i H\u01b0\u01a1ng",
+    "key_b": "M\u00f9i h\u01b0\u01a1ng",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "model",
+    "key_a": "MODEL",
+    "key_b": "Model",
+    "P_a": 15,
+    "P_b": 67,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "model",
+    "key_a": "MODEL",
+    "key_b": "model",
+    "P_a": 15,
+    "P_b": 7715,
+    "nodes_a": 0,
+    "nodes_b": 7,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "model",
+    "key_a": "Model",
+    "key_b": "model",
+    "P_a": 67,
+    "P_b": 7715,
+    "nodes_a": 0,
+    "nodes_b": 7,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "motif",
+    "key_a": "MOTIF",
+    "key_b": "Motif",
+    "P_a": 5,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "motif",
+    "key_a": "MOTIF",
+    "key_b": "motif",
+    "P_a": 5,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "motif",
+    "key_a": "Motif",
+    "key_b": "motif",
+    "P_a": 5,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00c0U",
+    "key_b": "M\u00e0u",
+    "P_a": 4,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00c0U",
+    "key_b": "M\u1eabu",
+    "P_a": 4,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00c0U",
+    "key_b": "m\u00e0u",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00c0U",
+    "key_b": "m\u1ea7u",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00c0U",
+    "key_b": "m\u1eabu",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00e0u",
+    "key_b": "M\u1eabu",
+    "P_a": 9,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00e0u",
+    "key_b": "m\u00e0u",
+    "P_a": 9,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00e0u",
+    "key_b": "m\u1ea7u",
+    "P_a": 9,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u00e0u",
+    "key_b": "m\u1eabu",
+    "P_a": 9,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u1eabu",
+    "key_b": "m\u00e0u",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u1eabu",
+    "key_b": "m\u1ea7u",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "M\u1eabu",
+    "key_b": "m\u1eabu",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "m\u00e0u",
+    "key_b": "m\u1ea7u",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "m\u00e0u",
+    "key_b": "m\u1eabu",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "mu",
+    "key_a": "m\u1ea7u",
+    "key_b": "m\u1eabu",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00c0U S\u1eaeC",
+    "key_b": "M\u00e0u S\u1eafc",
+    "P_a": 4,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00c0U S\u1eaeC",
+    "key_b": "M\u00e0u s\u1eafc",
+    "P_a": 4,
+    "P_b": 61,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00c0U S\u1eaeC",
+    "key_b": "M\u00e0u_s\u1eafc",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00c0U S\u1eaeC",
+    "key_b": "m\u00e0u s\u1eafc",
+    "P_a": 4,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00e0u S\u1eafc",
+    "key_b": "M\u00e0u s\u1eafc",
+    "P_a": 12,
+    "P_b": 61,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00e0u S\u1eafc",
+    "key_b": "M\u00e0u_s\u1eafc",
+    "P_a": 12,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00e0u S\u1eafc",
+    "key_b": "m\u00e0u s\u1eafc",
+    "P_a": 12,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00e0u s\u1eafc",
+    "key_b": "M\u00e0u_s\u1eafc",
+    "P_a": 61,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00e0u s\u1eafc",
+    "key_b": "m\u00e0u s\u1eafc",
+    "P_a": 61,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "musc",
+    "key_a": "M\u00e0u_s\u1eafc",
+    "key_b": "m\u00e0u s\u1eafc",
+    "P_a": 1,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netcontent",
+    "key_a": "Net content",
+    "key_b": "Net_Content",
+    "P_a": 19,
+    "P_b": 11,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netweight",
+    "key_a": "Net Weight",
+    "key_b": "Net weight",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netweight",
+    "key_a": "Net Weight",
+    "key_b": "Net_Weight",
+    "P_a": 1,
+    "P_b": 13,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netweight",
+    "key_a": "Net Weight",
+    "key_b": "net weight",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netweight",
+    "key_a": "Net weight",
+    "key_b": "Net_Weight",
+    "P_a": 1,
+    "P_b": 13,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netweight",
+    "key_a": "Net weight",
+    "key_b": "net weight",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "netweight",
+    "key_a": "Net_Weight",
+    "key_b": "net weight",
+    "P_a": 13,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "nhmmu",
+    "key_a": "Nh\u00f3m M\u00e0u",
+    "key_b": "Nh\u00f3m m\u00e0u",
+    "P_a": 3,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "nhmmu",
+    "key_a": "Nh\u00f3m M\u00e0u",
+    "key_b": "nh\u00f3m m\u00e0u",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "nhmmu",
+    "key_a": "Nh\u00f3m m\u00e0u",
+    "key_b": "nh\u00f3m m\u00e0u",
+    "P_a": 9,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "numberofpages",
+    "key_a": "Number of pages",
+    "key_b": "number_of_pages",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "occasion",
+    "key_a": "Occasion",
+    "key_b": "occasion",
+    "P_a": 19,
+    "P_b": 122,
+    "nodes_a": 1,
+    "nodes_b": 1,
+    "shared_nodes": [
+     22
+    ],
+    "bucket": "same_node"
+   },
+   {
+    "family": "option",
+    "key_a": "OPTION",
+    "key_b": "Option",
+    "P_a": 3,
+    "P_b": 20,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "options",
+    "key_a": "OPTIONS",
+    "key_b": "Options",
+    "P_a": 2,
+    "P_b": 28,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "options",
+    "key_a": "OPTIONS",
+    "key_b": "options",
+    "P_a": 2,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "options",
+    "key_a": "Options",
+    "key_b": "options",
+    "P_a": 28,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pack",
+    "key_a": "Pack",
+    "key_b": "Pack/\u5305",
+    "P_a": 7,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pack",
+    "key_a": "Pack",
+    "key_b": "pack",
+    "P_a": 7,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pack",
+    "key_a": "Pack/\u5305",
+    "key_b": "pack",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "package",
+    "key_a": "Package",
+    "key_b": "package",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "packaging",
+    "key_a": "Packaging",
+    "key_b": "packaging",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "packsize",
+    "key_a": "Pack Size",
+    "key_b": "Pack_Size",
+    "P_a": 1,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "packtype",
+    "key_a": "Pack Type",
+    "key_b": "pack_type",
+    "P_a": 4,
+    "P_b": 936,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "paintfinish",
+    "key_a": "Paint Finish",
+    "key_b": "paint_finish",
+    "P_a": 1,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "painttype",
+    "key_a": "Paint Type",
+    "key_b": "paint_type",
+    "P_a": 1,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "paket",
+    "key_a": "PAKET",
+    "key_b": "Paket",
+    "P_a": 1,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "patterned",
+    "key_a": "Patterned",
+    "key_b": "patterned",
+    "P_a": 1,
+    "P_b": 14,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pcs",
+    "key_a": "PCS",
+    "key_b": "pcs",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "phnloi",
+    "key_a": "PH\u00c2N LO\u1ea0I",
+    "key_b": "Ph\u00e2n Lo\u1ea1i",
+    "P_a": 10,
+    "P_b": 23,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "phnloi",
+    "key_a": "PH\u00c2N LO\u1ea0I",
+    "key_b": "Ph\u00e2n lo\u1ea1i",
+    "P_a": 10,
+    "P_b": 34,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "phnloi",
+    "key_a": "PH\u00c2N LO\u1ea0I",
+    "key_b": "ph\u00e2n lo\u1ea1i",
+    "P_a": 10,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "phnloi",
+    "key_a": "Ph\u00e2n Lo\u1ea1i",
+    "key_b": "Ph\u00e2n lo\u1ea1i",
+    "P_a": 23,
+    "P_b": 34,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "phnloi",
+    "key_a": "Ph\u00e2n Lo\u1ea1i",
+    "key_b": "ph\u00e2n lo\u1ea1i",
+    "P_a": 23,
+    "P_b": 8,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "phnloi",
+    "key_a": "Ph\u00e2n lo\u1ea1i",
+    "key_b": "ph\u00e2n lo\u1ea1i",
+    "P_a": 34,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "phnloimusc",
+    "key_a": "Ph\u00e2n lo\u1ea1i m\u00e0u s\u1eafc",
+    "key_b": "ph\u00e2n lo\u1ea1i m\u00e0u s\u1eafc",
+    "P_a": 215,
+    "P_b": 8,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pilihan",
+    "key_a": "PILIHAN",
+    "key_b": "Pilihan",
+    "P_a": 2,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pilihan",
+    "key_a": "PILIHAN",
+    "key_b": "pilihan",
+    "P_a": 2,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pilihan",
+    "key_a": "Pilihan",
+    "key_b": "pilihan",
+    "P_a": 3,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pilihsize",
+    "key_a": "PILIH SIZE",
+    "key_b": "Pilih size",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "pin",
+    "key_a": "Pin",
+    "key_b": "pin",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "platform",
+    "key_a": "Platform",
+    "key_b": "platform",
+    "P_a": 1,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "plugtype",
+    "key_a": "PLug Type",
+    "key_b": "Plug Type",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "plugtype",
+    "key_a": "PLug Type",
+    "key_b": "Plug_Type",
+    "P_a": 1,
+    "P_b": 209,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "plugtype",
+    "key_a": "Plug Type",
+    "key_b": "Plug_Type",
+    "P_a": 2,
+    "P_b": 209,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "power",
+    "key_a": "POWER",
+    "key_b": "Power",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "product",
+    "key_a": "Product",
+    "key_b": "product",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "productform",
+    "key_a": "Product Form",
+    "key_b": "Product_Form",
+    "P_a": 3,
+    "P_b": 58,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "producttype",
+    "key_a": "PRODUCT TYPE",
+    "key_b": "product_type",
+    "P_a": 2,
+    "P_b": 151,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "qty",
+    "key_a": "QTY",
+    "key_b": "Qty",
+    "P_a": 8,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "qty",
+    "key_a": "QTY",
+    "key_b": "qty",
+    "P_a": 8,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "qty",
+    "key_a": "Qty",
+    "key_b": "qty",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quantity",
+    "key_a": "QUANTITY",
+    "key_b": "Quantity",
+    "P_a": 3,
+    "P_b": 28,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quantity",
+    "key_a": "QUANTITY",
+    "key_b": "quantity",
+    "P_a": 3,
+    "P_b": 11,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quantity",
+    "key_a": "Quantity",
+    "key_b": "quantity",
+    "P_a": 28,
+    "P_b": 11,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quycch",
+    "key_a": "QUY C\u00c1CH",
+    "key_b": "Quy C\u00e1ch",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quycch",
+    "key_a": "QUY C\u00c1CH",
+    "key_b": "Quy c\u00e1ch",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quycch",
+    "key_a": "QUY C\u00c1CH",
+    "key_b": "quy c\u00e1ch",
+    "P_a": 3,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quycch",
+    "key_a": "Quy C\u00e1ch",
+    "key_b": "Quy c\u00e1ch",
+    "P_a": 2,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quycch",
+    "key_a": "Quy C\u00e1ch",
+    "key_b": "quy c\u00e1ch",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "quycch",
+    "key_a": "Quy c\u00e1ch",
+    "key_b": "quy c\u00e1ch",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "rasa",
+    "key_a": "RASA",
+    "key_b": "Rasa",
+    "P_a": 7,
+    "P_b": 14,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "ribbontype",
+    "key_a": "Ribbon Type",
+    "key_b": "ribbon_type",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "ringsize",
+    "key_a": "Ring Size",
+    "key_b": "ring_size",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "scent",
+    "key_a": "Scent",
+    "key_b": "scent",
+    "P_a": 15,
+    "P_b": 48,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "seedtype",
+    "key_a": "Seed Type",
+    "key_b": "Seed_Type",
+    "P_a": 1,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "services",
+    "key_a": "SERVICES",
+    "key_b": "Services",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "services",
+    "key_a": "SERVICES",
+    "key_b": "services",
+    "P_a": 1,
+    "P_b": 630,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "services",
+    "key_a": "Services",
+    "key_b": "services",
+    "P_a": 1,
+    "P_b": 630,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "set",
+    "key_a": "Set",
+    "key_b": "set",
+    "P_a": 1,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "shoesize",
+    "key_a": "Shoe Size",
+    "key_b": "Shoe size",
+    "P_a": 6,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZE",
+    "key_b": "SIZe",
+    "P_a": 26,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZE",
+    "key_b": "Size",
+    "P_a": 26,
+    "P_b": 384,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZE",
+    "key_b": "Size.",
+    "P_a": 26,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZE",
+    "key_b": "size",
+    "P_a": 26,
+    "P_b": 1104,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZE",
+    "key_b": "size.",
+    "P_a": 26,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZE",
+    "key_b": "\u0e02\u0e19\u0e32\u0e14 size",
+    "P_a": 26,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZe",
+    "key_b": "Size",
+    "P_a": 1,
+    "P_b": 384,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZe",
+    "key_b": "Size.",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZe",
+    "key_b": "size",
+    "P_a": 1,
+    "P_b": 1104,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZe",
+    "key_b": "size.",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "SIZe",
+    "key_b": "\u0e02\u0e19\u0e32\u0e14 size",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "Size",
+    "key_b": "Size.",
+    "P_a": 384,
+    "P_b": 9,
+    "nodes_a": 2,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "both_supported_no_shared_node"
+   },
+   {
+    "family": "size",
+    "key_a": "Size",
+    "key_b": "size",
+    "P_a": 384,
+    "P_b": 1104,
+    "nodes_a": 2,
+    "nodes_b": 2,
+    "shared_nodes": [
+     22
+    ],
+    "bucket": "same_node"
+   },
+   {
+    "family": "size",
+    "key_a": "Size",
+    "key_b": "size.",
+    "P_a": 384,
+    "P_b": 1,
+    "nodes_a": 2,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "Size",
+    "key_b": "\u0e02\u0e19\u0e32\u0e14 size",
+    "P_a": 384,
+    "P_b": 1,
+    "nodes_a": 2,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "Size.",
+    "key_b": "size",
+    "P_a": 9,
+    "P_b": 1104,
+    "nodes_a": 1,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "both_supported_no_shared_node"
+   },
+   {
+    "family": "size",
+    "key_a": "Size.",
+    "key_b": "size.",
+    "P_a": 9,
+    "P_b": 1,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "Size.",
+    "key_b": "\u0e02\u0e19\u0e32\u0e14 size",
+    "P_a": 9,
+    "P_b": 1,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "size",
+    "key_b": "size.",
+    "P_a": 1104,
+    "P_b": 1,
+    "nodes_a": 2,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "size",
+    "key_b": "\u0e02\u0e19\u0e32\u0e14 size",
+    "P_a": 1104,
+    "P_b": 1,
+    "nodes_a": 2,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "size",
+    "key_a": "size.",
+    "key_b": "\u0e02\u0e19\u0e32\u0e14 size",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "sizeglove",
+    "key_a": "Size Glove",
+    "key_b": "Size_Glove",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "sizes",
+    "key_a": "SIZES",
+    "key_b": "Sizes",
+    "P_a": 3,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "sizes",
+    "key_a": "SIZES",
+    "key_b": "sizes",
+    "P_a": 3,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "sizes",
+    "key_a": "Sizes",
+    "key_b": "sizes",
+    "P_a": 4,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "sizewear",
+    "key_a": "Size Wear",
+    "key_b": "size_wear",
+    "P_a": 1,
+    "P_b": 23,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "slng",
+    "key_a": "S\u1ed1 L\u01b0\u1ee3ng",
+    "key_b": "S\u1ed1 l\u01b0\u1ee3ng",
+    "P_a": 2,
+    "P_b": 14,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "smell",
+    "key_a": "Smell",
+    "key_b": "smell",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "sortbycolor",
+    "key_a": "Sort by color",
+    "key_b": "sort by color",
+    "P_a": 9,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "specification",
+    "key_a": "SPECIFICATION",
+    "key_b": "Specification",
+    "P_a": 2,
+    "P_b": 35,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "specification",
+    "key_a": "SPECIFICATION",
+    "key_b": "specification",
+    "P_a": 2,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "specification",
+    "key_a": "Specification",
+    "key_b": "specification",
+    "P_a": 35,
+    "P_b": 2,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "specifications",
+    "key_a": "Specifications",
+    "key_b": "specifications",
+    "P_a": 30,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "spesifikasi",
+    "key_a": "SPESIFIKASI",
+    "key_b": "Spesifikasi",
+    "P_a": 2,
+    "P_b": 10,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "storagecapacity",
+    "key_a": "Storage Capacity",
+    "key_b": "Storage_capacity",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "storagetype",
+    "key_a": "Storage_Type",
+    "key_b": "storage_type",
+    "P_a": 15,
+    "P_b": 2,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "style",
+    "key_a": "STYLE",
+    "key_b": "Style",
+    "P_a": 1,
+    "P_b": 25,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "style",
+    "key_a": "STYLE",
+    "key_b": "style",
+    "P_a": 1,
+    "P_b": 628,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "style",
+    "key_a": "Style",
+    "key_b": "style",
+    "P_a": 25,
+    "P_b": 628,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "styles",
+    "key_a": "Styles",
+    "key_b": "styles",
+    "P_a": 1,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "surfacerecommendation",
+    "key_a": "Surface Recommendation",
+    "key_b": "Surface_Recommendation",
+    "P_a": 1,
+    "P_b": 27,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "switchtype",
+    "key_a": "Switch type",
+    "key_b": "Switch_type",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "taste",
+    "key_a": "Taste",
+    "key_b": "taste",
+    "P_a": 19,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "thngs",
+    "key_a": "Th\u00f4ng s\u1ed1",
+    "key_b": "th\u00f4ng s\u1ed1",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "tipe",
+    "key_a": "TIPE",
+    "key_b": "Tipe",
+    "P_a": 2,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "tipe",
+    "key_a": "TIPE",
+    "key_b": "tipe",
+    "P_a": 2,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "tipe",
+    "key_a": "Tipe",
+    "key_b": "tipe",
+    "P_a": 7,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "title",
+    "key_a": "TITLE",
+    "key_b": "Title",
+    "P_a": 1,
+    "P_b": 16,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "title",
+    "key_a": "TITLE",
+    "key_b": "title",
+    "P_a": 1,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "title",
+    "key_a": "Title",
+    "key_b": "title",
+    "P_a": 16,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "towelsize",
+    "key_a": "Towel Size",
+    "key_b": "towel_size",
+    "P_a": 1,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "travelsize",
+    "key_a": "Travel Size",
+    "key_b": "travel_size",
+    "P_a": 2,
+    "P_b": 67,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "trnglng",
+    "key_a": "TR\u1eccNG L\u01af\u1ee2NG",
+    "key_b": "Tr\u1ecdng l\u01b0\u1ee3ng",
+    "P_a": 5,
+    "P_b": 3,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "tychn",
+    "key_a": "T\u00f9y ch\u1ecdn",
+    "key_b": "t\u00f9y ch\u1ecdn",
+    "P_a": 8,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "type",
+    "key_a": "TYPE",
+    "key_b": "Type",
+    "P_a": 18,
+    "P_b": 44,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "type",
+    "key_a": "TYPE",
+    "key_b": "Type \u6b3e\u5f0f",
+    "P_a": 18,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "type",
+    "key_a": "TYPE",
+    "key_b": "type",
+    "P_a": 18,
+    "P_b": 23,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "type",
+    "key_a": "Type",
+    "key_b": "Type \u6b3e\u5f0f",
+    "P_a": 44,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "type",
+    "key_a": "Type",
+    "key_b": "type",
+    "P_a": 44,
+    "P_b": 23,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "type",
+    "key_a": "Type \u6b3e\u5f0f",
+    "key_b": "type",
+    "P_a": 1,
+    "P_b": 23,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "types",
+    "key_a": "Types",
+    "key_b": "types",
+    "P_a": 5,
+    "P_b": 5,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "typesofcondiments",
+    "key_a": "Types Of Condiments",
+    "key_b": "Types_Of_Condiments",
+    "P_a": 1,
+    "P_b": 10,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "typesofdimsum",
+    "key_a": "Types_of_Dim_Sum",
+    "key_b": "Types_of_Dimsum",
+    "P_a": 8,
+    "P_b": 6,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "ukuran",
+    "key_a": "UKURAN",
+    "key_b": "Ukuran",
+    "P_a": 15,
+    "P_b": 72,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "ukuran",
+    "key_a": "UKURAN",
+    "key_b": "ukuran",
+    "P_a": 15,
+    "P_b": 17,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "ukuran",
+    "key_a": "Ukuran",
+    "key_b": "ukuran",
+    "P_a": 72,
+    "P_b": 17,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "unitmetric",
+    "key_a": "Unit Metric",
+    "key_b": "unit_metric",
+    "P_a": 1,
+    "P_b": 182,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "usia",
+    "key_a": "Usia",
+    "key_b": "usia",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "varian",
+    "key_a": "VARIAN",
+    "key_b": "Varian",
+    "P_a": 19,
+    "P_b": 37,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "varian",
+    "key_a": "VARIAN",
+    "key_b": "varian",
+    "P_a": 19,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "varian",
+    "key_a": "Varian",
+    "key_b": "varian",
+    "P_a": 37,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "varian2",
+    "key_a": "Varian 2",
+    "key_b": "Varian2",
+    "P_a": 2,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "varianrasa",
+    "key_a": "Varian Rasa",
+    "key_b": "varian rasa",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variant",
+    "key_a": "VARIANT",
+    "key_b": "Variant",
+    "P_a": 3,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variasi",
+    "key_a": "VARIASI",
+    "key_b": "Variasi",
+    "P_a": 11,
+    "P_b": 25,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variasi",
+    "key_a": "VARIASI",
+    "key_b": "Variasi :",
+    "P_a": 11,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variasi",
+    "key_a": "VARIASI",
+    "key_b": "variasi",
+    "P_a": 11,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variasi",
+    "key_a": "Variasi",
+    "key_b": "Variasi :",
+    "P_a": 25,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variasi",
+    "key_a": "Variasi",
+    "key_b": "variasi",
+    "P_a": 25,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variasi",
+    "key_a": "Variasi :",
+    "key_b": "variasi",
+    "P_a": 1,
+    "P_b": 7,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variation",
+    "key_a": "VARIATION",
+    "key_b": "Variation",
+    "P_a": 6,
+    "P_b": 324,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "variation",
+    "key_a": "VARIATION",
+    "key_b": "variation",
+    "P_a": 6,
+    "P_b": 4,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variation",
+    "key_a": "Variation",
+    "key_b": "variation",
+    "P_a": 324,
+    "P_b": 4,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "variation1",
+    "key_a": "Variation 1",
+    "key_b": "Variation1",
+    "P_a": 3,
+    "P_b": 14,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variation1",
+    "key_a": "Variation 1",
+    "key_b": "variation1",
+    "P_a": 3,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variation1",
+    "key_a": "Variation1",
+    "key_b": "variation1",
+    "P_a": 14,
+    "P_b": 2,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variations",
+    "key_a": "VARIATIONS",
+    "key_b": "Variations",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variations",
+    "key_a": "VARIATIONS",
+    "key_b": "variations",
+    "P_a": 1,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "variations",
+    "key_a": "Variations",
+    "key_b": "variations",
+    "P_a": 9,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "version",
+    "key_a": "VERSION",
+    "key_b": "Version",
+    "P_a": 2,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "version",
+    "key_a": "VERSION",
+    "key_b": "version",
+    "P_a": 2,
+    "P_b": 58,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "version",
+    "key_a": "Version",
+    "key_b": "version",
+    "P_a": 9,
+    "P_b": 58,
+    "nodes_a": 1,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "volume",
+    "key_a": "VOLUME",
+    "key_b": "Volume",
+    "P_a": 1,
+    "P_b": 19,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "volume",
+    "key_a": "VOLUME",
+    "key_b": "volume",
+    "P_a": 1,
+    "P_b": 127,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "volume",
+    "key_a": "Volume",
+    "key_b": "volume",
+    "P_a": 19,
+    "P_b": 127,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warna",
+    "key_a": "WARNA",
+    "key_b": "WARNA.",
+    "P_a": 18,
+    "P_b": 1,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warna",
+    "key_a": "WARNA",
+    "key_b": "Warna",
+    "P_a": 18,
+    "P_b": 133,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warna",
+    "key_a": "WARNA",
+    "key_b": "warna",
+    "P_a": 18,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warna",
+    "key_a": "WARNA.",
+    "key_b": "Warna",
+    "P_a": 1,
+    "P_b": 133,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warna",
+    "key_a": "WARNA.",
+    "key_b": "warna",
+    "P_a": 1,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warna",
+    "key_a": "Warna",
+    "key_b": "warna",
+    "P_a": 133,
+    "P_b": 12,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "warranty",
+    "key_a": "Warranty",
+    "key_b": "warranty",
+    "P_a": 2,
+    "P_b": 159,
+    "nodes_a": 0,
+    "nodes_b": 2,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "wattage",
+    "key_a": "Wattage",
+    "key_b": "wattage",
+    "P_a": 1,
+    "P_b": 19,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "weight",
+    "key_a": "WEIGHT",
+    "key_b": "Weight",
+    "P_a": 1,
+    "P_b": 151,
+    "nodes_a": 0,
+    "nodes_b": 3,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "weight",
+    "key_a": "WEIGHT",
+    "key_b": "weight",
+    "P_a": 1,
+    "P_b": 20,
+    "nodes_a": 0,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "neither_supported"
+   },
+   {
+    "family": "weight",
+    "key_a": "Weight",
+    "key_b": "weight",
+    "P_a": 151,
+    "P_b": 20,
+    "nodes_a": 3,
+    "nodes_b": 0,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   },
+   {
+    "family": "wings",
+    "key_a": "Wings",
+    "key_b": "wings",
+    "P_a": 1,
+    "P_b": 9,
+    "nodes_a": 0,
+    "nodes_b": 1,
+    "shared_nodes": [],
+    "bucket": "one_supported"
+   }
+  ],
+  "mint_receipts_with_both_variants": [
+   {
+    "variant_hits": {
+     "occasion": [
+      "Occasion",
+      "occasion"
+     ]
+    },
+    "receipt": {
+     "node": 32,
+     "n": 1279,
+     "members": 9,
+     "G_total": -646.633,
+     "released": 170.547,
+     "g_outside": 0.0,
+     "price_paid": 167.931,
+     "support": [
+      "clothing_material",
+      "size",
+      "Sports_Material",
+      "Height(cm)",
+      "Occasion",
+      "pants_fit_type",
+      "fa_pattern",
+      "pants_length",
+      "occasion"
+     ],
+     "justifying_key": "clothing_material",
+     "per_key_bits": {
+      "clothing_material": 79.057,
+      "size": 14.997,
+      "Sports_Material": 13.429,
+      "Height(cm)": 12.411,
+      "Occasion": 12.41,
+      "pants_fit_type": 11.274,
+      "fa_pattern": 9.973,
+      "pants_length": 9.544,
+      "occasion": 7.452
+     },
+     "seed": [
+      "clothing_material",
+      9
+     ]
+    }
+   }
+  ]
+ },
+ "product_type_sanity": {
+  "label": "silver (KG of_type; the KG itself is model-derived)",
+  "n_scored": 21260,
+  "n_records_streamed": 21365,
+  "silver_type_count": 5518,
+  "our_cluster_count_on_scored": 68,
+  "background_records_on_scored": 11555,
+  "ari_vs_silver": 0.0013
+ },
+ "baselines": {
+  "skipped": "no embedding baselines by protocol: this is a structure exhibit, not a leaderboard"
+ }
+}

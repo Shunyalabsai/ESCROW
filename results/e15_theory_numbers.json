@@ -1,0 +1,1474 @@
+{
+  "experiment": "E15: theory-side constants computed from the shipped code",
+  "answers": "findings/GAPS.md Block 4",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "python": "3.14.7",
+  "numpy_path_active": true,
+  "wall_seconds": 66.6,
+  "summary": [
+    {
+      "id": "Q1",
+      "quantity": "per mint codelength difference between the declared priors (a,b) = (1/2, 1) and (2, 0.1)",
+      "paper_value": "0.68 bits at n = 10 and 0.19 bits at n = 10^5 along K_s = 2 H_s; 0.91 and 0.27 along K_s = H_s",
+      "verdict": "reproduces under a condition the paper must state"
+    },
+    {
+      "id": "Q2",
+      "quantity": "concentration regret slope, bits per decade of exposure",
+      "paper_value": 1.661,
+      "verdict": "closed form not a measurement"
+    },
+    {
+      "id": "Q3",
+      "quantity": "the crossover record count past which pure noise cannot clear the charge",
+      "paper_value": "2 pi e, about 17 records, called measured at theory.tex:100 of the pre-review draft and closed form in the current one",
+      "verdict": "closed form not a measurement"
+    },
+    {
+      "id": "Q4",
+      "quantity": "batch objective margin for the planted two-node structure at fifty records",
+      "paper_value": "37.2 bits at fifty records (withdrawn from live prose; survives only as a comment and in superseded sections)",
+      "verdict": "does not reproduce, use this value instead"
+    },
+    {
+      "id": "Q5",
+      "quantity": "myopic-versus-batch gap on a 20,000-record 20-node stream",
+      "paper_value": "312,994 bits, 15.6 bits per record, 31.3 percent of its own code",
+      "verdict": "does not reproduce, use this value instead"
+    },
+    {
+      "id": "Q6",
+      "quantity": "UT-14 disjoint-support merge deltas and the eight-node collapse",
+      "paper_value": "+282.41 / -117.59, +2773.25 / -426.75, +13818.51 / -2181.49; eight disjoint-support nodes collapse to one without the guard",
+      "verdict": "reproduces under a condition the paper must state"
+    },
+    {
+      "id": "Q7",
+      "quantity": "the tokenisation choice, in bits per text field",
+      "paper_value": "5 to 15 bits per field",
+      "verdict": "does not reproduce, use this value instead"
+    }
+  ],
+  "verdict_vocabulary": [
+    "reproduces",
+    "reproduces under a condition the paper must state",
+    "closed form not a measurement",
+    "does not reproduce, use this value instead"
+  ],
+  "entries": [
+    {
+      "id": "Q1",
+      "quantity": "per mint codelength difference between the declared priors (a,b) = (1/2, 1) and (2, 0.1)",
+      "paper_value": "0.68 bits at n = 10 and 0.19 bits at n = 10^5 along K_s = 2 H_s; 0.91 and 0.27 along K_s = H_s",
+      "computed": {
+        "K_s = 2 H_s, n = 10": {
+          "exact, H_n": 0.6703,
+          "exact, H_{n-1}": 0.6898,
+          "asymptotic, H_n": 0.6809,
+          "asymptotic, H_{n-1}": 0.7011
+        },
+        "K_s = 2 H_s, n = 10^5": {
+          "exact, H_n": 0.1879,
+          "asymptotic, H_n": 0.1879
+        },
+        "K_s = H_s, n = 10": {
+          "exact, H_{n-1}": 0.912,
+          "asymptotic, H_n": 0.8988
+        },
+        "K_s = H_s, n = 10^5": {
+          "exact, H_{n-1}": 0.2652
+        },
+        "grid": [
+          {
+            "trajectory": "K_s = H_s",
+            "n": 10,
+            "exact, H_{n-1}": 0.912,
+            "asymptotic, H_{n-1}": 0.9232,
+            "exact, H_n": 0.8882,
+            "asymptotic, H_n": 0.8988
+          },
+          {
+            "trajectory": "K_s = H_s",
+            "n": 100,
+            "exact, H_{n-1}": 0.565,
+            "asymptotic, H_{n-1}": 0.5654,
+            "exact, H_n": 0.5641,
+            "asymptotic, H_n": 0.5645
+          },
+          {
+            "trajectory": "K_s = H_s",
+            "n": 1000,
+            "exact, H_{n-1}": 0.4101,
+            "asymptotic, H_{n-1}": 0.4101,
+            "exact, H_n": 0.4101,
+            "asymptotic, H_n": 0.4101
+          },
+          {
+            "trajectory": "K_s = H_s",
+            "n": 10000,
+            "exact, H_{n-1}": 0.322,
+            "asymptotic, H_{n-1}": 0.322,
+            "exact, H_n": 0.322,
+            "asymptotic, H_n": 0.322
+          },
+          {
+            "trajectory": "K_s = H_s",
+            "n": 100000,
+            "exact, H_{n-1}": 0.2652,
+            "asymptotic, H_{n-1}": 0.2652,
+            "exact, H_n": 0.2652,
+            "asymptotic, H_n": 0.2652
+          },
+          {
+            "trajectory": "K_s = 2 H_s",
+            "n": 10,
+            "exact, H_{n-1}": 0.6898,
+            "asymptotic, H_{n-1}": 0.7011,
+            "exact, H_n": 0.6703,
+            "asymptotic, H_n": 0.6809
+          },
+          {
+            "trajectory": "K_s = 2 H_s",
+            "n": 100,
+            "exact, H_{n-1}": 0.4135,
+            "asymptotic, H_{n-1}": 0.4139,
+            "exact, H_n": 0.4128,
+            "asymptotic, H_n": 0.4132
+          },
+          {
+            "trajectory": "K_s = 2 H_s",
+            "n": 1000,
+            "exact, H_{n-1}": 0.2953,
+            "asymptotic, H_{n-1}": 0.2953,
+            "exact, H_n": 0.2952,
+            "asymptotic, H_n": 0.2953
+          },
+          {
+            "trajectory": "K_s = 2 H_s",
+            "n": 10000,
+            "exact, H_{n-1}": 0.2296,
+            "asymptotic, H_{n-1}": 0.2296,
+            "exact, H_n": 0.2296,
+            "asymptotic, H_n": 0.2296
+          },
+          {
+            "trajectory": "K_s = 2 H_s",
+            "n": 100000,
+            "exact, H_{n-1}": 0.1879,
+            "asymptotic, H_{n-1}": 0.1879,
+            "exact, H_n": 0.1879,
+            "asymptotic, H_n": 0.1879
+          },
+          {
+            "trajectory": "K_s = 0.5 H_s",
+            "n": 10,
+            "exact, H_{n-1}": 1.21,
+            "asymptotic, H_{n-1}": 1.2213,
+            "exact, H_n": 1.1832,
+            "asymptotic, H_n": 1.1938
+          },
+          {
+            "trajectory": "K_s = 0.5 H_s",
+            "n": 100,
+            "exact, H_{n-1}": 0.7979,
+            "asymptotic, H_{n-1}": 0.7983,
+            "exact, H_n": 0.7967,
+            "asymptotic, H_n": 0.7971
+          },
+          {
+            "trajectory": "K_s = 0.5 H_s",
+            "n": 1000,
+            "exact, H_{n-1}": 0.5985,
+            "asymptotic, H_{n-1}": 0.5986,
+            "exact, H_n": 0.5985,
+            "asymptotic, H_n": 0.5985
+          },
+          {
+            "trajectory": "K_s = 0.5 H_s",
+            "n": 10000,
+            "exact, H_{n-1}": 0.4797,
+            "asymptotic, H_{n-1}": 0.4797,
+            "exact, H_n": 0.4797,
+            "asymptotic, H_n": 0.4797
+          },
+          {
+            "trajectory": "K_s = 0.5 H_s",
+            "n": 100000,
+            "exact, H_{n-1}": 0.4005,
+            "asymptotic, H_{n-1}": 0.4005,
+            "exact, H_n": 0.4005,
+            "asymptotic, H_n": 0.4005
+          },
+          {
+            "trajectory": "observed on the E13 planted stream, K* = 8, final K = 8",
+            "n": 10,
+            "K_observed": 0,
+            "H_observed": 2.929,
+            "gamma_hat = K/H": 0.0,
+            "exact, H_n": 2.3647,
+            "asymptotic, H_n": 2.3753
+          },
+          {
+            "trajectory": "observed on the E13 planted stream, K* = 8, final K = 8",
+            "n": 100,
+            "K_observed": 1,
+            "H_observed": 5.1874,
+            "gamma_hat = K/H": 0.1928,
+            "exact, H_n": 1.2264,
+            "asymptotic, H_n": 1.2268
+          },
+          {
+            "trajectory": "observed on the E13 planted stream, K* = 8, final K = 8",
+            "n": 1000,
+            "K_observed": 8,
+            "H_observed": 7.4855,
+            "gamma_hat = K/H": 1.0687,
+            "exact, H_n": 0.3962,
+            "asymptotic, H_n": 0.3962
+          },
+          {
+            "trajectory": "observed on the E13 planted stream, K* = 8, final K = 8",
+            "n": 10000,
+            "K_observed": 8,
+            "H_observed": 9.7876,
+            "gamma_hat = K/H": 0.8174,
+            "exact, H_n": 0.3601,
+            "asymptotic, H_n": 0.3601
+          },
+          {
+            "trajectory": "observed on the E13 planted stream, K* = 8, final K = 8",
+            "n": 100000,
+            "K_observed": 8,
+            "H_observed": 12.0901,
+            "gamma_hat = K/H": 0.6617,
+            "exact, H_n": 0.3372,
+            "asymptotic, H_n": 0.3372
+          },
+          {
+            "trajectory": "observed on the Q5 Zipf stream, K* = 20",
+            "n": 10,
+            "K_observed": 0,
+            "H_observed": 2.929,
+            "gamma_hat = K/H": 0.0,
+            "exact, H_n": 2.3647,
+            "asymptotic, H_n": 2.3753
+          },
+          {
+            "trajectory": "observed on the Q5 Zipf stream, K* = 20",
+            "n": 100,
+            "K_observed": 0,
+            "H_observed": 5.1874,
+            "gamma_hat = K/H": 0.0,
+            "exact, H_n": 2.2264,
+            "asymptotic, H_n": 2.2268
+          },
+          {
+            "trajectory": "observed on the Q5 Zipf stream, K* = 20",
+            "n": 1000,
+            "K_observed": 20,
+            "H_observed": 7.4855,
+            "gamma_hat = K/H": 2.6718,
+            "exact, H_n": 0.2636,
+            "asymptotic, H_n": 0.2636
+          },
+          {
+            "trajectory": "observed on the Q5 Zipf stream, K* = 20",
+            "n": 10000,
+            "K_observed": 20,
+            "H_observed": 9.7876,
+            "gamma_hat = K/H": 2.0434,
+            "exact, H_n": 0.2276,
+            "asymptotic, H_n": 0.2276
+          }
+        ]
+      },
+      "how_computed": "escrow.codes' own price closed form, Equation eq:lambda, evaluated at both priors and differenced, along three declared trajectories for (K_s, H_s) and along the trajectory the engine actually walks on the E13 planted stream. Both the exact Lambda_s difference and the appendix's displayed asymptotic difference are reported, each with H_s taken as H_{n-1} and as H_n.",
+      "verdict_detail": "0.68 reproduces ONLY under the appendix's displayed asymptotic difference form with H_s = H_n along K_s = 2 H_s (0.6809). The exact Lambda_s difference of eq:lambda gives 0.6703 with H_n and 0.6898 with H_{n-1}. 0.91 is the mirror image: it reproduces only under the EXACT form with H_{n-1} (0.9120), while the asymptotic form gives 0.8988. The paper therefore quotes one pair from each of two different formulas. 0.19 is robust: every combination gives 0.1879. The condition that must be stated is the FORM as well as the trajectory. Separately, no run in the paper walks K_s = 2 H_s: on the E13 planted stream K_10 = 0 and the difference at n = 10 is 2.36 bits, and at n = 10^5 the observed gamma_hat is 0.66, giving 0.34 bits, not 0.19.",
+      "verdict": "reproduces under a condition the paper must state",
+      "sites": [
+        {
+          "file": "paper/sections/theory.tex",
+          "quotes": "0.68",
+          "prose_lines": [
+            52
+          ],
+          "comment_lines": [
+            4
+          ],
+          "found": true,
+          "text": "differ per mint by $O(1/\\log n)$, evaluated at $0.68$ bits at $n = 10$ and $0.19$ bits at"
+        },
+        {
+          "file": "paper/sections/theory.tex",
+          "quotes": "K_s = 2H_s",
+          "prose_lines": [
+            53
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "$n = 10^5$ between $(\\tfrac12, 1)$ and $(2, 0.1)$ along the trajectory $K_s = 2H_s$; (iii) learning $\\gamma$ inside the code costs"
+        },
+        {
+          "file": "paper/sections/problem.tex",
+          "quotes": "$0.19$",
+          "prose_lines": [
+            43
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "assumption, the starting prior on the stream's own minting rate, is worth $0.19$ bits per mint at"
+        },
+        {
+          "file": "paper/sections/method.tex",
+          "quotes": "$0.19$",
+          "prose_lines": [
+            56
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "reasonable proper prior moves one mint price by $0.19$ bits at one hundred thousand records along a"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "0.68",
+          "prose_lines": [
+            319,
+            383,
+            944
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "$O(1/\\log n)$, evaluated along the trajectory $K_s = 2H_s$ at $0.68$ bits at $n = 10$ falling to $0.19$ bits at $n = 10^5$ between"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "$0.91$",
+          "prose_lines": [
+            384
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "$0.91$ and $0.27$. The value depends on the trajectory, and no script ships for it. The total codelength difference over the stream converges to"
+        },
+        {
+          "file": "talk/index.html",
+          "quotes": ">0.19<",
+          "prose_lines": [
+            516
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "        <div class=\"bignum\" style=\"font-size:3.4rem;margin-top:.4rem\"><span class=\"n\">0.19</span><span class=\"u\" style=\"font-size:1.4rem\">bits</span></div><!-- Lemma lem:price (ii), paper/sections/theory.tex -->"
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "quantity": "concentration regret slope, bits per decade of exposure",
+      "paper_value": 1.661,
+      "computed": {
+        "half_log2_10": 1.660964,
+        "paper_value": 1.661,
+        "identity_holds_to": 3.6e-05,
+        "regret_slope_per_decade_of_N_not_of_exposure": [
+          0.2075,
+          0.161,
+          0.1315,
+          0.1112,
+          0.0963,
+          0.085
+        ],
+        "note": "1.661 is (1/2) log2 10 exactly, the slope of (1/2) log2 H_N per decade of EXPOSURE H_N. Per decade of RECORD COUNT N the slope is (1/2) log2(ln 10^{e+1} / ln 10^e), the falling sequence listed above, which is not 1.661. The paper says exposure and is right."
+      },
+      "how_computed": "closed form (1/2) log2 10 evaluated in double precision; no code path and no stream is involved.",
+      "verdict": "closed form not a measurement",
+      "sites": [
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "1.661",
+          "prose_lines": [
+            26,
+            390
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "$10^{-12}$; the concentration regret of Lemma~\\ref{lem:price}(iii) at $1.661$ bits per decade of"
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "quantity": "the crossover record count past which pure noise cannot clear the charge",
+      "paper_value": "2 pi e, about 17 records, called measured at theory.tex:100 of the pre-review draft and closed form in the current one",
+      "computed": {
+        "leading_order_closed_form_2_pi_e": 17.079468,
+        "leading_order_is_arity_free": true,
+        "by_arity": [
+          {
+            "arity_m": 2,
+            "degrees_of_freedom_d_S": 1,
+            "mean_null_gain_bits": 0.7213,
+            "crossover_asymptotic_COMP": 2,
+            "crossover_exact_Gamma_COMP": 1,
+            "COMP_exact_at_crossover_bits": 1.0,
+            "COMP_exact_one_record_earlier_bits": null
+          },
+          {
+            "arity_m": 5,
+            "degrees_of_freedom_d_S": 4,
+            "mean_null_gain_bits": 2.8854,
+            "crossover_asymptotic_COMP": 5,
+            "crossover_exact_Gamma_COMP": 2,
+            "COMP_exact_at_crossover_bits": 3.3219,
+            "COMP_exact_one_record_earlier_bits": 2.3219
+          },
+          {
+            "arity_m": 20,
+            "degrees_of_freedom_d_S": 19,
+            "mean_null_gain_bits": 13.7056,
+            "crossover_asymptotic_COMP": 20,
+            "crossover_exact_Gamma_COMP": 7,
+            "COMP_exact_at_crossover_bits": 14.0793,
+            "COMP_exact_one_record_earlier_bits": 12.9912
+          },
+          {
+            "arity_m": 100,
+            "degrees_of_freedom_d_S": 99,
+            "mean_null_gain_bits": 71.4134,
+            "crossover_asymptotic_COMP": 100,
+            "crossover_exact_Gamma_COMP": 35,
+            "COMP_exact_at_crossover_bits": 72.4083,
+            "COMP_exact_one_record_earlier_bits": 71.3247
+          }
+        ],
+        "note": "The leading-order form drops log2(pi^{m/2} / Gamma(m/2)) from the charge. Keeping it makes the asymptotic crossover equal m at every arity tested, and the exact Gamma-function form puts it far below 17 for small arities. 17 is a closed form, not a measurement."
+      },
+      "how_computed": "mean null gain (m-1)/(2 ln 2) bits from Wilks, compared with (a) the Xie-Barron asymptotic COMP and (b) the exact Gamma-function COMP through the shipped escrow.codes.km_multinomial_complexity, at arities m in {2, 5, 20, 100}.",
+      "verdict": "closed form not a measurement",
+      "sites": [
+        {
+          "file": "paper/sections/theory.tex",
+          "quotes": "2\\pi e",
+          "prose_lines": [
+            97
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "(Proposition~\\ref{prop:consistency}, a fixed-alphabet idealisation of the shipped open-alphabet code, with the closed-form crossover $2\\pi e \\approx 17$ records);"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "2\\pi e",
+          "prose_lines": [
+            703,
+            730,
+            745
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "parameter charge once the cohort exceeds $2\\pi e \\approx 17$ records."
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "Gamma-function form",
+          "prose_lines": [
+            741,
+            746
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "for the analysis only. The algorithm, and the crossings quoted, use the exact Gamma-function form,"
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "quantity": "batch objective margin for the planted two-node structure at fifty records",
+      "paper_value": "37.2 bits at fifty records (withdrawn from live prose; survives only as a comment and in superseded sections)",
+      "computed": {
+        "grid": [
+          {
+            "k_keys_per_group": 1,
+            "n_records": 50,
+            "L_batch_planted_two_nodes": 349.7,
+            "L_batch_one_node_total": 337.97,
+            "L_batch_all_background": 330.8,
+            "margin_vs_one_node_total_bits": -11.73,
+            "margin_vs_all_background_bits": -18.9,
+            "one_node_minus_background_bits": 7.17
+          },
+          {
+            "k_keys_per_group": 1,
+            "n_records": 200,
+            "L_batch_planted_two_nodes": 1229.18,
+            "L_batch_one_node_total": 1214.47,
+            "L_batch_all_background": 1206.3,
+            "margin_vs_one_node_total_bits": -14.72,
+            "margin_vs_all_background_bits": -22.88,
+            "one_node_minus_background_bits": 8.17
+          },
+          {
+            "k_keys_per_group": 1,
+            "n_records": 1000,
+            "L_batch_planted_two_nodes": 5564.04,
+            "L_batch_one_node_total": 5545.85,
+            "L_batch_all_background": 5536.53,
+            "margin_vs_one_node_total_bits": -18.19,
+            "margin_vs_all_background_bits": -27.52,
+            "one_node_minus_background_bits": 9.33
+          },
+          {
+            "k_keys_per_group": 1,
+            "n_records": 5000,
+            "L_batch_planted_two_nodes": 26932.37,
+            "L_batch_one_node_total": 26910.7,
+            "L_batch_all_background": 26900.21,
+            "margin_vs_one_node_total_bits": -21.67,
+            "margin_vs_all_background_bits": -32.16,
+            "one_node_minus_background_bits": 10.49
+          },
+          {
+            "k_keys_per_group": 2,
+            "n_records": 50,
+            "L_batch_planted_two_nodes": 586.25,
+            "L_batch_one_node_total": 665.03,
+            "L_batch_all_background": 655.86,
+            "margin_vs_one_node_total_bits": 78.79,
+            "margin_vs_all_background_bits": 69.62,
+            "one_node_minus_background_bits": 9.17
+          },
+          {
+            "k_keys_per_group": 2,
+            "n_records": 200,
+            "L_batch_planted_two_nodes": 2040.74,
+            "L_batch_one_node_total": 2414.56,
+            "L_batch_all_background": 2404.39,
+            "margin_vs_one_node_total_bits": 373.82,
+            "margin_vs_all_background_bits": 363.65,
+            "one_node_minus_background_bits": 10.17
+          },
+          {
+            "k_keys_per_group": 2,
+            "n_records": 1000,
+            "L_batch_planted_two_nodes": 9118.67,
+            "L_batch_one_node_total": 11086.69,
+            "L_batch_all_background": 11075.36,
+            "margin_vs_one_node_total_bits": 1968.02,
+            "margin_vs_all_background_bits": 1956.69,
+            "one_node_minus_background_bits": 11.33
+          },
+          {
+            "k_keys_per_group": 2,
+            "n_records": 5000,
+            "L_batch_planted_two_nodes": 43846.37,
+            "L_batch_one_node_total": 53808.58,
+            "L_batch_all_background": 53796.1,
+            "margin_vs_one_node_total_bits": 9962.22,
+            "margin_vs_all_background_bits": 9949.73,
+            "one_node_minus_background_bits": 12.49
+          },
+          {
+            "k_keys_per_group": 3,
+            "n_records": 50,
+            "L_batch_planted_two_nodes": 836.49,
+            "L_batch_one_node_total": 1004.4,
+            "L_batch_all_background": 993.82,
+            "margin_vs_one_node_total_bits": 167.91,
+            "margin_vs_all_background_bits": 157.34,
+            "one_node_minus_background_bits": 10.58
+          },
+          {
+            "k_keys_per_group": 3,
+            "n_records": 200,
+            "L_batch_planted_two_nodes": 2857.15,
+            "L_batch_one_node_total": 3618.1,
+            "L_batch_all_background": 3606.53,
+            "margin_vs_one_node_total_bits": 760.95,
+            "margin_vs_all_background_bits": 749.38,
+            "one_node_minus_background_bits": 11.57
+          },
+          {
+            "k_keys_per_group": 3,
+            "n_records": 1000,
+            "L_batch_planted_two_nodes": 12673.88,
+            "L_batch_one_node_total": 16626.72,
+            "L_batch_all_background": 16613.99,
+            "margin_vs_one_node_total_bits": 3952.84,
+            "margin_vs_all_background_bits": 3940.1,
+            "one_node_minus_background_bits": 12.73
+          },
+          {
+            "k_keys_per_group": 3,
+            "n_records": 5000,
+            "L_batch_planted_two_nodes": 60763.82,
+            "L_batch_one_node_total": 80708.54,
+            "L_batch_all_background": 80694.64,
+            "margin_vs_one_node_total_bits": 19944.71,
+            "margin_vs_all_background_bits": 19930.82,
+            "one_node_minus_background_bits": 13.9
+          },
+          {
+            "k_keys_per_group": 4,
+            "n_records": 50,
+            "L_batch_planted_two_nodes": 1051.33,
+            "L_batch_one_node_total": 1308.66,
+            "L_batch_all_background": 1297.24,
+            "margin_vs_one_node_total_bits": 257.33,
+            "margin_vs_all_background_bits": 245.91,
+            "one_node_minus_background_bits": 11.42
+          },
+          {
+            "k_keys_per_group": 4,
+            "n_records": 200,
+            "L_batch_planted_two_nodes": 3675.46,
+            "L_batch_one_node_total": 4823.84,
+            "L_batch_all_background": 4811.42,
+            "margin_vs_one_node_total_bits": 1148.38,
+            "margin_vs_all_background_bits": 1135.96,
+            "one_node_minus_background_bits": 12.41
+          },
+          {
+            "k_keys_per_group": 4,
+            "n_records": 1000,
+            "L_batch_planted_two_nodes": 16228.23,
+            "L_batch_one_node_total": 22166.17,
+            "L_batch_all_background": 22152.59,
+            "margin_vs_one_node_total_bits": 5937.94,
+            "margin_vs_all_background_bits": 5924.37,
+            "one_node_minus_background_bits": 13.57
+          },
+          {
+            "k_keys_per_group": 4,
+            "n_records": 5000,
+            "L_batch_planted_two_nodes": 77671.74,
+            "L_batch_one_node_total": 107599.24,
+            "L_batch_all_background": 107584.5,
+            "margin_vs_one_node_total_bits": 29927.5,
+            "margin_vs_all_background_bits": 29912.76,
+            "one_node_minus_background_bits": 14.74
+          },
+          {
+            "k_keys_per_group": 6,
+            "n_records": 50,
+            "L_batch_planted_two_nodes": 1544.3,
+            "L_batch_one_node_total": 1979.8,
+            "L_batch_all_background": 1967.33,
+            "margin_vs_one_node_total_bits": 435.5,
+            "margin_vs_all_background_bits": 423.03,
+            "one_node_minus_background_bits": 12.48
+          },
+          {
+            "k_keys_per_group": 6,
+            "n_records": 200,
+            "L_batch_planted_two_nodes": 5321.35,
+            "L_batch_one_node_total": 7243.92,
+            "L_batch_all_background": 7230.45,
+            "margin_vs_one_node_total_bits": 1922.58,
+            "margin_vs_all_background_bits": 1909.1,
+            "one_node_minus_background_bits": 13.47
+          },
+          {
+            "k_keys_per_group": 6,
+            "n_records": 1000,
+            "L_batch_planted_two_nodes": 23342.05,
+            "L_batch_one_node_total": 33249.55,
+            "L_batch_all_background": 33234.92,
+            "margin_vs_one_node_total_bits": 9907.5,
+            "margin_vs_all_background_bits": 9892.87,
+            "one_node_minus_background_bits": 14.63
+          },
+          {
+            "k_keys_per_group": 6,
+            "n_records": 5000,
+            "L_batch_planted_two_nodes": 111505.12,
+            "L_batch_one_node_total": 161397.54,
+            "L_batch_all_background": 161381.74,
+            "margin_vs_one_node_total_bits": 49892.41,
+            "margin_vs_all_background_bits": 49876.62,
+            "one_node_minus_background_bits": 15.79
+          }
+        ]
+      },
+      "how_computed": "the shipped BatchObjective.total() on three states over the same records built by plant(): the planted two-node allocation, the one-node-total code and the all-background code, on test_engine's two_group fixture at k in {1, 2, 3, 4, 6} and n in {50, 200, 1000, 5000}.",
+      "verdict_detail": "At the quoted cell, k = 2 and n = 50, the shipped objective prefers the planted two-node structure by 78.79 bits over the one-node-total code and by 69.62 bits over the all-background code. Neither is 37.2. The 9 to 11 bit offset the audit saw between its own figure and a nearby one is the one-node-total minus all-background gap, listed here per cell. One caveat the paper does not state: at k = 1 the margin is NEGATIVE at every n, so the objective prefers the degenerate code when each group carries a single key.",
+      "verdict": "does not reproduce, use this value instead",
+      "sites": [
+        {
+          "file": "paper/sections/appendix_tables.tex",
+          "quotes": "37.2",
+          "prose_lines": [],
+          "comment_lines": [
+            462
+          ],
+          "found": true,
+          "text": null
+        },
+        {
+          "file": "paper/sections/appendix_tables.tex",
+          "quotes": "development-time figure",
+          "prose_lines": [
+            474
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "(Table~\\ref{tab:support}). A development-time figure for the batch objective's preference at fifty"
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "quantity": "myopic-versus-batch gap on a 20,000-record 20-node stream",
+      "paper_value": "312,994 bits, 15.6 bits per record, 31.3 percent of its own code",
+      "computed": {
+        "generator": "20,000 records over 20 planted nodes. Group sizes are Zipf with exponent 1 over the 20 groups (weight 1/(j+1), normalised, sampled i.i.d.). Group j publishes 3 private categorical keys c{j}k0..2 over an 8 value alphabet c{j}v0..7, plus 2 shared keys s0, s1 over a 12 value alphabet that belong to no node's support, so the background always has cells to code. Seed 11. The planted allocation labels each record by its group and gives each node exactly its 3 private keys.",
+        "n_records": 20000,
+        "K_star": 20,
+        "group_sizes": [
+          5579,
+          2868,
+          1780,
+          1358,
+          1147,
+          934,
+          794,
+          725,
+          615,
+          544,
+          508,
+          445,
+          437,
+          379,
+          363,
+          336,
+          321,
+          303,
+          300,
+          264
+        ],
+        "myopic_rule_mints": 0,
+        "myopic_final_K": 0,
+        "L_batch_planted": 430221.3,
+        "L_batch_myopic": 628699.23,
+        "L_batch_all_background": 628699.23,
+        "L_batch_one_node_total": 628720.06,
+        "L_batch_deferred_shipped_protocol": 426045.21,
+        "deferred_final_K": 20,
+        "gap_myopic_minus_planted_bits": 198477.9,
+        "gap_bits_per_record": 9.924,
+        "gap_percent_of_myopic_own_code": 31.57,
+        "gap_deferred_minus_planted_bits": -4176.1,
+        "delta_rep_definition_def_gap": {
+          "K_after_one_pass": 20,
+          "L_batch_one_pass": 438009.84,
+          "K_after_repair": 20,
+          "L_batch_after_repair": 428044.0,
+          "delta_rep_bits": 9965.8,
+          "delta_rep_bits_per_record": 0.498,
+          "note": "Definition def:gap, computed here for the first time. The cadence repair of the shipped protocol is omitted in this arm only, so that the one-pass state is the state the one-pass rule alone leaves."
+        },
+        "wall_seconds": {
+          "myopic": 0.29,
+          "deferred": 6.82,
+          "delta_rep": 3.79
+        },
+        "K_trajectory": [
+          {
+            "n": 10,
+            "K": 0,
+            "H": 2.9289682539682538
+          },
+          {
+            "n": 100,
+            "K": 0,
+            "H": 5.187377517639621
+          },
+          {
+            "n": 1000,
+            "K": 20,
+            "H": 7.485470860550343
+          },
+          {
+            "n": 10000,
+            "K": 20,
+            "H": 9.787606036044348
+          }
+        ]
+      },
+      "how_computed": "the declared Zipf stream above; the record-seeded myopic rule run to a state, the deferred rule run through the shipped protocol, and the shipped BatchObjective.total() evaluated on the myopic state, the deferred state and the planted allocation.",
+      "verdict_detail": "The bits and the bits per record are stream-specific and do not reproduce: on the declared stream the gap is 198,478 bits and 9.92 bits per record, not 312,994 and 15.6. The PERCENTAGE does reproduce: 31.57 percent against the quoted 31.3. The myopic rule mints zero nodes, so its state is exactly the all-background code, which is what makes the paper's phrase 'the myopic rule's degenerate code' correct. The deferred rule recovers K = 20 and lands 4,176 bits BELOW the planted allocation.",
+      "verdict": "does not reproduce, use this value instead",
+      "sites": [
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "312{,}994",
+          "prose_lines": [
+            990
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "20-node stream $312{,}994$ bits longer than the true allocation ($15.6$ bits per record, $31.3$"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "31.3",
+          "prose_lines": [
+            990
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "20-node stream $312{,}994$ bits longer than the true allocation ($15.6$ bits per record, $31.3$"
+        },
+        {
+          "file": "paper/sections/appendix_tables.tex",
+          "quotes": "312,994",
+          "prose_lines": [],
+          "comment_lines": [
+            463
+          ],
+          "found": true,
+          "text": null
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "quantity": "UT-14 disjoint-support merge deltas and the eight-node collapse",
+      "paper_value": "+282.41 / -117.59, +2773.25 / -426.75, +13818.51 / -2181.49; eight disjoint-support nodes collapse to one without the guard",
+      "computed": {
+        "fixture": "The paper's fixture is not recorded in any file, so this is a declared reconstruction of the geometry it states: |A| = 200 declared keys, n = 10^4 records, two nodes with DISJOINT supports of k keys each and t members each, every member publishing every support key over an 8 value alphabet; the other n - 2t records publish 2 keys drawn from the remaining 200 - 2k. The delta is insensitive to that background: widths 1, 2, 4 and 8 give the same value to 4 decimal places.",
+        "paper_geometry": [
+          {
+            "members_t": 50,
+            "keys_per_node_k": 2,
+            "paper_with_presence": 282.41,
+            "paper_without_presence": -117.59,
+            "computed_with_presence": 289.2716,
+            "computed_without_presence": -110.7284,
+            "difference_from_paper_with": 6.86,
+            "difference_from_paper_without": 6.86,
+            "presence_term_contribution_bits": 400.0,
+            "closed_form_4tk": 400
+          },
+          {
+            "members_t": 200,
+            "keys_per_node_k": 4,
+            "paper_with_presence": 2773.25,
+            "paper_without_presence": -426.75,
+            "computed_with_presence": 2778.2587,
+            "computed_without_presence": -421.7413,
+            "difference_from_paper_with": 5.01,
+            "difference_from_paper_without": 5.01,
+            "presence_term_contribution_bits": 3200.0,
+            "closed_form_4tk": 3200
+          },
+          {
+            "members_t": 1000,
+            "keys_per_node_k": 4,
+            "paper_with_presence": 13818.51,
+            "paper_without_presence": -2181.49,
+            "computed_with_presence": 13822.9564,
+            "computed_without_presence": -2177.0436,
+            "difference_from_paper_with": 4.45,
+            "difference_from_paper_without": 4.45,
+            "presence_term_contribution_bits": 16000.0,
+            "closed_form_4tk": 16000
+          }
+        ],
+        "shipped_gate_fixture": {
+          "fixture": "test_engine.two_group(3000, k=4) under escrow.protocol.run_stream",
+          "K": 2,
+          "L_batch": 42424.23,
+          "merge_delta_with_presence": 17930.81,
+          "merge_delta_node_independent_presence": -6069.19,
+          "presence_term_contribution_bits": 24000.0
+        },
+        "eight_node_graph": {
+          "planted_K": 8,
+          "pairs": 28,
+          "merge_delta_with_presence_min": 292.2,
+          "merge_delta_with_presence_max": 292.2,
+          "merge_delta_without_presence_min": -107.8,
+          "merge_delta_without_presence_max": -107.8,
+          "pairs_that_pay_with_presence": 0,
+          "pairs_that_pay_without_presence": 28,
+          "K_after_repair_with_presence": 8,
+          "repair_moves_with_presence": 0,
+          "K_after_repair_node_independent_presence": 8,
+          "repair_moves_node_independent_presence": 0,
+          "shipped_repair_never_proposes_disjoint_support_merges": true,
+          "note": "batch.py:461-462 skips any pair with S_v & S_w empty, so the shipped repair pass cannot collapse a disjoint-support graph under EITHER arm. The collapse the paper reports is a property of merge_delta's sign, which is why the pairwise deltas are reported beside the repair result."
+        }
+      },
+      "how_computed": "the shipped BatchObjective.merge_delta on a declared reconstruction of the paper's geometry, against the same method on the node-independent presence subclass; plus the same two deltas on the fixture the shipped gate uses, run through escrow.protocol.run_stream; plus all 28 pairwise deltas and a full repair pass on an eight-node disjoint-support graph under both arms.",
+      "verdict_detail": "The six deltas reproduce to within 6.86, 5.01 and 4.45 bits on a declared reconstruction of the stated geometry, and the quantity the sentence is about, the presence term's contribution, reproduces EXACTLY: 400, 3200 and 16000 bits, which are the paper's own with-minus-without differences and equal the closed form 4tk. The residual is the fixture, which the paper does not record. The EIGHT-NODE COLLAPSE DOES NOT REPRODUCE: all 28 disjoint pairs do pay under the node-independent arm (-107.8 bits each), but the shipped repair pass skips any pair with disjoint supports (batch.py:461-462), so a full repair applies zero moves and K stays 8 under BOTH arms.",
+      "verdict": "reproduces under a condition the paper must state",
+      "sites": [
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "282.41",
+          "prose_lines": [
+            774,
+            884
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "of two 50-member nodes scored $+282.41$ bits with the term, $-117.59$ without, and an eight-node"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "2773.25",
+          "prose_lines": [
+            885
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "$-117.59$ bits without it. At $t = 200$ with four keys, $+2773.25$ against $-426.75$. At"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "13818.51",
+          "prose_lines": [
+            886
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "$t = 1000$ with four keys, $+13818.51$ against $-2181.49$. And a graph of eight disjoint-support"
+        },
+        {
+          "file": "paper/sections/appendix_theory.tex",
+          "quotes": "collapsed to one",
+          "prose_lines": [
+            775,
+            887
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "disjoint-support graph collapsed to one; the shipped gate UT-14 asserts the sign on one pair and"
+        },
+        {
+          "file": "paper/sections/appendix.tex",
+          "quotes": "282.41",
+          "prose_lines": [
+            324
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "UT-14 & disjoint-support merges are refused and are accepted without the presence guard; eight disjoint nodes stay eight (the shipped gate asserts the sign on one pair; the development-time deltas $+282.41/-117.59$, $+2773.25/-426.75$, $+13"
+        }
+      ]
+    },
+    {
+      "id": "Q7",
+      "quantity": "the tokenisation choice, in bits per text field",
+      "paper_value": "5 to 15 bits per field",
+      "computed": {
+        "code_used": "Version 1 quarantines text facets, so code/escrow/ ships NO text code and this cannot be a measurement of the shipped text facet. What is measured is the shipped categorical value block, escrow.batch.L_vblock, instantiated on three declared tokenisations of the same field, plus the shipped escrow.codes.L_N on each record's symbol count so that every tokenisation transmits its own segmentation and all three are codes for the same data. naming is log2(u+1) with u the field's distinct symbol count, the batch instantiation of the engine's log2(len(inventory)+1).",
+        "fields_measured": 31,
+        "spread_over_three_tokenisations": {
+          "min": 5.28,
+          "median": 19.683,
+          "max": 74.991,
+          "fields_inside_5_to_15_bits": 9
+        },
+        "spread_case_only_whitespace_vs_lowercased": {
+          "min": 0.0,
+          "median": 0.006,
+          "max": 1.977
+        },
+        "per_field": [
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "budget",
+            "records": 32,
+            "mean_whitespace_tokens": 2.12,
+            "bits_per_field_whole_string": 7.897,
+            "distinct_symbols_whole_string": 30,
+            "bits_per_field_whitespace": 16.125,
+            "distinct_symbols_whitespace": 44,
+            "bits_per_field_lowercased_whitespace": 16.125,
+            "distinct_symbols_lowercased_whitespace": 44,
+            "spread_bits_per_field": 8.228,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "caption",
+            "records": 72,
+            "mean_whitespace_tokens": 2.61,
+            "bits_per_field_whole_string": 7.142,
+            "distinct_symbols_whole_string": 26,
+            "bits_per_field_whitespace": 16.965,
+            "distinct_symbols_whitespace": 48,
+            "bits_per_field_lowercased_whitespace": 15.704,
+            "distinct_symbols_lowercased_whitespace": 42,
+            "spread_bits_per_field": 9.823,
+            "spread_whitespace_vs_lowercased": 1.261
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "cinematography",
+            "records": 90,
+            "mean_whitespace_tokens": 2.48,
+            "bits_per_field_whole_string": 9.137,
+            "distinct_symbols_whole_string": 89,
+            "bits_per_field_whitespace": 24.361,
+            "distinct_symbols_whitespace": 192,
+            "bits_per_field_lowercased_whitespace": 24.361,
+            "distinct_symbols_lowercased_whitespace": 192,
+            "spread_bits_per_field": 15.224,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "director",
+            "records": 116,
+            "mean_whitespace_tokens": 2.59,
+            "bits_per_field_whole_string": 9.52,
+            "distinct_symbols_whole_string": 114,
+            "bits_per_field_whitespace": 26.435,
+            "distinct_symbols_whitespace": 263,
+            "bits_per_field_lowercased_whitespace": 26.448,
+            "distinct_symbols_lowercased_whitespace": 262,
+            "spread_bits_per_field": 16.928,
+            "spread_whitespace_vs_lowercased": 0.013
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "distributor",
+            "records": 46,
+            "mean_whitespace_tokens": 3.54,
+            "bits_per_field_whole_string": 8.408,
+            "distinct_symbols_whole_string": 42,
+            "bits_per_field_whitespace": 31.154,
+            "distinct_symbols_whitespace": 106,
+            "bits_per_field_lowercased_whitespace": 31.065,
+            "distinct_symbols_lowercased_whitespace": 105,
+            "spread_bits_per_field": 22.747,
+            "spread_whitespace_vs_lowercased": 0.09
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "editing",
+            "records": 73,
+            "mean_whitespace_tokens": 2.53,
+            "bits_per_field_whole_string": 8.858,
+            "distinct_symbols_whole_string": 72,
+            "bits_per_field_whitespace": 24.178,
+            "distinct_symbols_whitespace": 159,
+            "bits_per_field_lowercased_whitespace": 24.178,
+            "distinct_symbols_lowercased_whitespace": 159,
+            "spread_bits_per_field": 15.32,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "image",
+            "records": 90,
+            "mean_whitespace_tokens": 2.99,
+            "bits_per_field_whole_string": 9.07,
+            "distinct_symbols_whole_string": 90,
+            "bits_per_field_whitespace": 28.714,
+            "distinct_symbols_whitespace": 215,
+            "bits_per_field_lowercased_whitespace": 28.582,
+            "distinct_symbols_lowercased_whitespace": 211,
+            "spread_bits_per_field": 19.644,
+            "spread_whitespace_vs_lowercased": 0.132
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "music",
+            "records": 91,
+            "mean_whitespace_tokens": 2.43,
+            "bits_per_field_whole_string": 9.358,
+            "distinct_symbols_whole_string": 81,
+            "bits_per_field_whitespace": 23.74,
+            "distinct_symbols_whitespace": 187,
+            "bits_per_field_lowercased_whitespace": 23.74,
+            "distinct_symbols_lowercased_whitespace": 187,
+            "spread_bits_per_field": 14.382,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "name",
+            "records": 96,
+            "mean_whitespace_tokens": 2.7,
+            "bits_per_field_whole_string": 9.159,
+            "distinct_symbols_whole_string": 96,
+            "bits_per_field_whitespace": 26.396,
+            "distinct_symbols_whitespace": 222,
+            "bits_per_field_lowercased_whitespace": 26.231,
+            "distinct_symbols_lowercased_whitespace": 218,
+            "spread_bits_per_field": 17.237,
+            "spread_whitespace_vs_lowercased": 0.166
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "producer",
+            "records": 85,
+            "mean_whitespace_tokens": 3.8,
+            "bits_per_field_whole_string": 9.112,
+            "distinct_symbols_whole_string": 83,
+            "bits_per_field_whitespace": 37.784,
+            "distinct_symbols_whitespace": 279,
+            "bits_per_field_lowercased_whitespace": 37.782,
+            "distinct_symbols_lowercased_whitespace": 278,
+            "spread_bits_per_field": 28.673,
+            "spread_whitespace_vs_lowercased": 0.002
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "runtime",
+            "records": 101,
+            "mean_whitespace_tokens": 2.03,
+            "bits_per_field_whole_string": 9.354,
+            "distinct_symbols_whole_string": 63,
+            "bits_per_field_whitespace": 14.634,
+            "distinct_symbols_whitespace": 66,
+            "bits_per_field_lowercased_whitespace": 14.548,
+            "distinct_symbols_lowercased_whitespace": 65,
+            "spread_bits_per_field": 5.28,
+            "spread_whitespace_vs_lowercased": 0.086
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "starring",
+            "records": 83,
+            "mean_whitespace_tokens": 6.08,
+            "bits_per_field_whole_string": 8.957,
+            "distinct_symbols_whole_string": 83,
+            "bits_per_field_whitespace": 62.509,
+            "distinct_symbols_whitespace": 434,
+            "bits_per_field_lowercased_whitespace": 62.509,
+            "distinct_symbols_lowercased_whitespace": 434,
+            "spread_bits_per_field": 53.551,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "studio",
+            "records": 45,
+            "mean_whitespace_tokens": 3.51,
+            "bits_per_field_whole_string": 8.12,
+            "distinct_symbols_whole_string": 45,
+            "bits_per_field_whitespace": 31.08,
+            "distinct_symbols_whitespace": 117,
+            "bits_per_field_lowercased_whitespace": 31.003,
+            "distinct_symbols_lowercased_whitespace": 116,
+            "spread_bits_per_field": 22.961,
+            "spread_whitespace_vs_lowercased": 0.077
+          },
+          {
+            "cache": "wiki_cache.film.json",
+            "field": "writer",
+            "records": 89,
+            "mean_whitespace_tokens": 3.43,
+            "bits_per_field_whole_string": 9.054,
+            "distinct_symbols_whole_string": 89,
+            "bits_per_field_whitespace": 33.985,
+            "distinct_symbols_whitespace": 280,
+            "bits_per_field_lowercased_whitespace": 34.032,
+            "distinct_symbols_lowercased_whitespace": 278,
+            "spread_bits_per_field": 24.978,
+            "spread_whitespace_vs_lowercased": 0.047
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "easiest_route",
+            "records": 50,
+            "mean_whitespace_tokens": 5.06,
+            "bits_per_field_whole_string": 8.478,
+            "distinct_symbols_whole_string": 41,
+            "bits_per_field_whitespace": 43.267,
+            "distinct_symbols_whitespace": 129,
+            "bits_per_field_lowercased_whitespace": 42.329,
+            "distinct_symbols_lowercased_whitespace": 117,
+            "spread_bits_per_field": 34.789,
+            "spread_whitespace_vs_lowercased": 0.938
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "first_ascent",
+            "records": 66,
+            "mean_whitespace_tokens": 9.26,
+            "bits_per_field_whole_string": 8.725,
+            "distinct_symbols_whole_string": 65,
+            "bits_per_field_whitespace": 83.716,
+            "distinct_symbols_whitespace": 289,
+            "bits_per_field_lowercased_whitespace": 83.681,
+            "distinct_symbols_lowercased_whitespace": 288,
+            "spread_bits_per_field": 74.991,
+            "spread_whitespace_vs_lowercased": 0.036
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "image",
+            "records": 80,
+            "mean_whitespace_tokens": 2.74,
+            "bits_per_field_whole_string": 8.979,
+            "distinct_symbols_whole_string": 79,
+            "bits_per_field_whitespace": 25.681,
+            "distinct_symbols_whitespace": 158,
+            "bits_per_field_lowercased_whitespace": 25.685,
+            "distinct_symbols_lowercased_whitespace": 157,
+            "spread_bits_per_field": 16.705,
+            "spread_whitespace_vs_lowercased": 0.004
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "image_caption",
+            "records": 77,
+            "mean_whitespace_tokens": 7.17,
+            "bits_per_field_whole_string": 8.929,
+            "distinct_symbols_whole_string": 76,
+            "bits_per_field_whitespace": 62.31,
+            "distinct_symbols_whitespace": 239,
+            "bits_per_field_lowercased_whitespace": 60.434,
+            "distinct_symbols_lowercased_whitespace": 229,
+            "spread_bits_per_field": 53.381,
+            "spread_whitespace_vs_lowercased": 1.876
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "location",
+            "records": 72,
+            "mean_whitespace_tokens": 4.6,
+            "bits_per_field_whole_string": 7.852,
+            "distinct_symbols_whole_string": 31,
+            "bits_per_field_whitespace": 27.695,
+            "distinct_symbols_whitespace": 43,
+            "bits_per_field_lowercased_whitespace": 27.695,
+            "distinct_symbols_lowercased_whitespace": 43,
+            "spread_bits_per_field": 19.843,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "map_caption",
+            "records": 77,
+            "mean_whitespace_tokens": 2.94,
+            "bits_per_field_whole_string": 5.435,
+            "distinct_symbols_whole_string": 10,
+            "bits_per_field_whitespace": 13.047,
+            "distinct_symbols_whitespace": 12,
+            "bits_per_field_lowercased_whitespace": 13.047,
+            "distinct_symbols_lowercased_whitespace": 12,
+            "spread_bits_per_field": 7.612,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "name",
+            "records": 85,
+            "mean_whitespace_tokens": 1.78,
+            "bits_per_field_whole_string": 8.99,
+            "distinct_symbols_whole_string": 85,
+            "bits_per_field_whitespace": 16.582,
+            "distinct_symbols_whitespace": 113,
+            "bits_per_field_lowercased_whitespace": 16.587,
+            "distinct_symbols_lowercased_whitespace": 112,
+            "spread_bits_per_field": 7.597,
+            "spread_whitespace_vs_lowercased": 0.006
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "parent_peak",
+            "records": 62,
+            "mean_whitespace_tokens": 1.95,
+            "bits_per_field_whole_string": 8.221,
+            "distinct_symbols_whole_string": 28,
+            "bits_per_field_whitespace": 15.818,
+            "distinct_symbols_whitespace": 47,
+            "bits_per_field_lowercased_whitespace": 15.818,
+            "distinct_symbols_lowercased_whitespace": 47,
+            "spread_bits_per_field": 7.597,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "prominence_ref",
+            "records": 51,
+            "mean_whitespace_tokens": 7.47,
+            "bits_per_field_whole_string": 6.514,
+            "distinct_symbols_whole_string": 19,
+            "bits_per_field_whitespace": 44.228,
+            "distinct_symbols_whitespace": 62,
+            "bits_per_field_lowercased_whitespace": 42.251,
+            "distinct_symbols_lowercased_whitespace": 58,
+            "spread_bits_per_field": 37.715,
+            "spread_whitespace_vs_lowercased": 1.977
+          },
+          {
+            "cache": "wiki_cache.mountain.json",
+            "field": "range",
+            "records": 72,
+            "mean_whitespace_tokens": 2.21,
+            "bits_per_field_whole_string": 5.302,
+            "distinct_symbols_whole_string": 9,
+            "bits_per_field_whitespace": 10.98,
+            "distinct_symbols_whitespace": 13,
+            "bits_per_field_lowercased_whitespace": 10.753,
+            "distinct_symbols_lowercased_whitespace": 12,
+            "spread_bits_per_field": 5.678,
+            "spread_whitespace_vs_lowercased": 0.227
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "birth_name",
+            "records": 64,
+            "mean_whitespace_tokens": 3.17,
+            "bits_per_field_whole_string": 8.599,
+            "distinct_symbols_whole_string": 64,
+            "bits_per_field_whitespace": 29.5,
+            "distinct_symbols_whitespace": 141,
+            "bits_per_field_lowercased_whitespace": 29.5,
+            "distinct_symbols_lowercased_whitespace": 141,
+            "spread_bits_per_field": 20.901,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "birth_place",
+            "records": 105,
+            "mean_whitespace_tokens": 4.3,
+            "bits_per_field_whole_string": 9.278,
+            "distinct_symbols_whole_string": 85,
+            "bits_per_field_whitespace": 28.961,
+            "distinct_symbols_whitespace": 150,
+            "bits_per_field_lowercased_whitespace": 28.961,
+            "distinct_symbols_lowercased_whitespace": 150,
+            "spread_bits_per_field": 19.683,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "caption",
+            "records": 64,
+            "mean_whitespace_tokens": 5.81,
+            "bits_per_field_whole_string": 8.747,
+            "distinct_symbols_whole_string": 62,
+            "bits_per_field_whitespace": 50.613,
+            "distinct_symbols_whitespace": 200,
+            "bits_per_field_lowercased_whitespace": 50.14,
+            "distinct_symbols_lowercased_whitespace": 197,
+            "spread_bits_per_field": 41.866,
+            "spread_whitespace_vs_lowercased": 0.473
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "death_place",
+            "records": 40,
+            "mean_whitespace_tokens": 4.35,
+            "bits_per_field_whole_string": 8.095,
+            "distinct_symbols_whole_string": 33,
+            "bits_per_field_whitespace": 29.6,
+            "distinct_symbols_whitespace": 66,
+            "bits_per_field_lowercased_whitespace": 29.6,
+            "distinct_symbols_lowercased_whitespace": 66,
+            "spread_bits_per_field": 21.506,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "education",
+            "records": 31,
+            "mean_whitespace_tokens": 5.29,
+            "bits_per_field_whole_string": 7.982,
+            "distinct_symbols_whole_string": 27,
+            "bits_per_field_whitespace": 39.578,
+            "distinct_symbols_whitespace": 66,
+            "bits_per_field_lowercased_whitespace": 39.578,
+            "distinct_symbols_lowercased_whitespace": 66,
+            "spread_bits_per_field": 31.596,
+            "spread_whitespace_vs_lowercased": 0.0
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "image",
+            "records": 78,
+            "mean_whitespace_tokens": 4.04,
+            "bits_per_field_whole_string": 8.871,
+            "distinct_symbols_whole_string": 78,
+            "bits_per_field_whitespace": 39.334,
+            "distinct_symbols_whitespace": 250,
+            "bits_per_field_lowercased_whitespace": 39.29,
+            "distinct_symbols_lowercased_whitespace": 245,
+            "spread_bits_per_field": 30.462,
+            "spread_whitespace_vs_lowercased": 0.043
+          },
+          {
+            "cache": "wiki_cache.person.json",
+            "field": "name",
+            "records": 105,
+            "mean_whitespace_tokens": 2.06,
+            "bits_per_field_whole_string": 9.284,
+            "distinct_symbols_whole_string": 105,
+            "bits_per_field_whitespace": 20.213,
+            "distinct_symbols_whitespace": 152,
+            "bits_per_field_lowercased_whitespace": 20.213,
+            "distinct_symbols_lowercased_whitespace": 152,
+            "spread_bits_per_field": 10.928,
+            "spread_whitespace_vs_lowercased": 0.0
+          }
+        ]
+      },
+      "how_computed": "shipped escrow.batch.L_vblock plus shipped escrow.codes.L_N for the segmentation, applied to the Wikipedia text fields in results/wiki_cache.*.json under three declared tokenisations. This is NOT the shipped text facet, which does not exist in version 1.",
+      "verdict_detail": "Version 1 ships no text code, so 5 to 15 cannot be a measurement of the shipped text facet and must be reworded as an estimate. Measured under the shipped categorical block on 31 Wikipedia text fields, the answer depends on which tokenisations are compared: coarse against fine (whole string against whitespace tokens) is 5.28 to 74.99 bits per field, median 19.68, with only 9 of 31 fields inside 5 to 15; two nearby tokenisations (whitespace against lowercased whitespace) differ by 0.0 to 1.98 bits per field, median 0.006. The quoted range is neither.",
+      "verdict": "does not reproduce, use this value instead",
+      "sites": [
+        {
+          "file": "paper/sections/problem.tex",
+          "quotes": "5 to 15",
+          "prose_lines": [
+            46
+          ],
+          "comment_lines": [
+            2
+          ],
+          "found": true,
+          "text": "choice estimated at 5 to 15 bits per field, more than any constant the method removes. The operator"
+        },
+        {
+          "file": "paper/sections/limitations.tex",
+          "quotes": "5 to 15",
+          "prose_lines": [
+            6
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "choose a tokenisation, estimated at 5 to 15 bits per field, more than any constant the method"
+        },
+        {
+          "file": "paper/sections/appendix.tex",
+          "quotes": "5$ to $15",
+          "prose_lines": [
+            262
+          ],
+          "comment_lines": [],
+          "found": true,
+          "text": "alphabet. The tokenisation residual for free-text facets is estimated at $5$ to $15$ bits per field, larger than any constant the method removes, so the claim of no calibrated parameter is scoped to categorical and near-categorical facets a"
+        },
+        {
+          "file": "paper/sections/appendix_tables.tex",
+          "quotes": "5 to 15",
+          "prose_lines": [
+            468
+          ],
+          "comment_lines": [
+            460
+          ],
+          "found": true,
+          "text": "5 to 15 bits per field, more than any constant the method removes, and no minimax code exists for"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "date": "2026-09-05",
+    "engine_md5": {
+      "engine.py": "21cc574ad69acb8c4a0d27fdd4b4b18d",
+      "batch.py": "9bf3a5f3550970e6e1df924fbb75de96",
+      "codes.py": "d45ce4330686488e78522e19803307b4"
+    }
+  }
+}

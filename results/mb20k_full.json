@@ -1,0 +1,396 @@
+{
+  "dataset": "musicbrainz-20-A01 (MusicBrainz 20K)",
+  "n_records": 19375,
+  "true_K": 10000,
+  "tag": "full",
+  "kept_tokens_freq_ge2": 17542,
+  "declared_choices": [
+    "stream order: rows shuffled once with random.Random(0); the same order feeds ESCROW and every baseline",
+    "ground truth: CID; it never appears in any engine facet or baseline input text",
+    "missing markers, case-insensitive: '', 'null', 'unk.', '[unknown]', 'unknown' (the last added because the raw data uses it 299x as an evident placeholder); missing fields are omitted from engine records and baseline texts identically",
+    "length parse (deterministic, applied identically everywhere): 'mm:ss' -> m*60+s; 'Xm Ysec' -> m*60+s; pure digits >=1000 -> milliseconds/1000, digits <1000 -> seconds; decimal 'x.y' -> minutes*60 (value distribution makes minutes the only plausible unit); parse failure or <=0 seconds -> missing ('00:00' and '0' are placeholders)",
+    "length_band = floor(seconds/30), value 'b<band>'",
+    "no normalization of number/year/language values: raw strings ('Eng.' stays distinct from 'English'); the same handicap for every method",
+    "condition A engine record: {source, number, year, language, length_band}, missing omitted; NO text fields",
+    "condition B adds presence-token facets: lowercase, split on non-word chars and underscore (unicode), token length >=2, global instance frequency >=2 counted over title+artist+album across the full corpus being run; keys 't:<tok>'/'a:<tok>'/'b:<tok>', value '1'; missing-marker text fields skipped",
+    "baseline text A: 'source=.. number=.. year=.. language=.. length_band=..' with missing fields omitted (identical band value the engine sees); fully-missing record encodes as 'empty'",
+    "baseline text B: text A + ' | ' + raw title + ' | ' + raw artist + ' | ' + raw album (missing-marker fields omitted). ASYMMETRY AGAINST ESCROW: baselines see the raw strings (word order, full vocabulary, no frequency filter); ESCROW sees only the filtered presence tokens",
+    "embeddings: sentence-transformers all-MiniLM-L6-v2, normalize_embeddings=True, one embedding per condition shared by all baselines",
+    "every swept baseline parameter is chosen on the test labels by max pairwise F1 and is marked ORACLE",
+    "kmeans oracle-K: given the true cluster count; torch GPU kmeans++ (seed 0) + Lloyd <=100 iters (sklearn KMeans at K=10000/n=19375 is impractical; same algorithm, declared implementation)",
+    "agglomerative: scipy average linkage on the cosine distance matrix, fcluster at the swept distance thresholds (equivalent cut to sklearn distance_threshold)",
+    "hdbscan: sklearn HDBSCAN on the precomputed cosine distance matrix; min_cluster_size swept; noise (-1) points become singleton clusters (the null assertion), the same convention as unassigned ESCROW records",
+    "ESCROW partition for scoring: a record in multiple nodes is assigned to its smallest containing node (tie: lowest node id); records in no node are singletons; multi-membership counts reported",
+    "ESCROW repair cadence: BatchObjective.repair() every 300 records, interval halved (floor 100) whenever K>300 at a repair, plus one final repair",
+    "pairwise P/R/F1 over induced record pairs vs CID; if a method asserts zero pairs its precision is vacuous (reported 1.0) and F1 is 0 via recall"
+  ],
+  "context_published_results": "FAMER-class published results on MusicBrainz-20K reach pairwise F1 ~0.8-0.9 with tuned similarity graphs and full text access; not run here, not head-to-head comparable",
+  "deviations": [],
+  "conditions": {
+    "A_categorical_only": {
+      "escrow": {
+        "score": {
+          "pairwise_precision": 0.0,
+          "pairwise_recall": 0.0045,
+          "pairwise_F1": 0.0,
+          "predicted_pairs": 14012119,
+          "true_pairs": 16250,
+          "tp_pairs": 73,
+          "ARI": -0.0002,
+          "K_found": 11890
+        },
+        "K_nodes_final": 2,
+        "nodes_minted_total": 12,
+        "records_in_some_node": 7487,
+        "records_unassigned_singleton": 11888,
+        "records_in_multiple_nodes": 4,
+        "repair_calls": 65,
+        "repair_seconds": 1179.4,
+        "runtime_seconds": 1181.7,
+        "final_repair_interval": 300,
+        "K_trajectory_tail": [
+          [
+            15300,
+            2
+          ],
+          [
+            15600,
+            2
+          ],
+          [
+            15900,
+            2
+          ],
+          [
+            16200,
+            2
+          ],
+          [
+            16500,
+            2
+          ],
+          [
+            16800,
+            2
+          ],
+          [
+            17100,
+            2
+          ],
+          [
+            17400,
+            2
+          ],
+          [
+            17700,
+            2
+          ],
+          [
+            18000,
+            2
+          ],
+          [
+            18300,
+            2
+          ],
+          [
+            18600,
+            2
+          ],
+          [
+            18900,
+            2
+          ],
+          [
+            19200,
+            2
+          ],
+          [
+            19375,
+            2
+          ]
+        ]
+      },
+      "baselines": {
+        "embedding_seconds": 10.1,
+        "kmeans_oracleK": {
+          "score": {
+            "pairwise_precision": 0.0012,
+            "pairwise_recall": 0.0023,
+            "pairwise_F1": 0.0016,
+            "predicted_pairs": 30272,
+            "true_pairs": 16250,
+            "tp_pairs": 37,
+            "ARI": 0.0015,
+            "K_found": 10000,
+            "seconds": 3.7
+          },
+          "note": "given the TRUE cluster count K=10000: ORACLE"
+        },
+        "hdbscan": {
+          "oracle_param": "3",
+          "oracle_score": {
+            "pairwise_precision": 0.0041,
+            "pairwise_recall": 0.0428,
+            "pairwise_F1": 0.0075,
+            "predicted_pairs": 168458,
+            "true_pairs": 16250,
+            "tp_pairs": 696,
+            "ARI": 0.0074,
+            "K_found": 7327,
+            "seconds": 41.7
+          },
+          "oracle_note": "parameter chosen on the test labels (max pairwise F1): ORACLE",
+          "sweep": {
+            "3": {
+              "pairwise_precision": 0.0041,
+              "pairwise_recall": 0.0428,
+              "pairwise_F1": 0.0075,
+              "predicted_pairs": 168458,
+              "true_pairs": 16250,
+              "tp_pairs": 696,
+              "ARI": 0.0074,
+              "K_found": 7327,
+              "seconds": 41.7
+            },
+            "5": {
+              "pairwise_precision": 0.003,
+              "pairwise_recall": 0.0458,
+              "pairwise_F1": 0.0056,
+              "predicted_pairs": 249614,
+              "true_pairs": 16250,
+              "tp_pairs": 744,
+              "ARI": 0.0054,
+              "K_found": 7664,
+              "seconds": 22.6
+            },
+            "10": {
+              "pairwise_precision": 0.0002,
+              "pairwise_recall": 0.1609,
+              "pairwise_F1": 0.0004,
+              "predicted_pairs": 12874135,
+              "true_pairs": 16250,
+              "tp_pairs": 2614,
+              "ARI": 0.0002,
+              "K_found": 5629,
+              "seconds": 19.1
+            },
+            "20": {
+              "pairwise_precision": 0.0002,
+              "pairwise_recall": 0.1738,
+              "pairwise_F1": 0.0003,
+              "predicted_pairs": 16882707,
+              "true_pairs": 16250,
+              "tp_pairs": 2824,
+              "ARI": 0.0002,
+              "K_found": 5361,
+              "seconds": 19.3
+            },
+            "50": {
+              "pairwise_precision": 0.0002,
+              "pairwise_recall": 0.1753,
+              "pairwise_F1": 0.0003,
+              "predicted_pairs": 18903531,
+              "true_pairs": 16250,
+              "tp_pairs": 2848,
+              "ARI": 0.0001,
+              "K_found": 5924,
+              "seconds": 18.7
+            }
+          },
+          "note": "precomputed cosine distances; noise points counted as singleton clusters"
+        },
+        "agglo_avg_cosine": {
+          "oracle_param": "0.1",
+          "oracle_score": {
+            "pairwise_precision": 0.0001,
+            "pairwise_recall": 0.1799,
+            "pairwise_F1": 0.0003,
+            "predicted_pairs": 21418189,
+            "true_pairs": 16250,
+            "tp_pairs": 2924,
+            "ARI": 0.0001,
+            "K_found": 1924,
+            "seconds": 0.0
+          },
+          "oracle_note": "parameter chosen on the test labels (max pairwise F1): ORACLE",
+          "sweep": {
+            "0.05": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.0119,
+              "pairwise_F1": 0.0001,
+              "predicted_pairs": 3858588,
+              "true_pairs": 16250,
+              "tp_pairs": 194,
+              "ARI": -0.0001,
+              "K_found": 5486,
+              "seconds": 0.0
+            },
+            "0.1": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.1799,
+              "pairwise_F1": 0.0003,
+              "predicted_pairs": 21418189,
+              "true_pairs": 16250,
+              "tp_pairs": 2924,
+              "ARI": 0.0001,
+              "K_found": 1924,
+              "seconds": 0.0
+            },
+            "0.2": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.3535,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 48794539,
+              "true_pairs": 16250,
+              "tp_pairs": 5745,
+              "ARI": 0.0001,
+              "K_found": 371,
+              "seconds": 0.0
+            },
+            "0.3": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.5758,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 96377384,
+              "true_pairs": 16250,
+              "tp_pairs": 9357,
+              "ARI": 0.0,
+              "K_found": 79,
+              "seconds": 0.0
+            },
+            "0.4": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.9548,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 177398540,
+              "true_pairs": 16250,
+              "tp_pairs": 15515,
+              "ARI": 0.0,
+              "K_found": 27,
+              "seconds": 0.0
+            },
+            "0.5": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.9578,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 177892711,
+              "true_pairs": 16250,
+              "tp_pairs": 15564,
+              "ARI": 0.0,
+              "K_found": 10,
+              "seconds": 0.0
+            },
+            "0.7": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 1.0,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 187685625,
+              "true_pairs": 16250,
+              "tp_pairs": 16250,
+              "ARI": 0.0,
+              "K_found": 1,
+              "seconds": 0.0
+            }
+          },
+          "note": "scipy average linkage on cosine pdist, cut at distance_threshold"
+        },
+        "dp_means": {
+          "oracle_param": "0.1",
+          "oracle_score": {
+            "pairwise_precision": 0.0002,
+            "pairwise_recall": 0.0318,
+            "pairwise_F1": 0.0005,
+            "predicted_pairs": 2249019,
+            "true_pairs": 16250,
+            "tp_pairs": 517,
+            "ARI": 0.0003,
+            "K_found": 1990,
+            "seconds": 4.3
+          },
+          "oracle_note": "parameter chosen on the test labels (max pairwise F1): ORACLE",
+          "sweep": {
+            "0.1": {
+              "pairwise_precision": 0.0002,
+              "pairwise_recall": 0.0318,
+              "pairwise_F1": 0.0005,
+              "predicted_pairs": 2249019,
+              "true_pairs": 16250,
+              "tp_pairs": 517,
+              "ARI": 0.0003,
+              "K_found": 1990,
+              "seconds": 4.3
+            },
+            "0.25": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.119,
+              "pairwise_F1": 0.0003,
+              "predicted_pairs": 14664176,
+              "true_pairs": 16250,
+              "tp_pairs": 1933,
+              "ARI": 0.0001,
+              "K_found": 506,
+              "seconds": 4.1
+            },
+            "0.5": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.2444,
+              "pairwise_F1": 0.0003,
+              "predicted_pairs": 31108787,
+              "true_pairs": 16250,
+              "tp_pairs": 3971,
+              "ARI": 0.0001,
+              "K_found": 123,
+              "seconds": 4.1
+            },
+            "0.75": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.2814,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 41580394,
+              "true_pairs": 16250,
+              "tp_pairs": 4573,
+              "ARI": 0.0,
+              "K_found": 30,
+              "seconds": 4.1
+            },
+            "1.0": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.5509,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 89761427,
+              "true_pairs": 16250,
+              "tp_pairs": 8952,
+              "ARI": 0.0,
+              "K_found": 8,
+              "seconds": 4.2
+            },
+            "1.25": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.5664,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 93931911,
+              "true_pairs": 16250,
+              "tp_pairs": 9204,
+              "ARI": 0.0,
+              "K_found": 2,
+              "seconds": 4.2
+            },
+            "1.5": {
+              "pairwise_precision": 0.0001,
+              "pairwise_recall": 0.7903,
+              "pairwise_F1": 0.0002,
+              "predicted_pairs": 137259479,
+              "true_pairs": 16250,
+              "tp_pairs": 12843,
+              "ARI": 0.0,
+              "K_found": 2,
+              "seconds": 4.1
+            }
+          },
+          "note": "greedy one-pass, squared-euclidean vs lambda"
+        }
+      }
+    }
+  }
+}

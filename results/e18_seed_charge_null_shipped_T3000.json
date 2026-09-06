@@ -1,0 +1,231 @@
+{
+  "experiment": "E18-seed-naming-charge-null",
+  "arm": "shipped_T3000",
+  "flags": {
+    "tight_naming": false,
+    "unselected_statistic": false
+  },
+  "design": "300 independent null streams per T ((100 for T>2000)), 4 independent categorical keys, 10 iid uniform values each; E16's null_stream and protocol, so the numbers are like for like",
+  "charges": {
+    "av_log2A_plus_log2d": 5.3219,
+    "ln_rank_code_mean": 8.1967,
+    "ln_rank_code_max": 11.8794
+  },
+  "by_T": {
+    "3000": {
+      "streams": 100,
+      "candidates": 4000,
+      "mints": 0,
+      "mean_K": 0.0,
+      "max_K": 0,
+      "accrual_steps_per_candidate": 300.0,
+      "drift_bits_per_accrual_step": 2.6282,
+      "sup_G": {
+        "mean": 788.4579,
+        "min": 640.9641,
+        "max": 903.3298,
+        "quantiles": {
+          "0.5": 788.397,
+          "0.75": 812.654,
+          "0.9": 832.8331,
+          "0.9375": 841.2372,
+          "0.99": 871.5662,
+          "0.99609": 883.1747,
+          "0.999": 896.7604,
+          "0.99976": 903.3298,
+          "1.0": 903.3298
+        }
+      },
+      "sup_G_minus_seed_key": {
+        "mean": 3.0206,
+        "max": 14.2804,
+        "quantiles": {
+          "0.5": 2.6394,
+          "0.75": 4.6249,
+          "0.9": 6.5658,
+          "0.9375": 7.3958,
+          "0.99": 10.3601,
+          "0.99609": 11.4046,
+          "0.999": 13.4221,
+          "0.99976": 14.2804,
+          "1.0": 14.2804
+        }
+      },
+      "exceedance_charge_0": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_av": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_charge_ln_mean": {
+        "1": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "2": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "4": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "8": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.0,
+          "holds": false
+        },
+        "12": {
+          "empirical": 1.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": false
+        }
+      },
+      "exceedance_unselected_charge_0": {
+        "1": {
+          "empirical": 0.73025,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.007018,
+          "holds": false
+        },
+        "2": {
+          "empirical": 0.58375,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.007794,
+          "holds": false
+        },
+        "4": {
+          "empirical": 0.3185,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.007366,
+          "holds": false
+        },
+        "8": {
+          "empirical": 0.04525,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.003286,
+          "holds": false
+        },
+        "12": {
+          "empirical": 0.0025,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.00079,
+          "holds": true
+        }
+      },
+      "exceedance_unselected_charge_av": {
+        "1": {
+          "empirical": 0.11325,
+          "bound_2^-b": 0.5,
+          "standard_error": 0.005011,
+          "holds": true
+        },
+        "2": {
+          "empirical": 0.06525,
+          "bound_2^-b": 0.25,
+          "standard_error": 0.003905,
+          "holds": true
+        },
+        "4": {
+          "empirical": 0.02,
+          "bound_2^-b": 0.0625,
+          "standard_error": 0.002214,
+          "holds": true
+        },
+        "8": {
+          "empirical": 0.00125,
+          "bound_2^-b": 0.00390625,
+          "standard_error": 0.000559,
+          "holds": true
+        },
+        "12": {
+          "empirical": 0.0,
+          "bound_2^-b": 0.000244140625,
+          "standard_error": 0.0,
+          "holds": true
+        }
+      },
+      "required_gamma": {
+        "1": 787.4,
+        "2": 810.65,
+        "4": 837.24,
+        "8": 875.17,
+        "12": 891.33
+      },
+      "required_gamma_unselected": {
+        "1": 1.64,
+        "2": 2.62,
+        "4": 3.4,
+        "8": 3.4,
+        "12": 2.28
+      }
+    }
+  },
+  "runtime_seconds": 26.3
+}

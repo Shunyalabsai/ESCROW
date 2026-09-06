@@ -1,0 +1,55 @@
+{
+  "experiment": "E16-wide",
+  "arm": "seed_av_both",
+  "flags": {
+    "tight_naming": true,
+    "unselected_statistic": true,
+    "seed_naming_charge": true,
+    "seed_naming_mode": "av",
+    "seed_naming_gamma": 0.0
+  },
+  "design": "300 independent null streams of T=2000, 4 categorical keys, 10 iid uniform values each",
+  "statistic": "sup_t (G_t - g_t[seed key]) - seed naming charge",
+  "streams": 300,
+  "candidates": 12000,
+  "mints": 0,
+  "mean_K": 0.0,
+  "max_K": 0,
+  "exceedance": {
+    "1": {
+      "empirical": 0.07475,
+      "bound_2^-b": 0.5,
+      "holds": true,
+      "standard_error": 0.002401
+    },
+    "2": {
+      "empirical": 0.050833,
+      "bound_2^-b": 0.25,
+      "holds": true,
+      "standard_error": 0.002005
+    },
+    "4": {
+      "empirical": 0.023417,
+      "bound_2^-b": 0.0625,
+      "holds": true,
+      "standard_error": 0.00138
+    },
+    "8": {
+      "empirical": 0.003583,
+      "bound_2^-b": 0.00390625,
+      "holds": true,
+      "standard_error": 0.000545
+    },
+    "12": {
+      "empirical": 0.000417,
+      "bound_2^-b": 0.000244140625,
+      "holds": true,
+      "standard_error": 0.000186
+    }
+  },
+  "sup_stats": {
+    "max": 15.1518,
+    "mean": 0.2804
+  },
+  "runtime_seconds": 66.8
+}

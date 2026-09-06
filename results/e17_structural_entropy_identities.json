@@ -1,0 +1,153 @@
+{
+  "what": "numerical witness for every displayed identity of Proposition C.1 (the relation to structural entropy) in paper/sections/appendix_theory.tex",
+  "seed": 20260906,
+  "C1_C3_C4_closed_forms_gain_extremes": {
+    "trials": 200,
+    "C1_h1_closed_form_max_abs_err": 8.881784197001252e-16,
+    "C3_gain_per_module_max_abs_err": 2.1094237467877974e-15,
+    "C3_gain_per_atom_max_abs_err": 2.1094237467877974e-15,
+    "C4_all_singleton_minus_h1_max_abs": 1.7763568394002505e-15,
+    "C4_one_module_minus_h1_max_abs": 1.7763568394002505e-15,
+    "C4_partitions_strictly_below_h1": 200,
+    "C4_planted_cocluster_h1": 3.792481250360578,
+    "C4_planted_cocluster_hp": 2.7924812503605776,
+    "C4_planted_gain_positive": true,
+    "verdict": "PASS"
+  },
+  "C2_C5_tree_slack_and_bracket": {
+    "trials": 300,
+    "heights_sampled": {
+      "1": 92,
+      "2": 104,
+      "3": 104
+    },
+    "C2_slack_identity_max_abs_err": 2.220446049250313e-15,
+    "C2_worst_at_height": 2,
+    "C5_bracket_0_le_HT_le_H1_le_log_n_holds": true,
+    "verdict": "PASS"
+  },
+  "C6_coincidence_identity": {
+    "trials": 40,
+    "C6_coincidence_max_abs_err": 1.1368683772161603e-12,
+    "C6_worst_instance": {
+      "2M_HPZ": 1071.1916978079878,
+      "ml_plugin_value_cost": 167.32950584549613,
+      "key_landing": 274.7307365052085,
+      "record_landing": 509.13145545728423,
+      "M": 120,
+      "rhs": 1071.191697807989
+    },
+    "verdict": "PASS"
+  },
+  "C7_kt_regret_sign_and_size": {
+    "trials": 400,
+    "C7_min_regret_over_ml_plugin": 2.0227200765000806,
+    "C7_count_of_negative_regrets": 0,
+    "C7_residual_after_half_A_minus_1_log_q": {
+      "min": -5.256689777361345,
+      "max": 0.5928706902783967,
+      "mean": -1.7732224662574831
+    },
+    "verdict": "PASS"
+  },
+  "C8_fresh_column_price": {
+    "rows": [
+      {
+        "n": 10,
+        "shipped_L_col_1_n": 6.7526658219712665,
+        "exact_gamma_ratio_form": 6.752665821971267,
+        "identity_abs_err": 8.881784197001252e-16,
+        "asymptote_1p5_log_n_plus_log_2sqrtpi": 6.808640207067204,
+        "gap_asymptote_minus_exact": 0.05597438509593733,
+        "wendel_bracket_width_delta_n": 0.07400058144377678,
+        "within_bracket": true,
+        "identity_rel_err": 1.3153004207764045e-16
+      },
+      {
+        "n": 100,
+        "shipped_L_col_1_n": 11.78610414145453,
+        "exact_gamma_ratio_form": 11.786104141454448,
+        "identity_abs_err": 8.171241461241152e-14,
+        "asymptote_1p5_log_n_plus_log_2sqrtpi": 11.79153234939825,
+        "gap_asymptote_minus_exact": 0.005428207943719343,
+        "wendel_bracket_width_delta_n": 0.00723156923107573,
+        "within_bracket": true,
+        "identity_rel_err": 6.93294524057441e-15
+      },
+      {
+        "n": 1000,
+        "shipped_L_col_1_n": 16.773883300686066,
+        "exact_gamma_ratio_form": 16.773883300684393,
+        "identity_abs_err": 1.673328142715036e-12,
+        "asymptote_1p5_log_n_plus_log_2sqrtpi": 16.77442449172929,
+        "gap_asymptote_minus_exact": 0.0005411910432258082,
+        "wendel_bracket_width_delta_n": 0.0007215279174595463,
+        "within_bracket": true,
+        "identity_rel_err": 9.975794589238589e-14
+      },
+      {
+        "n": 10000,
+        "shipped_L_col_1_n": 21.75726253121684,
+        "exact_gamma_ratio_form": 21.757262531212824,
+        "identity_abs_err": 4.014566457044566e-12,
+        "asymptote_1p5_log_n_plus_log_2sqrtpi": 21.757316634060338,
+        "gap_asymptote_minus_exact": 5.410284349949279e-05,
+        "wendel_bracket_width_delta_n": 7.213655547350114e-05,
+        "within_bracket": true,
+        "identity_rel_err": 1.8451615644590191e-13
+      },
+      {
+        "n": 100000,
+        "shipped_L_col_1_n": 26.740203366614878,
+        "exact_gamma_ratio_form": 26.740203366439825,
+        "identity_abs_err": 1.7505286109553708e-10,
+        "asymptote_1p5_log_n_plus_log_2sqrtpi": 26.740208776391377,
+        "gap_asymptote_minus_exact": 5.40977649876595e-06,
+        "wendel_bracket_width_delta_n": 7.213493238062845e-06,
+        "within_bracket": true,
+        "identity_rel_err": 6.5464296847529e-12
+      },
+      {
+        "n": 1000000,
+        "shipped_L_col_1_n": 31.723100382834673,
+        "exact_gamma_ratio_form": 31.723100379933147,
+        "identity_abs_err": 2.9015261304721207e-09,
+        "asymptote_1p5_log_n_plus_log_2sqrtpi": 31.723100918722423,
+        "gap_asymptote_minus_exact": 5.358877501748793e-07,
+        "wendel_bracket_width_delta_n": 7.213477009141342e-07,
+        "within_bracket": true,
+        "identity_rel_err": 9.14641411292237e-11
+      }
+    ],
+    "C8_constant_log2_2sqrtpi": 1.8257480647361595,
+    "verdict": "PASS"
+  },
+  "C9_key_type_invariance": {
+    "t_records_per_group": 50,
+    "C9_same_graph_invariants": true,
+    "C9_max_HT_gap_over_200_partitions": 0.0,
+    "C9_disjoint_alphabet_JS_equals_H_pi_abs_err": 0.0,
+    "C9_merge_divergence_side_Q_JS": 100.0,
+    "C9_merge_parameter_side": -3.3219280948873626,
+    "C9_merge_verdict": "distinct",
+    "C9_value_level_penalty_bits": -6.6865005271832185,
+    "C9_value_level_penalty_vs_minus_log_2q": -0.04264433740849327,
+    "verdict": "PASS"
+  },
+  "C10_first_record_price": {
+    "a": 0.5,
+    "b": 1.0,
+    "Lambda_1_bits": 2.0,
+    "verdict": "PASS"
+  },
+  "verdicts": {
+    "C1_C3_C4_closed_forms_gain_extremes": "PASS",
+    "C2_C5_tree_slack_and_bracket": "PASS",
+    "C6_coincidence_identity": "PASS",
+    "C7_kt_regret_sign_and_size": "PASS",
+    "C8_fresh_column_price": "PASS",
+    "C9_key_type_invariance": "PASS",
+    "C10_first_record_price": "PASS"
+  },
+  "all_pass": true
+}
