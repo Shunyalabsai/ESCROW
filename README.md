@@ -96,12 +96,25 @@ embedding baselines reach 0.61 to 0.78. Identity there is a title one token apar
 embedding sees at once and a categorical facet cannot see at all. Numeric and text facets are the
 next version.
 
-**One theorem is stated more carefully than it was.** The lifetime false-mint bound holds in the
-idealised setting. For the shipped engine we measured the exceedance instead of claiming the bound,
-because the released statistic is computed on a subsequence the data chose. The practical result,
-that nothing is born on noise, never depended on that bound: it holds because the release gate
-fires on the computed price, which outgrows the accumulated drift. The measurements are in
-`experiments/theorem1/`.
+**One theorem is stated more carefully than it was, and we know exactly why.** The lifetime
+false-mint bound holds in the idealised setting. For the shipped engine we measured the exceedance
+instead of claiming it, because the released statistic is computed on a subsequence the data chose.
+We then tried the repair the theorem itself proposes, charging for the choice of seed on the price
+side, in three codes, and it does not work: a price is constant in the stream length while the
+deficit grows, from 97 bits at five hundred records to 1,205 at four thousand. Remove the seed key's
+own term and the requirement drops to 3.5 bits and stops growing, and the same charge covers it, so
+the charge is a correct multiplicity correction being asked to pay for a drift. That arm is not
+shippable because removing the term destroys the mint. The practical result, that nothing is born on
+noise, never depended on the bound: the gate fires on the computed price, which outgrows the drift.
+All of it is in `experiments/theorem1/`.
+
+**The candidate budget is a resource bound, not a hidden knob.** A fair objection to any method like
+this is that the parameter has moved from the creation penalty to the machinery around it. Swept over
+sixteen values from 1 to 32,768 on four streams, the output stops moving at 128, 256, 2,048 and
+3,072 and is identical at every larger budget, so the shipped default of 4,096 is on the flat part of
+all four curves. Each plateau is where the pool stops evicting, fixed by the peak number of live
+candidates the stream itself produces, so the budget is set above a property of the data rather than
+searched (`experiments/e19_budget_curve.py`).
 
 ## License
 

@@ -57,9 +57,16 @@ class TrackedGraph(EscrowGraph):
         return c.g.get(kid, 0.0)
 
     def _stat(self, c) -> float:
+        # A price-side charge of Delta bits does not touch the accumulator; it
+        # raises the level the accumulator has to clear. Testing sup_t G_t against
+        # b + Delta is the same event as testing sup_t (G_t - Delta) against b, and
+        # subtracting keeps the levels b comparable with the committed table, so
+        # the seed naming charge appears here as a deduction. Zero when off.
+        d = C.seed_naming_charge(c.sig[0], c.sig[1], len(self.keys),
+                                 len(self.key_by_id[c.sig[0]].inventory))
         if C.UNSELECTED_STATISTIC:
-            return c.G - self._g_of(c, c.sig[0])
-        return c.G
+            return c.G - self._g_of(c, c.sig[0]) - d
+        return c.G - d
 
     def _mint(self, c, support, n, released=None, g_outside=None):
         self.minted_sigs.add(c.sig)
@@ -126,8 +133,9 @@ def main():
         "protocol": protocol_describe(),
         "design": "E8 plateau: lengths 2000, 5000, 10000, 20000 by 12 seeds = 48 streams, "
                   "4 independent categorical keys, 10 iid uniform values each",
-        "statistic": ("sup_t (G_t - g_t[seed key])" if C.UNSELECTED_STATISTIC
-                      else "sup_t G_t"),
+        "statistic": (("sup_t (G_t - g_t[seed key])" if C.UNSELECTED_STATISTIC
+                       else "sup_t G_t")
+                      + (" - seed naming charge" if C.SEED_NAMING_CHARGE else "")),
         "candidates": len(sups),
         "streams": len(lengths) * seeds,
         "mean_K": sum(Ks) / len(Ks),

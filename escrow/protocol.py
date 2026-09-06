@@ -12,14 +12,19 @@ from .batch import BatchObjective
 REPAIR_EVERY = 100
 
 
-def new_run(objective_cls=BatchObjective):
-    g = EscrowGraph()
+def new_run(objective_cls=BatchObjective, cand_pool_cap=None):
+    """The shipped run. `cand_pool_cap` is the candidate-pool budget: None keeps the
+    engine's own default (4096), so every existing caller is unchanged. It is exposed
+    here only so the budget sweep (experiments/e19_budget_curve.py) can move the one
+    operational parameter without leaving the protocol."""
+    g = EscrowGraph() if cand_pool_cap is None else EscrowGraph(cand_pool_cap=cand_pool_cap)
     b = objective_cls(g).install()
     return g, b
 
 
-def run_stream(records, every=REPAIR_EVERY, objective_cls=BatchObjective, on_progress=None):
-    g, b = new_run(objective_cls)
+def run_stream(records, every=REPAIR_EVERY, objective_cls=BatchObjective, on_progress=None,
+               cand_pool_cap=None):
+    g, b = new_run(objective_cls, cand_pool_cap=cand_pool_cap)
     for i, rec in enumerate(records):
         g.process(rec)
         if (i + 1) % every == 0:

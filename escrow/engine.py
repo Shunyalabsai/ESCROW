@@ -378,6 +378,16 @@ class EscrowGraph:
                 gmap.pop(seed_kid, None)
             ordered = sorted(gmap.items(), key=lambda kv: -kv[1])
             named_extra = 1 if seed_kid is not None else 0
+            # The SEED NAMING CHARGE, the opposite trade to the unselected
+            # statistic. The seed key's evidence is load-bearing (about 43 percent
+            # of a candidate's bits), so instead of deleting it from the statistic
+            # this pays for the selection on the PRICE side: the candidate must
+            # also afford a prefix codeword naming its seed pair out of the
+            # candidate set, which is the multiple-comparisons correction of
+            # Theorem 1(iii) made explicit. Zero unless the flag is on.
+            seed_charge = C.seed_naming_charge(
+                c.sig[0], c.sig[1], len(self.keys),
+                len(self.key_by_id[c.sig[0]].inventory))
             best_T, best_margin, running, best_running = None, 0.0, 0.0, 0.0
             for j, (kid, gk) in enumerate(ordered, start=1):
                 if gk <= 0:
@@ -385,7 +395,7 @@ class EscrowGraph:
                 running += gk
                 margin = (running + g_outside
                           - price(c.t, j + named_extra, n, self.K, self.e,
-                                  len(self.keys)))
+                                  len(self.keys)) - seed_charge)
                 if margin > best_margin:
                     best_T, best_margin, best_running = ordered[:j], margin, running
             if best_T is None:
@@ -447,15 +457,24 @@ class EscrowGraph:
             if c.g_vec is not None:
                 return float(c.g_vec[k])
             return c.g.get(k, 0.0)
-        self.mint_log.append({
+        # recomputed rather than passed in, so the _mint signature (and every
+        # subclass that overrides it) is untouched: it depends only on the key
+        # table and the seed pair, neither of which _mint changes.
+        seed_charge = C.seed_naming_charge(
+            c.sig[0], c.sig[1], len(self.keys),
+            len(self.key_by_id[c.sig[0]].inventory))
+        entry = {
             "node": w.nid, "n": n, "members": c.t,
             "G_total": round(c.G, 3),
             "released": None if released is None else round(released, 3),
             "g_outside": None if g_outside is None else round(g_outside, 3),
             "price_paid": round(price(c.t, len(support), n, self.K - 1, self.e - 1,
-                                      len(self.keys)), 3),
+                                      len(self.keys)) + seed_charge, 3),
             "support": [self.key_name[k] for k in support],
             "justifying_key": self.key_name[max(support, key=_g)],
             "per_key_bits": {self.key_name[k]: round(_g(k), 3) for k in support},
             "seed": (self.key_name[c.sig[0]], c.sig[1]),
-        })
+        }
+        if seed_charge:                         # reported only when the flag is on,
+            entry["seed_naming_charge"] = round(seed_charge, 3)   # so the shipped
+        self.mint_log.append(entry)             # receipt is byte for byte the same

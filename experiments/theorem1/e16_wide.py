@@ -42,8 +42,9 @@ def main():
     report = {"experiment": "E16-wide", "arm": arm, "flags": C.flags(),
               "design": f"{seeds} independent null streams of T={T}, 4 categorical keys, "
                         "10 iid uniform values each",
-              "statistic": ("sup_t (G_t - g_t[seed key])" if C.UNSELECTED_STATISTIC
-                            else "sup_t G_t"),
+              "statistic": (("sup_t (G_t - g_t[seed key])" if C.UNSELECTED_STATISTIC
+                             else "sup_t G_t")
+                            + (" - seed naming charge" if C.SEED_NAMING_CHARGE else "")),
               "streams": seeds, "candidates": n, "mints": mints,
               "mean_K": sum(Ks) / len(Ks), "max_K": max(Ks),
               "exceedance": exc,

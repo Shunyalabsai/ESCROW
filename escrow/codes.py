@@ -14,8 +14,8 @@ from math import lgamma
 
 
 # --------------------------------------------------------------------------- #
-# Two optional corrections, both OFF by default. The shipped default is exactly
-# the code that produced every committed results file; with both flags off no
+# Three optional corrections, all OFF by default. The shipped default is exactly
+# the code that produced every committed results file; with all flags off no
 # branch below changes a single bit of any computation.
 #
 #   ESCROW_TIGHT_NAMING=1        stage-(iii) escape names the value from the
@@ -28,6 +28,13 @@ from math import lgamma
 #                                compared against the price is the evidence from
 #                                keys OTHER than the one that created the
 #                                candidate (engine.py, step 7).
+#   ESCROW_SEED_NAMING_CHARGE=1  the opposite trade: KEEP the seed key's evidence
+#                                and pay for the selection on the PRICE side, by
+#                                adding to the mint price a prefix codeword that
+#                                names the seed pair out of the candidate set
+#                                (Theorem 1(iii)). The only requirement on the
+#                                charge is the Kraft sum over candidates,
+#                                sum_p 2^-Delta_p <= 1; see seed_naming_charge().
 #
 # The flags are read once at import. Set them in the environment before the
 # process starts, or call set_flags() before building a graph.
@@ -38,21 +45,95 @@ def _env_flag(name: str) -> bool:
 
 TIGHT_NAMING = _env_flag("ESCROW_TIGHT_NAMING")
 UNSELECTED_STATISTIC = _env_flag("ESCROW_UNSELECTED_STATISTIC")
+SEED_NAMING_CHARGE = _env_flag("ESCROW_SEED_NAMING_CHARGE")
+# Which prefix code names the seed pair. "av" is log2|A_n| + log2 d_a, the form
+# written in Theorem 1(iii); "ln" is Rissanen's universal integer code on the two
+# intern ranks, which is the open-alphabet form; "none" charges nothing but the
+# uniform slack below. SEED_NAMING_GAMMA is the uniform per-candidate slack Gamma
+# of Theorem 1(iii), added in every mode, and is 0 in the shipped system.
+SEED_NAMING_MODE = (os.environ.get("ESCROW_SEED_NAMING_MODE", "av").strip().lower()
+                    or "av")
+try:
+    SEED_NAMING_GAMMA = float(os.environ.get("ESCROW_SEED_NAMING_GAMMA", "0") or 0.0)
+except ValueError:                                  # a malformed env var is a bug,
+    SEED_NAMING_GAMMA = 0.0                         # not a silent 0 in a measurement
+    raise
 
 
-def set_flags(tight_naming: bool = None, unselected_statistic: bool = None) -> dict:
+def set_flags(tight_naming: bool = None, unselected_statistic: bool = None,
+              seed_naming_charge: bool = None, seed_naming_mode: str = None,
+              seed_naming_gamma: float = None) -> dict:
     """Set the correction flags from code (tests and sweeps). Returns the state."""
     global TIGHT_NAMING, UNSELECTED_STATISTIC
+    global SEED_NAMING_CHARGE, SEED_NAMING_MODE, SEED_NAMING_GAMMA
     if tight_naming is not None:
         TIGHT_NAMING = bool(tight_naming)
     if unselected_statistic is not None:
         UNSELECTED_STATISTIC = bool(unselected_statistic)
+    if seed_naming_charge is not None:
+        SEED_NAMING_CHARGE = bool(seed_naming_charge)
+    if seed_naming_mode is not None:
+        SEED_NAMING_MODE = str(seed_naming_mode).strip().lower()
+    if seed_naming_gamma is not None:
+        SEED_NAMING_GAMMA = float(seed_naming_gamma)
     return flags()
 
 
 def flags() -> dict:
-    return {"tight_naming": TIGHT_NAMING,
-            "unselected_statistic": UNSELECTED_STATISTIC}
+    f = {"tight_naming": TIGHT_NAMING,
+         "unselected_statistic": UNSELECTED_STATISTIC}
+    if SEED_NAMING_CHARGE or SEED_NAMING_GAMMA:
+        # only reported when it is on, so a flags-off run of any pre-existing
+        # script writes exactly the dict it wrote before this flag existed
+        f["seed_naming_charge"] = SEED_NAMING_CHARGE
+        f["seed_naming_mode"] = SEED_NAMING_MODE
+        f["seed_naming_gamma"] = SEED_NAMING_GAMMA
+    return f
+
+
+def seed_naming_charge(kid: int, vid: int, n_keys: int, d_seed: int) -> float:
+    """Extra bits added to the mint price for having named the seed pair
+    (a+, v+) out of the candidate set. Returns 0.0 when the flag is off, so the
+    shipped price is untouched.
+
+    Why a codeword and not a p-value. A candidate mints when its evidence clears
+    its price; if under the null each candidate p clears a level c_p at most with
+    probability 2^-c_p (Ville), then the expected number of spurious mints over
+    every candidate and the whole lifetime is sum_p 2^-c_p. Writing
+    c_p = Lambda_p + Delta_p, that is at most (max_p 2^-Lambda_p) * sum_p 2^-Delta_p,
+    so the ONE requirement on Delta is the Kraft inequality over the candidate
+    index set, sum_p 2^-Delta_p <= 1: Delta must be the length of a prefix codeword
+    naming the seed pair. Nothing else about it is forced.
+
+    Three such codes, all O(1) in the stream length T:
+      "av"   Delta = log2|A_n| + log2 d_a, the form Theorem 1(iii) writes. Kraft
+             sum is sum_a sum_{v<=d_a} 1/(|A| d_a) = 1 EXACTLY, but only for a
+             closed schema: with keys and values still arriving, the counts grow
+             and naming each candidate with the counts current at its own seed
+             time is not a prefix code over the union (one new value per arrival
+             on one key gives sum_j 1/j, which diverges).
+      "ln"   Delta = L_N(kid+1) + L_N(vid+1), Rissanen's universal integer code on
+             the two intern ranks. sum_k 2^-L_N(k) <= 1 for each factor, so the
+             product is Kraft over the UNBOUNDED candidate set, frozen at seed
+             time, and still free of T. This is the open-alphabet form.
+      "none" charge nothing here and use the uniform slack alone.
+    SEED_NAMING_GAMMA adds the uniform per-candidate slack Gamma of Theorem 1(iii)
+    on top of whichever code is chosen; with slack the family bound reads
+    |A| dbar 2^-Gamma.
+    """
+    if not SEED_NAMING_CHARGE:
+        return 0.0
+    m = SEED_NAMING_MODE
+    if m == "av":
+        base = math.log2(max(1.0, float(n_keys))) + math.log2(max(1.0, float(d_seed)))
+    elif m == "ln":
+        base = L_N(int(kid) + 1) + L_N(int(vid) + 1)
+    elif m == "none":
+        base = 0.0
+    else:
+        raise ValueError(f"unknown ESCROW_SEED_NAMING_MODE {m!r}; "
+                         "expected 'av', 'ln' or 'none'")
+    return base + SEED_NAMING_GAMMA
 
 
 def naming_charge(naming: float, u: int) -> float:
