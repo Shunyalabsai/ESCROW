@@ -15,6 +15,9 @@ Requires: river (pip install river). Run where cores are plentiful.
 import json
 import random
 import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from escrow.provenance import stamped  # noqa: E402
 
 try:
     from river import tree
@@ -74,5 +77,5 @@ out = {
     "ours_reference": "results/e8_false_mint_null.json: mean K = 0.0 at every length",
 }
 with open(os.path.join(OUT, "e8_tree_arms.json"), "w") as f:
-    json.dump(out, f, indent=2)
+    json.dump(stamped(out), f, indent=2)
 print("written: results/e8_tree_arms.json")

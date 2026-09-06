@@ -17,20 +17,20 @@ from __future__ import annotations
 import math
 
 from .batch import BatchObjective, L_vblock
-from .codes import L_col, lg2
+from .codes import L_col, lg2, naming_charge
 
 
 def dec_delta(u: int, N: int, c0: int, naming: float) -> float:
     """L_vblock after removing one observation of a value with count c0 >= 1,
     minus L_vblock before. Matches L_vblock(bg2)-L_vblock(bg) of the stock pass."""
     if u == 1 and c0 == 1:                      # block empties (then N == 1)
-        return -(L_col(1, N) + naming)
+        return -(L_col(1, N) + naming_charge(naming, 0))
     Nr = N - u
     if c0 == 1:                                 # value disappears, u -> u-1
         return (L_col(u - 1, N - 1) - L_col(u, N)
                 + (lg2(Nr + (u - 1) / 2.0) - lg2((u - 1) / 2.0))
                 - (lg2(Nr + u / 2.0) - lg2(u / 2.0))
-                - naming)
+                - naming_charge(naming, u - 1))     # the u-th value un-named
     return (L_col(u, N - 1) - L_col(u, N)       # c0 > 1: u unchanged, Nr -> Nr-1
             + lg2(Nr - 1 + u / 2.0) - lg2(Nr + u / 2.0)
             + lg2(c0 - 0.5) - lg2(c0 - 1.5))
@@ -40,13 +40,13 @@ def inc_delta(u: int, N: int, c1: int, naming: float) -> float:
     """L_vblock after adding one observation of a value with current count c1,
     minus L_vblock before. Matches L_vblock(nbc+vid)-L_vblock(nbc)."""
     if N == 0:
-        return L_col(1, 1) + naming
+        return L_col(1, 1) + naming_charge(naming, 0)
     Nr = N - u
     if c1 == 0:                                 # new value, u -> u+1, Nr unchanged
         return (L_col(u + 1, N + 1) - L_col(u, N)
                 + (lg2(Nr + (u + 1) / 2.0) - lg2((u + 1) / 2.0))
                 - (lg2(Nr + u / 2.0) - lg2(u / 2.0))
-                + naming)
+                + naming_charge(naming, u))         # the (u+1)-th value named
     return (L_col(u, N + 1) - L_col(u, N)       # existing value: Nr -> Nr+1
             + lg2(Nr + 1 + u / 2.0) - lg2(Nr + u / 2.0)
             + lg2(c1 - 0.5) - lg2(c1 + 0.5))
@@ -67,7 +67,7 @@ class FastBatchObjective(BatchObjective):
                 continue
             ki = g.key_by_id[kid]
             n0b = g.n - len(covered)
-            p0b = max(0, ki.P - pub_by_kid.get(kid, 0))
+            p0b = max(0, ki.P - len(pub_by_kid.get(kid, ())))
             d -= L_col(min(p0b, n0b), n0b) if n0b > 0 else 0.0
             n0a, p0a = n0b - 1, p0b - pub
             d += L_col(min(max(p0a, 0), n0a), n0a) if n0a > 0 else 0.0
@@ -80,7 +80,7 @@ class FastBatchObjective(BatchObjective):
                     d += dec_delta(bg.u, bg.N, c0, naming)
                     nb = v.blocks.get(kid)
                     if nb is None:
-                        d += L_col(1, 1) + naming
+                        d += L_col(1, 1) + naming_charge(naming, 0)
                     else:
                         d += inc_delta(nb.u, nb.N, nb.counts.get(vid, 0), naming)
         return d
@@ -95,7 +95,7 @@ class FastBatchObjective(BatchObjective):
         for v in g.nodes.values():
             for kid in v.S:
                 covered_by_kid.setdefault(kid, set()).update(v.members)
-                pub_by_kid[kid] = pub_by_kid.get(kid, 0) + v.p.get(kid, 0)
+                pub_by_kid.setdefault(kid, set()).update(v.pub.get(kid, ()))
         moved = 0
         for rec_n in list(g.record_keys):
             if rec_n in covered_all:
@@ -113,7 +113,7 @@ class FastBatchObjective(BatchObjective):
                 for kid in best_v.S:
                     covered_by_kid.setdefault(kid, set()).add(rec_n)
                     if kid in keys_r:
-                        pub_by_kid[kid] = pub_by_kid.get(kid, 0) + 1
+                        pub_by_kid.setdefault(kid, set()).add(rec_n)
                 moved += 1
         return moved
 

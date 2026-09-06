@@ -1,0 +1,152 @@
+{
+  "note": "Every value that has ever been printed for a quantity, with the value that is true now. A value under 'superseded' must not appear anywhere in the paper or the talk. Add a row whenever a number changes, and record why, so a stale value cannot survive an edit. Values are matched as plain substrings, so keep them distinctive.",
+  "quantities": [
+    {
+      "id": "e7_deferred_mints",
+      "what": "E7 deferred arm, number of mint events",
+      "source": "results/e7_immediate_vs_deferred.json:deferred.total_mints",
+      "superseded": [
+        "288 mint receipts",
+        "288 mint events",
+        "$288$ mint"
+      ],
+      "why": "288 came from an engine state that no longer reproduces; the protocol was unified and three defects fixed"
+    },
+    {
+      "id": "e7_deficit",
+      "what": "E7 unseeded arm, mean deficit in bits",
+      "source": "results/e7_immediate_vs_deferred.json:unseeded.mean_deficit_bits",
+      "superseded": [
+        "41.85 bits",
+        "deficit of 41.85"
+      ],
+      "why": "the background block no longer holds cells a node owns, so the uninformed guess is measured against an honest incumbent"
+    },
+    {
+      "id": "wiki_llm_ari",
+      "what": "ESCROW ARI on Wikipedia in the language-model comparison",
+      "source": "results/llm_graph_formation.json:datasets.wikipedia.methods.escrow.ari",
+      "superseded": [
+        "0.9513",
+        "0.9407"
+      ],
+      "why": "numpy-path and cell-ownership defects"
+    },
+    {
+      "id": "wiki_llm_purity",
+      "what": "ESCROW purity on Wikipedia in the language-model comparison",
+      "source": "results/llm_graph_formation.json:datasets.wikipedia.methods.escrow.purity",
+      "superseded": [
+        "0.9906",
+        "0.9938"
+      ],
+      "why": "same"
+    },
+    {
+      "id": "lazada_background",
+      "what": "Lazada records left in the background by ESCROW",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.background_or_unparsed",
+      "superseded": [
+        "765 of the 1,000",
+        "765 of 1,000",
+        "765 records"
+      ],
+      "why": "same"
+    },
+    {
+      "id": "lazada_wall",
+      "what": "ESCROW wall time on the Lazada thousand",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.wall_s",
+      "superseded": [
+        "4.5 s for ESCROW",
+        "4.48 s",
+        "about 2.4 s",
+        "2.4 s for ESCROW",
+        "0 tokens, 2.4 s",
+        "in about 2.4 s"
+      ],
+      "why": "the corrected merge pricing removed most of the repair work",
+      "note": "matched with context: the talk's animation budget is also 2.4 s and is not this quantity"
+    },
+    {
+      "id": "e4_wiki",
+      "what": "ESCROW on Wikipedia in the E4 harness",
+      "source": "results/e4_first_tier.json:wikipedia.ours",
+      "superseded": [
+        "0.8482",
+        "0.8846",
+        "0.6568"
+      ],
+      "why": "protocol unification and the three defects"
+    },
+    {
+      "id": "wiki_demo_composition",
+      "what": "the Wikipedia demo graph",
+      "source": "results/wikipedia_demo.json:nodes",
+      "superseded": [
+        "films 114, people 110, mountains 87",
+        "114, people 110",
+        "TV films",
+        "television films",
+        "TV-film",
+        "television-film",
+        "every one 100\\% pure",
+        "every one 100 percent pure",
+        "film $122$",
+        "122 ($120$ film",
+        "122 (120 film",
+        "purity $0.9939$",
+        "purity 0.9939",
+        "mountain $74$ and $19$",
+        "mountain 74 and 19",
+        "0.9939",
+        "114/110/87"
+      ],
+      "why": "no run of the shipped code produces the all-pure five-node graph with a television-film node; and the middle regeneration (122/112/74/19 at purity 0.9939) was superseded by the cell-ownership fix, which gives 130/101/86/10/1 at purity 0.9665"
+    },
+    {
+      "id": "e5_wiki_spread",
+      "what": "the Wikipedia spread over 20 record orders",
+      "source": "results/e5_order_dependence.json:streams.wikipedia.ARI",
+      "superseded": [
+        "0.8635",
+        "0.9103",
+        "0.8448",
+        "0.6332",
+        "0.6594",
+        "0.617"
+      ],
+      "why": "each engine fix moved the spread"
+    },
+    {
+      "id": "catchall_share",
+      "what": "the language model's catch-all node share on Lazada",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods (largest_node_share)",
+      "superseded": [
+        "40 to 85 percent",
+        "40 to 85\\%"
+      ],
+      "why": "the measured shares are 0.2315 to 0.8527, so the low end is 23 percent, not 40"
+    },
+    {
+      "id": "tree_arms_max",
+      "what": "false nodes invented by the streaming trees on noise",
+      "source": "results/e8_tree_arms.json",
+      "superseded": [
+        "up to ninety-one",
+        "up to 91 false"
+      ],
+      "why": "91 is a five-seed mean; the maximum over seeds is 111, so quote mean and maximum"
+    },
+    {
+      "id": "reverb_merges",
+      "what": "ReVerb45K node count",
+      "source": "results/e10_reverb45k_full.json:K",
+      "superseded": [
+        "our 96 merges",
+        "96 merges"
+      ],
+      "why": "96 is a node count; the run records 6,420 mints"
+    }
+  ]
+}

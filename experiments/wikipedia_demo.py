@@ -16,6 +16,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from escrow.engine import EscrowGraph
 from escrow.batch import BatchObjective
+from escrow.protocol import run_stream, describe as protocol_describe
+from escrow.provenance import stamped
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "..", "results")
 CACHE = os.path.join(OUT, "wiki_cache.json")
@@ -134,19 +136,13 @@ allkeys = {k for _, r in records for k in r}
 print(f"stream: {len(records)} records, {len(allkeys)} distinct raw keys")
 
 # ---- run -------------------------------------------------------------------- #
-g = EscrowGraph()
-b = BatchObjective(g)
-for i, (_, rec) in enumerate(records):
-    g.process(rec)
-    if (i + 1) % 50 == 0:
-        b.repair()
-b.repair()
+g, b = run_stream([rec for _, rec in records])
 
 # score nodes against the (held-out) category labels
 truth = {}
 for idx, (cat, rec) in enumerate(records, start=1):
     truth[idx] = cat
-report = {"n": g.n, "K": g.K, "keys": len(g.keys), "nodes": []}
+report = {"n": g.n, "K": g.K, "keys": len(g.keys), "protocol": protocol_describe(), "nodes": []}
 for v in sorted(g.nodes.values(), key=lambda x: -x.t):
     cats = {}
     for r in v.members:
@@ -155,4 +151,4 @@ for v in sorted(g.nodes.values(), key=lambda x: -x.t):
         "t": v.t, "purity": cats,
         "support": sorted(g.key_name[k] for k in v.S)[:14]})
 print(json.dumps(report, indent=2)[:3500])
-json.dump(report, open(os.path.join(OUT, "wikipedia_demo.json"), "w"), indent=2)
+json.dump(stamped(report), open(os.path.join(OUT, "wikipedia_demo.json"), "w"), indent=2)

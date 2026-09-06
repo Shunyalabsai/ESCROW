@@ -24,10 +24,21 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 ROOT = os.environ.get("ESCROW_ROOT", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 # data, baselines and results live under ESCROW_ROOT (default: the directory above this code directory)
 
+from escrow.provenance import stamped  # noqa: E402
+
 import numpy as np
 
 DATA = os.path.join(ROOT, "data/musicbrainz/musicbrainz-20-A01.csv.dapo")
 OUT_DIR = os.path.join(ROOT, "results")
+
+# The run that produced results/mb20k_full2.json raised the engine's candidate pool cap from
+# its 4096 default to 32768 (recorded in that file's "deviations") so that no candidate is ever
+# evicted on this dataset; the first attempt crashed when a candidate touched by the current
+# record was evicted. The script now sets it, instead of only describing it.
+CAND_POOL_CAP = 32768
+REPAIR_EVERY = 200          # the cadence results/mb20k_full2.json records
+FORCE_REPAIR_K = 300        # forced repair above this many nodes
+FORCE_REPAIR_GAP = 60       # ... but never closer together than this many records
 
 # ---------------------------------------------------------------- parsing ----
 MISSING = {"", "null", "unk.", "[unknown]", "unknown"}
@@ -163,26 +174,24 @@ def singletonize(labels):
 
 
 # ---------------------------------------------------------------- escrow -----
-def run_escrow(recs, repair_every=300):
+def run_escrow(recs, repair_every=REPAIR_EVERY):
     from escrow.engine import EscrowGraph
     from escrow.batch import BatchObjective
-    g = EscrowGraph()
+    g = EscrowGraph(cand_pool_cap=CAND_POOL_CAP)
     b = BatchObjective(g).install()
     t0 = time.time()
     rep_time, rep_calls = 0.0, 0
-    interval = repair_every
-    next_rep = interval
+    last_rep = 0
     k_traj = []
     for i, r in enumerate(recs, 1):
         g.process(r)
-        if i >= next_rep and i < len(recs):
+        forced = g.K > FORCE_REPAIR_K and i - last_rep >= FORCE_REPAIR_GAP
+        if (i - last_rep >= repair_every or forced) and i < len(recs):
             rt = time.time()
             b.repair()
             rep_time += time.time() - rt
             rep_calls += 1
-            if g.K > 300:
-                interval = max(100, interval // 2)
-            next_rep = i + interval
+            last_rep = i
             k_traj.append([i, g.K])
             print("  [escrow] rec %d/%d K=%d pool=%d elapsed=%.0fs repair_s=%.0f"
                   % (i, len(recs), g.K, len(g.pool), time.time() - t0, rep_time),
@@ -223,7 +232,8 @@ def run_escrow(recs, repair_every=300):
              "repair_calls": rep_calls,
              "repair_seconds": round(rep_time, 1),
              "runtime_seconds": round(total, 1),
-             "final_repair_interval": interval,
+             "repair_every": repair_every,
+             "cand_pool_cap": CAND_POOL_CAP,
              "K_trajectory_tail": k_traj[-15:]}
     return labels, stats
 
@@ -398,7 +408,8 @@ DECLARED_CHOICES = [
     "agglomerative: scipy average linkage on the cosine distance matrix, fcluster at the swept distance thresholds (equivalent cut to sklearn distance_threshold)",
     "hdbscan: sklearn HDBSCAN on the precomputed cosine distance matrix; min_cluster_size swept; noise (-1) points become singleton clusters (the null assertion), the same convention as unassigned ESCROW records",
     "ESCROW partition for scoring: a record in multiple nodes is assigned to its smallest containing node (tie: lowest node id); records in no node are singletons; multi-membership counts reported",
-    "ESCROW repair cadence: BatchObjective.repair() every 300 records, interval halved (floor 100) whenever K>300 at a repair, plus one final repair",
+    "ESCROW repair cadence: BatchObjective.repair() every 200 records, plus a forced repair whenever K > 300 and at least 60 records have passed since the last repair, plus one final repair; on this dataset K never exceeds 3, so the forced-repair guard never fires and the cadence is a flat 200",
+    "ESCROW candidate pool cap: EscrowGraph(cand_pool_cap=32768); the engine default is 4096, at which a candidate touched by the current record can be evicted mid-record, which crashed the first attempt. 32768 removes eviction entirely on this dataset and is set by the script",
     "pairwise P/R/F1 over induced record pairs vs CID; if a method asserts zero pairs its precision is vacuous (reported 1.0) and F1 is 0 via recall",
 ]
 
@@ -448,12 +459,12 @@ def main():
             cres["baselines"] = run_baselines(texts, truth, true_k)
         report["conditions"][cname] = cres
         with open(out_path, "w") as f:
-            json.dump(report, f, indent=2)
+            json.dump(stamped(report), f, indent=2)
         print("checkpointed %s" % out_path, flush=True)
 
     report["honest_reading"] = ""            # filled in by the analyst after the run
     with open(out_path, "w") as f:
-        json.dump(report, f, indent=2)
+        json.dump(stamped(report), f, indent=2)
     print(json.dumps(report, indent=2))
     print("written %s" % out_path, flush=True)
 

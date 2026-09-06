@@ -112,9 +112,9 @@ def fig_escrow():
     account = [rate * t for t in ts]            # realised rate times members
     prices = [price_at(t) for t in ts]
 
-    fig = plt.figure(figsize=(TEXT_W, 2.45))
+    fig = plt.figure(figsize=(TEXT_W, 2.20))
     gs = fig.add_gridspec(1, 2, width_ratios=[1.45, 1.0], wspace=0.42,
-                          left=0.085, right=0.985, bottom=0.17, top=0.86)
+                          left=0.085, right=0.985, bottom=0.19, top=0.855)
     ax = fig.add_subplot(gs[0, 0])
     bx = fig.add_subplot(gs[0, 1])
 
@@ -171,13 +171,13 @@ def fig_escrow():
                 mfc=st["mfc"], mec=st["color"], mew=0.8, zorder=3)
         # labels at the k = 2 end, spread so the near-equal 21 and 22 stay apart
         label_y = {4: ys[0], 8: ys[0] - 1.6, 16: ys[0] + 1.6}[dv]
-        bx.text(xs[0] - 0.16, label_y, "d = %d" % dv, fontsize=6.5,
+        bx.text(xs[0] - 0.16, label_y, "d = %d" % dv, fontsize=7,
                 color=st["color"], ha="right", va="center")
 
     bx.plot([xpos[4] + dodge[8]], [cell["t_star"]], marker="o", ms=7.5,
             mfc="none", mec=GOLD, mew=1.2, zorder=4)
     bx.text(xpos[4], cell["t_star"] + 2.6, "the cell\non the left",
-            fontsize=6.5, color=GOLD, ha="center", va="bottom")
+            fontsize=7, color=GOLD, ha="center", va="bottom")
 
     bx.set_xlim(-0.95, len(ks) - 0.55)
     bx.set_ylim(0, 25)
@@ -214,8 +214,10 @@ def fig_null():
     efdt_strict = arm("efdt", "1e-07")   # 1, 1, 1, 1
     vfdt_strict = arm("vfdt", "1e-07")   # 1, 1, 1, 1
 
-    fig = plt.figure(figsize=(TEXT_W, 2.35))
-    ax = fig.add_axes([0.085, 0.175, 0.72, 0.72])
+    # Drawn narrow (3.63 in) so that it can be set at 0.66 of the 5.5 in text
+    # width beside the Ville table and still print its 7 pt labels at 7 pt.
+    fig = plt.figure(figsize=(3.63, 2.00))
+    ax = fig.add_axes([0.150, 0.185, 0.585, 0.635])
 
     # the dial set strict: both trees sit at one node, the root alone
     for ys in (efdt_strict, vfdt_strict):
@@ -237,36 +239,43 @@ def fig_null():
             mec=PAPER, mew=0.9, zorder=6)
 
     # direct labels at the right edge
-    xr = lengths[-1] * 1.06
+    xr = lengths[-1] * 1.09          # clear of the last marker of each curve
     ax.text(xr, efdt_loose[-1], "EFDT, delta = 0.01", color=INK, fontsize=7,
-            ha="left", va="center")
+            ha="left", va="center", zorder=9)
     ax.text(xr, vfdt_loose[-1], "VFDT, delta = 0.01", color=INK, fontsize=7,
-            ha="left", va="center")
-    # the strict line is labelled at its left end, where nothing else sits
-    ax.text(lengths[0] * 1.35, 3.5,
-            "the dial set strict\n(both trees, delta = 1e-7): one node, the root",
-            color=MUTE, fontsize=6.5, ha="left", va="bottom")
-    ax.text(xr, our_mean[-1] + 1.5, "ESCROW: 0 nodes\nin all %d streams" % n_streams,
-            color=GOLD, fontsize=7, ha="left", va="center")
+            ha="left", va="center", zorder=9)
+    # The strict line is labelled in the empty band between the two tree curves.
+    # The grid would rule through it, so each line sits on its own paper patch,
+    # one patch per line so the patch never reaches past the text it backs.
+    for _j, _ln in enumerate(("the dial set strict",
+                              "(both trees, delta = 1e-7):",
+                              "one node, the root")):
+        ax.text(4800, 58.0 - 12.7 * _j, _ln, color=MUTE, fontsize=7,
+                ha="left", va="top", zorder=6,
+                bbox=dict(facecolor=PAPER, edgecolor="none", pad=0.6))
+    ax.text(xr, our_mean[-1] - 6.0, "ESCROW: 0 nodes\nin all %d streams" % n_streams,
+            color=GOLD, fontsize=7, ha="left", va="center", linespacing=1.25, zorder=9)
 
     # point labels on the growing curve, so the numbers can be read off
     for T, y in zip(lengths, efdt_loose):
-        ax.text(T, y + 3.2, "%d" % y, color=INK, fontsize=6.5, ha="center",
-                va="bottom")
-    ax.text(lengths[-1], vfdt_loose[-1] + 3.2, "%d" % vfdt_loose[-1],
-            color=INK, fontsize=6.5, ha="center", va="bottom")
+        ax.text(T, y + 4.0, "%d" % y, color=INK, fontsize=7, zorder=8,
+                ha="right" if T == lengths[-1] else "center", va="bottom",
+                bbox=dict(facecolor=PAPER, edgecolor="none", pad=0.4))
+    ax.text(lengths[-1] * 0.97, vfdt_loose[-1] + 4.0, "%d" % vfdt_loose[-1],
+            color=INK, fontsize=7, ha="right", va="bottom", zorder=8,
+            bbox=dict(facecolor=PAPER, edgecolor="none", pad=0.4))
 
     ax.set_xscale("log")
     ax.set_xlim(1700, 24000)
     ax.xaxis.set_major_locator(FixedLocator(lengths))
     ax.xaxis.set_major_formatter(FixedFormatter(["2,000", "5,000", "10,000", "20,000"]))
     ax.xaxis.set_minor_locator(FixedLocator([]))
-    ax.set_ylim(-4, 105)
+    ax.set_ylim(-26, 112)
     ax.set_yticks([0, 25, 50, 75, 100])
     ax.set_xlabel("stream length (records, log scale)")
     ax.set_ylabel("nodes created on pure noise")
-    ax.set_title("the same iid noise stream, 4 keys, 10 values each; every node is false",
-                 loc="left", fontsize=7.5, pad=6)
+    ax.set_title("the same iid noise stream, 4 keys, 10 values each;\nevery node is false",
+                 loc="left", fontsize=7.5, pad=4, linespacing=1.2)
     ax.grid(axis="y", color=MUTE, lw=0.4, alpha=0.35)
 
     return save(fig, "fig_null")

@@ -8,8 +8,71 @@ encoding specification). lgamma, never factorials (implementation_notes #2).
 from __future__ import annotations
 
 import math
+import os
 from functools import lru_cache
 from math import lgamma
+
+
+# --------------------------------------------------------------------------- #
+# Two optional corrections, both OFF by default. The shipped default is exactly
+# the code that produced every committed results file; with both flags off no
+# branch below changes a single bit of any computation.
+#
+#   ESCROW_TIGHT_NAMING=1        stage-(iii) escape names the value from the
+#                                inv - u + 1 slots that are actually reachable,
+#                                not from all inv + 1. Makes each value block's
+#                                predictive sum to exactly one (E16 measured the
+#                                shipped block at 1 - u(u+1/2)/((N+1)(inv+1))).
+#   ESCROW_UNSELECTED_STATISTIC=1  the escrow released at the gate excludes the
+#                                seed key's own ledger entry, so the quantity
+#                                compared against the price is the evidence from
+#                                keys OTHER than the one that created the
+#                                candidate (engine.py, step 7).
+#
+# The flags are read once at import. Set them in the environment before the
+# process starts, or call set_flags() before building a graph.
+# --------------------------------------------------------------------------- #
+def _env_flag(name: str) -> bool:
+    return os.environ.get(name, "").strip().lower() in ("1", "true", "yes", "on")
+
+
+TIGHT_NAMING = _env_flag("ESCROW_TIGHT_NAMING")
+UNSELECTED_STATISTIC = _env_flag("ESCROW_UNSELECTED_STATISTIC")
+
+
+def set_flags(tight_naming: bool = None, unselected_statistic: bool = None) -> dict:
+    """Set the correction flags from code (tests and sweeps). Returns the state."""
+    global TIGHT_NAMING, UNSELECTED_STATISTIC
+    if tight_naming is not None:
+        TIGHT_NAMING = bool(tight_naming)
+    if unselected_statistic is not None:
+        UNSELECTED_STATISTIC = bool(unselected_statistic)
+    return flags()
+
+
+def flags() -> dict:
+    return {"tight_naming": TIGHT_NAMING,
+            "unselected_statistic": UNSELECTED_STATISTIC}
+
+
+def naming_charge(naming: float, u: int) -> float:
+    """The stage-(iii) charge for one escape out of a block that has already seen
+    u distinct values.
+
+    `naming` arrives from every caller as log2(inv + 1), with inv the key's global
+    value inventory as of the past, so inv is recoverable and the tight form needs
+    no change of signature anywhere. Shipped: log2(inv + 1), uniform over inv + 1
+    slots of which only inv - u + 1 can be reached, because the u values already in
+    the block are coded by the no-escape branch; the block therefore keeps only
+    1 - u(u + 1/2)/((N + 1)(inv + 1)) of its mass. Tight: log2(inv - u + 1),
+    uniform over exactly the reachable slots (the inv - u inventory values this
+    block has not seen, plus one slot for a value new to the corpus), which makes
+    the block's predictive sum to exactly one."""
+    if not TIGHT_NAMING:
+        return naming
+    inv = round(2.0 ** naming - 1.0)
+    return math.log2(max(1.0, inv - u + 1.0))
+
 
 LN2 = 0.6931471805599453
 LOG2_C0 = 1.5165  # log2(2.865064), Rissanen 1983 universal integer code constant
@@ -144,15 +207,19 @@ class ValueBlock:
         A block's first observation is new with certainty: cost = naming only."""
         c = self.counts.get(vid)
         if self.N == 0:
-            return naming
+            return naming_charge(naming, self.u)
         if c is None:
             # stage (i) escape: P(new | past) via KT on (u novel events, N trials)
-            return kt(self.u, self.N, 2) + naming
+            return kt(self.u, self.N, 2) + naming_charge(naming, self.u)
         # stage (i) no-escape, then stage (ii): this one among the u seen
         return kt(self.N - self.u, self.N, 2) + kt(c, self.N, self.u)
 
     def p_mass_check(self) -> float:
-        """Total predictive mass over {seen} + {escape}; must be 1.0 (UT-20)."""
+        """Total predictive mass over {seen} + {escape}; must be 1.0 (UT-20).
+
+        Stages (i) and (ii) only: the escape branch is counted as one symbol, so
+        this is 1.0 under both naming rules. p_mass_full is the whole three-stage
+        block, which is where the shipped rule loses mass."""
         if self.N == 0:
             return 1.0
         p_new = (self.u + 0.5) / (self.N + 1.0)
@@ -162,6 +229,19 @@ class ValueBlock:
             s += p_old * (c + 0.5) / (self.N + self.u / 2.0)
         return s
 
+    def p_mass_full(self, inv: int) -> float:
+        """Brute-force total predictive mass of the WHOLE three-stage block over the
+        reachable alphabet: the u values this block has seen, the inv - u inventory
+        values it has not, and one slot for a value new to the corpus. Summed from
+        self.cost itself, so it measures the shipped code rather than a formula.
+        Exactly 1 under tight naming; 1 - u(u + 1/2)/((N + 1)(inv + 1)) under the
+        shipped rule (E16, self_check)."""
+        naming = math.log2(inv + 1.0)
+        seen = list(self.counts)
+        unseen = [("__unseen__", i) for i in range(inv - len(seen))]
+        fresh = [("__fresh__", 0)]
+        return sum(2.0 ** -self.cost(v, naming) for v in seen + unseen + fresh)
+
     def observe(self, vid) -> None:
         if vid in self.counts:
             self.counts[vid] += 1
@@ -169,3 +249,17 @@ class ValueBlock:
             self.counts[vid] = 1
             self.u += 1
         self.N += 1
+
+    def unobserve(self, vid) -> None:
+        """Remove one observation of vid. Used when the cell changes owner: a
+        record's value for a key is coded by exactly one block, so whoever gives
+        it up must lose the count the new owner gains."""
+        c = self.counts.get(vid, 0)
+        if c <= 0:
+            return
+        if c == 1:
+            del self.counts[vid]
+            self.u -= 1
+        else:
+            self.counts[vid] = c - 1
+        self.N -= 1

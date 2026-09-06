@@ -46,8 +46,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 ROOT = os.environ.get("ESCROW_ROOT", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 # data, baselines and results live under ESCROW_ROOT (default: the directory above this code directory)
 
-WIKI_DIR = os.path.join(ROOT, "wiki")
+from escrow.provenance import stamped  # noqa: E402
+
 OUT_DIR = os.path.join(ROOT, "results")
+# the Wikipedia infobox caches wiki_cache.<category>.json are written by
+# experiments/wikipedia_demo.py and are committed under results/, not under a wiki/ directory
+WIKI_DIR = OUT_DIR
 RUN_DIR = os.path.join(OUT_DIR, "llm_gf_runs")
 FINAL = os.path.join(OUT_DIR, "llm_graph_formation.json")
 MODEL_PREF = ["Qwen/Qwen2.5-14B-Instruct", "Qwen/Qwen2.5-7B-Instruct"]
@@ -236,6 +240,82 @@ def gen_config(model, arm):
     return gc
 
 
+def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
+    """The same experiment against an OpenAI-compatible endpoint instead of a local
+    checkpoint. Prompts, chunking, parsing, counters and the record order are the
+    ones above, so the two arms are comparable; only the call changes. Used for the
+    second model, which is served rather than loaded."""
+    import urllib.request
+    random.seed(seed)
+    recs = ds["records"]
+    N = len(recs)
+    nodes = collections.OrderedDict()
+    assign = [None] * N
+    C = collections.Counter()
+    chunks_log, raw = [], []
+    sampled = (arm == "sampled")
+    tin = tout = 0
+    t0 = time.time()
+    n_chunks = (N + CHUNK - 1) // CHUNK
+    if max_chunks:
+        n_chunks = min(n_chunks, max_chunks)
+    for c in range(n_chunks):
+        start = c * CHUNK
+        chunk = recs[start:start + CHUNK]
+        ids = list(range(start, start + len(chunk)))
+        # This server takes neither a system role nor a seed, and reports zero usage,
+        # so the system prompt is folded into the user turn and the tokens are counted
+        # from the text with the same 4 characters per token rule used for the
+        # extrapolation in the cost figure. Both facts are recorded in the run file.
+        user = SYSTEM + "\n\n" + make_prompt(
+            {n: v["description"] for n, v in nodes.items()}, chunk, start)
+        body = {"model": model_name,
+                "messages": [{"role": "user", "content": user}],
+                "max_tokens": MAX_NEW,
+                "temperature": 0.7 if sampled else 0.0}
+        req = urllib.request.Request(
+            base_url.rstrip("/") + "/chat/completions",
+            data=json.dumps(body).encode(),
+            headers={"Content-Type": "application/json",
+                     "Authorization": "Bearer " + (api_key or "EMPTY")})
+        tc = time.time()
+        try:
+            with urllib.request.urlopen(req, timeout=600) as r:
+                resp = json.load(r)
+            ans = resp["choices"][0]["message"]["content"] or ""
+            usage = resp.get("usage") or {}
+            n_in = int(usage.get("prompt_tokens") or 0) or max(1, len(user) // 4)
+            n_out = int(usage.get("completion_tokens") or 0) or max(1, len(ans) // 4)
+            finished = (resp["choices"][0].get("finish_reason") == "stop")
+        except Exception as e:                              # noqa: BLE001
+            print(f"[api {ds['name']} {arm} s{seed}] chunk {c} failed: {e!r}", flush=True)
+            ans, n_in, n_out, finished = "", 0, 0, False
+        objs = parse_answer(ans)
+        K0 = len(nodes)
+        a = apply_answer(objs, nodes, ids, C, c)
+        for rid, name in a.items():
+            assign[rid] = name
+        tin += n_in
+        tout += n_out
+        dt = time.time() - tc
+        chunks_log.append(dict(chunk=c, records=len(chunk), tokens_in=n_in, tokens_out=n_out,
+                               finished=finished, parsed_objects=len(objs), assigned=len(a),
+                               nodes_before=K0, nodes_after=len(nodes), seconds=round(dt, 1)))
+        raw.append(ans)
+        print(f"[api {ds['name']} {arm} s{seed}] chunk {c + 1}/{n_chunks} in={n_in} "
+              f"out={n_out} assigned={len(a)}/{len(chunk)} K={len(nodes)} {dt:.1f}s", flush=True)
+    wall = time.time() - t0
+    return dict(dataset=ds["name"], method="llm", arm=arm, seed=seed, model=model_name,
+                served_by=base_url,
+                generation=dict(do_sample=sampled, temperature=0.7 if sampled else 0.0,
+                                top_p=None, top_k=None, repetition_penalty=1.0,
+                                max_new_tokens=MAX_NEW),
+                chunk_size=CHUNK, n_records=N, n_chunks=n_chunks,
+                tokens_in=tin, tokens_out=tout, wall_s=round(wall, 1),
+                counters=dict(C), nodes=[dict(name=n, **v) for n, v in nodes.items()],
+                assignments=assign, chunks=chunks_log, raw_outputs=raw)
+
+
 def run_llm(model_name, tok, model, ds, arm, seed, max_chunks=0):
     import torch
     torch.manual_seed(seed)
@@ -300,17 +380,27 @@ def run_llm(model_name, tok, model, ds, arm, seed, max_chunks=0):
 def cmd_llm(args):
     os.makedirs(RUN_DIR, exist_ok=True)
     jobs = [j.split(":") for j in args.jobs.split(",") if j]
-    model_name, tok, model = load_model()
+    use_api = bool(getattr(args, "api", ""))
+    tag = getattr(args, "tag", "") or ""
+    if use_api:
+        model_name, tok, model = getattr(args, "api_model", "") or "served", None, None
+        print(f"[model] served {model_name} at {args.api}", flush=True)
+    else:
+        model_name, tok, model = load_model()
     data = {}
     for dsn, arm, seed in jobs:
         seed = int(seed)
         if dsn not in data:
             data[dsn] = load_data(dsn)
-        path = os.path.join(RUN_DIR, f"llm_{dsn}_{arm}_s{seed}.json")
+        path = os.path.join(RUN_DIR, f"llm_{dsn}_{arm}_s{seed}{tag}.json")
         if os.path.exists(path) and not args.force:
             print(f"[skip] {path} exists", flush=True)
             continue
-        res = run_llm(model_name, tok, model, data[dsn], arm, seed, args.max_chunks)
+        if use_api:
+            res = run_llm_api(args.api, model_name, args.api_key, data[dsn], arm, seed,
+                              args.max_chunks)
+        else:
+            res = run_llm(model_name, tok, model, data[dsn], arm, seed, args.max_chunks)
         if args.max_chunks:
             path = path.replace(".json", f"_smoke{args.max_chunks}.json")
         json.dump(res, open(path, "w"), indent=1)
@@ -822,7 +912,7 @@ def cmd_score(_):
         out["datasets"][dsn] = D
     out["headline"] = headline(out)
     os.makedirs(OUT_DIR, exist_ok=True)
-    json.dump(out, open(FINAL, "w"), indent=1)
+    json.dump(stamped(out), open(FINAL, "w"), indent=1)
     print(f"[saved] {FINAL}")
     slim = json.loads(json.dumps(out))
     for dsn in slim["datasets"]:
@@ -843,6 +933,10 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("data")
     p = sub.add_parser("llm")
+    p.add_argument("--api", default="", help="OpenAI-compatible base URL; served model instead of a local checkpoint")
+    p.add_argument("--api-model", default="", help="model id at that endpoint")
+    p.add_argument("--api-key", default="EMPTY")
+    p.add_argument("--tag", default="", help="suffix for the run files, so a second model does not overwrite the first")
     p.add_argument("--jobs", required=True, help="dataset:arm:seed,...")
     p.add_argument("--max-chunks", type=int, default=0, help="smoke test cap")
     p.add_argument("--force", action="store_true")

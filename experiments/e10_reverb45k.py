@@ -38,6 +38,7 @@ from sklearn.cluster import KMeans, HDBSCAN, AgglomerativeClustering
 
 from escrow.engine import EscrowGraph
 from escrow.batch import BatchObjective
+from escrow.provenance import stamped
 from metrics import evaluate                       # CESI's own metrics code
 
 DATA = os.path.join(ROOT, "baselines/cesi/data/reverb45k/reverb45k_test")
@@ -311,7 +312,7 @@ def main():
         os.makedirs(OUT_DIR, exist_ok=True)
         out = os.path.join(OUT_DIR, args.out)
         with open(out, "w") as f:
-            json.dump(report, f, indent=2)
+            json.dump(stamped(report), f, indent=2)
         print("[done] written " + out, flush=True)
         return
 
@@ -349,7 +350,7 @@ def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     out = os.path.join(OUT_DIR, args.out)
     with open(out, "w") as f:
-        json.dump(report, f, indent=2)
+        json.dump(stamped(report), f, indent=2)
     print("[done] written " + out, flush=True)
 
 

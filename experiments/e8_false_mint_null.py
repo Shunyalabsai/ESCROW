@@ -16,6 +16,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from escrow.codes import ValueBlock, kt
 from escrow.engine import EscrowGraph
 from escrow.batch import BatchObjective
+from escrow.protocol import new_run
+from escrow.provenance import stamped
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "..", "results")
 os.makedirs(OUT, exist_ok=True)
@@ -51,12 +53,12 @@ def plateau(lengths=(2000, 5000, 10000, 20000), seeds=12, d=10, keys=4):
         ks = []
         for s in range(seeds):
             rng = random.Random(1000 + s)
-            g = EscrowGraph(); b = BatchObjective(g)
+            g, b = new_run()
             for i in range(T):
                 g.process({f"k{j}": f"v{rng.randrange(d)}" for j in range(keys)})
-                if (i + 1) % 200 == 0:
+                if (i + 1) % 100 == 0:
                     b.repair()
-            b.repair()
+            b.repair(full=True)
             ks.append(g.K)
         res[T] = {"mean_K": sum(ks) / len(ks), "max_K": max(ks), "all": ks}
     return res
@@ -66,4 +68,4 @@ p = plateau()
 res = {"ville": v, "plateau": p}
 print(json.dumps(res, indent=2))
 with open(os.path.join(OUT, "e8_false_mint_null.json"), "w") as f:
-    json.dump(res, f, indent=2)
+    json.dump(stamped(res), f, indent=2)

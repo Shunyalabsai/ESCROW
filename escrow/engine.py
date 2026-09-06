@@ -15,6 +15,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
+from . import codes as C
 from .codes import ValueBlock, attach, kt, price
 
 try:                                            # optional fast path only; the
@@ -95,6 +96,13 @@ class EscrowGraph:
         #                                         fresh mint into an existing node
         #                                         before siblings can accumulate
         self.record_vals: dict[int, dict] = {}        # n -> {kid: vid} (v1, reassign)
+        self.record_owner: dict[int, dict] = {}       # n -> {kid: node id or 0}
+        # One explainer per (record, key) cell: whoever codes the value holds the
+        # count. Without this ledger a minted node copied its candidate's counts
+        # while the same cells stayed in the background, so cells were coded
+        # twice and L_batch stopped being a function of the partition (measured:
+        # 43 percent of Wikipedia cells double counted, 841 bits between two
+        # arrival orders that reach the same partition).
         self.record_keys: dict[int, frozenset] = {}   # n -> published kids (v1: kept
         # in memory for the repair pass's overlap accounting; a later phase replaces
         # this with per-node published-member bitmaps)
@@ -229,6 +237,26 @@ class EscrowGraph:
                 node = self.nodes[w]
                 own_val[kid] = node.blocks[kid].cost(vid, naming[kid])
                 own_pres[kid] = kt(node.p.get(kid, 0), node.t, 2)
+        # The background absence vector and the published-key mask depend only on
+        # statistics frozen for this record (accrual runs before the updates of
+        # step 5), so they are the same for every touched candidate. Building them
+        # once per record instead of once per candidate is the difference between
+        # 16 million and 2 million generator steps on a 600-key stream; on the
+        # real marketplace stream this is where the wall time was going.
+        _bg_abs_vec = _mask_rec = None
+        if _np is not None and touched:
+            _nk = len(self.key_by_id)
+            _bg_abs_vec = _np.empty(_nk)
+            if past > 0:
+                _P_vec = _np.fromiter(
+                    (self.key_by_id[k].P for k in range(_nk)), float, _nk)
+                _bg_abs_vec[:] = -_np.log2((past - _P_vec + 0.5) / (past + 1.0))
+            else:
+                _bg_abs_vec[:] = 1.0
+            _mask_rec = _np.ones(_nk, bool)
+            for kid in K_r:
+                _mask_rec[kid] = False
+
         for c in touched:
             for kid, vid, ki in items:
                 blk = c.blocks.get(kid)
@@ -239,6 +267,8 @@ class EscrowGraph:
                         + (own_pres[kid] - kt(c.p.get(kid, 0), c.t, 2))
                 c.G += delta
                 c.g[kid] = c.g.get(kid, 0.0) + delta
+                if c.g_vec is not None and kid < len(c.g_vec):
+                    c.g_vec[kid] += delta       # the fast path's per-key ledger
                 blk.observe(vid)
                 c.p[kid] = c.p.get(kid, 0) + 1
                 if c.p_vec is not None and kid < len(c.p_vec):
@@ -257,26 +287,20 @@ class EscrowGraph:
             # loop is the fallback and computes the identical quantity.
             if _np is not None:
                 nk = len(self.key_by_id)
-                bg_abs_vec = _np.empty(nk)
-                if past > 0:
-                    P_vec = _np.fromiter(
-                        (self.key_by_id[k].P for k in range(nk)), float, nk)
-                    bg_abs_vec[:] = -_np.log2((past - P_vec + 0.5) / (past + 1.0))
-                else:
-                    bg_abs_vec[:] = 1.0
-                mask = _np.ones(nk, bool)
-                for kid in K_r:
-                    mask[kid] = False
+                bg_abs_vec = _bg_abs_vec
+                mask = _mask_rec
                 if c.p_vec is None or len(c.p_vec) < nk:
                     pv = _np.zeros(nk)
                     gv = _np.zeros(nk)
                     if c.p_vec is not None:
                         pv[:len(c.p_vec)] = c.p_vec
                         gv[:len(c.g_vec)] = c.g_vec
+                    old_len = 0 if c.g_vec is None else len(c.g_vec)
                     for kid, cnt in c.p.items():
                         pv[kid] = cnt
                     for kid, val in c.g.items():
-                        gv[kid] = val
+                        if kid >= old_len:      # keys the ledger has never held
+                            gv[kid] = val
                     c.p_vec, c.g_vec = pv, gv
                 # published keys were already incremented this record and are
                 # masked out below; clip them so the log never sees a negative
@@ -286,8 +310,11 @@ class EscrowGraph:
                 delta_vec = _np.where(mask, bg_abs_vec - cand_abs, 0.0)
                 c.g_vec += delta_vec
                 c.G += float(delta_vec.sum())
-                for kid in K_r:                  # published-key deltas stay exact
-                    c.g_vec[kid] = c.g.get(kid, 0.0)
+                # g_vec is the full per-key ledger on this path: publication deltas
+                # are mirrored into it above and absence credit is added here. The
+                # earlier overwrite g_vec[kid] = g[kid] for published keys threw away
+                # the absence credit a support key had earned on records that did
+                # not carry it (measured: 21 against 38 mints on a mixed stream).
             else:
                 for kid, ki in self.key_by_id.items():
                     if kid in K_r:
@@ -309,9 +336,11 @@ class EscrowGraph:
                 if kid in K_r:
                     node.p[kid] = node.p.get(kid, 0) + 1
                     node.pub.setdefault(kid, set()).add(n)
+        owners_n = self.record_owner.setdefault(n, {})
         for kid, vid, ki in items:
             ki.P += 1
             owner = own[kid]
+            owners_n[kid] = owner
             if owner == 0:
                 ki.background.observe(vid)
             else:
@@ -333,19 +362,39 @@ class EscrowGraph:
                 gmap = {k: v for k, v in c.g.items() if k in c.keys}
                 g_outside = sum(v for k, v in c.g.items()
                                 if k not in c.keys and v > 0)
+            # The UNSELECTED statistic. The candidate exists because the seed pair
+            # (a+, v+) was a residual, and it accrues ONLY on records carrying that
+            # pair, so on every accrual step the seed key is published with the same
+            # value. Its per-key ledger entry g[a+] (value terms and presence terms
+            # both) is therefore positive by construction and is not a fair bet: it
+            # is the evidence that CHOSE this candidate, and the naming charge in the
+            # price is what pays for that choice. Counting it again in the released
+            # statistic counts it twice. With the flag on, g[a+] is dropped from the
+            # quantity compared against the price; the seed key still enters the
+            # minted node's support (the node is the records with a+ = v+, and its
+            # cells must move), so the support term prices |T| + 1 keys.
+            seed_kid = c.sig[0] if C.UNSELECTED_STATISTIC else None
+            if seed_kid is not None:
+                gmap.pop(seed_kid, None)
             ordered = sorted(gmap.items(), key=lambda kv: -kv[1])
-            best_T, best_margin, running = None, 0.0, 0.0
+            named_extra = 1 if seed_kid is not None else 0
+            best_T, best_margin, running, best_running = None, 0.0, 0.0, 0.0
             for j, (kid, gk) in enumerate(ordered, start=1):
                 if gk <= 0:
                     break
                 running += gk
                 margin = (running + g_outside
-                          - price(c.t, j, n, self.K, self.e, len(self.keys)))
+                          - price(c.t, j + named_extra, n, self.K, self.e,
+                                  len(self.keys)))
                 if margin > best_margin:
-                    best_T, best_margin = ordered[:j], margin
+                    best_T, best_margin, best_running = ordered[:j], margin, running
             if best_T is None:
                 continue
-            self._mint(c, [kid for kid, _ in best_T], n)
+            support = [kid for kid, _ in best_T]
+            if seed_kid is not None and seed_kid not in support:
+                support.append(seed_kid)
+            self._mint(c, support, n,
+                       released=best_running + g_outside, g_outside=g_outside)
             minted.append(self.next_id)
             self.pool.pop(c.sig, None)
         if minted and self.mint_merge_hook is not None:
@@ -358,7 +407,8 @@ class EscrowGraph:
             minted=minted)
 
     # ------------------------------------------------------------------ #
-    def _mint(self, c: Candidate, support: list, n: int) -> None:
+    def _mint(self, c: Candidate, support: list, n: int,
+              released: float = None, g_outside: float = None) -> None:
         self.K += 1
         self.e += 1
         self.next_id += 1
@@ -366,6 +416,24 @@ class EscrowGraph:
         w.members = set(c.members)
         for kid in support:
             w.pub[kid] = {r for r in c.members if kid in self.record_keys.get(r, ())}
+        # The node takes ownership of its members' cells for its support keys:
+        # the escrow evidence was accrued against exactly those owners, so the
+        # counts must move, not be copied.
+        for kid in support:
+            for r in w.pub.get(kid, ()):
+                vid = self.record_vals.get(r, {}).get(kid)
+                if vid is None:
+                    continue
+                prev = self.record_owner.get(r, {}).get(kid, 0)
+                if prev == w.nid:
+                    continue
+                if prev == 0:
+                    self.key_by_id[kid].background.unobserve(vid)
+                else:
+                    pv = self.nodes.get(prev)
+                    if pv is not None and kid in pv.blocks:
+                        pv.blocks[kid].unobserve(vid)
+                self.record_owner.setdefault(r, {})[kid] = w.nid
         for kid in support:
             w.S.add(kid)
             w.p[kid] = len(w.pub.get(kid, ()))
@@ -382,6 +450,8 @@ class EscrowGraph:
         self.mint_log.append({
             "node": w.nid, "n": n, "members": c.t,
             "G_total": round(c.G, 3),
+            "released": None if released is None else round(released, 3),
+            "g_outside": None if g_outside is None else round(g_outside, 3),
             "price_paid": round(price(c.t, len(support), n, self.K - 1, self.e - 1,
                                       len(self.keys)), 3),
             "support": [self.key_name[k] for k in support],

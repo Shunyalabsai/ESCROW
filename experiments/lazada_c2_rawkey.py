@@ -37,6 +37,7 @@ from sklearn.metrics import adjusted_rand_score
 from escrow.engine import EscrowGraph
 from escrow.batch import BatchObjective
 from escrow.fastrepair import FastBatchObjective
+from escrow.provenance import stamped
 
 DATA_DIR = os.path.join(ROOT, "baselines/autopkg/data")
 CSV_MAIN = os.path.join(DATA_DIR, "lazada_autopkg_product_data_url.csv")
@@ -281,7 +282,7 @@ def main():
     print(f"[data] unique raw keys in stream: {len(all_keys)}", flush=True)
 
     g = EscrowGraph()
-    b = FastBatchObjective(g)
+    b = FastBatchObjective(g).install()
     deviations = [
         "repair uses FastBatchObjective (escrow/fastrepair.py), a "
         "PERFORMANCE-ONLY override of reassign_pass: identical candidate set, "
@@ -389,7 +390,7 @@ def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     path = os.path.join(OUT_DIR, args.out)
     with open(path, "w") as f:
-        json.dump(out, f, indent=1)
+        json.dump(stamped(out), f, indent=1)
     print(f"[saved] {path}", flush=True)
 
 

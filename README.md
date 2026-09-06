@@ -1,79 +1,116 @@
 # ESCROW
 
-Latent graphs from record streams by evidence accrual at a computed price.
+**When does a record stream earn a new node?**
 
 A stream of records arrives. Each record is a set of attribute key and value pairs. ESCROW decides,
-per record and in one pass, which latent nodes the record attaches to, whether an attribute key is a
-new node or an existing node under another name, and when the stream has earned a brand new node.
-Every decision is made by one description length. No quantity in the rule is calibrated on data.
+per record and in one pass, which existing nodes the record joins and when the stream has earned a
+brand new one. Every decision is made by one description length, and no quantity in the rule is
+calibrated on data.
 
-The idea in three sentences. A new node has a price in bits, and the price is computed from the
-stream, not chosen. No valid code lets a fresh node pay its price on its own first record, so
-evidence accrues in escrow against a candidate node that does not yet exist. The node is created at
-the first moment its accumulated evidence covers its price, and never before.
+The idea in three sentences. A new node has a price in bits, and that price is computed from the
+stream rather than chosen. No fresh node can pay its price on its own first record under any valid
+code, so evidence accrues in escrow against a node that does not yet exist. The node is created at
+the first moment its account covers its price, and never before, and it carries a receipt in bits
+naming the key that paid for it.
 
-## Layout
+The paper is in this repository: [paper/escrow.pdf](paper/escrow.pdf).
+
+## Why this exists
+
+Almost every system that builds a graph from a stream answers the same question with a number
+somebody chose. A distance cut-off in streaming clustering. The penalty that the small-variance
+limit leaves behind in DP-means and BP-means. The sampling temperature of a language-model
+pipeline. XGBoost adds a leaf only when the gain beats a per-leaf charge whose default is zero and
+for which its paper reports no value.
+
+The constant is not an accident of engineering. Before the small-variance limit is taken, the
+new-node penalty is a codelength; the limit erases every part of it that could have been computed
+and keeps only the part a person inserted. We do not take the limit. We read the price off a code
+that predicts each record before it sees it.
+
+## What is here
 
 ```
-escrow/codes.py       codelength primitives: KT codes, the membership column, the mint price
-escrow/engine.py      the insertion process: attach, escrow, mint
-escrow/batch.py       the batch objective and the repair operators: merge, reassign, delete
-escrow/fastrepair.py  a faster reassign pass with the same result as batch.py
-tests/                the verification suite; the Kraft identities are the foundation
-experiments/          the mechanism experiments, the demos and the benchmark runners
+escrow/codes.py        codelength primitives: KT codes, the membership column, the mint price
+escrow/engine.py       the insertion process: parse, retrieve, attach, accrue, release
+escrow/batch.py        the batch objective and the repair operators: merge, reassign, delete
+escrow/fastrepair.py   a faster reassign pass with the same result as batch.py
+escrow/protocol.py     the one run protocol every experiment uses
+escrow/provenance.py   stamps each results file with the engine checksums and the date
+tests/                 24 tests, including the Kraft identities and the cell ownership invariant
+experiments/           the mechanism experiments, the demonstrations and the benchmark runners
+experiments/theorem1/  the measurements behind the paper's theorem, kept separate
+paper/escrow.pdf       the paper
+DATA.md                every external dataset: what it is, where it comes from, where to put it
+requirements.txt       what each runner needs; the engine and the tests need only the standard library
 ```
 
-The engine (`escrow/`) and the tests are pure Python, standard library only. `numpy` is used when
-it is installed and is not required. The benchmark runners under `experiments/` have their own
-needs, listed below.
+The engine and the tests are pure Python with no dependencies. `numpy` is used when it is installed
+and is not required; the two paths are asserted to give identical results.
 
-## Run
+## Run it
 
 ```bash
-python3 tests/test_codes.py     # code-level gates, including three Kraft identities
-python3 tests/test_engine.py    # engine gates: positive control, null control, degenerate data
+python3 tests/test_codes.py      # code-level gates, including three Kraft identities
+python3 tests/test_engine.py     # engine gates: positive control, null control, degenerate data
+python3 tests/test_batch.py      # the repair operators, exactness, determinism, cell ownership
 
 python3 experiments/e7_immediate_vs_deferred.py   # why immediate minting cannot work
-python3 experiments/e8_false_mint_null.py         # the false-mint guarantee, measured
+python3 experiments/e8_false_mint_null.py         # nothing is born on noise
 python3 experiments/e9_support_curve.py           # the release fires exactly at the price
-python3 experiments/e13_creation_bias.py          # creation bias, measured flat at the truth
+python3 experiments/e13_creation_bias.py          # creation bias over 270 runs
+python3 experiments/e5_order_dependence.py        # what the arrival order costs
 python3 experiments/wikipedia_demo.py             # raw Wikipedia infoboxes to typed structure
 ```
 
-The Wikipedia demo fetches a few hundred pages from the public API on first run and caches them.
-The catalogue experiment expects a CSV path in the environment variable `ESCROW_CATALOG_CSV`.
+The Wikipedia demonstration fetches a few hundred pages from the public API on first run and caches
+them. The benchmark runners need data and extra packages; `DATA.md` says where every input comes
+from and `requirements.txt` says what each runner needs.
 
-### Benchmark runners
+## What it does, and what it does not
 
-These scripts compare ESCROW with tuned baselines and with a language model on public data. They
-need extra packages and, for some, a GPU.
+Reported honestly, because the paper reports it that way.
 
-```
-experiments/e4_baseline_army.py       tuned baselines on synthetic streams and Wikipedia: numpy, scikit-learn, sentence-transformers
-experiments/e8_tree_arms.py           VFDT and EFDT trees on the pure-noise streams: river
-experiments/mb20k_benchmark.py        MusicBrainz 20K: numpy, scikit-learn
-experiments/lazada_c2_rawkey.py       raw marketplace listings (AutoPKG's Lazada release): scikit-learn
-experiments/e10_reverb45k.py          ReVerb45K under CESI's metrics code: numpy, scikit-learn, and a CESI checkout
-experiments/llm_graph_formation.py    a language model building the same graph: torch, transformers, scikit-learn, one GPU
-experiments/make_figures.py           the two paper figures from the results files: matplotlib
-```
+**It works where structure is discrete and identifiable.** Planted structure is recovered exactly,
+with the right number of nodes, on every one of twenty arrival orders and under every one of eleven
+valid encodings, with not one record in three thousand changing node across codes.
 
-The runners read data from and write results to the directory named by the environment variable
-`ESCROW_ROOT`. The default is the directory that contains this repository. Inside it they expect
-`data/`, `baselines/` and `results/`. Each script's docstring names the files it needs and where
-they come from. The datasets are public; download them from their own sources.
+**Nothing is born on noise.** Across 48 pure-noise streams from two thousand to twenty thousand
+records, and 300 wider ones, no node is ever created. The streaming decision trees people use
+invent 15 to 111 false nodes on the same data at their usual setting.
 
-## Status
+**It does not absorb noise as structure.** Over a 270-run creation-bias grid, no run ever returned
+more nodes than were planted. Past a breakdown noise level the method writes structure off rather
+than inventing it, which is the opposite of the failure the classical analysis predicts for
+penalty-based rules.
 
-Research code accompanying a paper under preparation. The engine covers categorical facets. Numeric
-and free text facets, and the large benchmark comparisons, are in progress. Interfaces may change.
+**It is deterministic and it explains itself.** The same records give the same graph every run, and
+every node carries a receipt in bits. A 14B language model given the identical records returns 24,
+78 and 28 nodes across three seeds, forms a catch-all node holding up to 85 percent of the records,
+and would spend millions of tokens on the full stream.
+
+**Where identity lives in free text, version 1 is weak, and that is the honest limit.** On a
+noun-phrase benchmark its macro F1 is 0.016 and its pairwise score sits just below the benchmark's
+own no-merge floor. On a music benchmark bridged through title tokens it reaches 0.0011 where tuned
+embedding baselines reach 0.61 to 0.78. Identity there is a title one token apart, which an
+embedding sees at once and a categorical facet cannot see at all. Numeric and text facets are the
+next version.
+
+**One theorem is stated more carefully than it was.** The lifetime false-mint bound holds in the
+idealised setting. For the shipped engine we measured the exceedance instead of claiming the bound,
+because the released statistic is computed on a subsequence the data chose. The practical result,
+that nothing is born on noise, never depended on that bound: it holds because the release gate
+fires on the computed price, which outgrows the accumulated drift. The measurements are in
+`experiments/theorem1/`.
 
 ## License
 
 PolyForm Noncommercial 1.0.0. You can use, modify and share this software for research, education
 and any other noncommercial purpose. Commercial use of any kind requires a commercial license from
-Shunya Labs. See `LICENSE.md`.
+Shunya Labs. See [LICENSE.md](LICENSE.md).
 
 ## Citation
 
-A paper is in preparation. A citation entry will appear here when it is public.
+Sourav Banerjee. *ESCROW: When a Record Stream has Earned a New Node.* Indian Institute of
+Technology Kharagpur and Shunya Labs. The paper is in this repository at
+[paper/escrow.pdf](paper/escrow.pdf); a citation entry will appear here when it is published.

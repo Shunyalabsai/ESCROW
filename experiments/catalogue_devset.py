@@ -13,6 +13,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from escrow.engine import EscrowGraph
 from escrow.batch import BatchObjective
+from escrow.protocol import new_run
+from escrow.provenance import stamped
 
 CSV = os.environ.get("ESCROW_CATALOG_CSV", "catalog.csv")
 OUT = os.path.join(os.path.dirname(__file__), "..", "..", "results")
@@ -41,16 +43,15 @@ print(f"department={DEPT}: {len(records)} records, "
       f"{len({k for r in records for k in r})} distinct raw keys")
 
 t0 = time.time()
-g = EscrowGraph()
-b = BatchObjective(g)
+g, b = new_run()
 for i, rec in enumerate(records):
     g.process(rec)
-    if (i + 1) % 500 == 0:
+    if (i + 1) % 100 == 0:
         b.repair()
         if (i + 1) % 2000 == 0:
             print(f"  n={i+1} K={g.K} pool={len(g.pool)} keys={len(g.keys)} "
                   f"({(i+1)/(time.time()-t0):.0f} rec/s)")
-b.repair()
+b.repair(full=True)
 dt = time.time() - t0
 
 nodes = sorted(g.nodes.values(), key=lambda v: -v.t)
@@ -71,4 +72,4 @@ summary = {
 }
 print(json.dumps(summary, indent=2, default=str)[:4000])
 with open(os.path.join(OUT, f"catalogue_{DEPT.lower().replace(' ','_')}.json"), "w") as f:
-    json.dump(summary, f, indent=2, default=str)
+    json.dump(stamped(summary), f, indent=2, default=str)

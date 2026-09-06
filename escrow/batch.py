@@ -15,7 +15,8 @@ from __future__ import annotations
 
 import math
 
-from .codes import L_KT_block, L_N, L_col, L_supp, kt, lg2
+from . import codes as C
+from .codes import L_KT_block, L_N, L_col, L_supp, kt, lg2, naming_charge
 
 
 def L_vblock(counts: dict, naming: float) -> float:
@@ -24,13 +25,20 @@ def L_vblock(counts: dict, naming: float) -> float:
     KT block over the u seen values for the N-u repeat picks + u times the
     stage-(iii) naming cost. Decodable given the key's global inventory; within
     O(u log u) bits of any realised arrival order (the escape drift the spec
-    concedes for expanding alphabets)."""
+    concedes for expanding alphabets).
+
+    Under ESCROW_TIGHT_NAMING the u naming charges are not equal: the i-th value
+    named is drawn from the inventory minus the i already named, so the total is
+    sum_{i<u} log2(inv - i + 1), the block-code form of codes.naming_charge."""
     u = len(counts)
     if u == 0:
         return 0.0
     N = sum(counts.values())
     repeats = [c - 1 for c in counts.values()]
-    return L_col(u, N) + L_KT_block(repeats, u) + u * naming
+    s = L_col(u, N) + L_KT_block(repeats, u)
+    if not C.TIGHT_NAMING:                      # the shipped arithmetic, bit for bit
+        return s + u * naming
+    return s + sum(naming_charge(naming, i) for i in range(u))
 
 
 class BatchObjective:
@@ -50,6 +58,19 @@ class BatchObjective:
                 s += L_vblock(blk.counts, naming)
         return s
 
+    def _bg_sets(self, kid, exclude=()):
+        """(covered, pubs) for key kid: the union of member sets, and the union of
+        publication sets, over every node supporting kid except those in exclude.
+        Unions, never sums: a record in two nodes is one record (summing per-node
+        counts overstated coverage of shared members and mispriced merges by up
+        to 313 bits on the shared-key fixture)."""
+        covered, pubs = set(), set()
+        for x in self.g.nodes.values():
+            if kid in x.S and x.nid not in exclude:
+                covered |= x.members
+                pubs |= x.pub.get(kid, set())
+        return covered, pubs
+
     def structure_cost(self, K: int) -> float:
         return L_N(K + 1) - (lg2(K + 1.0) if K > 1 else 0.0)  # L_N(K+1) - log2 K!
 
@@ -60,13 +81,14 @@ class BatchObjective:
         for v in g.nodes.values():
             s += self.node_local(v.t, v.S, v.p, v.blocks)
         covered: dict[int, set] = {}
+        pubs: dict[int, set] = {}
         for v in g.nodes.values():
             for kid in v.S:
                 covered.setdefault(kid, set()).update(v.members)
+                pubs.setdefault(kid, set()).update(v.pub.get(kid, ()))
         for name, ki in g.keys.items():
             n0 = g.n - len(covered.get(ki.kid, ()))
-            p0 = max(0, ki.P - sum(v.p.get(ki.kid, 0) for v in g.nodes.values()
-                                   if ki.kid in v.S))
+            p0 = max(0, ki.P - len(pubs.get(ki.kid, ())))
             if n0 > 0:
                 s += L_col(min(p0, n0), n0)
             naming = math.log2(len(ki.inventory) + 1.0)
@@ -75,20 +97,31 @@ class BatchObjective:
 
     # ---- the merge move ---- #
     def merge_delta(self, v, w) -> float | None:
-        """Exact dL_batch for merging nodes v and w. None if out of v1 scope
-        (overlapping members). Negative means the merge pays."""
+        """Exact dL_batch for merging nodes v and w, for disjoint and for
+        overlapping member sets. Negative means the merge pays."""
+        g = self.g
+        rk = g.record_keys
         members_m = v.members | w.members
         t_m = len(members_m)
         S_m = v.S | w.S
-        # presence from exact publication sets: no double counting, any overlap
-        p_m = {kid: len(v.pub.get(kid, set()) | w.pub.get(kid, set())) for kid in S_m}
+        # Presence of the merged node: every member publishing the key, exactly
+        # once. For a key only one side supports, the other side's members that
+        # publish it join the presence block (they were in the background block).
+        p_m = {}
+        for kid in S_m:
+            pub = v.pub.get(kid, set()) | w.pub.get(kid, set())
+            if not (kid in v.S and kid in w.S):
+                donor = w if kid in v.S else v
+                pub = pub | {r for r in donor.members if kid in rk.get(r, ())}
+            p_m[kid] = len(pub)
+        # Value blocks add: a record's value for a key lives in exactly one block
+        # (its owner's), so no record is counted twice even when members overlap.
         blocks_m = {}
         for kid in S_m:
             c = dict(v.blocks[kid].counts) if kid in v.blocks else {}
             if kid in w.blocks:
                 for vid, cnt in w.blocks[kid].counts.items():
                     c[vid] = c.get(vid, 0) + cnt
-            blk = type(next(iter(v.blocks.values()))) () if v.blocks else None
             blocks_m[kid] = _CountsOnly(c)
         before = self.node_local(v.t, v.S, v.p, v.blocks) \
                + self.node_local(w.t, w.S, w.p, w.blocks)
@@ -97,23 +130,17 @@ class BatchObjective:
         # Background presence: a key supported by only one side now covers the
         # union's members, so records newly covered leave the background block.
         d_background = 0.0
-        g = self.g
-        rk = g.record_keys
         for kid in S_m:
             if kid in v.S and kid in w.S:
-                continue
+                continue                      # coverage and publications unchanged
             donor = w if kid in v.S else v          # the side that did NOT support kid
-            others = [x for x in g.nodes.values()
-                      if kid in x.S and x.nid not in (v.nid, w.nid)]
-            covered = set().union(*(x.members for x in others)) if others else set()
-            covered |= (v if kid in v.S else w).members
+            covered, pubs = self._bg_sets(kid)      # every node supporting kid (keeper included)
             newly = donor.members - covered
             if not newly:
                 continue
             ki = g.key_by_id[kid]
             n0_before = g.n - len(covered)
-            pub_all = sum(x.p.get(kid, 0) for x in g.nodes.values() if kid in x.S)
-            p0_before = max(0, ki.P - pub_all)
+            p0_before = max(0, ki.P - len(pubs))
             newly_pub = sum(1 for r in newly if kid in rk.get(r, ()))
             n0_after = n0_before - len(newly)
             p0_after = max(0, p0_before - newly_pub)
@@ -134,13 +161,11 @@ class BatchObjective:
         d += self.structure_cost(g.K - 1) - self.structure_cost(g.K)
         rk = g.record_keys
         for kid in v.S:
-            others = [x for x in g.nodes.values() if kid in x.S and x.nid != v.nid]
-            covered_wo = set().union(*(x.members for x in others)) if others else set()
+            covered_wo, pubs_wo = self._bg_sets(kid, exclude=(v.nid,))
             newly_uncovered = v.members - covered_wo
             ki = g.key_by_id[kid]
-            pub_all = sum(x.p.get(kid, 0) for x in g.nodes.values() if kid in x.S)
             n0_before = g.n - len(covered_wo | v.members)
-            p0_before = max(0, ki.P - pub_all)
+            p0_before = max(0, ki.P - len(pubs_wo | v.pub.get(kid, set())))
             n0_after = n0_before + len(newly_uncovered)
             p0_after = p0_before + sum(1 for r in newly_uncovered
                                        if kid in rk.get(r, ()))
@@ -161,6 +186,10 @@ class BatchObjective:
 
     def _apply_delete(self, v) -> None:
         g = self.g
+        for r, own in g.record_owner.items():           # v's cells return to the background
+            for kid, o in own.items():
+                if o == v.nid:
+                    own[kid] = 0
         for kid in v.S:
             ki = g.key_by_id[kid]
             if kid in v.blocks:
@@ -196,16 +225,14 @@ class BatchObjective:
             cov = getattr(self, "_cov", None)
             if cov is not None:
                 covered = cov.get(kid, set())
-                pub_all = self._pub_all.get(kid, 0)
+                pubs = self._pub_all.get(kid, set())
             else:
-                others = [x for x in g.nodes.values() if kid in x.S]
-                covered = set().union(*(x.members for x in others)) if others else set()
-                pub_all = sum(x.p.get(kid, 0) for x in g.nodes.values() if kid in x.S)
+                covered, pubs = self._bg_sets(kid)
             if rec_n in covered:
                 continue
             ki = g.key_by_id[kid]
             n0b = g.n - len(covered)
-            p0b = max(0, ki.P - pub_all)
+            p0b = max(0, ki.P - len(pubs))
             d -= L_col(min(p0b, n0b), n0b) if n0b > 0 else 0.0
             n0a, p0a = n0b - 1, p0b - pub
             d += L_col(min(max(p0a, 0), n0a), n0a) if n0a > 0 else 0.0
@@ -252,6 +279,7 @@ class BatchObjective:
                         blk.counts[vid] = 1
                         blk.u += 1
                     blk.N += 1
+                    g.record_owner.setdefault(rec_n, {})[kid] = v.nid
                     g.ix1.setdefault((kid, vid), set()).add(v.nid)
 
     def reassign_pass(self) -> int:
@@ -266,11 +294,11 @@ class BatchObjective:
         # call before; the set unions alone were 13 seconds of a 194 second
         # profile)
         self._cov = {}
-        self._pub_all = {}
+        self._pub_all = {}                       # kid -> set of publishing covered records
         for v in g.nodes.values():
             for kid in v.S:
                 self._cov.setdefault(kid, set()).update(v.members)
-                self._pub_all[kid] = self._pub_all.get(kid, 0) + v.p.get(kid, 0)
+                self._pub_all.setdefault(kid, set()).update(v.pub.get(kid, ()))
         moved = 0
         full = getattr(self, "_reassign_full", True)
         since = getattr(g, "_reassign_since", 0)
@@ -298,7 +326,7 @@ class BatchObjective:
                 for kid in best_v.S:
                     self._cov.setdefault(kid, set()).add(rec_n)
                     if kid in keys_r:
-                        self._pub_all[kid] = self._pub_all.get(kid, 0) + 1
+                        self._pub_all.setdefault(kid, set()).add(rec_n)
                 moved += 1
         self._cov = None
         self._pub_all = None
@@ -373,10 +401,9 @@ class BatchObjective:
                 pub = [r for r in cohort if kid in g.record_keys[r]]
                 pm = len(pub)
                 d += L_col(v.p.get(kid, 0) + pm, v.t + m)                    - L_col(v.p.get(kid, 0), v.t)
-                others = [x for x in g.nodes.values() if kid in x.S]
-                cov_k = set().union(*(x.members for x in others)) if others else set()
+                cov_k, pubs_k = self._bg_sets(kid)
                 n0b = g.n - len(cov_k)
-                p0b = max(0, ki.P - sum(x.p.get(kid, 0) for x in others))
+                p0b = max(0, ki.P - len(pubs_k))
                 n0a, p0a = n0b - m, max(0, p0b - pm)
                 if n0b > 0:
                     d -= L_col(min(p0b, n0b), n0b)
@@ -481,12 +508,23 @@ class BatchObjective:
 
     def _apply_merge(self, v, w) -> None:
         g = self.g
+        rk = g.record_keys
+        one_sided_v = v.S - w.S                # keys only v supported: w's publishers join
+        one_sided_w = w.S - v.S                # keys only w supported: v's publishers join
         v.members |= w.members
         v.t = len(v.members)
         for kid, s in w.pub.items():
             v.pub.setdefault(kid, set()).update(s)
+        for kid in one_sided_v:
+            v.pub.setdefault(kid, set()).update(r for r in w.members if kid in rk.get(r, ()))
+        for kid in one_sided_w:
+            v.pub.setdefault(kid, set()).update(r for r in v.members if kid in rk.get(r, ()))
         for kid in w.S:
             v.S.add(kid)
+        for r, own in g.record_owner.items():           # cells w owned are v's now
+            for kid, o in own.items():
+                if o == w.nid:
+                    own[kid] = v.nid
         for kid in v.S:
             v.p[kid] = len(v.pub.get(kid, ()))
             if kid in w.blocks:
@@ -538,14 +576,14 @@ def L_vblock_delta_add(counts: dict, vid, naming: float) -> float:
     c = counts.get(vid, 0)
     if u == 0:
         # empty block -> singleton: L_col(1,1) + L_KT_block([0],1) + naming
-        return L_col(1, 1) + L_KT_block([0], 1) + naming
+        return L_col(1, 1) + L_KT_block([0], 1) + naming_charge(naming, 0)
     if c == 0:
         # novelty count u -> u+1, N -> N+1; repeats gain a zero entry (alphabet grows)
         d = L_col(u + 1, N + 1) - L_col(u, N)
         repeats_before = [x - 1 for x in counts.values()]
         repeats_after = repeats_before + [0]
         d += L_KT_block(repeats_after, u + 1) - L_KT_block(repeats_before, u)
-        return d + naming
+        return d + naming_charge(naming, u)     # the (u+1)-th value named
     # repeat: novelty column N -> N+1 (zeros side), one repeat count increments
     d = L_col(u, N + 1) - L_col(u, N)
     rep_total = N - u
