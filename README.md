@@ -127,6 +127,18 @@ more nodes than were planted. Past a breakdown noise level the method writes str
 than inventing it, which is the opposite of the failure the classical analysis predicts for
 penalty-based rules.
 
+**Against the incumbent on its own data we lose comprehensively, and that is the headline negative.**
+AutoPKG builds product knowledge graphs by prompting a model, and its key-identity decision is the
+same question this criterion claims to answer. Run on their Lazada data with their metric, 3,033 raw
+keys and 328 gold pairs that should merge, their agent reaches F1 0.6355 at precision 0.6497 and
+ESCROW reaches 0.0008, one true pair against 2,105 false. Two things are true and neither rescues it.
+The read-out scored us by whether two keys share a node's support, which is a co-occurrence relation
+and not an identity claim, and rescoring with the rule this project's own counting prescribes, that
+two names for one role never share a record and draw from one value pool, is perfectly precise and
+almost silent: 2 pairs of 328. And version 1 ships no operator that prices two keys as one, so the
+criterion cannot make the decision at all. Key identity is an open problem here, not a contribution.
+See `results/e20_full_withllm.json` and `results/e20_rescored.json`.
+
 **Against tuned baselines it does not hold its own, and our own test said so.** We wrote before the
 experiment that if an untuned distance rule, given our own categorical input rather than an
 embedding, matched us, then the criterion is not what does the work. One does. On both synthetic

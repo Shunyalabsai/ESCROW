@@ -1,0 +1,55 @@
+{
+  "experiment": "E20 rescored with the identity read-out E40 prescribes",
+  "note": "the shipped head-to-head scored ESCROW by shared node support, which is a co-occurrence relation and not an identity claim",
+  "gold_positive_pairs": 328,
+  "gold_negative_pairs": 22921,
+  "arms": {
+    "two_names_for_one_role_jaccard_1.0": {
+      "tp": 0,
+      "fn": 328,
+      "fp": 0,
+      "tn": 22921,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "two_names_for_one_role_jaccard_0.9": {
+      "tp": 0,
+      "fn": 328,
+      "fp": 0,
+      "tn": 22921,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "two_names_for_one_role_jaccard_0.7": {
+      "tp": 0,
+      "fn": 328,
+      "fp": 0,
+      "tn": 22921,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "two_names_for_one_role_jaccard_0.5": {
+      "tp": 2,
+      "fn": 326,
+      "fp": 0,
+      "tn": 22921,
+      "precision": 1.0,
+      "recall": 0.0061,
+      "f1": 0.0121
+    },
+    "any_co_occurrence_a_cruder_floor": {
+      "tp": 0,
+      "fn": 328,
+      "fp": 22921,
+      "tn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "correction": "the arm first written as co_support_as_shipped is NOT the shipped predicate. The head-to-head scored ESCROW by shared NODE SUPPORT and got F1 0.0008; this arm uses raw record co-occurrence, which marks every pair and is a cruder floor. The shipped number is in results/e20_full_withllm.json",
+  "reading": "the identity rule E40 prescribes is perfectly precise and almost silent on real keys: it requires two keys never to share a record, and one seller filling in both spellings destroys the pair. Against the incumbent's F1 0.6355, the shipped read-out gives 0.0008 and this one 0.0121 at its most permissive setting"
+}

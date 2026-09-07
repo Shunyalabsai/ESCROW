@@ -1,0 +1,209 @@
+{
+ "benchmark": "E20 AutoPKG vs ESCROW, AutoPKG's Lazada data, merge/mint decision",
+ "date": "2026-09-07 08:43:45",
+ "data": {
+  "rows_total": 36927,
+  "spec_rows": 21365,
+  "dropped_empty_parse": 0,
+  "parsed_records": 21365,
+  "unique_raw_keys": 3033,
+  "gold_positive_pairs": 328,
+  "gold_negative_pairs": 22921,
+  "dropped_collisions": 12,
+  "candidate_key_stream": 3033
+ },
+ "autopkg_run": {
+  "actions": {
+   "add_empty_kg": 1,
+   "add_llm": 2103,
+   "merge_llm": 924,
+   "invalid": 5
+  },
+  "canonical_key_nodes": 2104,
+  "candidates": 3033
+ },
+ "escrow_run": {
+  "K": 67,
+  "mints": 169,
+  "wall_s": 12530.5,
+  "protocol": "EscrowGraph + FastBatchObjective(g).install(); repair() every 200 records; final repair(full=True)"
+ },
+ "results": {
+  "autopkg_exact_only": {
+   "tail(2-9)": {
+    "tp": 0,
+    "fn": 110,
+    "fp": 0,
+    "tn": 9667,
+    "precision": null,
+    "recall": 0.0,
+    "f1": null,
+    "gold_positives": 110,
+    "gold_negatives": 9667
+   },
+   "ALL": {
+    "tp": 0,
+    "fn": 328,
+    "fp": 0,
+    "tn": 22921,
+    "precision": null,
+    "recall": 0.0,
+    "f1": null,
+    "gold_positives": 328,
+    "gold_negatives": 22921
+   },
+   "mid(10-99)": {
+    "tp": 0,
+    "fn": 31,
+    "fp": 0,
+    "tn": 7499,
+    "precision": null,
+    "recall": 0.0,
+    "f1": null,
+    "gold_positives": 31,
+    "gold_negatives": 7499
+   },
+   "singleton(1)": {
+    "tp": 0,
+    "fn": 185,
+    "fp": 0,
+    "tn": 4358,
+    "precision": null,
+    "recall": 0.0,
+    "f1": null,
+    "gold_positives": 185,
+    "gold_negatives": 4358
+   },
+   "head(>=100)": {
+    "tp": 0,
+    "fn": 2,
+    "fp": 0,
+    "tn": 1397,
+    "precision": null,
+    "recall": 0.0,
+    "f1": null,
+    "gold_positives": 2,
+    "gold_negatives": 1397
+   }
+  },
+  "autopkg_kgd_llm": {
+   "tail(2-9)": {
+    "tp": 57,
+    "fn": 53,
+    "fp": 41,
+    "tn": 9626,
+    "precision": 0.5816,
+    "recall": 0.5182,
+    "f1": 0.5481,
+    "gold_positives": 110,
+    "gold_negatives": 9667
+   },
+   "ALL": {
+    "tp": 204,
+    "fn": 124,
+    "fp": 110,
+    "tn": 22811,
+    "precision": 0.6497,
+    "recall": 0.622,
+    "f1": 0.6355,
+    "gold_positives": 328,
+    "gold_negatives": 22921
+   },
+   "mid(10-99)": {
+    "tp": 25,
+    "fn": 6,
+    "fp": 30,
+    "tn": 7469,
+    "precision": 0.4545,
+    "recall": 0.8065,
+    "f1": 0.5814,
+    "gold_positives": 31,
+    "gold_negatives": 7499
+   },
+   "singleton(1)": {
+    "tp": 120,
+    "fn": 65,
+    "fp": 26,
+    "tn": 4332,
+    "precision": 0.8219,
+    "recall": 0.6486,
+    "f1": 0.7251,
+    "gold_positives": 185,
+    "gold_negatives": 4358
+   },
+   "head(>=100)": {
+    "tp": 2,
+    "fn": 0,
+    "fp": 13,
+    "tn": 1384,
+    "precision": 0.1333,
+    "recall": 1.0,
+    "f1": 0.2353,
+    "gold_positives": 2,
+    "gold_negatives": 1397
+   }
+  },
+  "escrow": {
+   "tail(2-9)": {
+    "tp": 0,
+    "fn": 110,
+    "fp": 588,
+    "tn": 9079,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "gold_positives": 110,
+    "gold_negatives": 9667
+   },
+   "ALL": {
+    "tp": 1,
+    "fn": 327,
+    "fp": 2105,
+    "tn": 20816,
+    "precision": 0.0005,
+    "recall": 0.003,
+    "f1": 0.0008,
+    "gold_positives": 328,
+    "gold_negatives": 22921
+   },
+   "mid(10-99)": {
+    "tp": 0,
+    "fn": 31,
+    "fp": 962,
+    "tn": 6537,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "gold_positives": 31,
+    "gold_negatives": 7499
+   },
+   "singleton(1)": {
+    "tp": 0,
+    "fn": 185,
+    "fp": 243,
+    "tn": 4115,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "gold_positives": 185,
+    "gold_negatives": 4358
+   },
+   "head(>=100)": {
+    "tp": 1,
+    "fn": 1,
+    "fp": 312,
+    "tn": 1085,
+    "precision": 0.0032,
+    "recall": 0.5,
+    "f1": 0.0063,
+    "gold_positives": 2,
+    "gold_negatives": 1397
+   }
+  }
+ },
+ "models": {
+  "embedder": "Qwen/Qwen3-Embedding-0.6B",
+  "agent": "Qwen/Qwen2.5-14B-Instruct"
+ },
+ "runtime_s": 14219.9
+}
