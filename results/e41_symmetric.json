@@ -27,8 +27,6 @@
         "node10",
         "node11"
       ],
-      "tokens": 27578,
-      "seconds": 393.7,
       "llm_nodes_after_each_chunk": [
         20,
         36,
@@ -52,7 +50,9 @@
         160,
         180,
         200
-      ]
+      ],
+      "tokens": 27578,
+      "seconds": 390.7
     },
     {
       "seed": 1,
@@ -72,8 +72,6 @@
         "node_k0_v3_k1_v7_k2_v4_k3_v0",
         "node_k0_v6_k1_v8_k2_v1_k3_v2"
       ],
-      "tokens": 50819,
-      "seconds": 657.8,
       "llm_nodes_after_each_chunk": [
         20,
         38,
@@ -97,7 +95,9 @@
         160,
         180,
         200
-      ]
+      ],
+      "tokens": 50819,
+      "seconds": 652.0
     },
     {
       "seed": 2,
@@ -117,8 +117,6 @@
         "node_k0_v8_k1_v5_k2_v8_k3_v8",
         "node_k0_v2_k1_v7_k2_v6_k3_v8"
       ],
-      "tokens": 49637,
-      "seconds": 914.5,
       "llm_nodes_after_each_chunk": [
         20,
         39,
@@ -142,7 +140,9 @@
         160,
         180,
         200
-      ]
+      ],
+      "tokens": 49637,
+      "seconds": 648.5
     }
   ],
   "planted": [
@@ -193,6 +193,5 @@
       1.0
     ],
     "reading": "E20 gave the model a task built for it and it won. This gives it the two the price is built for. Abstention is the one that matters: a rule that cannot decline on noise will invent kinds on any stream."
-  },
-  "trajectory_provenance": "The per-chunk node counts were read from this run's own stdout, which run_llm in llm_graph_formation.py prints for every chunk, and each series is asserted to end at the final count already recorded here. e41_symmetric.py now records them directly, and the rerun that produces this file from the script alone supersedes this note."
+  }
 }

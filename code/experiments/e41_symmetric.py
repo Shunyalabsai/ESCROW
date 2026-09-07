@@ -15,7 +15,9 @@ THE TWO TASKS, both of which the engine settles by its price.
      answer is zero nodes. A model that invents kinds here is inventing them everywhere.
 
   2. PLANTED STRUCTURE. Eight groups with their own keys and values, which the engine recovers
-     exactly on every arrival order. The model gets the same records in the same order.
+     exactly on every arrival order at the paper's length of 3,000 records. Note that planted8 seeds
+     the generator, so the three seeds here are three independently drawn streams and not three
+     orderings of one; the model and the engine get the same stream in the same order as each other.
 
 The prompt, the chunking, the parser and the arrival order are the ones llm_graph_formation.py
 already uses, imported rather than rewritten, so the only thing that changes is the stream.
@@ -34,6 +36,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", "code"))
 
 import llm_graph_formation as L
 from escrow.protocol import run_stream
+from escrow.provenance import stamped
 sys.path.insert(0, os.path.join(HERE))
 from e4_baseline_army import _ari, planted8
 
@@ -114,7 +117,7 @@ def main():
     }
     print("\n" + json.dumps(report["headline"], indent=2))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(report, open(OUT, "w"), indent=2)
+    json.dump(stamped(report), open(OUT, "w"), indent=2)
     print("written", OUT)
 
 

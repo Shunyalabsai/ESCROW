@@ -197,6 +197,30 @@
         "against 0.205 and 0.741"
       ],
       "why": "the paper's prose kept the values of an earlier E25 run. The shipped result file gives ESCROW omega 0.8876 and membership F1 0.9486 against 0.4411 and 0.7402 for the best oracle-tuned partition baseline. Found on 2026-09-06 while re-examining whether the cover result is a fair fight"
+    },
+    {
+      "id": "e44_rules_beating_the_llm",
+      "what": "how many of E44's eight string rules score above AutoPKG's language-model agent",
+      "source": "results/e44_string_algorithms_on_key_identity.json:headline.beats_the_language_model",
+      "superseded": [
+        "six of eight",
+        "Six of eight",
+        "six of the eight",
+        "Six of the eight",
+        "and six beat the language model"
+      ],
+      "why": "first written as six by miscounting: two of the eight rows are the same function written two ways, so the distinct count is six of seven, but eight rows were reported and seven of them beat the model. The measured list has seven names in it."
+    },
+    {
+      "id": "e41_planted_seeds_are_streams_not_orders",
+      "what": "how E41's three planted seeds should be described",
+      "source": "code/experiments/e4_baseline_army.py:planted8 seeds the generator, not a shuffle",
+      "superseded": [
+        "arrival order and not sampling",
+        "order and not sampling",
+        "two orders of three"
+      ],
+      "why": "planted8(n, seed) reseeds the whole generator, so the three seeds are three independently drawn streams and not three orderings of one stream. Saying arrival order attributed the spread to the wrong cause."
     }
   ],
   "exceptions": [

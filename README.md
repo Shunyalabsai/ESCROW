@@ -19,7 +19,7 @@ paper alone, is at [github.com/Shunyalabsai/ESCROW](https://github.com/Shunyalab
 
 ## Where the work stands
 
-The paper is written and builds to ten pages of main text plus its appendices, with the argument in
+The paper is written and builds to nine pages of main text, the venue's cap, plus its appendices, with the argument in
 the register the author asked for and every printed number read from a file under `results/`. The
 engine is corrected, and the three defects an audit of our own implementation found are each guarded
 by a test.
@@ -41,21 +41,29 @@ the bound needs grows with the stream while a naming charge is constant in it. T
 never depended on the bound, because the gate fires on the computed price, which outgrows the drift.
 `findings/THEOREM1.md` and `findings/THEOREM1_CORRECTIONS.md` hold the decision and the evidence.
 
-Two things are open. The comparison against the language-model system on its own product data is
-begun and not collected. The strengthening experiments in item 7 of `findings/TODO.md` are
-deliberately not started, on the reviewer's own advice that they would add less than the items above.
+The comparison against the language-model system on its own product data has since run, and we lost
+it: their agent reaches F1 0.6355 on key identity and this rule reaches 0.0008, because version 1
+ships no operator that prices two keys as one. Measuring what that benchmark ranks then showed its
+gold is a string function, and seven of eight string rules score above the language model on it
+(`results/e44_string_algorithms_on_key_identity.json`). The loss stands; what changed is what it is
+evidence of.
+
+What is open. Key identity itself, which no operator in version 1 can decide. The prompt sensitivity
+sweep, which asks how much of a language model's result is the prompt rather than the model, is
+running. The strengthening experiments in item 7 of `findings/TODO.md` are deliberately not started,
+on the reviewer's own advice that they would add less than the items above.
 
 ## Where to look
 
 | Path | What it holds |
 | --- | --- |
-| `paper/` | the LaTeX source and the built PDF. `main.tex` pulls in `sections/*.tex`; figures are built by `code/experiments/fig_*.py` |
+| `paper/` | in the public repository, `escrow.pdf`, the built paper, and nothing else. In the working tree it is also the LaTeX source: `main.tex` pulls in `sections/*.tex`, and figures are built by `code/experiments/fig_*.py` |
 | `code/escrow/` | the engine: the codelength primitives, the insertion process, the batch objective and its repair operators |
 | `code/experiments/` | every experiment and demonstration, one file each, writing into `results/` |
 | `code/experiments/theorem1/` | the measurements behind the theorem finding, kept apart because the paper prints their answer and not their tables |
-| `code/tests/` | 24 tests, including the Kraft identities and the invariant that every cell is coded exactly once |
+| `code/tests/` | 25 tests, including the Kraft identities, the invariant that every cell is coded exactly once, and the guard that E44's copy of E20's gold builder has not drifted |
 | `code/tools/check_numbers.py` | fails if a superseded number is still printed anywhere in the paper or the talk |
-| `results/` | 67 result files, each stamped with the engine checksums and the date it was produced |
+| `results/` | 68 result files. 34 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
 | `findings/` | the decision record: what was measured, what it refuted, and what was decided as a result |
 | `related_work/` | 54 papers, downloaded and extracted, each read in full rather than from its abstract |
 | `talk/` | the reveal.js deck. It is never published |
@@ -69,6 +77,7 @@ deliberately not started, on the reviewer's own advice that they would add less 
 python3 code/tests/test_codes.py      # code-level gates, including three Kraft identities
 python3 code/tests/test_engine.py     # engine gates: positive control, null control, degenerate data
 python3 code/tests/test_batch.py      # the repair operators, exactness, determinism, cell ownership
+python3 code/tests/test_e44_gold_matches_e20.py   # E44 scores E20's gold, not a drifted copy of it
 
 python3 code/experiments/e7_immediate_vs_deferred.py   # why immediate minting cannot work
 python3 code/experiments/e8_false_mint_null.py         # no node is created on noise
@@ -86,9 +95,11 @@ python3 code/tools/check_numbers.py                    # run before every paper 
 The engine and the tests are pure Python over the standard library. The benchmark runners need data,
 and `DATA.md` says where each input comes from.
 
-To build the paper, run `tectonic -X compile main.tex` inside `paper/`, then check the rendered PDF
-rather than the log: references must start on page eleven, with no overfull boxes, no unresolved
-references and no dashes of any kind.
+The paper ships here as `paper/escrow.pdf`. Its LaTeX source is not released, so there is nothing
+here to compile. In the working tree the build is `tectonic -X compile main.tex` inside `paper/`, and
+it is checked against the rendered PDF rather than the log: no overfull boxes, no unresolved
+references, no dashes of any kind, and the conference build's main text ending by page nine. Count
+pages with `pdfinfo`, since counting form feeds in `pdftotext` reports one fewer.
 
 ## Standing rules
 

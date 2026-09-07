@@ -368,5 +368,13 @@
       "token_jaccard"
     ],
     "reading": "the gold is a string function, so this benchmark ranks normalisers; it does not record whether two different names carry one role, which is the decision the paper says is open"
+  },
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
   }
 }

@@ -1,15 +1,14 @@
 # Data: every external input, where it comes from, and where to put it
 
-The engine and the tests need no data. The mechanism experiments e7, e8, e9, e12 and e13
-generate their own streams, and so do two of the three streams e5 runs, whose third is the
-Wikipedia cache described in section 4 and committed here. Five inputs come from outside the
-repository, and this file is the source for each one.
+The engine and the tests need no data. The mechanism experiments (e5, e7, e8, e9, e12, e13)
+generate their own streams. Five inputs come from outside the repository. This file is the
+source for each one.
 
 Every path below is relative to `ESCROW_ROOT`. Scripts read that environment variable and fall
 back to the repository root, which is the directory holding `code/`, `results/` and `paper/`:
 
 ```bash
-export ESCROW_ROOT=/path/to/escrow     # optional; the repository root by default
+export ESCROW_ROOT=/path/to/graph-construction     # optional; the repository root by default
 ```
 
 Each URL below was checked with `curl -sI -L` on 2026-09-05. Where a size is given, it is the
@@ -130,8 +129,10 @@ git clone https://github.com/malllabiisc/cesi "$ESCROW_ROOT/baselines/cesi"
 
 **What it is.** Three CSVs from a real marketplace catalogue, released with the AutoPKG paper
 (Hongwimol et al., "AutoPKG: An Automated Framework for Dynamic E-commerce Product-Attribute
-Knowledge Graph Construction", arXiv:2604.16950, Findings of ACL 2026). `lazada_c2_rawkey.py`
-and the Lazada arm of `llm_graph_formation.py` read them.
+Knowledge Graph Construction", arXiv:2604.16950, Findings of ACL 2026). `lazada_c2_rawkey.py`, the
+Lazada arm of `llm_graph_formation.py`, `e20_headtohead.py` and
+`e44_string_algorithms_on_key_identity.py` read them. Without these three CSVs in place, E20 and E44
+cannot run at all; every other experiment can.
 
 - `lazada_autopkg_product_data_url.csv`: about 36,000 Lazada (Philippines) products with
   `product_id`, `product_name`, `highlight`, `description`, `specifications` and image URLs. We
@@ -228,40 +229,7 @@ its own User-Agent, passes `maxlag=5`, and backs off on HTTP 429.
 
 ---
 
-## 5. Wikidata people, the multi-label benchmark
-
-**Shipped, no download needed.** `results/wikidata_cover/wikidata_people.json` holds 3,362 people
-with their properties as categorical facets and their occupations as the label set. It is the one
-benchmark here whose truth is genuinely a cover: 39.2 percent of the records carry more than one
-occupation, at a mean of 1.74.
-
-**How it was built.** `code/experiments/fetch_wikidata_cover.py` takes one scan of 20,000
-(person, occupation) pairs from the Wikidata query service, keeps the twelve most frequent
-occupations in that sample so the groups are chosen by frequency rather than by hand, and then pulls
-each person's claims from the entity API. A value is the target entity id, or the year for a date;
-identifiers and quantities are dropped. Occupation is removed from every record, along with field of
-work, position held, professorship and affiliation, so nothing in the input names the answer.
-
-The raw scan is cached beside it as `scan_20000.json`, because the query service rate-limits hard
-during its outages and that scan is the only call made to it. Delete both files and rerun the fetcher
-to rebuild from scratch.
-
-**Licence.** Wikidata is CC0.
-
-## 6. Wikipedia infoboxes at scale
-
-**Shipped, no download needed.** `results/wiki_large/` holds 4,635 infobox records over eight types,
-fetched from the MediaWiki API by `code/experiments/fetch_wiki_large.py` with the same parser,
-character for character, as the 320-record stream in section 4. It exists so the scale ladder moves
-only the stream size and nothing else: same source, same categories, same parsing.
-
-Four of the first ten categories tried turned out to be container categories holding almost no
-articles, which the category name does not reveal, so a populous category of the same type was added
-beside each. The experiment declares a minimum category size rather than choosing its pool by looking
-at results, and a trailing digit in a cache filename marks a second category of a type already
-present.
-
-## 7. The development catalogue CSV (`ESCROW_CATALOG_CSV`)
+## 5. The development catalogue CSV (`ESCROW_CATALOG_CSV`)
 
 **What it is.** One CSV export of a raw e-commerce catalogue, with a `department` column and a
 `specs` column holding a JSON object of raw spec keys as published. `catalogue_devset.py` reads
@@ -290,17 +258,13 @@ reader who cannot get it can still reproduce all of them.
 One honest exception: the appendix does print a catalogue exhibit (the "Raw records: a catalogue
 department" subsection, and the `catalogue` entry in the results-file walkthrough): 993 footwear
 records, 43 raw keys, K = 6 from 51 mint events, 303.4 records per second. Those numbers are
-read from a results file that this repository does not ship, because it carries the private
-catalogue's own attribute keys and value counts. That one run is therefore the only run in the
-paper whose numbers an outside reader can neither repeat nor check. Every other number the paper
-prints has its file under `results/` here.
+read from `results/catalogue_footwear.json`, which is committed, so the numbers are checkable;
+but that one run is the only run in the paper that an outside reader cannot repeat.
 
 ---
 
-## Mentioned in the paper, and not shipped here
+## Already in the repository, and read by nothing
 
-The Alaska entity-resolution benchmark (`camera`, `monitor` and `notebook`, about 270 KB each)
-is held for the planned key-identity run. No script in `code/` reads it yet, so this repository
-does not ship it, and it is named here only so that nobody hunts for a loader that does not
-exist. It is published by the DI2KG organisers at `github.com/merialdo/research.alaska` under
-the MIT licence.
+`data/alaska/` holds three zips (`camera.zip`, `monitor.zip`, `notebook.zip`, about 270 KB
+each) from the Alaska entity-resolution benchmark. No script in `code/` reads them. They are
+kept for the planned key-identity run and are listed here so nobody hunts for the loader.

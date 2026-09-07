@@ -46,5 +46,5 @@ torch
 river
 
 # --- the figures ------------------------------------------------------------
-# make_figures.py, fig_baselines.py, fig_cost.py, fig_llm.py
+# make_figures.py, fig_baselines.py, fig_cost.py, fig_llm.py, fig_abstain.py
 matplotlib

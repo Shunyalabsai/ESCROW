@@ -37,6 +37,8 @@ from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import adjusted_rand_score, silhouette_score
 
+from escrow.provenance import stamped
+
 RUNS = os.path.join(ROOT, "results", "llm_gf_runs")
 OUT = os.path.join(ROOT, "results", "e43_traditional_on_semantic.json")
 KS = list(range(2, 21))
@@ -144,7 +146,7 @@ def main():
                         "stream does not measure semantics and no paper should read it that way"),
         }
         print("\n" + json.dumps(report["headline"], indent=2))
-    json.dump(report, open(OUT, "w"), indent=2)
+    json.dump(stamped(report), open(OUT, "w"), indent=2)
     print("written", OUT)
 
 

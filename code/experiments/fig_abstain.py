@@ -18,6 +18,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RESULTS = os.path.join(ROOT, "results")
 FIGDIR = os.path.join(ROOT, "paper", "figures")
+os.makedirs(FIGDIR, exist_ok=True)
 PREVIEW = os.environ.get("FIG_PREVIEW_DIR")
 
 GOLD = "#B06A1E"
