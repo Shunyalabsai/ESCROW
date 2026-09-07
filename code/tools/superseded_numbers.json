@@ -221,6 +221,51 @@
         "two orders of three"
       ],
       "why": "planted8(n, seed) reseeds the whole generator, so the three seeds are three independently drawn streams and not three orderings of one stream. Saying arrival order attributed the spread to the wrong cause."
+    },
+    {
+      "id": "lazada_escrow_purity",
+      "what": "ESCROW purity on the Lazada 1,000 in the language-model table",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.purity",
+      "superseded": [
+        "0.0371"
+      ],
+      "why": "printed in tab:llm from an older run; the shipped result is 0.0321"
+    },
+    {
+      "id": "lazada_escrow_largest_share",
+      "what": "ESCROW largest-node share on the Lazada 1,000",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.largest_node_share",
+      "superseded": [
+        "0.0701"
+      ],
+      "why": "printed in tab:llm from an older run; the shipped result is 0.0962"
+    },
+    {
+      "id": "lazada_escrow_background",
+      "what": "records ESCROW left in the background on the Lazada 1,000",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.background_or_unparsed",
+      "superseded": [
+        "745 of the 1{,}000"
+      ],
+      "why": "the same appendix already gave 699 two paragraphs later"
+    },
+    {
+      "id": "lazada_escrow_mints_merges",
+      "what": "mints and merges on the Lazada 1,000",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.mints",
+      "superseded": [
+        "24 mints and 18"
+      ],
+      "why": "all three shipped run files record 30 mints and 23 merges"
+    },
+    {
+      "id": "lazada_escrow_covered_ari",
+      "what": "covered-only ARI on the Lazada 1,000",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.ari_covered_only",
+      "superseded": [
+        "0.0301"
+      ],
+      "why": "the shipped result is 0.0135"
     }
   ],
   "exceptions": [

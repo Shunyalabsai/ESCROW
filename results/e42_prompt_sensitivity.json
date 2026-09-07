@@ -1,0 +1,131 @@
+{
+  "experiment": "E42 how much of a language model's result is the prompt",
+  "model": "Qwen/Qwen2.5-14B-Instruct",
+  "decoding": "greedy, no sampling",
+  "held_fixed": [
+    "model",
+    "records",
+    "arrival order",
+    "chunk size 20",
+    "greedy decoding",
+    "record rendering",
+    "output format instructions",
+    "parser"
+  ],
+  "varied": "the system prompt only",
+  "escrow_for_reference": {
+    "encyclopedia_ARI": 0.8744,
+    "no_structure_nodes": 0
+  },
+  "variants": [
+    {
+      "prompt": "shipped",
+      "class": "paraphrase",
+      "encyclopedia_ARI": 0.9896,
+      "encyclopedia_nodes": 4,
+      "no_structure_nodes": 80,
+      "system_prompt_words": 60,
+      "seconds": 749.3
+    },
+    {
+      "prompt": "paraphrase_reordered",
+      "class": "paraphrase",
+      "encyclopedia_ARI": 0.9948,
+      "encyclopedia_nodes": 4,
+      "no_structure_nodes": 27,
+      "system_prompt_words": 61,
+      "seconds": 766.7
+    },
+    {
+      "prompt": "paraphrase_bulleted",
+      "class": "paraphrase",
+      "encyclopedia_ARI": 0.9896,
+      "encyclopedia_nodes": 4,
+      "no_structure_nodes": 20,
+      "system_prompt_words": 66,
+      "seconds": 739.0
+    },
+    {
+      "prompt": "paraphrase_persona",
+      "class": "paraphrase",
+      "encyclopedia_ARI": 1.0,
+      "encyclopedia_nodes": 3,
+      "no_structure_nodes": 85,
+      "system_prompt_words": 69,
+      "seconds": 732.4
+    },
+    {
+      "prompt": "policy_conservative",
+      "class": "policy",
+      "encyclopedia_ARI": 0.991,
+      "encyclopedia_nodes": 4,
+      "no_structure_nodes": 31,
+      "system_prompt_words": 70,
+      "seconds": 689.6
+    },
+    {
+      "prompt": "policy_liberal",
+      "class": "policy",
+      "encyclopedia_ARI": 0.1196,
+      "encyclopedia_nodes": 222,
+      "no_structure_nodes": 197,
+      "system_prompt_words": 69,
+      "seconds": 1188.9
+    },
+    {
+      "prompt": "policy_may_be_no_structure",
+      "class": "policy",
+      "encyclopedia_ARI": 0.9948,
+      "encyclopedia_nodes": 4,
+      "no_structure_nodes": 82,
+      "system_prompt_words": 85,
+      "seconds": 816.4
+    }
+  ],
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  },
+  "headline": {
+    "paraphrases_only_wording_differs": {
+      "n": 4,
+      "encyclopedia_ARI": {
+        "min": 0.9896,
+        "max": 1.0,
+        "range": 0.0104,
+        "sd": 0.0043
+      },
+      "no_structure_nodes": {
+        "min": 20,
+        "max": 85,
+        "range": 65,
+        "sd": 29.6564
+      }
+    },
+    "all_variants_including_policy_changes": {
+      "n": 7,
+      "encyclopedia_ARI": {
+        "min": 0.1196,
+        "max": 1.0,
+        "range": 0.8804,
+        "sd": 0.3058
+      },
+      "no_structure_nodes": {
+        "min": 20,
+        "max": 197,
+        "range": 177,
+        "sd": 56.4696
+      }
+    },
+    "escrow": {
+      "encyclopedia_ARI": 0.8744,
+      "no_structure_nodes": 0,
+      "quantity_that_moves_it": "none"
+    },
+    "reading": "the spread within the paraphrase group is caused by wording alone, since nothing else differs and decoding is greedy"
+  }
+}

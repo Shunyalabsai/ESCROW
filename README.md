@@ -48,9 +48,16 @@ gold is a string function, and seven of eight string rules score above the langu
 (`results/e44_string_algorithms_on_key_identity.json`). The loss stands; what changed is what it is
 evidence of.
 
-What is open. Key identity itself, which no operator in version 1 can decide. The prompt sensitivity
-sweep, which asks how much of a language model's result is the prompt rather than the model, is
-running. The strengthening experiments in item 7 of `findings/TODO.md` are deliberately not started,
+The prompt sensitivity sweep has also run. Holding the model, the records, the order and greedy
+decoding fixed and changing only the system prompt, four paraphrases that add and remove nothing
+move what the model builds on a stream with no structure from 20 nodes to 85, and one ordinary
+instruction, asking it to be precise, takes the encyclopedia stream from ARI 0.99 to 0.12 at 222
+nodes where the truth is three types. A prompt that says outright that a stream may have no kinds in
+it still builds 82. This rule returns 0 under all seven, because there is no sentence in it to change
+(`results/e42_prompt_sensitivity.json`).
+
+What is open. Key identity itself, which no operator in version 1 can decide. The strengthening
+experiments in item 7 of `findings/TODO.md` are deliberately not started,
 on the reviewer's own advice that they would add less than the items above.
 
 ## Where to look
@@ -63,7 +70,7 @@ on the reviewer's own advice that they would add less than the items above.
 | `code/experiments/theorem1/` | the measurements behind the theorem finding, kept apart because the paper prints their answer and not their tables |
 | `code/tests/` | 25 tests, including the Kraft identities, the invariant that every cell is coded exactly once, and the guard that E44's copy of E20's gold builder has not drifted |
 | `code/tools/check_numbers.py` | fails if a superseded number is still printed anywhere in the paper or the talk |
-| `results/` | 68 result files. 34 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
+| `results/` | 69 result files. 35 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
 | `findings/` | the decision record: what was measured, what it refuted, and what was decided as a result |
 | `related_work/` | 54 papers, downloaded and extracted, each read in full rather than from its abstract |
 | `talk/` | the reveal.js deck. It is never published |
@@ -88,6 +95,7 @@ python3 code/experiments/wikipedia_demo.py             # raw infoboxes to typed 
 python3 code/experiments/e41_symmetric.py     # the same language model on the tasks the price is for
 python3 code/experiments/e43_traditional_on_semantic.py            # what the encyclopedia stream ranks
 python3 code/experiments/e44_string_algorithms_on_key_identity.py  # what the key-identity gold ranks
+python3 code/experiments/e42_prompt_sensitivity.py    # how much of a model's result is the prompt
 
 python3 code/tools/check_numbers.py                    # run before every paper build
 ```
