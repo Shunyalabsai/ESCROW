@@ -1,0 +1,291 @@
+{
+  "experiment": "E29 margin against stream length",
+  "question": "does the release price pull away from the accrued evidence as the stream grows, which is what the paper asserts but never measures",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "stream": "pure noise, 4 keys, 10 iid uniform values each, no latent structure",
+  "definition": "margin = accrued evidence minus release price, in bits; zero is a mint",
+  "lengths": [
+    2000,
+    5000,
+    10000,
+    20000,
+    50000
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "rows": [
+    {
+      "n": 2000,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -421.4,
+            "evidence_bits": 391.02,
+            "price_bits": 812.43,
+            "cohort": 155,
+            "support": 4
+          },
+          "seconds": 0.1
+        },
+        {
+          "seed": 1,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -421.86,
+            "evidence_bits": 473.55,
+            "price_bits": 895.41,
+            "cohort": 179,
+            "support": 4
+          },
+          "seconds": 0.1
+        },
+        {
+          "seed": 2,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -434.78,
+            "evidence_bits": 430.14,
+            "price_bits": 864.92,
+            "cohort": 170,
+            "support": 4
+          },
+          "seconds": 0.2
+        }
+      ],
+      "K_max": 0,
+      "margin_mean": -426.01,
+      "margin_max": -421.4
+    },
+    {
+      "n": 5000,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -855.48,
+            "evidence_bits": 1394.46,
+            "price_bits": 2249.94,
+            "cohort": 462,
+            "support": 4
+          },
+          "seconds": 0.4
+        },
+        {
+          "seed": 1,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -848.59,
+            "evidence_bits": 1421.06,
+            "price_bits": 2269.66,
+            "cohort": 468,
+            "support": 4
+          },
+          "seconds": 0.5
+        },
+        {
+          "seed": 2,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -850.12,
+            "evidence_bits": 1445.63,
+            "price_bits": 2295.75,
+            "cohort": 476,
+            "support": 4
+          },
+          "seconds": 0.6
+        }
+      ],
+      "K_max": 0,
+      "margin_mean": -851.4,
+      "margin_max": -848.59
+    },
+    {
+      "n": 10000,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -1542.72,
+            "evidence_bits": 3071.04,
+            "price_bits": 4613.76,
+            "cohort": 967,
+            "support": 4
+          },
+          "seconds": 0.8
+        },
+        {
+          "seed": 1,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -1556.46,
+            "evidence_bits": 3002.26,
+            "price_bits": 4558.72,
+            "cohort": 950,
+            "support": 4
+          },
+          "seconds": 0.7
+        },
+        {
+          "seed": 2,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -1537.71,
+            "evidence_bits": 2768.9,
+            "price_bits": 4306.6,
+            "cohort": 874,
+            "support": 4
+          },
+          "seconds": 0.7
+        }
+      ],
+      "K_max": 0,
+      "margin_mean": -1545.63,
+      "margin_max": -1537.71
+    },
+    {
+      "n": 20000,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -2909.24,
+            "evidence_bits": 6267.9,
+            "price_bits": 9177.14,
+            "cohort": 1927,
+            "support": 4
+          },
+          "seconds": 1.7
+        },
+        {
+          "seed": 1,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -2943.17,
+            "evidence_bits": 6375.27,
+            "price_bits": 9318.44,
+            "cohort": 1971,
+            "support": 4
+          },
+          "seconds": 1.8
+        },
+        {
+          "seed": 2,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -2815.37,
+            "evidence_bits": 6011.4,
+            "price_bits": 8826.77,
+            "cohort": 1820,
+            "support": 4
+          },
+          "seconds": 1.5
+        }
+      ],
+      "K_max": 0,
+      "margin_mean": -2889.26,
+      "margin_max": -2815.37
+    },
+    {
+      "n": 50000,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -6928.86,
+            "evidence_bits": 16138.87,
+            "price_bits": 23067.73,
+            "cohort": 4870,
+            "support": 4
+          },
+          "seconds": 4.1
+        },
+        {
+          "seed": 1,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -7047.63,
+            "evidence_bits": 16052.2,
+            "price_bits": 23099.84,
+            "cohort": 4880,
+            "support": 4
+          },
+          "seconds": 4.1
+        },
+        {
+          "seed": 2,
+          "K": 0,
+          "live_candidates": 40,
+          "closest": {
+            "margin": -6771.0,
+            "evidence_bits": 16328.84,
+            "price_bits": 23099.84,
+            "cohort": 4880,
+            "support": 4
+          },
+          "seconds": 4.2
+        }
+      ],
+      "K_max": 0,
+      "margin_mean": -6915.83,
+      "margin_max": -6771.0
+    }
+  ],
+  "trend_of_the_worst_margin": [
+    [
+      2000,
+      -421.4
+    ],
+    [
+      5000,
+      -848.59
+    ],
+    [
+      10000,
+      -1537.71
+    ],
+    [
+      20000,
+      -2815.37
+    ],
+    [
+      50000,
+      -6771.0
+    ]
+  ],
+  "headline": {
+    "any_node_created": false,
+    "margin_rises_with_length": false,
+    "verdict": "the price pulls away from the evidence as the stream grows, which is the race the paper asserts, now measured"
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

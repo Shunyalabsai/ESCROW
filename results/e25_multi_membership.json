@@ -1,0 +1,4387 @@
+{
+  "experiment": "e25_multi_membership",
+  "title": "is multi-membership load-bearing?",
+  "purpose": "test the paper's stated justification for a new code, that a record activates a set of nodes rather than landing in one block of a partition, by building a fixture whose truth is a genuine cover and scoring covers directly",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "quick": false,
+  "generator": {
+    "function": "multi_membership8 (this file)",
+    "built_like": "experiments.e4_baseline_army.planted8, with a SET of latent groups per record",
+    "cover_parameters": {
+      "n": 3000,
+      "groups": 8,
+      "keys_per_group": 3,
+      "values_per_key": 8,
+      "noise": 0.1,
+      "set_size_weights": [
+        0.5,
+        0.3,
+        0.2
+      ]
+    },
+    "control_parameters": {
+      "n": 3000,
+      "groups": 8,
+      "keys_per_group": 3,
+      "values_per_key": 8,
+      "noise": 0.1,
+      "set_size_weights": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    "value_noise_meaning": "with probability `noise` an emitted value's group tag is redrawn uniformly over all groups, as in planted8",
+    "key_ownership": "group g owns the keys c{g}k{j}",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "baselines": {
+    "kmeans_trueG": "k-means handed the true number of latent groups",
+    "kmeans_trueC": "k-means handed the true number of distinct group combinations, the finest partition consistent with the truth",
+    "agglomerative": "average linkage on cosine distance, scipy.cluster.hierarchy.linkage plus fcluster, which is the same rule as the sklearn AgglomerativeClustering(linkage='average', metric='cosine') arm used in E4; cut at an oracle distance threshold",
+    "dpmeans": "sequential DP-means at an oracle lambda",
+    "bpmeans": "NOT RUN. The task allows BP-means only if code/experiments/e22_bpmeans.py exists; it does not exist in this repository at run time, and it was left out rather than reimplemented.",
+    "representations": [
+      "key",
+      "keyvalue",
+      "key_plus_keyvalue"
+    ],
+    "oracle_note": "every baseline is scored at the best (representation, parameter) cell chosen on the test labels, separately for the omega index and for the membership F1; ESCROW is one run with no calibrated parameter"
+  },
+  "grids": {
+    "agglomerative_thresholds": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "dpmeans_lambdas": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75
+    ]
+  },
+  "metrics": {
+    "omega": "Collins and Dent omega index: over record pairs, agreement between the number of groups shared in the truth and in the prediction, corrected for chance",
+    "membership_prf": "precision, recall and F1 over (record, group) memberships after matching predicted groups to true groups by best overlap, reported both one-to-one (Hungarian, unmatched predicted groups are false positives) and many-to-one (generous, deduplicated)",
+    "ARI_secondary": "adjusted Rand index with the truth read as the partition by distinct group combination; reported only as a degraded secondary because ARI cannot represent a cover"
+  },
+  "fixtures": {
+    "cover": {
+      "generator": {
+        "n": 3000,
+        "groups": 8,
+        "keys_per_group": 3,
+        "values_per_key": 8,
+        "noise": 0.1,
+        "set_size_weights": [
+          0.5,
+          0.3,
+          0.2
+        ]
+      },
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "representations": [
+        "key",
+        "keyvalue",
+        "key_plus_keyvalue"
+      ],
+      "per_seed": [
+        {
+          "escrow": {
+            "omega": 0.8922,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 0.9291,
+                "f1": 0.9632,
+                "matched_groups": 8,
+                "predicted_memberships": 4770,
+                "true_memberships": 5134,
+                "true_positives": 4770
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 0.9291,
+                "f1": 0.9632,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 4770,
+                "true_memberships": 5134,
+                "true_positives": 4770
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 1682,
+              "2": 866,
+              "3": 452
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 0.355,
+            "K": 8,
+            "mints": 23,
+            "seconds": 1.511,
+            "is_a_cover": true,
+            "pair_hist_truth": {
+              "0": 2985105,
+              "1": 1384756,
+              "2": 125188,
+              "3": 3451
+            },
+            "pair_hist_pred": {
+              "0": 3162266,
+              "1": 1251220,
+              "2": 83205,
+              "3": 1809
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 5134,
+            "memberships_per_record": {
+              "1": 1493,
+              "2": 880,
+              "3": 627
+            },
+            "distinct_combinations": 92
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 0.4361,
+              "detail": {
+                "omega": 0.4361,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3739,
+                "_pair_hist_pred": {
+                  "0": 3887873,
+                  "1": 610627
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 0.7376,
+              "detail": {
+                "omega": 0.4361,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3739,
+                "_pair_hist_pred": {
+                  "0": 3887873,
+                  "1": 610627
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|92",
+              "value": 0.1244,
+              "detail": {
+                "omega": 0.1244,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4977,
+                    "recall": 0.2908,
+                    "f1": 0.3671,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 1493
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341718,
+                  "1": 156782
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|92",
+              "value": 0.7376,
+              "detail": {
+                "omega": 0.1244,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4977,
+                    "recall": 0.2908,
+                    "f1": 0.3671,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 1493
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341718,
+                  "1": 156782
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.5",
+              "value": 0.4123,
+              "detail": {
+                "omega": 0.4123,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.399,
+                "_pair_hist_pred": {
+                  "0": 3929143,
+                  "1": 569357
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 0.7376,
+              "detail": {
+                "omega": 0.1244,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4977,
+                    "recall": 0.2908,
+                    "f1": 0.3671,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 1493
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341718,
+                  "1": 156782
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|1.25",
+              "value": 0.3291,
+              "detail": {
+                "omega": 0.3291,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4873,
+                    "recall": 0.2848,
+                    "f1": 0.3595,
+                    "matched_groups": 3,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 1462
+                  },
+                  "many_to_one": {
+                    "precision": 0.4873,
+                    "recall": 0.2848,
+                    "f1": 0.3595,
+                    "distinct_true_groups_used": 3,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 1462
+                  }
+                },
+                "groups_predicted": 3,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.1323,
+                "_pair_hist_pred": {
+                  "0": 2979399,
+                  "1": 1519101
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 0.7376,
+              "detail": {
+                "omega": 0.1244,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4977,
+                    "recall": 0.2908,
+                    "f1": 0.3671,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 1493
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5843,
+                    "f1": 0.7376,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5134,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341718,
+                  "1": 156782
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 0,
+          "seconds": 119.65
+        },
+        {
+          "escrow": {
+            "omega": 0.9207,
+            "membership": {
+              "one_to_one": {
+                "precision": 0.9967,
+                "recall": 0.95,
+                "f1": 0.9728,
+                "matched_groups": 8,
+                "predicted_memberships": 4882,
+                "true_memberships": 5122,
+                "true_positives": 4866
+              },
+              "many_to_one": {
+                "precision": 0.9967,
+                "recall": 0.95,
+                "f1": 0.9728,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 4882,
+                "true_memberships": 5122,
+                "true_positives": 4866
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 1627,
+              "2": 864,
+              "3": 509
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 0.3506,
+            "K": 8,
+            "mints": 18,
+            "seconds": 1.441,
+            "is_a_cover": true,
+            "pair_hist_truth": {
+              "0": 2991309,
+              "1": 1379216,
+              "2": 124503,
+              "3": 3472
+            },
+            "pair_hist_pred": {
+              "0": 3107979,
+              "1": 1292338,
+              "2": 95882,
+              "3": 2301
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 5122,
+            "memberships_per_record": {
+              "1": 1505,
+              "2": 868,
+              "3": 627
+            },
+            "distinct_combinations": 92
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 0.4381,
+              "detail": {
+                "omega": 0.4381,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3755,
+                "_pair_hist_pred": {
+                  "0": 3885771,
+                  "1": 612729
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 0.7387,
+              "detail": {
+                "omega": 0.4381,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3755,
+                "_pair_hist_pred": {
+                  "0": 3885771,
+                  "1": 612729
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|92",
+              "value": 0.1265,
+              "detail": {
+                "omega": 0.1265,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5017,
+                    "recall": 0.2938,
+                    "f1": 0.3706,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 1505
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4340292,
+                  "1": 158208
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|92",
+              "value": 0.7387,
+              "detail": {
+                "omega": 0.1265,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5017,
+                    "recall": 0.2938,
+                    "f1": 0.3706,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 1505
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4340292,
+                  "1": 158208
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.5",
+              "value": 0.4194,
+              "detail": {
+                "omega": 0.4194,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3974,
+                "_pair_hist_pred": {
+                  "0": 3922003,
+                  "1": 576497
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 0.7387,
+              "detail": {
+                "omega": 0.1265,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5017,
+                    "recall": 0.2938,
+                    "f1": 0.3706,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 1505
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4340292,
+                  "1": 158208
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|1.25",
+              "value": 0.4385,
+              "detail": {
+                "omega": 0.4385,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.8593,
+                    "recall": 0.5033,
+                    "f1": 0.6348,
+                    "matched_groups": 6,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 2578
+                  },
+                  "many_to_one": {
+                    "precision": 0.8593,
+                    "recall": 0.5033,
+                    "f1": 0.6348,
+                    "distinct_true_groups_used": 6,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 2578
+                  }
+                },
+                "groups_predicted": 6,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3013,
+                "_pair_hist_pred": {
+                  "0": 3732887,
+                  "1": 765613
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 0.7387,
+              "detail": {
+                "omega": 0.1265,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5017,
+                    "recall": 0.2938,
+                    "f1": 0.3706,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 1505
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5857,
+                    "f1": 0.7387,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5122,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4340292,
+                  "1": 158208
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 1,
+          "seconds": 109.15
+        },
+        {
+          "escrow": {
+            "omega": 0.8988,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 0.9331,
+                "f1": 0.9654,
+                "matched_groups": 8,
+                "predicted_memberships": 4767,
+                "true_memberships": 5109,
+                "true_positives": 4767
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 0.9331,
+                "f1": 0.9654,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 4767,
+                "true_memberships": 5109,
+                "true_positives": 4767
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 1662,
+              "2": 909,
+              "3": 429
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 0.3529,
+            "K": 8,
+            "mints": 41,
+            "seconds": 0.73,
+            "is_a_cover": true,
+            "pair_hist_truth": {
+              "0": 2996884,
+              "1": 1376824,
+              "2": 121479,
+              "3": 3313
+            },
+            "pair_hist_pred": {
+              "0": 3161788,
+              "1": 1252749,
+              "2": 82225,
+              "3": 1738
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 5109,
+            "memberships_per_record": {
+              "1": 1496,
+              "2": 899,
+              "3": 605
+            },
+            "distinct_combinations": 92
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key_plus_keyvalue|8",
+              "value": 0.4511,
+              "detail": {
+                "omega": 0.4511,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3636,
+                "_pair_hist_pred": {
+                  "0": 3868833,
+                  "1": 629667
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 0.7399,
+              "detail": {
+                "omega": 0.4352,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3794,
+                "_pair_hist_pred": {
+                  "0": 3896414,
+                  "1": 602086
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|92",
+              "value": 0.1258,
+              "detail": {
+                "omega": 0.1258,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4987,
+                    "recall": 0.2928,
+                    "f1": 0.369,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 1496
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341423,
+                  "1": 157077
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|92",
+              "value": 0.7399,
+              "detail": {
+                "omega": 0.1258,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4987,
+                    "recall": 0.2928,
+                    "f1": 0.369,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 1496
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341423,
+                  "1": 157077
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.5",
+              "value": 0.4209,
+              "detail": {
+                "omega": 0.4209,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3973,
+                "_pair_hist_pred": {
+                  "0": 3925554,
+                  "1": 572946
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 0.7399,
+              "detail": {
+                "omega": 0.1258,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4987,
+                    "recall": 0.2928,
+                    "f1": 0.369,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 1496
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341423,
+                  "1": 157077
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|1.0",
+              "value": 0.4239,
+              "detail": {
+                "omega": 0.4239,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.8567,
+                    "recall": 0.503,
+                    "f1": 0.6339,
+                    "matched_groups": 6,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 2570
+                  },
+                  "many_to_one": {
+                    "precision": 0.8567,
+                    "recall": 0.503,
+                    "f1": 0.6339,
+                    "distinct_true_groups_used": 6,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 2570
+                  }
+                },
+                "groups_predicted": 6,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.2782,
+                "_pair_hist_pred": {
+                  "0": 3675332,
+                  "1": 823168
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 0.7399,
+              "detail": {
+                "omega": 0.1258,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4987,
+                    "recall": 0.2928,
+                    "f1": 0.369,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 1496
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5872,
+                    "f1": 0.7399,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5109,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4341423,
+                  "1": 157077
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 2,
+          "seconds": 73.24
+        },
+        {
+          "escrow": {
+            "omega": 0.8231,
+            "membership": {
+              "one_to_one": {
+                "precision": 0.8958,
+                "recall": 0.846,
+                "f1": 0.8702,
+                "matched_groups": 7,
+                "predicted_memberships": 4759,
+                "true_memberships": 5039,
+                "true_positives": 4263
+              },
+              "many_to_one": {
+                "precision": 0.8958,
+                "recall": 0.846,
+                "f1": 0.8702,
+                "distinct_true_groups_used": 7,
+                "predicted_memberships": 4759,
+                "true_memberships": 5039,
+                "true_positives": 4263
+              }
+            },
+            "groups_predicted": 7,
+            "memberships_per_record": {
+              "0": 1,
+              "1": 1683,
+              "2": 872,
+              "3": 444
+            },
+            "records_with_no_group": 1,
+            "ARI_secondary": 0.3411,
+            "K": 7,
+            "mints": 29,
+            "seconds": 0.299,
+            "is_a_cover": true,
+            "pair_hist_truth": {
+              "0": 3030679,
+              "1": 1352395,
+              "2": 112541,
+              "3": 2885
+            },
+            "pair_hist_pred": {
+              "0": 2893873,
+              "1": 1481225,
+              "2": 120072,
+              "3": 3330
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 5039,
+            "memberships_per_record": {
+              "1": 1531,
+              "2": 899,
+              "3": 570
+            },
+            "distinct_combinations": 92
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "keyvalue|8",
+              "value": 0.4384,
+              "detail": {
+                "omega": 0.4384,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.9997,
+                    "recall": 0.5952,
+                    "f1": 0.7461,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 2999
+                  },
+                  "many_to_one": {
+                    "precision": 0.9997,
+                    "recall": 0.5952,
+                    "f1": 0.7461,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 2999
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3923,
+                "_pair_hist_pred": {
+                  "0": 3935492,
+                  "1": 563008
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 0.7464,
+              "detail": {
+                "omega": 0.4368,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5954,
+                    "f1": 0.7464,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5954,
+                    "f1": 0.7464,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.4052,
+                "_pair_hist_pred": {
+                  "0": 3914468,
+                  "1": 584032
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|92",
+              "value": 0.1362,
+              "detail": {
+                "omega": 0.1362,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5103,
+                    "recall": 0.3038,
+                    "f1": 0.3809,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 1531
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5954,
+                    "f1": 0.7464,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4334214,
+                  "1": 164286
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|92",
+              "value": 0.7464,
+              "detail": {
+                "omega": 0.1362,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5103,
+                    "recall": 0.3038,
+                    "f1": 0.3809,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 1531
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5954,
+                    "f1": 0.7464,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4334214,
+                  "1": 164286
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key_plus_keyvalue|0.7",
+              "value": 0.4309,
+              "detail": {
+                "omega": 0.4309,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.9997,
+                    "recall": 0.5952,
+                    "f1": 0.7461,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 2999
+                  },
+                  "many_to_one": {
+                    "precision": 0.9997,
+                    "recall": 0.5952,
+                    "f1": 0.7461,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 2999
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.4155,
+                "_pair_hist_pred": {
+                  "0": 3931891,
+                  "1": 566609
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 0.7464,
+              "detail": {
+                "omega": 0.1362,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5103,
+                    "recall": 0.3038,
+                    "f1": 0.3809,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 1531
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5954,
+                    "f1": 0.7464,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4334214,
+                  "1": 164286
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|1.0",
+              "value": 0.4634,
+              "detail": {
+                "omega": 0.4634,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.9477,
+                    "recall": 0.5642,
+                    "f1": 0.7073,
+                    "matched_groups": 7,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 2843
+                  },
+                  "many_to_one": {
+                    "precision": 0.9477,
+                    "recall": 0.5642,
+                    "f1": 0.7073,
+                    "distinct_true_groups_used": 7,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 2843
+                  }
+                },
+                "groups_predicted": 7,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3585,
+                "_pair_hist_pred": {
+                  "0": 3833278,
+                  "1": 665222
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 0.7464,
+              "detail": {
+                "omega": 0.1362,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.5103,
+                    "recall": 0.3038,
+                    "f1": 0.3809,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 1531
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5954,
+                    "f1": 0.7464,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5039,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4334214,
+                  "1": 164286
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 3,
+          "seconds": 135.8
+        },
+        {
+          "escrow": {
+            "omega": 0.9033,
+            "membership": {
+              "one_to_one": {
+                "precision": 0.9878,
+                "recall": 0.934,
+                "f1": 0.9602,
+                "matched_groups": 8,
+                "predicted_memberships": 4846,
+                "true_memberships": 5125,
+                "true_positives": 4787
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 0.9444,
+                "f1": 0.9714,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 4840,
+                "true_memberships": 5125,
+                "true_positives": 4840
+              }
+            },
+            "groups_predicted": 9,
+            "memberships_per_record": {
+              "1": 1626,
+              "2": 902,
+              "3": 472
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 0.3456,
+            "K": 9,
+            "mints": 15,
+            "seconds": 1.133,
+            "is_a_cover": true,
+            "pair_hist_truth": {
+              "0": 2987349,
+              "1": 1384253,
+              "2": 123598,
+              "3": 3300
+            },
+            "pair_hist_pred": {
+              "0": 3147118,
+              "1": 1263080,
+              "2": 86446,
+              "3": 1856
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 5125,
+            "memberships_per_record": {
+              "1": 1483,
+              "2": 909,
+              "3": 608
+            },
+            "distinct_combinations": 92
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key_plus_keyvalue|8",
+              "value": 0.442,
+              "detail": {
+                "omega": 0.442,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3648,
+                "_pair_hist_pred": {
+                  "0": 3876542,
+                  "1": 621958
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 0.7385,
+              "detail": {
+                "omega": 0.4369,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.371,
+                "_pair_hist_pred": {
+                  "0": 3887383,
+                  "1": 611117
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|92",
+              "value": 0.1231,
+              "detail": {
+                "omega": 0.1231,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4943,
+                    "recall": 0.2894,
+                    "f1": 0.365,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 1483
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4343024,
+                  "1": 155476
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|92",
+              "value": 0.7385,
+              "detail": {
+                "omega": 0.1231,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4943,
+                    "recall": 0.2894,
+                    "f1": 0.365,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 1483
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4343024,
+                  "1": 155476
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key_plus_keyvalue|0.7",
+              "value": 0.4179,
+              "detail": {
+                "omega": 0.4179,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.3932,
+                "_pair_hist_pred": {
+                  "0": 3925884,
+                  "1": 572616
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 0.7385,
+              "detail": {
+                "omega": 0.1231,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4943,
+                    "recall": 0.2894,
+                    "f1": 0.365,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 1483
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4343024,
+                  "1": 155476
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|1.5",
+              "value": 0.4189,
+              "detail": {
+                "omega": 0.4189,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.8467,
+                    "recall": 0.4956,
+                    "f1": 0.6252,
+                    "matched_groups": 6,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 2540
+                  },
+                  "many_to_one": {
+                    "precision": 0.8467,
+                    "recall": 0.4956,
+                    "f1": 0.6252,
+                    "distinct_true_groups_used": 6,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 2540
+                  }
+                },
+                "groups_predicted": 6,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 0.2683,
+                "_pair_hist_pred": {
+                  "0": 3654727,
+                  "1": 843773
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 0.7385,
+              "detail": {
+                "omega": 0.1231,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 0.4943,
+                    "recall": 0.2894,
+                    "f1": 0.365,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 1483
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 0.5854,
+                    "f1": 0.7385,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 5125,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 92,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 4343024,
+                  "1": 155476
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 4,
+          "seconds": 177.25
+        }
+      ],
+      "aggregate": {
+        "escrow": {
+          "omega": {
+            "mean": 0.8876,
+            "min": 0.8231,
+            "max": 0.9207
+          },
+          "f1_many_to_one": {
+            "mean": 0.9486,
+            "min": 0.8702,
+            "max": 0.9728
+          },
+          "f1_one_to_one": {
+            "mean": 0.9464,
+            "min": 0.8702,
+            "max": 0.9728
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 7.0,
+            "max": 9.0
+          },
+          "precision_many_to_one": {
+            "mean": 0.9785,
+            "min": 0.8958,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 0.9205,
+            "min": 0.846,
+            "max": 0.95
+          },
+          "ARI_secondary": {
+            "mean": 0.349,
+            "min": 0.3411,
+            "max": 0.355
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 7.0,
+            "max": 9.0
+          },
+          "tuned_on_test_labels": false,
+          "what_was_tuned": "nothing; one run, no calibrated parameter"
+        },
+        "kmeans_trueG": {
+          "omega": {
+            "mean": 0.4411,
+            "min": 0.4361,
+            "max": 0.4511
+          },
+          "f1_many_to_one": {
+            "mean": 0.7402,
+            "min": 0.7376,
+            "max": 0.7464
+          },
+          "f1_one_to_one": {
+            "mean": 0.7402,
+            "min": 0.7376,
+            "max": 0.7464
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 0.5876,
+            "min": 0.5843,
+            "max": 0.5954
+          },
+          "ARI_secondary": {
+            "mean": 0.374,
+            "min": 0.3636,
+            "max": 0.3923
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        },
+        "kmeans_trueC": {
+          "omega": {
+            "mean": 0.1272,
+            "min": 0.1231,
+            "max": 0.1362
+          },
+          "f1_many_to_one": {
+            "mean": 0.7402,
+            "min": 0.7376,
+            "max": 0.7464
+          },
+          "f1_one_to_one": {
+            "mean": 0.3705,
+            "min": 0.365,
+            "max": 0.3809
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 92.0,
+            "min": 92.0,
+            "max": 92.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 0.5876,
+            "min": 0.5843,
+            "max": 0.5954
+          },
+          "ARI_secondary": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted": {
+            "mean": 92.0,
+            "min": 92.0,
+            "max": 92.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        },
+        "agglomerative": {
+          "omega": {
+            "mean": 0.4203,
+            "min": 0.4123,
+            "max": 0.4309
+          },
+          "f1_many_to_one": {
+            "mean": 0.7402,
+            "min": 0.7376,
+            "max": 0.7464
+          },
+          "f1_one_to_one": {
+            "mean": 0.3705,
+            "min": 0.365,
+            "max": 0.3809
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 92.0,
+            "min": 92.0,
+            "max": 92.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 0.5876,
+            "min": 0.5843,
+            "max": 0.5954
+          },
+          "ARI_secondary": {
+            "mean": 0.4005,
+            "min": 0.3932,
+            "max": 0.4155
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        },
+        "dpmeans": {
+          "omega": {
+            "mean": 0.4148,
+            "min": 0.3291,
+            "max": 0.4634
+          },
+          "f1_many_to_one": {
+            "mean": 0.7402,
+            "min": 0.7376,
+            "max": 0.7464
+          },
+          "f1_one_to_one": {
+            "mean": 0.3705,
+            "min": 0.365,
+            "max": 0.3809
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 92.0,
+            "min": 92.0,
+            "max": 92.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 0.5876,
+            "min": 0.5843,
+            "max": 0.5954
+          },
+          "ARI_secondary": {
+            "mean": 0.2677,
+            "min": 0.1323,
+            "max": 0.3585
+          },
+          "groups_predicted": {
+            "mean": 5.6,
+            "min": 3.0,
+            "max": 7.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        }
+      }
+    },
+    "control_partition": {
+      "generator": {
+        "n": 3000,
+        "groups": 8,
+        "keys_per_group": 3,
+        "values_per_key": 8,
+        "noise": 0.1,
+        "set_size_weights": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "representations": [
+        "key",
+        "keyvalue",
+        "key_plus_keyvalue"
+      ],
+      "per_seed": [
+        {
+          "escrow": {
+            "omega": 1.0,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "matched_groups": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 1.0,
+            "K": 8,
+            "mints": 11,
+            "seconds": 0.455,
+            "is_a_cover": false,
+            "pair_hist_truth": {
+              "0": 3936952,
+              "1": 561548
+            },
+            "pair_hist_pred": {
+              "0": 3936952,
+              "1": 561548
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 3000,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "distinct_combinations": 8
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936952,
+                  "1": 561548
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 0,
+          "seconds": 101.12
+        },
+        {
+          "escrow": {
+            "omega": 1.0,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "matched_groups": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 1.0,
+            "K": 8,
+            "mints": 10,
+            "seconds": 0.494,
+            "is_a_cover": false,
+            "pair_hist_truth": {
+              "0": 3935835,
+              "1": 562665
+            },
+            "pair_hist_pred": {
+              "0": 3935835,
+              "1": 562665
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 3000,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "distinct_combinations": 8
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935835,
+                  "1": 562665
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 1,
+          "seconds": 99.0
+        },
+        {
+          "escrow": {
+            "omega": 1.0,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "matched_groups": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 1.0,
+            "K": 8,
+            "mints": 11,
+            "seconds": 0.448,
+            "is_a_cover": false,
+            "pair_hist_truth": {
+              "0": 3936521,
+              "1": 561979
+            },
+            "pair_hist_pred": {
+              "0": 3936521,
+              "1": 561979
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 3000,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "distinct_combinations": 8
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936521,
+                  "1": 561979
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 2,
+          "seconds": 94.72
+        },
+        {
+          "escrow": {
+            "omega": 1.0,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "matched_groups": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 1.0,
+            "K": 8,
+            "mints": 9,
+            "seconds": 0.457,
+            "is_a_cover": false,
+            "pair_hist_truth": {
+              "0": 3935308,
+              "1": 563192
+            },
+            "pair_hist_pred": {
+              "0": 3935308,
+              "1": 563192
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 3000,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "distinct_combinations": 8
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3935308,
+                  "1": 563192
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 3,
+          "seconds": 111.19
+        },
+        {
+          "escrow": {
+            "omega": 1.0,
+            "membership": {
+              "one_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "matched_groups": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              },
+              "many_to_one": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "distinct_true_groups_used": 8,
+                "predicted_memberships": 3000,
+                "true_memberships": 3000,
+                "true_positives": 3000
+              }
+            },
+            "groups_predicted": 8,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "records_with_no_group": 0,
+            "ARI_secondary": 1.0,
+            "K": 8,
+            "mints": 12,
+            "seconds": 0.666,
+            "is_a_cover": false,
+            "pair_hist_truth": {
+              "0": 3936781,
+              "1": 561719
+            },
+            "pair_hist_pred": {
+              "0": 3936781,
+              "1": 561719
+            }
+          },
+          "truth": {
+            "groups": 8,
+            "memberships": 3000,
+            "memberships_per_record": {
+              "1": 3000
+            },
+            "distinct_combinations": 8
+          },
+          "n": 3000,
+          "kmeans_trueG": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "kmeans_trueC": {
+            "oracle_omega": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|8",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "n_cells": 3
+          },
+          "agglomerative": {
+            "oracle_omega": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.05",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "n_cells": 33
+          },
+          "dpmeans": {
+            "oracle_omega": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "oracle_f1_many_to_one": {
+              "cell": "key|0.1",
+              "value": 1.0,
+              "detail": {
+                "omega": 1.0,
+                "membership": {
+                  "one_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "matched_groups": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  },
+                  "many_to_one": {
+                    "precision": 1.0,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "distinct_true_groups_used": 8,
+                    "predicted_memberships": 3000,
+                    "true_memberships": 3000,
+                    "true_positives": 3000
+                  }
+                },
+                "groups_predicted": 8,
+                "memberships_per_record": {
+                  "1": 3000
+                },
+                "records_with_no_group": 0,
+                "ARI_secondary": 1.0,
+                "_pair_hist_pred": {
+                  "0": 3936781,
+                  "1": 561719
+                }
+              }
+            },
+            "n_cells": 24
+          },
+          "seed": 4,
+          "seconds": 93.6
+        }
+      ],
+      "aggregate": {
+        "escrow": {
+          "omega": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_one_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "ARI_secondary": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": false,
+          "what_was_tuned": "nothing; one run, no calibrated parameter"
+        },
+        "kmeans_trueG": {
+          "omega": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_one_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "ARI_secondary": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        },
+        "kmeans_trueC": {
+          "omega": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_one_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "ARI_secondary": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        },
+        "agglomerative": {
+          "omega": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_one_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "ARI_secondary": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        },
+        "dpmeans": {
+          "omega": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "f1_one_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted_at_f1_cell": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "precision_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "recall_many_to_one": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "ARI_secondary": {
+            "mean": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "groups_predicted": {
+            "mean": 8.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "tuned_on_test_labels": true,
+          "what_was_tuned": "representation and parameter, both chosen on the test labels, separately for each scored quantity"
+        }
+      }
+    }
+  },
+  "reading": {
+    "question": "does a record belonging to several groups at once actually defeat partition methods, which is the paper's stated reason for building a new code?",
+    "per_fixture": {
+      "cover": {
+        "escrow_omega": 0.8876,
+        "escrow_f1_many_to_one": 0.9486,
+        "escrow_f1_one_to_one": 0.9464,
+        "best_baseline_omega": {
+          "arm": "kmeans_trueG",
+          "value": 0.4411,
+          "groups_predicted": 8.0
+        },
+        "best_baseline_f1_many_to_one": {
+          "arm": "kmeans_trueG",
+          "value": 0.7402,
+          "groups_predicted_at_that_cell": 8.0
+        },
+        "best_baseline_f1_one_to_one": {
+          "arm": "kmeans_trueG",
+          "value": 0.7402
+        },
+        "omega_gap": 0.4465,
+        "f1_gap": 0.2084,
+        "f1_one_to_one_gap": 0.2062,
+        "baselines_matching_or_beating_escrow_on_omega": [],
+        "baselines_matching_or_beating_escrow_on_f1": [],
+        "baselines_matching_or_beating_escrow_on_f1_one_to_one": [],
+        "arms_with_generous_f1_but_lower_omega": [],
+        "escrow_ARI_secondary": 0.349,
+        "baselines_beating_escrow_on_ARI_secondary": [
+          {
+            "arm": "kmeans_trueC",
+            "ARI_secondary": 1.0,
+            "omega": 0.1272,
+            "f1_one_to_one": 0.3705
+          },
+          {
+            "arm": "agglomerative",
+            "ARI_secondary": 0.4005,
+            "omega": 0.4203,
+            "f1_one_to_one": 0.3705
+          },
+          {
+            "arm": "kmeans_trueG",
+            "ARI_secondary": 0.374,
+            "omega": 0.4411,
+            "f1_one_to_one": 0.7402
+          }
+        ],
+        "falsifier_applies": true,
+        "falsifier_applies_note": "the falsifier is defined on the cover fixture; on the partition control a partition method matching ESCROW is the expected and desired outcome and is not a falsification of anything",
+        "falsifier_fired": false,
+        "falsifier_fired_by": []
+      },
+      "control_partition": {
+        "escrow_omega": 1.0,
+        "escrow_f1_many_to_one": 1.0,
+        "escrow_f1_one_to_one": 1.0,
+        "best_baseline_omega": {
+          "arm": "kmeans_trueG",
+          "value": 1.0,
+          "groups_predicted": 8.0
+        },
+        "best_baseline_f1_many_to_one": {
+          "arm": "kmeans_trueG",
+          "value": 1.0,
+          "groups_predicted_at_that_cell": 8.0
+        },
+        "best_baseline_f1_one_to_one": {
+          "arm": "kmeans_trueG",
+          "value": 1.0
+        },
+        "omega_gap": 0.0,
+        "f1_gap": 0.0,
+        "f1_one_to_one_gap": 0.0,
+        "baselines_matching_or_beating_escrow_on_omega": [
+          "agglomerative",
+          "dpmeans",
+          "kmeans_trueC",
+          "kmeans_trueG"
+        ],
+        "baselines_matching_or_beating_escrow_on_f1": [
+          "agglomerative",
+          "dpmeans",
+          "kmeans_trueC",
+          "kmeans_trueG"
+        ],
+        "baselines_matching_or_beating_escrow_on_f1_one_to_one": [
+          "agglomerative",
+          "dpmeans",
+          "kmeans_trueC",
+          "kmeans_trueG"
+        ],
+        "arms_with_generous_f1_but_lower_omega": [],
+        "escrow_ARI_secondary": 1.0,
+        "baselines_beating_escrow_on_ARI_secondary": [],
+        "falsifier_applies": false,
+        "falsifier_applies_note": "the falsifier is defined on the cover fixture; on the partition control a partition method matching ESCROW is the expected and desired outcome and is not a falsification of anything",
+        "falsifier_fired": true,
+        "falsifier_fired_by": [
+          "agglomerative",
+          "dpmeans",
+          "kmeans_trueC",
+          "kmeans_trueG"
+        ]
+      }
+    },
+    "falsifier": "a partition method that matches or beats ESCROW on BOTH the omega index and the many-to-one membership F1 on the cover fixture falsifies the claim",
+    "falsifier_fired_on_cover": false,
+    "summary": "cover: ESCROW omega 0.8876, membership F1 0.9486; best oracle-tuned partition baseline omega 0.4411 (kmeans_trueG), F1 0.7402 (kmeans_trueG). control_partition: ESCROW omega 1.0, membership F1 1.0; best oracle-tuned partition baseline omega 1.0 (kmeans_trueG), F1 1.0 (kmeans_trueG). The falsifier did not fire on the cover fixture: no partition baseline matched ESCROW on both cover scores, even with its representation and its parameter chosen on the test labels. The gap is 0.4465 omega and 0.2084 membership F1 against the best baseline on each score. Control: on the single-membership fixture from the same generator the gaps are 0.0 omega and 0.0 F1, against 0.4465 and 0.2084 on the cover. The gap is smaller on the partition control, which is what attributes it to multi-membership rather than to the generator, the representation or the baselines themselves. Stated plainly against the method: on the partition control ESCROW does not beat the partition baselines at all, they tie it exactly, so nothing here says ESCROW is the better clusterer. The whole difference appears when, and only when, the truth is a cover. ESCROW LOSES ON ARI on the cover fixture and it is reported here rather than buried: kmeans_trueC reaches ARI 1.0 against ESCROW's 0.349. That arm is k-means handed the true number of distinct group COMBINATIONS, and on this fixture the records of one combination are identical in their key set, so it recovers the combination partition exactly. This is the whole reason ARI is the wrong instrument for a cover: recovering the 92 combination blocks is not recovering the 8 groups, and the same arm scores omega 0.1272 and one-to-one membership F1 0.3705 against ESCROW's 0.8876 and 0.9464. A reader who trusts ARI alone would read this fixture backwards. Caveat on the generous score, stated against ourselves: the many-to-one membership F1 does not punish over-splitting, because many pure small clusters all relabel onto the same true group and their union is scored once, so a baseline can reach a high F1 by cutting far too finely. That is why the omega index and the one-to-one F1 are reported beside it. No arm reached ESCROW's many-to-one F1 while scoring below it on omega here.",
+    "note_on_this_block": "the reading block was rebuilt from the numbers already in this file, after the run, to correct one sentence that the run's own numbers made false, to label the control's falsifier field, and to state the ARI result that goes against the method; no measurement in fixtures.* was recomputed or changed"
+  },
+  "seconds_total": 1114.73,
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  },
+  "dp_means_equivalence_check": {
+    "rows": [
+      {
+        "lam": 0.25,
+        "n": 300,
+        "identical": true
+      },
+      {
+        "lam": 1.0,
+        "n": 300,
+        "identical": true
+      }
+    ],
+    "what": "dp_means_fast against experiments.e4_baseline_army.dp_means on the first 300 records of the cover fixture at seed 0, key=value representation",
+    "when": "computed straight after the sweep with the same code; the sweep itself computed the same check but summarise_seed dropped it before writing, which is fixed in the script"
+  }
+}

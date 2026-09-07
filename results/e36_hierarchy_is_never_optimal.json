@@ -1,0 +1,395 @@
+{
+  "experiment": "E36 a hierarchy is never optimal under this code",
+  "question": "E35 found the engine returns one level and that a build which returns both pays more. Is the flat description actually cheaper AT THE OPTIMUM?",
+  "method": "both descriptions of the same planted truth are priced with the code's own L_col, L_supp, L_vblock and structure cost, on a real stream with noise",
+  "falsifier": "flat and nested within the parametric term of each other under the shipped code, or the repair failing to reverse the ordering",
+  "generator": {
+    "families": 3,
+    "species_per_family": 3,
+    "family_keys": 3,
+    "species_keys": 3,
+    "values_per_key": 6,
+    "noise": 0.1
+  },
+  "rows": [
+    {
+      "n": 900,
+      "seed": 0,
+      "shipped": {
+        "flat_total": 23654.0,
+        "nested_total": 25316.5,
+        "nested_minus_flat": 1662.4,
+        "by_term": {
+          "membership_column": 2491.3,
+          "support": -42.6,
+          "presence": -67.5,
+          "values": -709.1,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 23654.0,
+        "nested_total": 22825.1,
+        "nested_minus_flat": -828.9,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -67.5,
+          "values": -709.1,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 900,
+      "seed": 1,
+      "shipped": {
+        "flat_total": 23682.3,
+        "nested_total": 25373.1,
+        "nested_minus_flat": 1690.8,
+        "by_term": {
+          "membership_column": 2492.0,
+          "support": -42.6,
+          "presence": -67.5,
+          "values": -681.4,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 23682.3,
+        "nested_total": 22881.1,
+        "nested_minus_flat": -801.2,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -67.5,
+          "values": -681.4,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 900,
+      "seed": 2,
+      "shipped": {
+        "flat_total": 23773.6,
+        "nested_total": 25452.3,
+        "nested_minus_flat": 1678.7,
+        "by_term": {
+          "membership_column": 2493.1,
+          "support": -42.6,
+          "presence": -67.5,
+          "values": -694.7,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 23773.6,
+        "nested_total": 22959.2,
+        "nested_minus_flat": -814.4,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -67.5,
+          "values": -694.7,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 3000,
+      "seed": 0,
+      "shipped": {
+        "flat_total": 73271.9,
+        "nested_total": 80110.2,
+        "nested_minus_flat": 6838.3,
+        "by_term": {
+          "membership_column": 8281.5,
+          "support": -42.6,
+          "presence": -83.2,
+          "values": -1307.8,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 73271.9,
+        "nested_total": 71828.7,
+        "nested_minus_flat": -1443.2,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -83.2,
+          "values": -1307.8,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 3000,
+      "seed": 1,
+      "shipped": {
+        "flat_total": 73812.5,
+        "nested_total": 80651.5,
+        "nested_minus_flat": 6839.0,
+        "by_term": {
+          "membership_column": 8280.3,
+          "support": -42.6,
+          "presence": -83.2,
+          "values": -1305.9,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 73812.5,
+        "nested_total": 72371.2,
+        "nested_minus_flat": -1441.3,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -83.2,
+          "values": -1305.9,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 3000,
+      "seed": 2,
+      "shipped": {
+        "flat_total": 73266.3,
+        "nested_total": 80114.6,
+        "nested_minus_flat": 6848.3,
+        "by_term": {
+          "membership_column": 8279.8,
+          "support": -42.6,
+          "presence": -83.1,
+          "values": -1296.1,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 73266.3,
+        "nested_total": 71834.8,
+        "nested_minus_flat": -1431.5,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -83.1,
+          "values": -1296.1,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 9000,
+      "seed": 0,
+      "shipped": {
+        "flat_total": 211357.0,
+        "nested_total": 233697.3,
+        "nested_minus_flat": 22340.4,
+        "by_term": {
+          "membership_column": 24808.0,
+          "support": -42.6,
+          "presence": -97.4,
+          "values": -2318.0,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 211357.0,
+        "nested_total": 208889.3,
+        "nested_minus_flat": -2467.7,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -97.4,
+          "values": -2318.0,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 9000,
+      "seed": 1,
+      "shipped": {
+        "flat_total": 212363.9,
+        "nested_total": 234720.2,
+        "nested_minus_flat": 22356.3,
+        "by_term": {
+          "membership_column": 24811.1,
+          "support": -42.6,
+          "presence": -97.4,
+          "values": -2305.0,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 212363.9,
+        "nested_total": 209909.2,
+        "nested_minus_flat": -2454.7,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -97.4,
+          "values": -2305.0,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 9000,
+      "seed": 2,
+      "shipped": {
+        "flat_total": 211493.2,
+        "nested_total": 233871.3,
+        "nested_minus_flat": 22378.1,
+        "by_term": {
+          "membership_column": 24814.3,
+          "support": -42.6,
+          "presence": -97.4,
+          "values": -2286.5,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 211493.2,
+        "nested_total": 209057.0,
+        "nested_minus_flat": -2436.2,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -97.4,
+          "values": -2286.5,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 27000,
+      "seed": 0,
+      "shipped": {
+        "flat_total": 619653.3,
+        "nested_total": 690720.2,
+        "nested_minus_flat": 71066.9,
+        "by_term": {
+          "membership_column": 74401.3,
+          "support": -42.6,
+          "presence": -111.7,
+          "values": -3170.5,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 619653.3,
+        "nested_total": 616318.9,
+        "nested_minus_flat": -3334.4,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -111.7,
+          "values": -3170.5,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 27000,
+      "seed": 1,
+      "shipped": {
+        "flat_total": 620696.6,
+        "nested_total": 691767.3,
+        "nested_minus_flat": 71070.6,
+        "by_term": {
+          "membership_column": 74401.0,
+          "support": -42.6,
+          "presence": -111.7,
+          "values": -3166.4,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 620696.6,
+        "nested_total": 617366.3,
+        "nested_minus_flat": -3330.3,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -111.7,
+          "values": -3166.4,
+          "structure": -9.7
+        }
+      }
+    },
+    {
+      "n": 27000,
+      "seed": 2,
+      "shipped": {
+        "flat_total": 619598.7,
+        "nested_total": 690689.8,
+        "nested_minus_flat": 71091.1,
+        "by_term": {
+          "membership_column": 74405.0,
+          "support": -42.6,
+          "presence": -111.7,
+          "values": -3149.9,
+          "structure": -9.7
+        }
+      },
+      "parent_column_derived": {
+        "flat_total": 619598.7,
+        "nested_total": 616284.8,
+        "nested_minus_flat": -3313.9,
+        "by_term": {
+          "membership_column": 0.0,
+          "support": -42.6,
+          "presence": -111.7,
+          "values": -3149.9,
+          "structure": -9.7
+        }
+      }
+    }
+  ],
+  "trend": [
+    {
+      "n": 900,
+      "shipped_penalty_for_nesting": 1677.3,
+      "repaired_gain_for_nesting": -814.8
+    },
+    {
+      "n": 3000,
+      "shipped_penalty_for_nesting": 6841.9,
+      "repaired_gain_for_nesting": -1438.7
+    },
+    {
+      "n": 9000,
+      "shipped_penalty_for_nesting": 22358.3,
+      "repaired_gain_for_nesting": -2452.9
+    },
+    {
+      "n": 27000,
+      "shipped_penalty_for_nesting": 71076.2,
+      "repaired_gain_for_nesting": -3326.2
+    }
+  ],
+  "headline": {
+    "shipped_penalty_grows_with_n": true,
+    "shipped_penalty_first_last": [
+      1677.3,
+      71076.2
+    ],
+    "repaired_prefers_nesting_everywhere": true,
+    "repaired_gain_first_last": [
+      -814.8,
+      -3326.2
+    ],
+    "reading": "Under the shipped code the nested description costs more than the flat one at every size and the gap grows with the stream, because the parent is charged a membership column the decoder could derive from its children. That is a property of the code and not of the search, so no better search finds a tree. Charging the parent only for what its children do not determine reverses the ordering at every size, and the margin grows with the stream because what is left is the parametric saving from coding a shared key once instead of once per child."
+  },
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

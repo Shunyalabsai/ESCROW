@@ -223,6 +223,18 @@ def load_model():
     raise RuntimeError(f"no model loaded: {last!r}")
 
 
+def arm_temperature(arm):
+    """The temperature an arm names. `sampled` is 0.7 and `greedy` is 0, exactly as before; an arm
+    written `sampled@0.3` names its own temperature, which is what the E27 sweep uses. Keeping the
+    two original spellings meaning what they always meant is deliberate: the runs already reported
+    in the paper must not move because a sweep was added beside them."""
+    if arm == "greedy":
+        return None
+    if arm.startswith("sampled@"):
+        return float(arm.split("@", 1)[1])
+    return 0.7
+
+
 def gen_config(model, arm):
     gc = copy.deepcopy(model.generation_config)
     gc.max_new_tokens = MAX_NEW
@@ -231,9 +243,10 @@ def gen_config(model, arm):
         model.generation_config.eos_token_id, list) else model.generation_config.eos_token_id[-1]
     gc.top_p = None
     gc.top_k = None
-    if arm == "sampled":
+    temp = arm_temperature(arm)
+    if temp is not None and temp > 0:
         gc.do_sample = True
-        gc.temperature = 0.7
+        gc.temperature = temp
     else:
         gc.do_sample = False
         gc.temperature = None
@@ -253,7 +266,8 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
     assign = [None] * N
     C = collections.Counter()
     chunks_log, raw = [], []
-    sampled = (arm == "sampled")
+    _temp = arm_temperature(arm)
+    sampled = _temp is not None and _temp > 0
     tin = tout = 0
     t0 = time.time()
     n_chunks = (N + CHUNK - 1) // CHUNK
@@ -272,7 +286,7 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
         body = {"model": model_name,
                 "messages": [{"role": "user", "content": user}],
                 "max_tokens": MAX_NEW,
-                "temperature": 0.7 if sampled else 0.0}
+                "temperature": _temp if sampled else 0.0}
         req = urllib.request.Request(
             base_url.rstrip("/") + "/chat/completions",
             data=json.dumps(body).encode(),
@@ -307,7 +321,7 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
     wall = time.time() - t0
     return dict(dataset=ds["name"], method="llm", arm=arm, seed=seed, model=model_name,
                 served_by=base_url,
-                generation=dict(do_sample=sampled, temperature=0.7 if sampled else 0.0,
+                generation=dict(do_sample=sampled, temperature=_temp if sampled else 0.0,
                                 top_p=None, top_k=None, repetition_penalty=1.0,
                                 max_new_tokens=MAX_NEW),
                 chunk_size=CHUNK, n_records=N, n_chunks=n_chunks,

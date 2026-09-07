@@ -1,0 +1,539 @@
+{
+  "experiment": "E31 the scope condition",
+  "question": "what kind of stream can this method work on, derived from its own price and then measured",
+  "conditions": {
+    "price": "D > log2(n/t): a member must save more bits than the log of the stream it has to be picked out of",
+    "seeding": "some (key, value) pair characteristic of a kind must recur at least t* times, t* = 3 to 24 by E9 depending on the support size"
+  },
+  "t_star_source": "results/e9_support_curve.json, cohort at release over five seeds",
+  "t_star_by_support_size": {
+    "2": {
+      "mean": 16.6,
+      "min": 11,
+      "max": 30
+    },
+    "3": {
+      "mean": 5.9,
+      "min": 4,
+      "max": 7
+    },
+    "4": {
+      "mean": 4.1,
+      "min": 4,
+      "max": 5
+    },
+    "6": {
+      "mean": 3.3,
+      "min": 3,
+      "max": 5
+    }
+  },
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "held_fixed_in_the_price_grid": {
+    "support": 4,
+    "K": 4,
+    "keys_seen": 40
+  },
+  "price_condition_grid": [
+    {
+      "n": 1000,
+      "t": 2,
+      "required_bits_per_member": 9.38,
+      "log2_n_over_t": 8.97,
+      "gap": 0.41
+    },
+    {
+      "n": 1000,
+      "t": 5,
+      "required_bits_per_member": 7.79,
+      "log2_n_over_t": 7.64,
+      "gap": 0.15
+    },
+    {
+      "n": 1000,
+      "t": 20,
+      "required_bits_per_member": 5.65,
+      "log2_n_over_t": 5.64,
+      "gap": 0.01
+    },
+    {
+      "n": 1000,
+      "t": 100,
+      "required_bits_per_member": 3.18,
+      "log2_n_over_t": 3.32,
+      "gap": -0.14
+    },
+    {
+      "n": 5000,
+      "t": 2,
+      "required_bits_per_member": 11.7,
+      "log2_n_over_t": 11.29,
+      "gap": 0.41
+    },
+    {
+      "n": 5000,
+      "t": 5,
+      "required_bits_per_member": 10.12,
+      "log2_n_over_t": 9.97,
+      "gap": 0.15
+    },
+    {
+      "n": 5000,
+      "t": 20,
+      "required_bits_per_member": 8.0,
+      "log2_n_over_t": 7.97,
+      "gap": 0.03
+    },
+    {
+      "n": 5000,
+      "t": 100,
+      "required_bits_per_member": 5.62,
+      "log2_n_over_t": 5.64,
+      "gap": -0.02
+    },
+    {
+      "n": 5000,
+      "t": 1000,
+      "required_bits_per_member": 2.0,
+      "log2_n_over_t": 2.32,
+      "gap": -0.32
+    },
+    {
+      "n": 20000,
+      "t": 2,
+      "required_bits_per_member": 13.7,
+      "log2_n_over_t": 13.29,
+      "gap": 0.41
+    },
+    {
+      "n": 20000,
+      "t": 5,
+      "required_bits_per_member": 12.12,
+      "log2_n_over_t": 11.97,
+      "gap": 0.15
+    },
+    {
+      "n": 20000,
+      "t": 20,
+      "required_bits_per_member": 10.0,
+      "log2_n_over_t": 9.97,
+      "gap": 0.03
+    },
+    {
+      "n": 20000,
+      "t": 100,
+      "required_bits_per_member": 7.64,
+      "log2_n_over_t": 7.64,
+      "gap": 0.0
+    },
+    {
+      "n": 20000,
+      "t": 1000,
+      "required_bits_per_member": 4.25,
+      "log2_n_over_t": 4.32,
+      "gap": -0.07
+    },
+    {
+      "n": 100000,
+      "t": 2,
+      "required_bits_per_member": 16.02,
+      "log2_n_over_t": 15.61,
+      "gap": 0.41
+    },
+    {
+      "n": 100000,
+      "t": 5,
+      "required_bits_per_member": 14.44,
+      "log2_n_over_t": 14.29,
+      "gap": 0.15
+    },
+    {
+      "n": 100000,
+      "t": 20,
+      "required_bits_per_member": 12.32,
+      "log2_n_over_t": 12.29,
+      "gap": 0.03
+    },
+    {
+      "n": 100000,
+      "t": 100,
+      "required_bits_per_member": 9.97,
+      "log2_n_over_t": 9.97,
+      "gap": 0.0
+    },
+    {
+      "n": 100000,
+      "t": 1000,
+      "required_bits_per_member": 6.63,
+      "log2_n_over_t": 6.64,
+      "gap": -0.01
+    }
+  ],
+  "price_condition_max_gap_bits": 0.41,
+  "sweep": [
+    {
+      "alphabet": 2,
+      "seed_cohort_mean": 136.5,
+      "reachable_by_t_star": true,
+      "recurrence": {
+        "distinct_pairs": 64,
+        "fraction_seen_more_than_once": 1.0,
+        "mean_occurrences": 125.0,
+        "max_occurrences": 145
+      },
+      "escrow_mean_ARI": 0.9182,
+      "escrow_mean_K": 6.3,
+      "matched_kmeans_ARI": 1.0
+    },
+    {
+      "alphabet": 4,
+      "seed_cohort_mean": 75,
+      "reachable_by_t_star": true,
+      "recurrence": {
+        "distinct_pairs": 128,
+        "fraction_seen_more_than_once": 1.0,
+        "mean_occurrences": 62.5,
+        "max_occurrences": 80
+      },
+      "escrow_mean_ARI": 0.8753,
+      "escrow_mean_K": 6,
+      "matched_kmeans_ARI": 1.0
+    },
+    {
+      "alphabet": 8,
+      "seed_cohort_mean": 43.4,
+      "reachable_by_t_star": true,
+      "recurrence": {
+        "distinct_pairs": 256,
+        "fraction_seen_more_than_once": 1.0,
+        "mean_occurrences": 31.25,
+        "max_occurrences": 47
+      },
+      "escrow_mean_ARI": 0.6898,
+      "escrow_mean_K": 5,
+      "matched_kmeans_ARI": 1.0
+    },
+    {
+      "alphabet": 16,
+      "seed_cohort_mean": 25.9,
+      "reachable_by_t_star": true,
+      "recurrence": {
+        "distinct_pairs": 512,
+        "fraction_seen_more_than_once": 1.0,
+        "mean_occurrences": 15.62,
+        "max_occurrences": 31
+      },
+      "escrow_mean_ARI": 0.2271,
+      "escrow_mean_K": 2.3,
+      "matched_kmeans_ARI": 1.0
+    },
+    {
+      "alphabet": 32,
+      "seed_cohort_mean": 15.9,
+      "reachable_by_t_star": false,
+      "recurrence": {
+        "distinct_pairs": 1024,
+        "fraction_seen_more_than_once": 0.9971,
+        "mean_occurrences": 7.81,
+        "max_occurrences": 20
+      },
+      "escrow_mean_ARI": 0.0001,
+      "escrow_mean_K": 0.3,
+      "matched_kmeans_ARI": 0.289
+    },
+    {
+      "alphabet": 64,
+      "seed_cohort_mean": 10.2,
+      "reachable_by_t_star": false,
+      "recurrence": {
+        "distinct_pairs": 2011,
+        "fraction_seen_more_than_once": 0.9199,
+        "mean_occurrences": 3.98,
+        "max_occurrences": 11
+      },
+      "escrow_mean_ARI": 0.0,
+      "escrow_mean_K": 0,
+      "matched_kmeans_ARI": 0.004
+    },
+    {
+      "alphabet": 128,
+      "seed_cohort_mean": 6.9,
+      "reachable_by_t_star": false,
+      "recurrence": {
+        "distinct_pairs": 3536,
+        "fraction_seen_more_than_once": 0.6782,
+        "mean_occurrences": 2.26,
+        "max_occurrences": 8
+      },
+      "escrow_mean_ARI": 0.0,
+      "escrow_mean_K": 0,
+      "matched_kmeans_ARI": 0.0006
+    },
+    {
+      "alphabet": 512,
+      "seed_cohort_mean": 4.2,
+      "reachable_by_t_star": false,
+      "recurrence": {
+        "distinct_pairs": 6343,
+        "fraction_seen_more_than_once": 0.2232,
+        "mean_occurrences": 1.26,
+        "max_occurrences": 5
+      },
+      "escrow_mean_ARI": 0.0,
+      "escrow_mean_K": 0,
+      "matched_kmeans_ARI": 0.0026
+    },
+    {
+      "alphabet": 2000,
+      "seed_cohort_mean": 2.9,
+      "reachable_by_t_star": false,
+      "recurrence": {
+        "distinct_pairs": 7558,
+        "fraction_seen_more_than_once": 0.0564,
+        "mean_occurrences": 1.06,
+        "max_occurrences": 3
+      },
+      "escrow_mean_ARI": 0.0,
+      "escrow_mean_K": 0,
+      "matched_kmeans_ARI": -0.0002
+    }
+  ],
+  "cliff": {
+    "largest_seed_cohort_that_failed": 15.9,
+    "smallest_seed_cohort_that_worked": 43.4,
+    "partial_cohorts": [
+      25.9
+    ],
+    "t_star_range_from_E9": [
+      3,
+      24
+    ],
+    "reading": "the cliff is bracketed between the largest cohort that failed and the smallest that worked, and E9's t* ceiling of 24 falls inside that bracket"
+  },
+  "streams": {
+    "two_group": {
+      "n": 2000,
+      "true_kinds": 2,
+      "mean_kind_size": 1000.0,
+      "recurrence": {
+        "distinct_pairs": 80,
+        "fraction_seen_more_than_once": 1.0,
+        "mean_occurrences": 100.0,
+        "max_occurrences": 121
+      },
+      "per_kind": [
+        {
+          "kind": "0",
+          "members": 1000,
+          "seed_cohort": 121,
+          "seed_cohort_over_t_star_max": 5.04,
+          "reachable": true,
+          "required_bits_per_member": 0.0
+        },
+        {
+          "kind": "1",
+          "members": 1000,
+          "seed_cohort": 117,
+          "seed_cohort_over_t_star_max": 4.88,
+          "reachable": true,
+          "required_bits_per_member": 0.0
+        }
+      ],
+      "kinds_reachable": 2,
+      "kinds_total": 2,
+      "min_seed_cohort": 117
+    },
+    "planted8": {
+      "n": 3000,
+      "true_kinds": 8,
+      "mean_kind_size": 375.0,
+      "recurrence": {
+        "distinct_pairs": 779,
+        "fraction_seen_more_than_once": 0.43,
+        "mean_occurrences": 11.55,
+        "max_occurrences": 59
+      },
+      "per_kind": [
+        {
+          "kind": "5",
+          "members": 390,
+          "seed_cohort": 59,
+          "seed_cohort_over_t_star_max": 2.46,
+          "reachable": true,
+          "required_bits_per_member": 2.74
+        },
+        {
+          "kind": "0",
+          "members": 351,
+          "seed_cohort": 49,
+          "seed_cohort_over_t_star_max": 2.04,
+          "reachable": true,
+          "required_bits_per_member": 2.92
+        },
+        {
+          "kind": "1",
+          "members": 376,
+          "seed_cohort": 53,
+          "seed_cohort_over_t_star_max": 2.21,
+          "reachable": true,
+          "required_bits_per_member": 2.81
+        },
+        {
+          "kind": "7",
+          "members": 381,
+          "seed_cohort": 53,
+          "seed_cohort_over_t_star_max": 2.21,
+          "reachable": true,
+          "required_bits_per_member": 2.78
+        },
+        {
+          "kind": "2",
+          "members": 365,
+          "seed_cohort": 54,
+          "seed_cohort_over_t_star_max": 2.25,
+          "reachable": true,
+          "required_bits_per_member": 2.85
+        },
+        {
+          "kind": "4",
+          "members": 395,
+          "seed_cohort": 59,
+          "seed_cohort_over_t_star_max": 2.46,
+          "reachable": true,
+          "required_bits_per_member": 2.72
+        },
+        {
+          "kind": "6",
+          "members": 357,
+          "seed_cohort": 50,
+          "seed_cohort_over_t_star_max": 2.08,
+          "reachable": true,
+          "required_bits_per_member": 2.89
+        },
+        {
+          "kind": "3",
+          "members": 385,
+          "seed_cohort": 55,
+          "seed_cohort_over_t_star_max": 2.29,
+          "reachable": true,
+          "required_bits_per_member": 2.77
+        }
+      ],
+      "kinds_reachable": 8,
+      "kinds_total": 8,
+      "min_seed_cohort": 49
+    },
+    "wikipedia_320": {
+      "n": 320,
+      "true_kinds": 3,
+      "mean_kind_size": 106.67,
+      "recurrence": {
+        "distinct_pairs": 2607,
+        "fraction_seen_more_than_once": 0.0783,
+        "mean_occurrences": 1.34,
+        "max_occurrences": 71
+      },
+      "per_kind": [
+        {
+          "kind": "person",
+          "members": 113,
+          "seed_cohort": 71,
+          "seed_cohort_over_t_star_max": 2.96,
+          "reachable": true,
+          "required_bits_per_member": 0.88
+        },
+        {
+          "kind": "film",
+          "members": 120,
+          "seed_cohort": 48,
+          "seed_cohort_over_t_star_max": 2.0,
+          "reachable": true,
+          "required_bits_per_member": 0.75
+        },
+        {
+          "kind": "mountain",
+          "members": 87,
+          "seed_cohort": 39,
+          "seed_cohort_over_t_star_max": 1.62,
+          "reachable": true,
+          "required_bits_per_member": 1.43
+        }
+      ],
+      "kinds_reachable": 3,
+      "kinds_total": 3,
+      "min_seed_cohort": 39
+    },
+    "musicbrainz_20k": {
+      "n": 19375,
+      "true_kinds": 10000,
+      "mean_kind_size": 1.94,
+      "seed_cohort_upper_bound": 1.94,
+      "reachable": false,
+      "required_bits_per_member": 13.66,
+      "note": "placed from the benchmark's own gold structure: a characteristic pair cannot recur more often than its cluster, so the mean cluster size upper-bounds the seed cohort",
+      "measured_result": "ARI -0.0002, K=3"
+    },
+    "reverb45k": {
+      "n": 12327,
+      "true_kinds": 6061,
+      "mean_kind_size": 2.03,
+      "seed_cohort_upper_bound": 2.03,
+      "reachable": false,
+      "required_bits_per_member": 13.0,
+      "note": "placed from the benchmark's own gold structure: a characteristic pair cannot recur more often than its cluster, so the mean cluster size upper-bounds the seed cohort",
+      "measured_result": "12,118 of 12,327 records left in background"
+    },
+    "lazada_silver_types": {
+      "n": 21260,
+      "true_kinds": 5518,
+      "mean_kind_size": 3.85,
+      "seed_cohort_upper_bound": 3.85,
+      "reachable": true,
+      "required_bits_per_member": 12.57,
+      "note": "placed from the benchmark's own gold structure: a characteristic pair cannot recur more often than its cluster, so the mean cluster size upper-bounds the seed cohort",
+      "measured_result": "ARI 0.0013 against the silver types, while the engine's own 68 nodes hold 2,719 / 1,574 / 1,364 records"
+    }
+  },
+  "headline": {
+    "price_condition_confirmed_within_bits": 0.41,
+    "cliff": {
+      "largest_seed_cohort_that_failed": 15.9,
+      "smallest_seed_cohort_that_worked": 43.4,
+      "partial_cohorts": [
+        25.9
+      ],
+      "t_star_range_from_E9": [
+        3,
+        24
+      ],
+      "reading": "the cliff is bracketed between the largest cohort that failed and the smallest that worked, and E9's t* ceiling of 24 falls inside that bracket"
+    },
+    "entity_resolution_out_of_scope_by_construction": {
+      "musicbrainz_20k": {
+        "seed_cohort_upper_bound": 1.94,
+        "t_star_min": 3,
+        "required_bits_per_member": 13.66
+      },
+      "reverb45k": {
+        "seed_cohort_upper_bound": 2.03,
+        "t_star_min": 3,
+        "required_bits_per_member": 13.0
+      },
+      "lazada_silver_types": {
+        "seed_cohort_upper_bound": 3.85,
+        "t_star_min": 3,
+        "required_bits_per_member": 12.57,
+        "note": "the stream is in scope and the label set is not: 5,518 silver types over 21,260 records is 3.85 records per type, against a t* of 3 to 24"
+      }
+    },
+    "reading": "Two conditions, both read off the price. A candidate is named by one (key, value) pair and accrues only on records carrying it, so a kind is reachable only if one of its characteristic pairs recurs at least t* times, and E9 puts t* between 3 and 24. Separately the price charges about log2(n/t) bits to name each member. A deduplication benchmark asks for clusters of two: its seed cohort is at most two, below the most favourable t*, and its price demands thirteen bits from each of two records. The method cannot do entity resolution, and that is a statement about its price rather than about its tuning. What it can do is the converse case, a modest number of kinds each holding many records whose values recur, which is what a catalogue of listings is."
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

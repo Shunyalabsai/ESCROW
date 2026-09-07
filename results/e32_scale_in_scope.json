@@ -1,0 +1,878 @@
+{
+  "experiment": "E32 the same real stream at increasing size",
+  "question": "does the method improve on the SAME data as the stream grows, which is what the scope condition predicts and what a difficulty-grows-with-n method would not do",
+  "prediction": "seed cohorts grow linearly in n while the price of a member is flat for a kind of fixed proportion, so accuracy should rise and the spread across arrival orders should shrink",
+  "falsifier": "accuracy flat or falling in n, or a spread that does not shrink",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "source": "same categories, same parser as the 320-record stream; only n moves",
+  "t_star_bar": 24,
+  "pool": {
+    "records": 4586,
+    "categories": {
+      "actor": 275,
+      "aircraft": 162,
+      "album": 870,
+      "company": 516,
+      "film": 884,
+      "mountain": 596,
+      "river": 408,
+      "videogame": 875
+    },
+    "min_category_size": 100,
+    "categories_dropped_below_minimum": {
+      "bird": 1,
+      "building": 1,
+      "novel": 33,
+      "settlement": 14,
+      "settlement2": 0,
+      "university": 0,
+      "university2": 0
+    },
+    "label_rule": "a trailing digit marks a second category of a type already present, and those share one label"
+  },
+  "rows": [
+    {
+      "n": 320,
+      "stream": {
+        "distinct_pairs": 2752,
+        "pairs_clearing_t_star": 5,
+        "fraction_pairs_clearing_t_star": 0.0018,
+        "fraction_pairs_seen_once": 0.9368,
+        "seed_cohort_min": 7,
+        "seed_cohort_median": 20,
+        "kinds_reachable": 4,
+        "kinds_total": 8
+      },
+      "escrow": {
+        "mean_ARI": 0.8753,
+        "sd": 0.0587,
+        "min": 0.7929,
+        "max": 0.9633,
+        "spread": 0.1704,
+        "mean_K": 9.1,
+        "per_order": [
+          {
+            "ARI": 0.8655,
+            "K": 10,
+            "bits": 28816.0,
+            "background": 12,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.8819,
+            "K": 8,
+            "bits": 29394.0,
+            "background": 1,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.9041,
+            "K": 9,
+            "bits": 28643.8,
+            "background": 7,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.9526,
+            "K": 10,
+            "bits": 27973.0,
+            "background": 1,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.7929,
+            "K": 9,
+            "bits": 28898.0,
+            "background": 5,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.8297,
+            "K": 8,
+            "bits": 29131.4,
+            "background": 13,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.9633,
+            "K": 9,
+            "bits": 28758.9,
+            "background": 8,
+            "seconds": 0.2
+          },
+          {
+            "ARI": 0.8123,
+            "K": 10,
+            "bits": 29101.1,
+            "background": 2,
+            "seconds": 0.1
+          }
+        ]
+      },
+      "baselines_matched_input": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.9748,
+          "K": 8,
+          "note": "handed the true number of groups, which is test-label information"
+        },
+        "kmeans_silhouette": {
+          "condition": "SELECTED, no test labels",
+          "k_range": [
+            2,
+            20
+          ],
+          "by_cosine_silhouette": {
+            "K_chosen": 7,
+            "ARI": 0.9345
+          },
+          "by_euclidean_silhouette": {
+            "K_chosen": 7,
+            "ARI": 0.9345
+          },
+          "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
+        },
+        "kmeans_default": {
+          "condition": "DEFAULT",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.9748,
+          "K": 8,
+          "note": "sklearn.cluster.KMeans() ships n_clusters=8"
+        },
+        "hdbscan": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 5,
+            "ARI": 0.948,
+            "K": 9,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.HDBSCAN",
+            "knob": "min_cluster_size",
+            "default": 5,
+            "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": 5,
+            "ARI": 0.948,
+            "K": 9,
+            "metric": "cosine",
+            "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
+          },
+          "default_library_metric": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": 5,
+            "metric": "euclidean",
+            "ARI": 0.9512,
+            "K": 9
+          }
+        },
+        "agglo_threshold": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.8,
+            "ARI": 0.9461,
+            "K": 18,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.AgglomerativeClustering",
+            "knob": "distance_threshold",
+            "default": null,
+            "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+            "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+          },
+          "default": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": "n_clusters=2, linkage ward, metric euclidean, distance_threshold None",
+            "ARI": 0.1464,
+            "K": 2,
+            "note": "AgglomerativeClustering() ships no distance_threshold at all"
+          }
+        },
+        "dp_means": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 1.75,
+            "ARI": 0.8922,
+            "K": 12,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "lambda",
+            "default": null,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          }
+        },
+        "cosine_components": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.4,
+            "ARI": 0.8863,
+            "K": 47,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "similarity cut",
+            "default": null,
+            "note": "not a library estimator, no shipped default"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "not a library estimator, no shipped default"
+          }
+        }
+      }
+    },
+    {
+      "n": 640,
+      "stream": {
+        "distinct_pairs": 5303,
+        "pairs_clearing_t_star": 17,
+        "fraction_pairs_clearing_t_star": 0.0032,
+        "fraction_pairs_seen_once": 0.9334,
+        "seed_cohort_min": 11,
+        "seed_cohort_median": 40,
+        "kinds_reachable": 5,
+        "kinds_total": 8
+      },
+      "escrow": {
+        "mean_ARI": 0.8741,
+        "sd": 0.0275,
+        "min": 0.8216,
+        "max": 0.91,
+        "spread": 0.0884,
+        "mean_K": 10.2,
+        "per_order": [
+          {
+            "ARI": 0.8816,
+            "K": 9,
+            "bits": 58972.4,
+            "background": 16,
+            "seconds": 0.6
+          },
+          {
+            "ARI": 0.8778,
+            "K": 10,
+            "bits": 58071.2,
+            "background": 6,
+            "seconds": 0.3
+          },
+          {
+            "ARI": 0.8689,
+            "K": 13,
+            "bits": 61283.4,
+            "background": 4,
+            "seconds": 0.4
+          },
+          {
+            "ARI": 0.8216,
+            "K": 11,
+            "bits": 60541.8,
+            "background": 2,
+            "seconds": 0.6
+          },
+          {
+            "ARI": 0.8799,
+            "K": 11,
+            "bits": 60787.3,
+            "background": 12,
+            "seconds": 0.5
+          },
+          {
+            "ARI": 0.907,
+            "K": 11,
+            "bits": 60044.6,
+            "background": 4,
+            "seconds": 0.4
+          },
+          {
+            "ARI": 0.8459,
+            "K": 9,
+            "bits": 60728.6,
+            "background": 6,
+            "seconds": 0.5
+          },
+          {
+            "ARI": 0.91,
+            "K": 8,
+            "bits": 61460.1,
+            "background": 8,
+            "seconds": 0.5
+          }
+        ]
+      },
+      "baselines_matched_input": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.94,
+          "K": 8,
+          "note": "handed the true number of groups, which is test-label information"
+        },
+        "kmeans_silhouette": {
+          "condition": "SELECTED, no test labels",
+          "k_range": [
+            2,
+            20
+          ],
+          "by_cosine_silhouette": {
+            "K_chosen": 7,
+            "ARI": 0.9441
+          },
+          "by_euclidean_silhouette": {
+            "K_chosen": 7,
+            "ARI": 0.9441
+          },
+          "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
+        },
+        "kmeans_default": {
+          "condition": "DEFAULT",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.94,
+          "K": 8,
+          "note": "sklearn.cluster.KMeans() ships n_clusters=8"
+        },
+        "hdbscan": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 5,
+            "ARI": 0.9606,
+            "K": 9,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.HDBSCAN",
+            "knob": "min_cluster_size",
+            "default": 5,
+            "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": 5,
+            "ARI": 0.9606,
+            "K": 9,
+            "metric": "cosine",
+            "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
+          },
+          "default_library_metric": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": 5,
+            "metric": "euclidean",
+            "ARI": 0.9661,
+            "K": 9
+          }
+        },
+        "agglo_threshold": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.8,
+            "ARI": 0.9604,
+            "K": 19,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.AgglomerativeClustering",
+            "knob": "distance_threshold",
+            "default": null,
+            "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+            "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+          },
+          "default": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": "n_clusters=2, linkage ward, metric euclidean, distance_threshold None",
+            "ARI": 0.1457,
+            "K": 2,
+            "note": "AgglomerativeClustering() ships no distance_threshold at all"
+          }
+        },
+        "dp_means": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 1.75,
+            "ARI": 0.9117,
+            "K": 11,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "lambda",
+            "default": null,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          }
+        },
+        "cosine_components": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.4,
+            "ARI": 0.92,
+            "K": 59,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "similarity cut",
+            "default": null,
+            "note": "not a library estimator, no shipped default"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "not a library estimator, no shipped default"
+          }
+        }
+      }
+    },
+    {
+      "n": 1280,
+      "stream": {
+        "distinct_pairs": 10026,
+        "pairs_clearing_t_star": 36,
+        "fraction_pairs_clearing_t_star": 0.0036,
+        "fraction_pairs_seen_once": 0.9127,
+        "seed_cohort_min": 24,
+        "seed_cohort_median": 73,
+        "kinds_reachable": 8,
+        "kinds_total": 8
+      },
+      "escrow": {
+        "mean_ARI": 0.8971,
+        "sd": 0.0329,
+        "min": 0.8391,
+        "max": 0.9385,
+        "spread": 0.0994,
+        "mean_K": 10.9,
+        "per_order": [
+          {
+            "ARI": 0.9337,
+            "K": 10,
+            "bits": 123581.6,
+            "background": 15,
+            "seconds": 2.3
+          },
+          {
+            "ARI": 0.8524,
+            "K": 12,
+            "bits": 127542.5,
+            "background": 17,
+            "seconds": 1.9
+          },
+          {
+            "ARI": 0.9106,
+            "K": 10,
+            "bits": 124755.3,
+            "background": 4,
+            "seconds": 2.0
+          },
+          {
+            "ARI": 0.897,
+            "K": 10,
+            "bits": 127751.8,
+            "background": 15,
+            "seconds": 2.1
+          },
+          {
+            "ARI": 0.9036,
+            "K": 13,
+            "bits": 128598.7,
+            "background": 0,
+            "seconds": 1.6
+          },
+          {
+            "ARI": 0.9385,
+            "K": 9,
+            "bits": 123588.7,
+            "background": 11,
+            "seconds": 1.9
+          },
+          {
+            "ARI": 0.902,
+            "K": 11,
+            "bits": 126367.2,
+            "background": 6,
+            "seconds": 1.6
+          },
+          {
+            "ARI": 0.8391,
+            "K": 12,
+            "bits": 126488.4,
+            "background": 7,
+            "seconds": 1.8
+          }
+        ]
+      },
+      "baselines_matched_input": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.8872,
+          "K": 8,
+          "note": "handed the true number of groups, which is test-label information"
+        },
+        "kmeans_silhouette": {
+          "condition": "SELECTED, no test labels",
+          "k_range": [
+            2,
+            20
+          ],
+          "by_cosine_silhouette": {
+            "K_chosen": 6,
+            "ARI": 0.9011
+          },
+          "by_euclidean_silhouette": {
+            "K_chosen": 6,
+            "ARI": 0.9011
+          },
+          "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
+        },
+        "kmeans_default": {
+          "condition": "DEFAULT",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.8872,
+          "K": 8,
+          "note": "sklearn.cluster.KMeans() ships n_clusters=8"
+        },
+        "hdbscan": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 10,
+            "ARI": 0.967,
+            "K": 9,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.HDBSCAN",
+            "knob": "min_cluster_size",
+            "default": 5,
+            "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": 5,
+            "ARI": 0.9466,
+            "K": 10,
+            "metric": "cosine",
+            "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
+          },
+          "default_library_metric": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": 5,
+            "metric": "euclidean",
+            "ARI": 0.9649,
+            "K": 9
+          }
+        },
+        "agglo_threshold": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.8,
+            "ARI": 0.9713,
+            "K": 22,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.AgglomerativeClustering",
+            "knob": "distance_threshold",
+            "default": null,
+            "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+            "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+          },
+          "default": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": "n_clusters=2, linkage ward, metric euclidean, distance_threshold None",
+            "ARI": 0.1468,
+            "K": 2,
+            "note": "AgglomerativeClustering() ships no distance_threshold at all"
+          }
+        },
+        "dp_means": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 1.75,
+            "ARI": 0.9464,
+            "K": 15,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "lambda",
+            "default": null,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          }
+        },
+        "cosine_components": {
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.4,
+            "ARI": 0.9544,
+            "K": 70,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "similarity cut",
+            "default": null,
+            "note": "not a library estimator, no shipped default"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "not a library estimator, no shipped default"
+          }
+        }
+      }
+    },
+    {
+      "n": 2560,
+      "stream": {
+        "distinct_pairs": 19161,
+        "pairs_clearing_t_star": 63,
+        "fraction_pairs_clearing_t_star": 0.0033,
+        "fraction_pairs_seen_once": 0.9075,
+        "seed_cohort_min": 51,
+        "seed_cohort_median": 151,
+        "kinds_reachable": 8,
+        "kinds_total": 8
+      },
+      "escrow": {
+        "mean_ARI": 0.8985,
+        "sd": 0.0343,
+        "min": 0.8153,
+        "max": 0.9255,
+        "spread": 0.1102,
+        "mean_K": 12.8,
+        "per_order": [
+          {
+            "ARI": 0.92,
+            "K": 12,
+            "bits": 264744.7,
+            "background": 28,
+            "seconds": 8.2
+          },
+          {
+            "ARI": 0.925,
+            "K": 11,
+            "bits": 262027.0,
+            "background": 9,
+            "seconds": 7.9
+          },
+          {
+            "ARI": 0.8951,
+            "K": 12,
+            "bits": 265979.9,
+            "background": 18,
+            "seconds": 8.2
+          },
+          {
+            "ARI": 0.8889,
+            "K": 12,
+            "bits": 266546.6,
+            "background": 4,
+            "seconds": 6.5
+          },
+          {
+            "ARI": 0.9255,
+            "K": 13,
+            "bits": 261102.8,
+            "background": 15,
+            "seconds": 9.9
+          },
+          {
+            "ARI": 0.8153,
+            "K": 13,
+            "bits": 267542.9,
+            "background": 12,
+            "seconds": 8.5
+          },
+          {
+            "ARI": 0.9202,
+            "K": 15,
+            "bits": 262511.6,
+            "background": 33,
+            "seconds": 9.6
+          },
+          {
+            "ARI": 0.8979,
+            "K": 14,
+            "bits": 262729.3,
+            "background": 6,
+            "seconds": 7.0
+          }
+        ]
+      },
+      "baselines_matched_input": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.9777,
+          "K": 8
+        },
+        "_note": {
+          "skipped": "the rest of the suite, above the declared size cap",
+          "cap": 1280
+        }
+      }
+    },
+    {
+      "n": 4500,
+      "stream": {
+        "distinct_pairs": 31701,
+        "pairs_clearing_t_star": 109,
+        "fraction_pairs_clearing_t_star": 0.0034,
+        "fraction_pairs_seen_once": 0.8868,
+        "seed_cohort_min": 87,
+        "seed_cohort_median": 260,
+        "kinds_reachable": 8,
+        "kinds_total": 8
+      },
+      "escrow": {
+        "mean_ARI": 0.919,
+        "sd": 0.0394,
+        "min": 0.8416,
+        "max": 0.9514,
+        "spread": 0.1098,
+        "mean_K": 15,
+        "per_order": [
+          {
+            "ARI": 0.9467,
+            "K": 14,
+            "bits": 483373.5,
+            "background": 33,
+            "seconds": 35.2
+          },
+          {
+            "ARI": 0.9514,
+            "K": 16,
+            "bits": 480803.7,
+            "background": 36,
+            "seconds": 94.2
+          },
+          {
+            "ARI": 0.8416,
+            "K": 15,
+            "bits": 487810.9,
+            "background": 40,
+            "seconds": 73.6
+          },
+          {
+            "ARI": 0.8678,
+            "K": 14,
+            "bits": 489605.0,
+            "background": 47,
+            "seconds": 67.2
+          },
+          {
+            "ARI": 0.9307,
+            "K": 14,
+            "bits": 485488.3,
+            "background": 68,
+            "seconds": 93.9
+          },
+          {
+            "ARI": 0.9506,
+            "K": 15,
+            "bits": 480487.5,
+            "background": 23,
+            "seconds": 44.1
+          },
+          {
+            "ARI": 0.9483,
+            "K": 15,
+            "bits": 478124.9,
+            "background": 23,
+            "seconds": 49.2
+          },
+          {
+            "ARI": 0.9151,
+            "K": 17,
+            "bits": 479572.3,
+            "background": 24,
+            "seconds": 38.6
+          }
+        ]
+      },
+      "baselines_matched_input": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.9822,
+          "K": 8
+        },
+        "_note": {
+          "skipped": "the rest of the suite, above the declared size cap",
+          "cap": 1280
+        }
+      }
+    }
+  ],
+  "headline": {
+    "n_from_to": [
+      320,
+      4500
+    ],
+    "ARI_from_to": [
+      0.8753,
+      0.919
+    ],
+    "spread_from_to": [
+      0.1704,
+      0.1098
+    ],
+    "pairs_clearing_t_star_from_to": [
+      0.0018,
+      0.0034
+    ],
+    "accuracy_rose": true,
+    "spread_shrank": true,
+    "verdict": "the prediction holds: the same stream gets easier as it grows"
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

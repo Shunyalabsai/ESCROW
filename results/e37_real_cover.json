@@ -1,0 +1,103 @@
+{
+  "experiment": "E37 the cover question on real records",
+  "benchmark": {
+    "source": "Wikidata people, occupation as the label set",
+    "licence": "CC0",
+    "records": 3362,
+    "labels": 12,
+    "mean_labels_per_record": 1.74,
+    "multi_label_share": 0.392,
+    "records_per_label": {
+      "Q36180": 957,
+      "Q82955": 1033,
+      "Q49757": 396,
+      "Q937857": 477,
+      "Q177220": 328,
+      "Q1622272": 409,
+      "Q28389": 286,
+      "Q33999": 565,
+      "Q10800557": 468,
+      "Q639669": 315,
+      "Q36834": 326,
+      "Q10798782": 282
+    },
+    "label_removed_from_the_record": [
+      "P106",
+      "P101",
+      "P39",
+      "P803",
+      "P1416"
+    ]
+  },
+  "falsifier": "a cover-capable baseline matching ESCROW under the DEFAULT condition",
+  "escrow": {
+    "A": {
+      "omega": 0.2044,
+      "membership_f1_one_to_one": 0.3407,
+      "membership_f1_many_to_one": 0.3931,
+      "groups_predicted": 14,
+      "K": 14,
+      "bits": 634876.8,
+      "protocol": "repair every 100 records, the shipped protocol"
+    },
+    "B": {
+      "omega": -0.0162,
+      "membership_f1_one_to_one": 0.3656,
+      "membership_f1_many_to_one": 0.4257,
+      "groups_predicted": 31,
+      "K": 31,
+      "bits": 635140.9,
+      "protocol": "all repair deferred to one final pass"
+    }
+  },
+  "baselines": {
+    "nmf_oracle": {
+      "cell": "nmf|9|0.7",
+      "condition": "components and cut chosen on the test labels",
+      "omega": 0.3137,
+      "membership_f1_one_to_one": 0.4734,
+      "membership_f1_many_to_one": 0.5391,
+      "groups_predicted": 9
+    },
+    "lda_oracle": {
+      "cell": "lda|12|0.7",
+      "condition": "components and cut chosen on the test labels",
+      "omega": 0.2417,
+      "membership_f1_one_to_one": 0.3628,
+      "membership_f1_many_to_one": 0.3628,
+      "groups_predicted": 12
+    },
+    "nmf_default": {
+      "condition": "label-free: components by the reconstruction-error elbow, cut at half the row maximum",
+      "k_by_elbow": 24,
+      "cut": 0.5,
+      "omega": 0.0099,
+      "membership_f1_one_to_one": 0.3619,
+      "membership_f1_many_to_one": 0.4764,
+      "groups_predicted": 24
+    },
+    "kmeans_true_label_count": {
+      "condition": "ORACLE partition reference, handed the true number of labels",
+      "omega": 0.2053,
+      "membership_f1_one_to_one": 0.3846,
+      "membership_f1_many_to_one": 0.5037,
+      "groups_predicted": 12
+    }
+  },
+  "headline": {
+    "escrow_best_omega": 0.2044,
+    "escrow_best_protocol": "repair every 100 records, the shipped protocol",
+    "cover_capable_default_omega": 0.0099,
+    "cover_capable_oracle_omega": 0.3137,
+    "falsifier_fired": false,
+    "reading": "The synthetic cover fixture wrote the answer into the key names. This one cannot, and every label clears the seeding condition by a factor of at least eleven, so the scope condition does not excuse a loss here."
+  },
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

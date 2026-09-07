@@ -1,0 +1,428 @@
+{
+  "experiment": "E26 null families",
+  "question": "Is the no-node-on-noise result a property of the rule, or of one null family?",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "falsifier": "any family in which a node appears; the claim is none, not few",
+  "n_records": 2000,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "alphabet": [
+    {
+      "cell": "d=2",
+      "params": {
+        "d": 2
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "d=5",
+      "params": {
+        "d": 5
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "d=10",
+      "params": {
+        "d": 10
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "d=50",
+      "params": {
+        "d": 50
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "d=100",
+      "params": {
+        "d": 100
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "d=500",
+      "params": {
+        "d": 500
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    }
+  ],
+  "keys": [
+    {
+      "cell": "keys=2",
+      "params": {
+        "keys": 2
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "keys=4",
+      "params": {
+        "keys": 4
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "keys=8",
+      "params": {
+        "keys": 8
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "keys=16",
+      "params": {
+        "keys": 16
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "keys=32",
+      "params": {
+        "keys": 32
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    }
+  ],
+  "marginal": [
+    {
+      "cell": "zipf s=0.0",
+      "params": {
+        "s": 0.0
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "zipf s=0.5",
+      "params": {
+        "s": 0.5
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "zipf s=1.0",
+      "params": {
+        "s": 1.0
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "zipf s=1.5",
+      "params": {
+        "s": 1.5
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "zipf s=2.0",
+      "params": {
+        "s": 2.0
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    }
+  ],
+  "presence": [
+    {
+      "cell": "p=1.0",
+      "params": {
+        "p": 1.0
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "p=0.95",
+      "params": {
+        "p": 0.95
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "K_max": 1,
+      "any_node": true
+    },
+    {
+      "cell": "p=0.9",
+      "params": {
+        "p": 0.9
+      },
+      "K_per_seed": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "K_max": 1,
+      "any_node": true
+    },
+    {
+      "cell": "p=0.8",
+      "params": {
+        "p": 0.8
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "K_max": 1,
+      "any_node": true
+    },
+    {
+      "cell": "p=0.7",
+      "params": {
+        "p": 0.7
+      },
+      "K_per_seed": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "K_max": 1,
+      "any_node": true
+    },
+    {
+      "cell": "p=0.6",
+      "params": {
+        "p": 0.6
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "p=0.5",
+      "params": {
+        "p": 0.5
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    },
+    {
+      "cell": "p=0.3",
+      "params": {
+        "p": 0.3
+      },
+      "K_per_seed": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "K_max": 0,
+      "any_node": false
+    }
+  ],
+  "wikipedia_values_shuffled": {
+    "what": "values permuted within each key, key sets intact. NOT a null: the key set carries the category, and the engine reads key presence through the absence code",
+    "role": "positive control on the absence code, not a test of the noise claim",
+    "true_categories": 3,
+    "K_per_seed": [
+      5,
+      3,
+      4,
+      4,
+      4
+    ],
+    "K_max": 5
+  },
+  "wikipedia_true_null": {
+    "what": "each key keeps its global presence frequency and its own value pool, but a record's keys are drawn independently, so key co-occurrence is destroyed along with every key-to-value association",
+    "K_per_seed": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "K_max": 1,
+    "any_node": true
+  },
+  "headline": {
+    "families_tested": 25,
+    "families_with_any_node": 5,
+    "offending_cells": [
+      "p=0.95",
+      "p=0.9",
+      "p=0.8",
+      "p=0.7",
+      "wikipedia true null"
+    ],
+    "verdict": "a node appeared in p=0.95, p=0.9, p=0.8, p=0.7, wikipedia true null",
+    "reading": "Every family in which each key is present in every record gives no node, across alphabet 2 to 500, key count 2 to 32 and Zipf exponent 0 to 2. The families that mint are the ones where key presence is itself random and high: a single node appears on some seeds. The claim that survives is narrower than the one the abstract prints, and it is stated in the paper as such."
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

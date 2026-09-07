@@ -1,0 +1,412 @@
+{
+  "experiment": "E39 the repair cadence, selected rather than set",
+  "question": "the cadence decides the answer; can the batch codelength choose it without ever seeing a label?",
+  "rule": "run the stream at each cadence and keep the state whose total batch codelength is shortest; the labels are never consulted",
+  "adds_a_calibrated_quantity": false,
+  "what_it_costs": "one pass per cadence offered",
+  "cadences": [
+    50,
+    100,
+    200,
+    500,
+    1000,
+    "final pass only"
+  ],
+  "falsifier": "a stream where the shortest description is not among the better answers",
+  "streams": [
+    {
+      "stream": "nesting_s0",
+      "metric": "ari",
+      "n": 3000,
+      "rows": [
+        {
+          "cadence": 50,
+          "bits": 87839.6,
+          "K": 3,
+          "quality": 0.3998
+        },
+        {
+          "cadence": 100,
+          "bits": 87816.9,
+          "K": 3,
+          "quality": 0.3998
+        },
+        {
+          "cadence": 200,
+          "bits": 80089.2,
+          "K": 6,
+          "quality": 0.6301
+        },
+        {
+          "cadence": 500,
+          "bits": 79388.7,
+          "K": 7,
+          "quality": 0.7804
+        },
+        {
+          "cadence": 1000,
+          "bits": 78022.8,
+          "K": 8,
+          "quality": 0.8662
+        },
+        {
+          "cadence": "final only",
+          "bits": 78267.6,
+          "K": 8,
+          "quality": 0.8669
+        }
+      ],
+      "shortest_description": {
+        "cadence": 1000,
+        "bits": 78022.8,
+        "K": 8,
+        "quality": 0.8662
+      },
+      "best_available": {
+        "cadence": "final only",
+        "bits": 78267.6,
+        "K": 8,
+        "quality": 0.8669
+      },
+      "worst_available": {
+        "cadence": 50,
+        "bits": 87839.6,
+        "K": 3,
+        "quality": 0.3998
+      },
+      "gap_to_best": 0.0007,
+      "spread_over_cadences": 0.4671
+    },
+    {
+      "stream": "nesting_s1",
+      "metric": "ari",
+      "n": 3000,
+      "rows": [
+        {
+          "cadence": 50,
+          "bits": 88014.3,
+          "K": 4,
+          "quality": 0.4763
+        },
+        {
+          "cadence": 100,
+          "bits": 88836.3,
+          "K": 3,
+          "quality": 0.3998
+        },
+        {
+          "cadence": 200,
+          "bits": 86314.3,
+          "K": 4,
+          "quality": 0.4727
+        },
+        {
+          "cadence": 500,
+          "bits": 76089.0,
+          "K": 9,
+          "quality": 0.8336
+        },
+        {
+          "cadence": 1000,
+          "bits": 75587.9,
+          "K": 9,
+          "quality": 0.8422
+        },
+        {
+          "cadence": "final only",
+          "bits": 77564.6,
+          "K": 9,
+          "quality": 0.7931
+        }
+      ],
+      "shortest_description": {
+        "cadence": 1000,
+        "bits": 75587.9,
+        "K": 9,
+        "quality": 0.8422
+      },
+      "best_available": {
+        "cadence": 1000,
+        "bits": 75587.9,
+        "K": 9,
+        "quality": 0.8422
+      },
+      "worst_available": {
+        "cadence": 100,
+        "bits": 88836.3,
+        "K": 3,
+        "quality": 0.3998
+      },
+      "gap_to_best": 0.0,
+      "spread_over_cadences": 0.4424
+    },
+    {
+      "stream": "planted8",
+      "metric": "ari",
+      "n": 3000,
+      "rows": [
+        {
+          "cadence": 50,
+          "bits": 48125.7,
+          "K": 8,
+          "quality": 1.0
+        },
+        {
+          "cadence": 100,
+          "bits": 48058.1,
+          "K": 8,
+          "quality": 1.0
+        },
+        {
+          "cadence": 200,
+          "bits": 48125.9,
+          "K": 8,
+          "quality": 1.0
+        },
+        {
+          "cadence": 500,
+          "bits": 47834.6,
+          "K": 8,
+          "quality": 1.0
+        },
+        {
+          "cadence": 1000,
+          "bits": 47944.0,
+          "K": 8,
+          "quality": 1.0
+        },
+        {
+          "cadence": "final only",
+          "bits": 48314.2,
+          "K": 8,
+          "quality": 1.0
+        }
+      ],
+      "shortest_description": {
+        "cadence": 500,
+        "bits": 47834.6,
+        "K": 8,
+        "quality": 1.0
+      },
+      "best_available": {
+        "cadence": 50,
+        "bits": 48125.7,
+        "K": 8,
+        "quality": 1.0
+      },
+      "worst_available": {
+        "cadence": 50,
+        "bits": 48125.7,
+        "K": 8,
+        "quality": 1.0
+      },
+      "gap_to_best": 0.0,
+      "spread_over_cadences": 0.0
+    },
+    {
+      "stream": "two_group",
+      "metric": "ari",
+      "n": 2000,
+      "rows": [
+        {
+          "cadence": 50,
+          "bits": 27866.5,
+          "K": 2,
+          "quality": 1.0
+        },
+        {
+          "cadence": 100,
+          "bits": 28930.7,
+          "K": 2,
+          "quality": 1.0
+        },
+        {
+          "cadence": 200,
+          "bits": 28546.9,
+          "K": 2,
+          "quality": 1.0
+        },
+        {
+          "cadence": 500,
+          "bits": 28634.4,
+          "K": 2,
+          "quality": 1.0
+        },
+        {
+          "cadence": 1000,
+          "bits": 28907.4,
+          "K": 2,
+          "quality": 1.0
+        },
+        {
+          "cadence": "final only",
+          "bits": 28890.8,
+          "K": 2,
+          "quality": 1.0
+        }
+      ],
+      "shortest_description": {
+        "cadence": 50,
+        "bits": 27866.5,
+        "K": 2,
+        "quality": 1.0
+      },
+      "best_available": {
+        "cadence": 50,
+        "bits": 27866.5,
+        "K": 2,
+        "quality": 1.0
+      },
+      "worst_available": {
+        "cadence": 50,
+        "bits": 27866.5,
+        "K": 2,
+        "quality": 1.0
+      },
+      "gap_to_best": 0.0,
+      "spread_over_cadences": 0.0
+    },
+    {
+      "stream": "wikipedia",
+      "metric": "ari",
+      "n": 320,
+      "rows": [
+        {
+          "cadence": 50,
+          "bits": 28815.1,
+          "K": 5,
+          "quality": 0.6402
+        },
+        {
+          "cadence": 100,
+          "bits": 28407.5,
+          "K": 5,
+          "quality": 0.679
+        },
+        {
+          "cadence": 200,
+          "bits": 28517.0,
+          "K": 6,
+          "quality": 0.6387
+        },
+        {
+          "cadence": 500,
+          "bits": 27797.3,
+          "K": 8,
+          "quality": 0.6296
+        },
+        {
+          "cadence": 1000,
+          "bits": 27797.3,
+          "K": 8,
+          "quality": 0.6296
+        },
+        {
+          "cadence": "final only",
+          "bits": 27797.3,
+          "K": 8,
+          "quality": 0.6296
+        }
+      ],
+      "shortest_description": {
+        "cadence": 500,
+        "bits": 27797.3,
+        "K": 8,
+        "quality": 0.6296
+      },
+      "best_available": {
+        "cadence": 100,
+        "bits": 28407.5,
+        "K": 5,
+        "quality": 0.679
+      },
+      "worst_available": {
+        "cadence": 500,
+        "bits": 27797.3,
+        "K": 8,
+        "quality": 0.6296
+      },
+      "gap_to_best": 0.0494,
+      "spread_over_cadences": 0.0494
+    },
+    {
+      "stream": "wikidata_cover",
+      "metric": "omega",
+      "n": 3362,
+      "rows": [
+        {
+          "cadence": 50,
+          "bits": 643592.8,
+          "K": 7,
+          "quality": 0.2078
+        },
+        {
+          "cadence": 100,
+          "bits": 634876.8,
+          "K": 14,
+          "quality": 0.2044
+        },
+        {
+          "cadence": 200,
+          "bits": 634372.7,
+          "K": 18,
+          "quality": 0.1204
+        },
+        {
+          "cadence": 500,
+          "bits": 630164.3,
+          "K": 23,
+          "quality": 0.1222
+        },
+        {
+          "cadence": 1000,
+          "bits": 630269.1,
+          "K": 24,
+          "quality": 0.1037
+        },
+        {
+          "cadence": "final only",
+          "bits": 635140.9,
+          "K": 31,
+          "quality": -0.0162
+        }
+      ],
+      "shortest_description": {
+        "cadence": 500,
+        "bits": 630164.3,
+        "K": 23,
+        "quality": 0.1222
+      },
+      "best_available": {
+        "cadence": 50,
+        "bits": 643592.8,
+        "K": 7,
+        "quality": 0.2078
+      },
+      "worst_available": {
+        "cadence": "final only",
+        "bits": 635140.9,
+        "K": 31,
+        "quality": -0.0162
+      },
+      "gap_to_best": 0.0856,
+      "spread_over_cadences": 0.224
+    }
+  ],
+  "headline": {
+    "mean_gap_between_what_the_codelength_picks_and_the_best_cadence": 0.0226,
+    "worst_gap": 0.0856,
+    "mean_spread_across_cadences_if_chosen_badly": 0.1971,
+    "streams_where_the_pick_is_the_best": 3,
+    "streams": 6,
+    "verdict": "the codelength does not reliably rank the cadences, so the cadence is a tuned quantity and the paper must concede it"
+  },
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

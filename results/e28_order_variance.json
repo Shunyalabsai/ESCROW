@@ -1,0 +1,615 @@
+{
+  "experiment": "E28 order variance",
+  "question": "is the spread across arrival orders a modelling failure or a search failure",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "stream": "the 320 Wikipedia infobox records, one permutation per seed",
+  "orders": 60,
+  "per_order": [
+    {
+      "seed": 0,
+      "ARI": 0.679,
+      "K": 5,
+      "bits": 28407.5,
+      "background": 1,
+      "seconds": 0.33
+    },
+    {
+      "seed": 1,
+      "ARI": 0.6553,
+      "K": 3,
+      "bits": 28757.8,
+      "background": 1,
+      "seconds": 0.41
+    },
+    {
+      "seed": 2,
+      "ARI": 0.9608,
+      "K": 4,
+      "bits": 27587.6,
+      "background": 0,
+      "seconds": 0.32
+    },
+    {
+      "seed": 3,
+      "ARI": 0.6408,
+      "K": 4,
+      "bits": 28792.0,
+      "background": 0,
+      "seconds": 0.39
+    },
+    {
+      "seed": 4,
+      "ARI": 0.9488,
+      "K": 4,
+      "bits": 27949.8,
+      "background": 6,
+      "seconds": 0.4
+    },
+    {
+      "seed": 5,
+      "ARI": 0.8473,
+      "K": 4,
+      "bits": 28211.5,
+      "background": 1,
+      "seconds": 0.41
+    },
+    {
+      "seed": 6,
+      "ARI": 0.991,
+      "K": 3,
+      "bits": 27711.0,
+      "background": 0,
+      "seconds": 0.32
+    },
+    {
+      "seed": 7,
+      "ARI": 0.8964,
+      "K": 3,
+      "bits": 28111.1,
+      "background": 0,
+      "seconds": 0.34
+    },
+    {
+      "seed": 8,
+      "ARI": 0.8462,
+      "K": 3,
+      "bits": 27667.6,
+      "background": 40,
+      "seconds": 0.54
+    },
+    {
+      "seed": 9,
+      "ARI": 0.9819,
+      "K": 4,
+      "bits": 28121.4,
+      "background": 0,
+      "seconds": 0.42
+    },
+    {
+      "seed": 10,
+      "ARI": 0.6467,
+      "K": 5,
+      "bits": 28742.0,
+      "background": 3,
+      "seconds": 0.42
+    },
+    {
+      "seed": 11,
+      "ARI": 0.9481,
+      "K": 5,
+      "bits": 28450.0,
+      "background": 0,
+      "seconds": 0.35
+    },
+    {
+      "seed": 12,
+      "ARI": 0.9725,
+      "K": 4,
+      "bits": 27715.1,
+      "background": 1,
+      "seconds": 0.37
+    },
+    {
+      "seed": 13,
+      "ARI": 0.8349,
+      "K": 4,
+      "bits": 27721.6,
+      "background": 29,
+      "seconds": 0.4
+    },
+    {
+      "seed": 14,
+      "ARI": 0.9718,
+      "K": 3,
+      "bits": 27786.0,
+      "background": 2,
+      "seconds": 0.43
+    },
+    {
+      "seed": 15,
+      "ARI": 0.9778,
+      "K": 4,
+      "bits": 27908.0,
+      "background": 0,
+      "seconds": 0.3
+    },
+    {
+      "seed": 16,
+      "ARI": 0.9849,
+      "K": 4,
+      "bits": 27672.0,
+      "background": 0,
+      "seconds": 0.3
+    },
+    {
+      "seed": 17,
+      "ARI": 0.9559,
+      "K": 5,
+      "bits": 27439.1,
+      "background": 0,
+      "seconds": 0.27
+    },
+    {
+      "seed": 18,
+      "ARI": 0.8729,
+      "K": 4,
+      "bits": 28036.2,
+      "background": 2,
+      "seconds": 0.49
+    },
+    {
+      "seed": 19,
+      "ARI": 0.9083,
+      "K": 6,
+      "bits": 27906.4,
+      "background": 0,
+      "seconds": 0.31
+    },
+    {
+      "seed": 20,
+      "ARI": 0.8354,
+      "K": 3,
+      "bits": 27749.6,
+      "background": 38,
+      "seconds": 0.41
+    },
+    {
+      "seed": 21,
+      "ARI": 0.893,
+      "K": 4,
+      "bits": 27892.8,
+      "background": 0,
+      "seconds": 0.31
+    },
+    {
+      "seed": 22,
+      "ARI": 0.8422,
+      "K": 4,
+      "bits": 27982.8,
+      "background": 1,
+      "seconds": 0.44
+    },
+    {
+      "seed": 23,
+      "ARI": 0.9072,
+      "K": 6,
+      "bits": 27816.6,
+      "background": 0,
+      "seconds": 0.23
+    },
+    {
+      "seed": 24,
+      "ARI": 0.9737,
+      "K": 3,
+      "bits": 28086.3,
+      "background": 0,
+      "seconds": 0.27
+    },
+    {
+      "seed": 25,
+      "ARI": 0.7336,
+      "K": 4,
+      "bits": 28375.6,
+      "background": 6,
+      "seconds": 0.28
+    },
+    {
+      "seed": 26,
+      "ARI": 0.9725,
+      "K": 4,
+      "bits": 27434.7,
+      "background": 1,
+      "seconds": 0.37
+    },
+    {
+      "seed": 27,
+      "ARI": 0.7867,
+      "K": 5,
+      "bits": 27957.2,
+      "background": 29,
+      "seconds": 0.49
+    },
+    {
+      "seed": 28,
+      "ARI": 0.8265,
+      "K": 4,
+      "bits": 27896.5,
+      "background": 38,
+      "seconds": 0.33
+    },
+    {
+      "seed": 29,
+      "ARI": 0.7514,
+      "K": 4,
+      "bits": 28361.5,
+      "background": 0,
+      "seconds": 0.33
+    },
+    {
+      "seed": 30,
+      "ARI": 0.7953,
+      "K": 5,
+      "bits": 27916.9,
+      "background": 33,
+      "seconds": 0.32
+    },
+    {
+      "seed": 31,
+      "ARI": 0.8193,
+      "K": 4,
+      "bits": 28141.5,
+      "background": 0,
+      "seconds": 0.6
+    },
+    {
+      "seed": 32,
+      "ARI": 0.915,
+      "K": 4,
+      "bits": 27737.5,
+      "background": 1,
+      "seconds": 0.49
+    },
+    {
+      "seed": 33,
+      "ARI": 0.9658,
+      "K": 4,
+      "bits": 27734.8,
+      "background": 6,
+      "seconds": 0.59
+    },
+    {
+      "seed": 34,
+      "ARI": 0.8044,
+      "K": 4,
+      "bits": 28519.7,
+      "background": 1,
+      "seconds": 0.41
+    },
+    {
+      "seed": 35,
+      "ARI": 0.9692,
+      "K": 4,
+      "bits": 27946.3,
+      "background": 0,
+      "seconds": 0.59
+    },
+    {
+      "seed": 36,
+      "ARI": 0.6294,
+      "K": 3,
+      "bits": 28776.1,
+      "background": 0,
+      "seconds": 0.48
+    },
+    {
+      "seed": 37,
+      "ARI": 0.9248,
+      "K": 3,
+      "bits": 27604.5,
+      "background": 0,
+      "seconds": 0.42
+    },
+    {
+      "seed": 38,
+      "ARI": 0.874,
+      "K": 4,
+      "bits": 28090.1,
+      "background": 0,
+      "seconds": 0.43
+    },
+    {
+      "seed": 39,
+      "ARI": 0.8113,
+      "K": 4,
+      "bits": 28157.7,
+      "background": 2,
+      "seconds": 0.4
+    },
+    {
+      "seed": 40,
+      "ARI": 0.9305,
+      "K": 4,
+      "bits": 27805.0,
+      "background": 0,
+      "seconds": 0.59
+    },
+    {
+      "seed": 41,
+      "ARI": 0.8112,
+      "K": 5,
+      "bits": 27840.5,
+      "background": 30,
+      "seconds": 0.42
+    },
+    {
+      "seed": 42,
+      "ARI": 0.986,
+      "K": 4,
+      "bits": 27540.9,
+      "background": 0,
+      "seconds": 0.32
+    },
+    {
+      "seed": 43,
+      "ARI": 0.7063,
+      "K": 4,
+      "bits": 28445.4,
+      "background": 2,
+      "seconds": 0.3
+    },
+    {
+      "seed": 44,
+      "ARI": 0.8201,
+      "K": 4,
+      "bits": 28064.1,
+      "background": 1,
+      "seconds": 0.39
+    },
+    {
+      "seed": 45,
+      "ARI": 0.7366,
+      "K": 4,
+      "bits": 28340.2,
+      "background": 5,
+      "seconds": 0.29
+    },
+    {
+      "seed": 46,
+      "ARI": 0.9951,
+      "K": 4,
+      "bits": 27766.6,
+      "background": 0,
+      "seconds": 0.29
+    },
+    {
+      "seed": 47,
+      "ARI": 0.8878,
+      "K": 5,
+      "bits": 27894.5,
+      "background": 0,
+      "seconds": 0.32
+    },
+    {
+      "seed": 48,
+      "ARI": 0.8829,
+      "K": 6,
+      "bits": 27519.0,
+      "background": 0,
+      "seconds": 0.3
+    },
+    {
+      "seed": 49,
+      "ARI": 0.9493,
+      "K": 4,
+      "bits": 27878.6,
+      "background": 0,
+      "seconds": 0.38
+    },
+    {
+      "seed": 50,
+      "ARI": 0.9759,
+      "K": 4,
+      "bits": 27646.0,
+      "background": 2,
+      "seconds": 0.27
+    },
+    {
+      "seed": 51,
+      "ARI": 0.7287,
+      "K": 3,
+      "bits": 28569.8,
+      "background": 10,
+      "seconds": 0.28
+    },
+    {
+      "seed": 52,
+      "ARI": 0.9749,
+      "K": 4,
+      "bits": 27502.5,
+      "background": 0,
+      "seconds": 0.32
+    },
+    {
+      "seed": 53,
+      "ARI": 0.9682,
+      "K": 5,
+      "bits": 27539.7,
+      "background": 1,
+      "seconds": 0.38
+    },
+    {
+      "seed": 54,
+      "ARI": 0.8387,
+      "K": 4,
+      "bits": 28183.4,
+      "background": 0,
+      "seconds": 0.27
+    },
+    {
+      "seed": 55,
+      "ARI": 0.986,
+      "K": 4,
+      "bits": 27916.0,
+      "background": 0,
+      "seconds": 0.27
+    },
+    {
+      "seed": 56,
+      "ARI": 0.8738,
+      "K": 4,
+      "bits": 27937.6,
+      "background": 0,
+      "seconds": 0.38
+    },
+    {
+      "seed": 57,
+      "ARI": 0.7491,
+      "K": 4,
+      "bits": 28372.3,
+      "background": 1,
+      "seconds": 0.35
+    },
+    {
+      "seed": 58,
+      "ARI": 0.9465,
+      "K": 4,
+      "bits": 28015.3,
+      "background": 0,
+      "seconds": 0.29
+    },
+    {
+      "seed": 59,
+      "ARI": 0.8441,
+      "K": 3,
+      "bits": 28349.4,
+      "background": 0,
+      "seconds": 0.26
+    }
+  ],
+  "single_run": {
+    "mean_ARI": 0.8691,
+    "sd": 0.1026,
+    "min": 0.6294,
+    "max": 0.9951
+  },
+  "diagnostic": {
+    "correlation_ARI_vs_codelength": -0.787,
+    "shortest_description": {
+      "seed": 26,
+      "ARI": 0.9725,
+      "K": 4,
+      "bits": 27434.7,
+      "background": 1,
+      "seconds": 0.37
+    },
+    "longest_description": {
+      "seed": 3,
+      "ARI": 0.6408,
+      "K": 4,
+      "bits": 28792.0,
+      "background": 0,
+      "seconds": 0.39
+    },
+    "spread_bits": 1357.3,
+    "reading": "A negative correlation means the objective prefers the accurate runs, so the model is not what varies; the greedy sequence is. A correlation near zero would have meant the objective is blind to the difference and that the theory, not the search, needed changing."
+  },
+  "selection_by_description_length": {
+    "rule": "run k arrival orders and keep the one whose total batch codelength is shortest; the labels are never consulted",
+    "adds_a_calibrated_quantity": false,
+    "what_it_costs": "k times the compute, and k passes rather than one",
+    "curve": [
+      {
+        "k": 1,
+        "mean_ARI": 0.8683,
+        "sd": 0.1028,
+        "min": 0.6294,
+        "max": 0.9951,
+        "oracle_best_in_sample": 0.8683,
+        "gap_to_oracle": 0.0,
+        "draws": 4000
+      },
+      {
+        "k": 2,
+        "mean_ARI": 0.9138,
+        "sd": 0.0721,
+        "min": 0.6294,
+        "max": 0.9951,
+        "oracle_best_in_sample": 0.9287,
+        "gap_to_oracle": 0.0149,
+        "draws": 4000
+      },
+      {
+        "k": 3,
+        "mean_ARI": 0.9284,
+        "sd": 0.0606,
+        "min": 0.6467,
+        "max": 0.9951,
+        "oracle_best_in_sample": 0.9512,
+        "gap_to_oracle": 0.0228,
+        "draws": 4000
+      },
+      {
+        "k": 5,
+        "mean_ARI": 0.9399,
+        "sd": 0.0513,
+        "min": 0.7867,
+        "max": 0.9951,
+        "oracle_best_in_sample": 0.9701,
+        "gap_to_oracle": 0.0302,
+        "draws": 4000
+      },
+      {
+        "k": 10,
+        "mean_ARI": 0.9508,
+        "sd": 0.0407,
+        "min": 0.8112,
+        "max": 0.9951,
+        "oracle_best_in_sample": 0.983,
+        "gap_to_oracle": 0.0322,
+        "draws": 4000
+      },
+      {
+        "k": 20,
+        "mean_ARI": 0.9579,
+        "sd": 0.0299,
+        "min": 0.8349,
+        "max": 0.9951,
+        "oracle_best_in_sample": 0.989,
+        "gap_to_oracle": 0.0311,
+        "draws": 4000
+      },
+      {
+        "k": 40,
+        "mean_ARI": 0.9666,
+        "sd": 0.0149,
+        "min": 0.8829,
+        "max": 0.986,
+        "oracle_best_in_sample": 0.9932,
+        "gap_to_oracle": 0.0266,
+        "draws": 4000
+      }
+    ]
+  },
+  "hdbscan_default_same_representation": {
+    "mean": 0.7926,
+    "min": 0.7907,
+    "max": 0.7993,
+    "source": "results/e21_matched_representation.json"
+  },
+  "headline": {
+    "correlation": -0.787,
+    "single_run_mean": 0.8691,
+    "best_of_three_mean": 0.9284,
+    "gap_to_the_best_run_in_the_sample": 0.0322,
+    "hdbscan_default_mean": 0.7926,
+    "verdict": "search, not model"
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

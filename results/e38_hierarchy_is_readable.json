@@ -1,0 +1,260 @@
+{
+  "experiment": "E38 the hierarchy is readable without a parent node",
+  "question": "E35 asked whether a parent NODE appears and E36 proved one never pays. Is the parent relation nevertheless observable?",
+  "rule": "a key in several node supports names a parent class whose children are the nodes carrying it; equivalently, key b implies key a when every record carrying b carries a and a is strictly more common",
+  "falsifier": "the relation failing to recover the planted tree, or needing a tuned tolerance to do so",
+  "min_lift": 1.5,
+  "raw_implications": [
+    {
+      "confidence": 1.0,
+      "per_seed": [
+        {
+          "seed": 0,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        },
+        {
+          "seed": 1,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        },
+        {
+          "seed": 2,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        }
+      ],
+      "mean_precision": 1.0
+    },
+    {
+      "confidence": 0.99,
+      "per_seed": [
+        {
+          "seed": 0,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        },
+        {
+          "seed": 1,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        },
+        {
+          "seed": 2,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        }
+      ],
+      "mean_precision": 1.0
+    },
+    {
+      "confidence": 0.95,
+      "per_seed": [
+        {
+          "seed": 0,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        },
+        {
+          "seed": 1,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        },
+        {
+          "seed": 2,
+          "found": 81,
+          "correct": 81,
+          "precision": 1.0
+        }
+      ],
+      "mean_precision": 1.0
+    }
+  ],
+  "from_supports": [
+    {
+      "protocol": "A",
+      "per_seed": [
+        {
+          "classes": 0,
+          "distinct_parent_classes": 0,
+          "edges_proposed": 0,
+          "edges_with_a_pure_parent": 0,
+          "precision": 0.0,
+          "seed": 0,
+          "K": 3
+        },
+        {
+          "classes": 0,
+          "distinct_parent_classes": 0,
+          "edges_proposed": 0,
+          "edges_with_a_pure_parent": 0,
+          "precision": 0.0,
+          "seed": 1,
+          "K": 3
+        },
+        {
+          "classes": 0,
+          "distinct_parent_classes": 0,
+          "edges_proposed": 0,
+          "edges_with_a_pure_parent": 0,
+          "precision": 0.0,
+          "seed": 2,
+          "K": 4
+        }
+      ],
+      "mean_parent_classes": 0,
+      "mean_precision": 0.0
+    },
+    {
+      "protocol": "B",
+      "per_seed": [
+        {
+          "classes": 12,
+          "distinct_parent_classes": 5,
+          "edges_proposed": 8,
+          "edges_with_a_pure_parent": 8,
+          "precision": 1.0,
+          "seed": 0,
+          "K": 8
+        },
+        {
+          "classes": 12,
+          "distinct_parent_classes": 5,
+          "edges_proposed": 9,
+          "edges_with_a_pure_parent": 9,
+          "precision": 1.0,
+          "seed": 1,
+          "K": 9
+        },
+        {
+          "classes": 14,
+          "distinct_parent_classes": 5,
+          "edges_proposed": 8,
+          "edges_with_a_pure_parent": 8,
+          "precision": 1.0,
+          "seed": 2,
+          "K": 8
+        }
+      ],
+      "mean_parent_classes": 5,
+      "mean_precision": 1.0
+    }
+  ],
+  "three_level": [
+    {
+      "seed": 0,
+      "implications": 180,
+      "pointing_from_deeper_to_shallower": 180,
+      "precision": 1.0
+    },
+    {
+      "seed": 1,
+      "implications": 180,
+      "pointing_from_deeper_to_shallower": 180,
+      "precision": 1.0
+    },
+    {
+      "seed": 2,
+      "implications": 180,
+      "pointing_from_deeper_to_shallower": 180,
+      "precision": 1.0
+    }
+  ],
+  "real": {
+    "records": 3362,
+    "implications": 3433,
+    "keys_with_a_parent": 263,
+    "examples": {
+      "P1000": [
+        "P102",
+        "P1344",
+        "P1412",
+        "P1532"
+      ],
+      "P102": [
+        "P21",
+        "P27",
+        "P31",
+        "P569"
+      ],
+      "P1026": [
+        "P21",
+        "P27",
+        "P31",
+        "P569"
+      ],
+      "P103": [
+        "P21",
+        "P31"
+      ],
+      "P1035": [
+        "P1412",
+        "P19",
+        "P21",
+        "P31"
+      ],
+      "P1037": [
+        "P102",
+        "P103",
+        "P1038",
+        "P10527"
+      ],
+      "P1038": [
+        "P21",
+        "P31",
+        "P569"
+      ],
+      "P10449": [
+        "P1412",
+        "P19",
+        "P2031",
+        "P21"
+      ],
+      "P1049": [
+        "P140",
+        "P19",
+        "P20",
+        "P21"
+      ],
+      "P1050": [
+        "P21",
+        "P27",
+        "P31",
+        "P569"
+      ],
+      "P10527": [
+        "P1412",
+        "P21",
+        "P31"
+      ],
+      "P1056": [
+        "P1035",
+        "P1050",
+        "P1151",
+        "P1283"
+      ]
+    }
+  },
+  "headline": {
+    "raw_implication_precision_at_confidence_1": 1.0,
+    "parent_classes_from_supports_protocol_B": 5,
+    "support_precision_protocol_B": 1.0,
+    "reading": "The parent relation is recoverable and costs nothing. It is not a node and was never going to be one, which is why E36's proposition, that minting a parent is never optimal, is true and beside the point. The relation lives in the attributes: a key carried by every record of three nodes and by nothing else names the class those three nodes belong to. The very inlining that makes the flat encoding cheaper is what makes the relation visible, so the code is not fighting the hierarchy, it is recording it in the only place it is free."
+  },
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

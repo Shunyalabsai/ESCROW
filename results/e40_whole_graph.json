@@ -1,0 +1,346 @@
+{
+  "experiment": "E40 does the same observation define the whole graph",
+  "relations": [
+    "specialises",
+    "siblings",
+    "synonyms",
+    "value_edges"
+  ],
+  "rules_are_counts_not_settings": true,
+  "min_support": 20,
+  "min_lift": 1.5,
+  "falsifier": "any relation not recovered above chance where it is planted",
+  "planted": [
+    {
+      "confidence": 1.0,
+      "per_seed": [
+        {
+          "seed": 0,
+          "specialises": {
+            "found": 15,
+            "gold": 15,
+            "true_positives": 15,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "siblings": {
+            "found": 12,
+            "gold": 9,
+            "true_positives": 9,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "synonyms": {
+            "found": 4,
+            "gold": 3,
+            "true_positives": 3,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "value_edges": {
+            "found": 4,
+            "gold": 4,
+            "true_positives": 4,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "hard_case_sibling_pair_called_a_synonym": true,
+          "cardinalities": {
+            "city->country": "many_to_one",
+            "city->passport": "many_to_one",
+            "country->passport": "one_to_one",
+            "passport->country": "one_to_one"
+          }
+        },
+        {
+          "seed": 1,
+          "specialises": {
+            "found": 15,
+            "gold": 15,
+            "true_positives": 15,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "siblings": {
+            "found": 12,
+            "gold": 9,
+            "true_positives": 9,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "synonyms": {
+            "found": 4,
+            "gold": 3,
+            "true_positives": 3,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "value_edges": {
+            "found": 4,
+            "gold": 4,
+            "true_positives": 4,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "hard_case_sibling_pair_called_a_synonym": true,
+          "cardinalities": {
+            "city->country": "many_to_one",
+            "city->passport": "many_to_one",
+            "country->passport": "one_to_one",
+            "passport->country": "one_to_one"
+          }
+        },
+        {
+          "seed": 2,
+          "specialises": {
+            "found": 15,
+            "gold": 15,
+            "true_positives": 15,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "siblings": {
+            "found": 12,
+            "gold": 9,
+            "true_positives": 9,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "synonyms": {
+            "found": 4,
+            "gold": 3,
+            "true_positives": 3,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "value_edges": {
+            "found": 4,
+            "gold": 4,
+            "true_positives": 4,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "hard_case_sibling_pair_called_a_synonym": true,
+          "cardinalities": {
+            "city->country": "many_to_one",
+            "city->passport": "many_to_one",
+            "country->passport": "one_to_one",
+            "passport->country": "one_to_one"
+          }
+        }
+      ]
+    },
+    {
+      "confidence": 0.95,
+      "per_seed": [
+        {
+          "seed": 0,
+          "specialises": {
+            "found": 15,
+            "gold": 15,
+            "true_positives": 15,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "siblings": {
+            "found": 12,
+            "gold": 9,
+            "true_positives": 9,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "synonyms": {
+            "found": 4,
+            "gold": 3,
+            "true_positives": 3,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "value_edges": {
+            "found": 4,
+            "gold": 4,
+            "true_positives": 4,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "hard_case_sibling_pair_called_a_synonym": true,
+          "cardinalities": {
+            "city->country": "many_to_one",
+            "city->passport": "many_to_one",
+            "country->passport": "one_to_one",
+            "passport->country": "one_to_one"
+          }
+        },
+        {
+          "seed": 1,
+          "specialises": {
+            "found": 15,
+            "gold": 15,
+            "true_positives": 15,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "siblings": {
+            "found": 12,
+            "gold": 9,
+            "true_positives": 9,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "synonyms": {
+            "found": 4,
+            "gold": 3,
+            "true_positives": 3,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "value_edges": {
+            "found": 4,
+            "gold": 4,
+            "true_positives": 4,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "hard_case_sibling_pair_called_a_synonym": true,
+          "cardinalities": {
+            "city->country": "many_to_one",
+            "city->passport": "many_to_one",
+            "country->passport": "one_to_one",
+            "passport->country": "one_to_one"
+          }
+        },
+        {
+          "seed": 2,
+          "specialises": {
+            "found": 15,
+            "gold": 15,
+            "true_positives": 15,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "siblings": {
+            "found": 12,
+            "gold": 9,
+            "true_positives": 9,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "synonyms": {
+            "found": 4,
+            "gold": 3,
+            "true_positives": 3,
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857
+          },
+          "value_edges": {
+            "found": 4,
+            "gold": 4,
+            "true_positives": 4,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "hard_case_sibling_pair_called_a_synonym": true,
+          "cardinalities": {
+            "city->country": "many_to_one",
+            "city->passport": "many_to_one",
+            "country->passport": "one_to_one",
+            "passport->country": "one_to_one"
+          }
+        }
+      ]
+    }
+  ],
+  "real": {
+    "records": 3362,
+    "specialises": 538,
+    "siblings": 1189,
+    "synonyms": 0,
+    "value_edges": 2076,
+    "value_edge_cardinality": {
+      "many_to_one": 1660,
+      "one_to_one": 416
+    },
+    "example_specialises": [
+      "P102 -> P21",
+      "P102 -> P27",
+      "P102 -> P31",
+      "P102 -> P569",
+      "P1026 -> P21",
+      "P1026 -> P27",
+      "P1026 -> P31",
+      "P1026 -> P569"
+    ],
+    "example_siblings": [
+      "P102 | P1598",
+      "P102 | P452",
+      "P102 | P611",
+      "P102 | P859",
+      "P1026 | P1035",
+      "P1026 | P10527",
+      "P1026 | P10606",
+      "P1026 | P1151"
+    ],
+    "example_synonyms": [],
+    "example_value_edges": [
+      "P102 -> P10527 (many_to_one)",
+      "P102 -> P1532 (many_to_one)",
+      "P102 -> P31 (many_to_one)",
+      "P1026 -> P103 (many_to_one)",
+      "P1026 -> P1066 (one_to_one)",
+      "P1026 -> P108 (many_to_one)",
+      "P1026 -> P119 (many_to_one)",
+      "P1026 -> P1196 (many_to_one)"
+    ]
+  },
+  "headline": {
+    "specialises": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "siblings": {
+      "precision": 0.75,
+      "recall": 1.0
+    },
+    "synonyms": {
+      "precision": 0.75,
+      "recall": 1.0
+    },
+    "value_edges": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "reading": "Four relations, one counting pass, nothing set. If all four come back at high precision on the planted stream and return plausible structure on real records, then what the construction defines is a graph and not a clustering, and the specialisation edge of E38 was an instance rather than a special case."
+  },
+  "provenance": {
+    "date": "2026-09-07",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

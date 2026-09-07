@@ -228,7 +228,40 @@ its own User-Agent, passes `maxlag=5`, and backs off on HTTP 429.
 
 ---
 
-## 5. The development catalogue CSV (`ESCROW_CATALOG_CSV`)
+## 5. Wikidata people, the multi-label benchmark
+
+**Shipped, no download needed.** `results/wikidata_cover/wikidata_people.json` holds 3,362 people
+with their properties as categorical facets and their occupations as the label set. It is the one
+benchmark here whose truth is genuinely a cover: 39.2 percent of the records carry more than one
+occupation, at a mean of 1.74.
+
+**How it was built.** `code/experiments/fetch_wikidata_cover.py` takes one scan of 20,000
+(person, occupation) pairs from the Wikidata query service, keeps the twelve most frequent
+occupations in that sample so the groups are chosen by frequency rather than by hand, and then pulls
+each person's claims from the entity API. A value is the target entity id, or the year for a date;
+identifiers and quantities are dropped. Occupation is removed from every record, along with field of
+work, position held, professorship and affiliation, so nothing in the input names the answer.
+
+The raw scan is cached beside it as `scan_20000.json`, because the query service rate-limits hard
+during its outages and that scan is the only call made to it. Delete both files and rerun the fetcher
+to rebuild from scratch.
+
+**Licence.** Wikidata is CC0.
+
+## 6. Wikipedia infoboxes at scale
+
+**Shipped, no download needed.** `results/wiki_large/` holds 4,635 infobox records over eight types,
+fetched from the MediaWiki API by `code/experiments/fetch_wiki_large.py` with the same parser,
+character for character, as the 320-record stream in section 4. It exists so the scale ladder moves
+only the stream size and nothing else: same source, same categories, same parsing.
+
+Four of the first ten categories tried turned out to be container categories holding almost no
+articles, which the category name does not reveal, so a populous category of the same type was added
+beside each. The experiment declares a minimum category size rather than choosing its pool by looking
+at results, and a trailing digit in a cache filename marks a second category of a type already
+present.
+
+## 7. The development catalogue CSV (`ESCROW_CATALOG_CSV`)
 
 **What it is.** One CSV export of a raw e-commerce catalogue, with a `department` column and a
 `specs` column holding a JSON object of raw spec keys as published. `catalogue_devset.py` reads

@@ -61,6 +61,10 @@ code/experiments/           the mechanism experiments, the demonstrations, the b
                             and the figure scripts
 code/experiments/theorem1/  the measurements behind the paper's theorem, with their own README
 results/                    every result file the paper reads its numbers from
+results/wiki_large/         4,635 Wikipedia infobox records over eight types, the cache behind the
+                            scale ladder, so it replays with no network
+results/wikidata_cover/     3,362 Wikidata people with their occupations, the one real multi-label
+                            benchmark here, and the raw query response it was built from
 paper/escrow.pdf            the paper
 DATA.md                     every external dataset: what it is, where it comes from, where to put it
 requirements.txt            what each runner needs
@@ -105,8 +109,13 @@ born. The comparison that matters is against what a change of arrival order alon
 the same code: the spread tracks that band on one stream and exceeds it on the other. That is
 reported in the paper rather than buried.
 
-**No node is created on noise.** Across 48 pure-noise streams from two thousand to twenty thousand
-records, and 300 further streams of the same shape, no node is ever created. The streaming decision
+**No node is created on noise, across sixteen null families, with one exception we found by
+widening the test.** Across 48 pure-noise streams from two thousand to twenty thousand records, and
+300 further streams of the same shape, no node is ever created. Widening that to twenty-five
+families, sixteen give nothing at all, over alphabets from 2 to 500, key counts from 2 to 32 and
+Zipf exponents from 0 to 2. The families that do mint are those where key presence is itself random
+and high: there a single node appears on some seeds, describing what the records share. The claim
+that survives is narrower than the one we first printed, and the paper states it that way. The streaming decision
 trees grow on that same noise at a loose confidence level, which is not their library's default:
 EFDT reaches five-seed means of 15, 73, 73 and 91 nodes as the stream lengthens, with 111 in its
 worst single run, and VFDT reaches a mean of 19. At the library's own default both stay at the root
@@ -118,11 +127,21 @@ more nodes than were planted. Past a breakdown noise level the method writes str
 than inventing it, which is the opposite of the failure the classical analysis predicts for
 penalty-based rules.
 
-**Against tuned baselines given the same input, it holds its own with nothing tuned.** On both
-synthetic streams it recovers the truth exactly while transferred knobs, tuned on one stream and
-applied to another, collapse to zero. On raw Wikipedia infoboxes its mean adjusted Rand index over
-twenty orders is 0.84, above every transferred knob and below the two baselines that are allowed to
-look at the labels.
+**Against tuned baselines it does not hold its own, and our own test said so.** We wrote before the
+experiment that if an untuned distance rule, given our own categorical input rather than an
+embedding, matched us, then the criterion is not what does the work. One does. On both synthetic
+streams ESCROW recovers the truth exactly and so does a k-means whose k is chosen by silhouette; on
+raw Wikipedia infoboxes that same baseline reaches 0.9898 against our 0.8691, consulting no label
+and having nothing left to set. We report that the test fired rather than rewording it.
+
+What survives is narrower and is the claim this work can defend. Transferred knobs, which is what a
+practitioner actually carries to a new stream, collapse: on a cover task a matrix factorisation
+given its knob from another fixture falls to 0.1953 and 0.1483 where ESCROW holds 0.9332 and 0.7452.
+On the one real multi-label benchmark here, 3,362 Wikidata people labelled by occupation, ESCROW
+reaches an omega index of 0.2044 with nothing set, level with k-means handed the true number of
+labels at 0.2053, below an oracle-tuned factorisation at 0.3137, and twenty times above the best
+that factorisation manages under a label-free rule fixed in advance, which is 0.0099. It is not the
+most accurate method. It is the accurate one with nothing to carry over.
 
 **It is deterministic, and every node explains itself.** The same records in the same order give the
 same graph on every run, and every node carries a receipt in bits. A different arrival order gives a
@@ -170,6 +189,47 @@ fourth the output settles at 256 while eviction continues to 512. Below the plat
 change the output, and not monotonically, which is why it is a resource bound rather than a quality
 knob. Those four streams run 320 to 3,000 records, and on the full Lazada stream and on MusicBrainz
 20K the cap does bind, so the claim is made at that scale and not beyond it.
+
+**The price says which streams the rule is for, in closed form, and that was checkable before any
+run.** Naming the t-th member of a node costs exactly log2((n - t + 1/2) / (t - 1/2)) bits, which
+agrees with the shipped price routine to four parts in a billion. A member must save more bits than
+the log of the stream it has to be picked out of. Separately, a candidate is named by one key and
+value and accrues only on records carrying that pair, so a group is reachable only if one of its
+characteristic pairs recurs often enough, which we measure at three to twenty-four records.
+
+One number then orders every result here: the records per gold label a benchmark asks for. It is
+1,000 and 375 on the planted streams, 107 on the encyclopedia stream, 3.85 for the Lazada silver
+types, 1.94 on MusicBrainz 20K and 2.03 on ReVerb45K. We are at or near 1.0 on the first three and at
+zero on the last three. Deduplication benchmarks ask for groups of two, and neither condition
+contains a quantity that could be set differently, so this is not a task the method does badly. It is
+a task its price excludes. Both conditions are necessary and neither is sufficient: `e34` gives a
+stream that meets both with room to spare and is still not solved.
+
+**The same counting gives the rest of the graph, and this is the part we did not expect.** A parent
+is not a node and never could be: we prove that minting one costs a membership column the decoder can
+already derive, growing with the stream, against a saving that grows only with its logarithm. The
+relation lives in the attributes instead, where it costs nothing. If every record carrying key b also
+carries key a and a is commoner, then b specialises a. On a planted two-level stream that recovers
+the tree at precision 1.000, unchanged whether the rule demands every record or ninety-five percent
+of them; at three levels all 180 implications point from the deeper key to the shallower one. Three
+further relations come from the same counting: siblings, two names for one role, and value-to-value
+typed edges with their cardinality. On the planted stream the specialisation and the typed edges
+reach precision and recall 1.000 and the other two reach 0.750, the single error being the case the
+fixture plants on purpose, two siblings drawing from one vocabulary. On 3,362 real Wikidata people it
+returns 538 specialisations, 1,189 sibling pairs and 2,076 typed edges. Membership of a political
+party implies gender, citizenship, instance of, and date of birth. Nothing supervised that. The
+implication reading needs no engine at all, since it is a property of the counts; what the nodes add
+is the same relation in compressed form.
+
+**The repair schedule is a quantity we cannot choose without labels, and it changes the answer.** The
+criterion is parameter-free and that part is exact. The protocol is not. The repair pass runs every
+100 records by declaration, and sweeping that over 50, 100, 200, 500, 1,000 and a single final pass
+moves the agreement from 0.3998 to 0.8669 on a planted two-level stream and from -0.0162 to 0.2078 on
+the Wikidata cover benchmark. For arrival order the same problem dissolves, because the batch
+codelength ranks the orders correctly and selecting on it adds nothing calibrated. That answer is not
+available here: the shortest description picks the best cadence on three of six streams and on the
+Wikidata benchmark picks a state scoring 0.1222 where 0.2078 was available. Treat every number here
+as conditional on the shipped cadence. Closing this is the first thing a version 2 owes.
 
 **What it costs.** The insertion step is flat in the node count when supports are disjoint, at 48.6
 microseconds per record for 8 nodes and 45.0 for 128, and it is not flat when the supports all

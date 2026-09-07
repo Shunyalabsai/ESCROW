@@ -1,0 +1,2521 @@
+{
+  "experiment": "e21_matched_representation",
+  "title": "the same input for everyone, and what the baselines do at their own defaults",
+  "objection": "E4 gives every distance baseline a sentence-transformer embedding that ESCROW never sees, so it compares rule plus representation against rule alone; and E4 reports only oracle-tuned and transferred knobs, never the library default a practitioner actually gets",
+  "falsifier": {
+    "matched": {
+      "twogroup": {
+        "representation": "matched",
+        "escrow_ARI": 1.0,
+        "escrow_K": 2,
+        "best_untuned_strict": {
+          "baseline": "kmeans_silhouette (cosine)",
+          "ARI": 1.0,
+          "beats_escrow": false,
+          "matches_or_beats": true
+        },
+        "best_untuned_lenient": {
+          "baseline": "kmeans_silhouette (cosine)",
+          "ARI": 1.0,
+          "beats_escrow": false,
+          "matches_or_beats": true
+        },
+        "best_oracle_ARI": 1.0,
+        "falsifier_fires_strict": true,
+        "falsifier_fires_lenient": true,
+        "oracle_beats_escrow": true,
+        "all_untuned_strict": [
+          {
+            "baseline": "kmeans_silhouette (cosine)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "kmeans_silhouette (euclidean)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan DEFAULT (5)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan DEFAULT library metric",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "agglo_threshold DEFAULT (n_clusters=2, linkage ward, metric euclidean, distance_threshold None)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "kmeans_default (k=8)",
+            "ARI": 0.3056,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          }
+        ],
+        "all_untuned_lenient_extra": [
+          {
+            "baseline": "hdbscan TRANSFERRED best (planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "agglo_threshold TRANSFERRED worst (0.5 from planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "agglo_threshold TRANSFERRED best (planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "dp_means TRANSFERRED worst (1.25 from planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "dp_means TRANSFERRED best (planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "cosine_components TRANSFERRED worst (0.05 from planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "cosine_components TRANSFERRED best (planted8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan TRANSFERRED worst (3 from wikipedia)",
+            "ARI": 0.8119,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          }
+        ]
+      },
+      "planted8": {
+        "representation": "matched",
+        "escrow_ARI": 1.0,
+        "escrow_K": 8,
+        "best_untuned_strict": {
+          "baseline": "kmeans_silhouette (cosine)",
+          "ARI": 1.0,
+          "beats_escrow": false,
+          "matches_or_beats": true
+        },
+        "best_untuned_lenient": {
+          "baseline": "kmeans_silhouette (cosine)",
+          "ARI": 1.0,
+          "beats_escrow": false,
+          "matches_or_beats": true
+        },
+        "best_oracle_ARI": 1.0,
+        "falsifier_fires_strict": true,
+        "falsifier_fires_lenient": true,
+        "oracle_beats_escrow": true,
+        "all_untuned_strict": [
+          {
+            "baseline": "kmeans_silhouette (cosine)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "kmeans_silhouette (euclidean)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "kmeans_default (k=8)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan DEFAULT library metric",
+            "ARI": 0.9587,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "hdbscan DEFAULT (5)",
+            "ARI": 0.9004,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "agglo_threshold DEFAULT (n_clusters=2, linkage ward, metric euclidean, distance_threshold None)",
+            "ARI": 0.0812,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          }
+        ],
+        "all_untuned_lenient_extra": [
+          {
+            "baseline": "agglo_threshold TRANSFERRED worst (0.5 from twogroup)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "agglo_threshold TRANSFERRED best (twogroup)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "dp_means TRANSFERRED best (wikipedia)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "cosine_components TRANSFERRED worst (0.05 from twogroup)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "cosine_components TRANSFERRED best (twogroup)",
+            "ARI": 1.0,
+            "beats_escrow": false,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan TRANSFERRED best (twogroup)",
+            "ARI": 0.9004,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "dp_means TRANSFERRED worst (1.0 from twogroup)",
+            "ARI": 0.2621,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "hdbscan TRANSFERRED worst (3 from wikipedia)",
+            "ARI": 0.1419,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          }
+        ]
+      },
+      "wikipedia": {
+        "representation": "matched",
+        "escrow_ARI": 0.679,
+        "escrow_K": 5,
+        "best_untuned_strict": {
+          "baseline": "kmeans_silhouette (cosine)",
+          "ARI": 0.9898,
+          "beats_escrow": true,
+          "matches_or_beats": true
+        },
+        "best_untuned_lenient": {
+          "baseline": "kmeans_silhouette (cosine)",
+          "ARI": 0.9898,
+          "beats_escrow": true,
+          "matches_or_beats": true
+        },
+        "best_oracle_ARI": 0.9898,
+        "falsifier_fires_strict": true,
+        "falsifier_fires_lenient": true,
+        "oracle_beats_escrow": true,
+        "all_untuned_strict": [
+          {
+            "baseline": "kmeans_silhouette (cosine)",
+            "ARI": 0.9898,
+            "beats_escrow": true,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "kmeans_silhouette (euclidean)",
+            "ARI": 0.9898,
+            "beats_escrow": true,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan DEFAULT (5)",
+            "ARI": 0.9745,
+            "beats_escrow": true,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan DEFAULT library metric",
+            "ARI": 0.9745,
+            "beats_escrow": true,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "agglo_threshold DEFAULT (n_clusters=2, linkage ward, metric euclidean, distance_threshold None)",
+            "ARI": 0.6102,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "kmeans_default (k=8)",
+            "ARI": 0.5296,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          }
+        ],
+        "all_untuned_lenient_extra": [
+          {
+            "baseline": "hdbscan TRANSFERRED best (twogroup)",
+            "ARI": 0.9745,
+            "beats_escrow": true,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "hdbscan TRANSFERRED worst (20 from planted8)",
+            "ARI": 0.9551,
+            "beats_escrow": true,
+            "matches_or_beats": true
+          },
+          {
+            "baseline": "dp_means TRANSFERRED best (planted8)",
+            "ARI": 0.3954,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "dp_means TRANSFERRED worst (1.0 from twogroup)",
+            "ARI": 0.0531,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "agglo_threshold TRANSFERRED worst (0.5 from twogroup)",
+            "ARI": 0.051,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "agglo_threshold TRANSFERRED best (twogroup)",
+            "ARI": 0.051,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "cosine_components TRANSFERRED worst (0.05 from twogroup)",
+            "ARI": 0.0,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          },
+          {
+            "baseline": "cosine_components TRANSFERRED best (twogroup)",
+            "ARI": 0.0,
+            "beats_escrow": false,
+            "matches_or_beats": false
+          }
+        ]
+      }
+    }
+  },
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "representations": {
+    "matched": "binary multi-hot over the observed (key, value) pairs of the stream and over the keys themselves, because the engine prices key presence too, rows L2 normalised; exactly the information ESCROW codes, given to the baselines in full and up front, which is more than ESCROW gets",
+    "embedding": "sentence-transformers/all-MiniLM-L6-v2 over the sorted 'k=v' text of the record, unit norm; E4's own encoding, recomputed here"
+  },
+  "metric": "cosine on both representations. On a multi-hot indicator the cosine of two records is the number of shared (key, value) pairs over the geometric mean of their facet counts, which is the natural overlap for a categorical record; unnormalised euclidean would push any record with many facets away from everything. Both representations are unit norm, so cosine and euclidean order pairs identically and only the silhouette value differs; where a library's shipped default names euclidean, that is run as shipped and reported under default_library_metric.",
+  "conditions": {
+    "ORACLE": "knob swept, best score on the test labels taken; an upper bound",
+    "TRANSFERRED": "oracle knob of another stream applied unchanged, worst over sources",
+    "DEFAULT": "the value the library ships, recorded literally"
+  },
+  "grids": {
+    "hdbscan": [
+      3,
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "agglo_threshold": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95,
+      0.97,
+      0.99
+    ],
+    "dp_means": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      1.9,
+      1.99
+    ],
+    "cosine_components": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95
+    ]
+  },
+  "grids_e4": {
+    "hdbscan": [
+      3,
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "agglo_threshold": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7
+    ],
+    "dp_means": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5
+    ],
+    "cosine_components": [
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95
+    ]
+  },
+  "grids_note": "every E4 grid point is retained so a transfer means the same thing in both files; the agglomerative, DP-means and cosine-component grids are extended upward because on a multi-hot indicator most record pairs are orthogonal and E4's top point cut the sweep off before the useful region. Extending a baseline's grid can only help the baseline.",
+  "library_defaults": {
+    "kmeans": {
+      "library": "sklearn.cluster.KMeans",
+      "knob": "n_clusters",
+      "default": 8,
+      "other_defaults": "init k-means++, n_init auto, metric euclidean"
+    },
+    "hdbscan": {
+      "library": "sklearn.cluster.HDBSCAN",
+      "knob": "min_cluster_size",
+      "default": 5,
+      "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+    },
+    "agglo_threshold": {
+      "library": "sklearn.cluster.AgglomerativeClustering",
+      "knob": "distance_threshold",
+      "default": null,
+      "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+      "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+    },
+    "dp_means": {
+      "library": null,
+      "knob": "lambda",
+      "default": null,
+      "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+    },
+    "cosine_components": {
+      "library": null,
+      "knob": "similarity cut",
+      "default": null,
+      "note": "not a library estimator, no shipped default"
+    }
+  },
+  "silhouette_k_range": [
+    2,
+    20
+  ],
+  "environment": "the repository venv carries numpy, scipy and scikit-learn but not torch or sentence-transformers, so the embedding arm needs both. They were installed with pip --target into a scratch directory put on PYTHONPATH for the run; the repository venv was not modified. torch 2.14.0, sentence-transformers 6.0.1, transformers 5.16.1, scikit-learn 1.9.0, numpy 2.5.2. These are newer than whatever produced results/e4_first_tier.json, which is why the embedding arm is checked against it rather than assumed identical.",
+  "deviations": {
+    "embedding_arm": "skipped by --no-embedding. The embedding numbers already in results/e4_first_tier.json are the comparison."
+  },
+  "escrow": {
+    "twogroup": {
+      "ARI": 1.0,
+      "K": 2,
+      "background": 0,
+      "seconds": 0.08,
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+      "representation": "the records themselves, read as (key, value) facets; no vector"
+    },
+    "planted8": {
+      "ARI": 1.0,
+      "K": 8,
+      "background": 0,
+      "seconds": 0.12,
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+      "representation": "the records themselves, read as (key, value) facets; no vector"
+    },
+    "wikipedia": {
+      "ARI": 0.679,
+      "K": 5,
+      "background": 1,
+      "seconds": 0.17,
+      "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+      "representation": "the records themselves, read as (key, value) facets; no vector"
+    }
+  },
+  "arms": {
+    "matched": {
+      "twogroup": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 2,
+          "ARI": 1.0,
+          "K": 2,
+          "note": "handed the true number of groups, which is test-label information"
+        },
+        "kmeans_silhouette": {
+          "condition": "SELECTED, no test labels",
+          "k_range": [
+            2,
+            20
+          ],
+          "by_cosine_silhouette": {
+            "K_chosen": 2,
+            "ARI": 1.0
+          },
+          "by_euclidean_silhouette": {
+            "K_chosen": 2,
+            "ARI": 1.0
+          },
+          "silhouette_curve": {
+            "2": {
+              "cosine": 0.5499,
+              "euclidean": 0.3319
+            },
+            "3": {
+              "cosine": 0.3003,
+              "euclidean": 0.1799
+            },
+            "4": {
+              "cosine": 0.0483,
+              "euclidean": 0.0266
+            },
+            "5": {
+              "cosine": 0.0591,
+              "euclidean": 0.0325
+            },
+            "6": {
+              "cosine": 0.0666,
+              "euclidean": 0.0366
+            },
+            "7": {
+              "cosine": 0.07,
+              "euclidean": 0.0385
+            },
+            "8": {
+              "cosine": 0.0815,
+              "euclidean": 0.0447
+            },
+            "9": {
+              "cosine": 0.0975,
+              "euclidean": 0.0534
+            },
+            "10": {
+              "cosine": 0.1093,
+              "euclidean": 0.0598
+            },
+            "11": {
+              "cosine": 0.1185,
+              "euclidean": 0.0649
+            },
+            "12": {
+              "cosine": 0.1224,
+              "euclidean": 0.0668
+            },
+            "13": {
+              "cosine": 0.14,
+              "euclidean": 0.0765
+            },
+            "14": {
+              "cosine": 0.1756,
+              "euclidean": 0.0959
+            },
+            "15": {
+              "cosine": 0.1773,
+              "euclidean": 0.0968
+            },
+            "16": {
+              "cosine": 0.2046,
+              "euclidean": 0.1116
+            },
+            "17": {
+              "cosine": 0.1807,
+              "euclidean": 0.0987
+            },
+            "18": {
+              "cosine": 0.1694,
+              "euclidean": 0.0926
+            },
+            "19": {
+              "cosine": 0.1605,
+              "euclidean": 0.0875
+            },
+            "20": {
+              "cosine": 0.1587,
+              "euclidean": 0.0867
+            }
+          },
+          "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
+        },
+        "kmeans_default": {
+          "condition": "DEFAULT",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.3056,
+          "K": 8,
+          "note": "sklearn.cluster.KMeans() ships n_clusters=8"
+        },
+        "hdbscan": {
+          "grid": [
+            3,
+            5,
+            10,
+            20,
+            50,
+            100
+          ],
+          "grid_e4": [
+            3,
+            5,
+            10,
+            20,
+            50,
+            100
+          ],
+          "grid_extended_beyond_e4": [],
+          "sweep": {
+            "3": 0.8119,
+            "5": 1.0,
+            "10": 1.0,
+            "20": 1.0,
+            "50": 1.0,
+            "100": 1.0
+          },
+          "K_at": {
+            "3": 11,
+            "5": 2,
+            "10": 2,
+            "20": 2,
+            "50": 2,
+            "100": 2
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 5,
+            "ARI": 1.0,
+            "K": 2,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.HDBSCAN",
+            "knob": "min_cluster_size",
+            "default": 5,
+            "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": 5,
+            "ARI": 1.0,
+            "K": 2,
+            "metric": "cosine",
+            "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
+          },
+          "default_library_metric": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": 5,
+            "metric": "euclidean",
+            "ARI": 1.0,
+            "K": 2
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "planted8": {
+                "value": 20,
+                "ARI": 1.0
+              },
+              "wikipedia": {
+                "value": 3,
+                "ARI": 0.8119
+              }
+            },
+            "worst_source": "wikipedia",
+            "worst_ARI": 0.8119,
+            "worst_value": 3,
+            "best_source": "planted8",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "agglo_threshold": {
+          "grid": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+          ],
+          "grid_e4": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.7
+          ],
+          "grid_extended_beyond_e4": [
+            0.6,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+          ],
+          "sweep": {
+            "0.05": 0.0001,
+            "0.1": 0.0001,
+            "0.2": 0.0021,
+            "0.3": 0.0074,
+            "0.4": 0.0352,
+            "0.5": 1.0,
+            "0.6": 1.0,
+            "0.7": 1.0,
+            "0.8": 1.0,
+            "0.9": 1.0,
+            "0.95": 1.0,
+            "0.97": 1.0,
+            "0.99": 1.0
+          },
+          "K_at": {
+            "0.05": 1899,
+            "0.1": 1899,
+            "0.2": 761,
+            "0.3": 289,
+            "0.4": 63,
+            "0.5": 2,
+            "0.6": 2,
+            "0.7": 2,
+            "0.8": 2,
+            "0.9": 2,
+            "0.95": 2,
+            "0.97": 2,
+            "0.99": 2
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.5,
+            "ARI": 1.0,
+            "K": 2,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.AgglomerativeClustering",
+            "knob": "distance_threshold",
+            "default": null,
+            "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+            "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+          },
+          "default": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": "n_clusters=2, linkage ward, metric euclidean, distance_threshold None",
+            "ARI": 1.0,
+            "K": 2,
+            "note": "AgglomerativeClustering() ships no distance_threshold at all"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "planted8": {
+                "value": 0.5,
+                "ARI": 1.0
+              },
+              "wikipedia": {
+                "value": 0.9,
+                "ARI": 1.0
+              }
+            },
+            "worst_source": "planted8",
+            "worst_ARI": 1.0,
+            "worst_value": 0.5,
+            "best_source": "planted8",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "dp_means": {
+          "grid": [
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5,
+            1.75,
+            1.9,
+            1.99
+          ],
+          "grid_e4": [
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5
+          ],
+          "grid_extended_beyond_e4": [
+            1.75,
+            1.9,
+            1.99
+          ],
+          "sweep": {
+            "0.1": 0.0001,
+            "0.25": 0.0027,
+            "0.5": 0.0285,
+            "0.75": 0.165,
+            "1.0": 1.0,
+            "1.25": 1.0,
+            "1.5": 1.0,
+            "1.75": 1.0,
+            "1.9": 1.0,
+            "1.99": 1.0
+          },
+          "K_at": {
+            "0.1": 1899,
+            "0.25": 769,
+            "0.5": 114,
+            "0.75": 17,
+            "1.0": 2,
+            "1.25": 2,
+            "1.5": 2,
+            "1.75": 2,
+            "1.9": 2,
+            "1.99": 2
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 1.0,
+            "ARI": 1.0,
+            "K": 2,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "lambda",
+            "default": null,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "planted8": {
+                "value": 1.25,
+                "ARI": 1.0
+              },
+              "wikipedia": {
+                "value": 1.9,
+                "ARI": 1.0
+              }
+            },
+            "worst_source": "planted8",
+            "worst_ARI": 1.0,
+            "worst_value": 1.25,
+            "best_source": "planted8",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "cosine_components": {
+          "grid": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95
+          ],
+          "grid_e4": [
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95
+          ],
+          "grid_extended_beyond_e4": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4
+          ],
+          "sweep": {
+            "0.05": 1.0,
+            "0.1": 1.0,
+            "0.2": 1.0,
+            "0.3": 1.0,
+            "0.4": 1.0,
+            "0.5": 1.0,
+            "0.6": 1.0,
+            "0.7": 1.0,
+            "0.8": 0.938,
+            "0.9": 0.0001,
+            "0.95": 0.0001
+          },
+          "K_at": {
+            "0.05": 2,
+            "0.1": 2,
+            "0.2": 2,
+            "0.3": 2,
+            "0.4": 2,
+            "0.5": 2,
+            "0.6": 2,
+            "0.7": 2,
+            "0.8": 51,
+            "0.9": 1899,
+            "0.95": 1899
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.05,
+            "ARI": 1.0,
+            "K": 2,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "similarity cut",
+            "default": null,
+            "note": "not a library estimator, no shipped default"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "not a library estimator, no shipped default"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "planted8": {
+                "value": 0.05,
+                "ARI": 1.0
+              },
+              "wikipedia": {
+                "value": 0.4,
+                "ARI": 1.0
+              }
+            },
+            "worst_source": "planted8",
+            "worst_ARI": 1.0,
+            "worst_value": 0.05,
+            "best_source": "planted8",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "_meta": {
+          "n": 2000,
+          "dim": 88,
+          "true_K": 2,
+          "representation": "matched",
+          "seconds": 7.37
+        }
+      },
+      "planted8": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 1.0,
+          "K": 8,
+          "note": "handed the true number of groups, which is test-label information"
+        },
+        "kmeans_silhouette": {
+          "condition": "SELECTED, no test labels",
+          "k_range": [
+            2,
+            20
+          ],
+          "by_cosine_silhouette": {
+            "K_chosen": 8,
+            "ARI": 1.0
+          },
+          "by_euclidean_silhouette": {
+            "K_chosen": 8,
+            "ARI": 1.0
+          },
+          "silhouette_curve": {
+            "2": {
+              "cosine": 0.1405,
+              "euclidean": 0.0852
+            },
+            "3": {
+              "cosine": 0.2127,
+              "euclidean": 0.1291
+            },
+            "4": {
+              "cosine": 0.2824,
+              "euclidean": 0.1714
+            },
+            "5": {
+              "cosine": 0.3524,
+              "euclidean": 0.2139
+            },
+            "6": {
+              "cosine": 0.4208,
+              "euclidean": 0.2554
+            },
+            "7": {
+              "cosine": 0.4855,
+              "euclidean": 0.2946
+            },
+            "8": {
+              "cosine": 0.5524,
+              "euclidean": 0.3352
+            },
+            "9": {
+              "cosine": 0.4898,
+              "euclidean": 0.2969
+            },
+            "10": {
+              "cosine": 0.4926,
+              "euclidean": 0.2985
+            },
+            "11": {
+              "cosine": 0.4369,
+              "euclidean": 0.2645
+            },
+            "12": {
+              "cosine": 0.3705,
+              "euclidean": 0.2238
+            },
+            "13": {
+              "cosine": 0.25,
+              "euclidean": 0.1504
+            },
+            "14": {
+              "cosine": 0.255,
+              "euclidean": 0.1533
+            },
+            "15": {
+              "cosine": 0.1957,
+              "euclidean": 0.117
+            },
+            "16": {
+              "cosine": 0.1978,
+              "euclidean": 0.1182
+            },
+            "17": {
+              "cosine": 0.0786,
+              "euclidean": 0.0454
+            },
+            "18": {
+              "cosine": 0.1416,
+              "euclidean": 0.0837
+            },
+            "19": {
+              "cosine": 0.2099,
+              "euclidean": 0.1252
+            },
+            "20": {
+              "cosine": 0.0903,
+              "euclidean": 0.0521
+            }
+          },
+          "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
+        },
+        "kmeans_default": {
+          "condition": "DEFAULT",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 1.0,
+          "K": 8,
+          "note": "sklearn.cluster.KMeans() ships n_clusters=8"
+        },
+        "hdbscan": {
+          "grid": [
+            3,
+            5,
+            10,
+            20,
+            50,
+            100
+          ],
+          "grid_e4": [
+            3,
+            5,
+            10,
+            20,
+            50,
+            100
+          ],
+          "grid_extended_beyond_e4": [],
+          "sweep": {
+            "3": 0.1419,
+            "5": 0.9004,
+            "10": 0.7618,
+            "20": 1.0,
+            "50": 1.0,
+            "100": 1.0
+          },
+          "K_at": {
+            "3": 185,
+            "5": 27,
+            "10": 25,
+            "20": 8,
+            "50": 8,
+            "100": 8
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 20,
+            "ARI": 1.0,
+            "K": 8,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.HDBSCAN",
+            "knob": "min_cluster_size",
+            "default": 5,
+            "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": 5,
+            "ARI": 0.9004,
+            "K": 27,
+            "metric": "cosine",
+            "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
+          },
+          "default_library_metric": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": 5,
+            "metric": "euclidean",
+            "ARI": 0.9587,
+            "K": 17
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 5,
+                "ARI": 0.9004
+              },
+              "wikipedia": {
+                "value": 3,
+                "ARI": 0.1419
+              }
+            },
+            "worst_source": "wikipedia",
+            "worst_ARI": 0.1419,
+            "worst_value": 3,
+            "best_source": "twogroup",
+            "best_ARI": 0.9004,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "agglo_threshold": {
+          "grid": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+          ],
+          "grid_e4": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.7
+          ],
+          "grid_extended_beyond_e4": [
+            0.6,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+          ],
+          "sweep": {
+            "0.05": 0.002,
+            "0.1": 0.002,
+            "0.2": 0.0154,
+            "0.3": 0.0332,
+            "0.4": 0.1056,
+            "0.5": 1.0,
+            "0.6": 1.0,
+            "0.7": 1.0,
+            "0.8": 1.0,
+            "0.9": 1.0,
+            "0.95": 1.0,
+            "0.97": 1.0,
+            "0.99": 1.0
+          },
+          "K_at": {
+            "0.05": 2472,
+            "0.1": 2472,
+            "0.2": 916,
+            "0.3": 493,
+            "0.4": 147,
+            "0.5": 8,
+            "0.6": 8,
+            "0.7": 8,
+            "0.8": 8,
+            "0.9": 8,
+            "0.95": 8,
+            "0.97": 8,
+            "0.99": 8
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.5,
+            "ARI": 1.0,
+            "K": 8,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.AgglomerativeClustering",
+            "knob": "distance_threshold",
+            "default": null,
+            "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+            "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+          },
+          "default": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": "n_clusters=2, linkage ward, metric euclidean, distance_threshold None",
+            "ARI": 0.0812,
+            "K": 2,
+            "note": "AgglomerativeClustering() ships no distance_threshold at all"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 0.5,
+                "ARI": 1.0
+              },
+              "wikipedia": {
+                "value": 0.9,
+                "ARI": 1.0
+              }
+            },
+            "worst_source": "twogroup",
+            "worst_ARI": 1.0,
+            "worst_value": 0.5,
+            "best_source": "twogroup",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "dp_means": {
+          "grid": [
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5,
+            1.75,
+            1.9,
+            1.99
+          ],
+          "grid_e4": [
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5
+          ],
+          "grid_extended_beyond_e4": [
+            1.75,
+            1.9,
+            1.99
+          ],
+          "sweep": {
+            "0.1": 0.002,
+            "0.25": 0.002,
+            "0.5": 0.0353,
+            "0.75": 0.2621,
+            "1.0": 0.2621,
+            "1.25": 1.0,
+            "1.5": 1.0,
+            "1.75": 1.0,
+            "1.9": 1.0,
+            "1.99": 1.0
+          },
+          "K_at": {
+            "0.1": 2472,
+            "0.25": 2472,
+            "0.5": 623,
+            "0.75": 76,
+            "1.0": 76,
+            "1.25": 8,
+            "1.5": 8,
+            "1.75": 8,
+            "1.9": 8,
+            "1.99": 8
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 1.25,
+            "ARI": 1.0,
+            "K": 8,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "lambda",
+            "default": null,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 1.0,
+                "ARI": 0.2621
+              },
+              "wikipedia": {
+                "value": 1.9,
+                "ARI": 1.0
+              }
+            },
+            "worst_source": "twogroup",
+            "worst_ARI": 0.2621,
+            "worst_value": 1.0,
+            "best_source": "wikipedia",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "cosine_components": {
+          "grid": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95
+          ],
+          "grid_e4": [
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95
+          ],
+          "grid_extended_beyond_e4": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4
+          ],
+          "sweep": {
+            "0.05": 1.0,
+            "0.1": 1.0,
+            "0.2": 1.0,
+            "0.3": 1.0,
+            "0.4": 1.0,
+            "0.5": 1.0,
+            "0.6": 1.0,
+            "0.7": 0.9814,
+            "0.8": 0.9814,
+            "0.9": 0.002,
+            "0.95": 0.002
+          },
+          "K_at": {
+            "0.05": 8,
+            "0.1": 8,
+            "0.2": 8,
+            "0.3": 8,
+            "0.4": 8,
+            "0.5": 8,
+            "0.6": 8,
+            "0.7": 57,
+            "0.8": 57,
+            "0.9": 2472,
+            "0.95": 2472
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.05,
+            "ARI": 1.0,
+            "K": 8,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "similarity cut",
+            "default": null,
+            "note": "not a library estimator, no shipped default"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "not a library estimator, no shipped default"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 0.05,
+                "ARI": 1.0
+              },
+              "wikipedia": {
+                "value": 0.4,
+                "ARI": 1.0
+              }
+            },
+            "worst_source": "twogroup",
+            "worst_ARI": 1.0,
+            "worst_value": 0.05,
+            "best_source": "twogroup",
+            "best_ARI": 1.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "_meta": {
+          "n": 3000,
+          "dim": 803,
+          "true_K": 8,
+          "representation": "matched",
+          "seconds": 103.99
+        }
+      },
+      "wikipedia": {
+        "kmeans_oracleK": {
+          "condition": "ORACLE",
+          "knob": "n_clusters",
+          "value": 3,
+          "ARI": 0.9898,
+          "K": 3,
+          "note": "handed the true number of groups, which is test-label information"
+        },
+        "kmeans_silhouette": {
+          "condition": "SELECTED, no test labels",
+          "k_range": [
+            2,
+            20
+          ],
+          "by_cosine_silhouette": {
+            "K_chosen": 3,
+            "ARI": 0.9898
+          },
+          "by_euclidean_silhouette": {
+            "K_chosen": 3,
+            "ARI": 0.9898
+          },
+          "silhouette_curve": {
+            "2": {
+              "cosine": 0.2148,
+              "euclidean": 0.1186
+            },
+            "3": {
+              "cosine": 0.3012,
+              "euclidean": 0.1663
+            },
+            "4": {
+              "cosine": 0.2361,
+              "euclidean": 0.1294
+            },
+            "5": {
+              "cosine": 0.134,
+              "euclidean": 0.0732
+            },
+            "6": {
+              "cosine": 0.1308,
+              "euclidean": 0.0713
+            },
+            "7": {
+              "cosine": 0.089,
+              "euclidean": 0.0472
+            },
+            "8": {
+              "cosine": 0.0811,
+              "euclidean": 0.043
+            },
+            "9": {
+              "cosine": 0.0705,
+              "euclidean": 0.0371
+            },
+            "10": {
+              "cosine": 0.0655,
+              "euclidean": 0.0351
+            },
+            "11": {
+              "cosine": 0.0822,
+              "euclidean": 0.0436
+            },
+            "12": {
+              "cosine": 0.0753,
+              "euclidean": 0.0402
+            },
+            "13": {
+              "cosine": 0.0726,
+              "euclidean": 0.0384
+            },
+            "14": {
+              "cosine": 0.061,
+              "euclidean": 0.0324
+            },
+            "15": {
+              "cosine": 0.0694,
+              "euclidean": 0.0368
+            },
+            "16": {
+              "cosine": 0.0586,
+              "euclidean": 0.0312
+            },
+            "17": {
+              "cosine": 0.0622,
+              "euclidean": 0.033
+            },
+            "18": {
+              "cosine": 0.0569,
+              "euclidean": 0.0306
+            },
+            "19": {
+              "cosine": 0.0571,
+              "euclidean": 0.0303
+            },
+            "20": {
+              "cosine": 0.059,
+              "euclidean": 0.0314
+            }
+          },
+          "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
+        },
+        "kmeans_default": {
+          "condition": "DEFAULT",
+          "knob": "n_clusters",
+          "value": 8,
+          "ARI": 0.5296,
+          "K": 8,
+          "note": "sklearn.cluster.KMeans() ships n_clusters=8"
+        },
+        "hdbscan": {
+          "grid": [
+            3,
+            5,
+            10,
+            20,
+            50,
+            100
+          ],
+          "grid_e4": [
+            3,
+            5,
+            10,
+            20,
+            50,
+            100
+          ],
+          "grid_extended_beyond_e4": [],
+          "sweep": {
+            "3": 0.9797,
+            "5": 0.9745,
+            "10": 0.9694,
+            "20": 0.9551,
+            "50": 0.9251,
+            "100": 0.0
+          },
+          "K_at": {
+            "3": 4,
+            "5": 4,
+            "10": 4,
+            "20": 4,
+            "50": 4,
+            "100": 1
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 3,
+            "ARI": 0.9797,
+            "K": 4,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.HDBSCAN",
+            "knob": "min_cluster_size",
+            "default": 5,
+            "other_defaults": "metric euclidean, cluster_selection_method eom, min_samples None"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": 5,
+            "ARI": 0.9745,
+            "K": 4,
+            "metric": "cosine",
+            "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
+          },
+          "default_library_metric": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": 5,
+            "metric": "euclidean",
+            "ARI": 0.9745,
+            "K": 4
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 5,
+                "ARI": 0.9745
+              },
+              "planted8": {
+                "value": 20,
+                "ARI": 0.9551
+              }
+            },
+            "worst_source": "planted8",
+            "worst_ARI": 0.9551,
+            "worst_value": 20,
+            "best_source": "twogroup",
+            "best_ARI": 0.9745,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "agglo_threshold": {
+          "grid": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+          ],
+          "grid_e4": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.7
+          ],
+          "grid_extended_beyond_e4": [
+            0.6,
+            0.8,
+            0.9,
+            0.95,
+            0.97,
+            0.99
+          ],
+          "sweep": {
+            "0.05": 0.0,
+            "0.1": 0.0,
+            "0.2": 0.0,
+            "0.3": 0.0013,
+            "0.4": 0.0101,
+            "0.5": 0.051,
+            "0.6": 0.3076,
+            "0.7": 0.898,
+            "0.8": 0.9797,
+            "0.9": 0.9898,
+            "0.95": 0.0,
+            "0.97": 0.0,
+            "0.99": 0.0
+          },
+          "K_at": {
+            "0.05": 320,
+            "0.1": 320,
+            "0.2": 320,
+            "0.3": 308,
+            "0.4": 270,
+            "0.5": 153,
+            "0.6": 60,
+            "0.7": 18,
+            "0.8": 5,
+            "0.9": 3,
+            "0.95": 1,
+            "0.97": 1,
+            "0.99": 1
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.9,
+            "ARI": 0.9898,
+            "K": 3,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": "sklearn.cluster.AgglomerativeClustering",
+            "knob": "distance_threshold",
+            "default": null,
+            "other_defaults": "n_clusters 2, linkage ward, metric euclidean",
+            "note": "distance_threshold has no shipped value: the constructor default is n_clusters=2 with ward linkage on euclidean distance, so that is what a practitioner gets and that is what is run"
+          },
+          "default": {
+            "condition": "DEFAULT, constructor exactly",
+            "value": "n_clusters=2, linkage ward, metric euclidean, distance_threshold None",
+            "ARI": 0.6102,
+            "K": 2,
+            "note": "AgglomerativeClustering() ships no distance_threshold at all"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 0.5,
+                "ARI": 0.051
+              },
+              "planted8": {
+                "value": 0.5,
+                "ARI": 0.051
+              }
+            },
+            "worst_source": "twogroup",
+            "worst_ARI": 0.051,
+            "worst_value": 0.5,
+            "best_source": "twogroup",
+            "best_ARI": 0.051,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "dp_means": {
+          "grid": [
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5,
+            1.75,
+            1.9,
+            1.99
+          ],
+          "grid_e4": [
+            0.1,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5
+          ],
+          "grid_extended_beyond_e4": [
+            1.75,
+            1.9,
+            1.99
+          ],
+          "sweep": {
+            "0.1": 0.0,
+            "0.25": 0.0,
+            "0.5": 0.0001,
+            "0.75": 0.0053,
+            "1.0": 0.0531,
+            "1.25": 0.3954,
+            "1.5": 0.6882,
+            "1.75": 0.8755,
+            "1.9": 0.8817,
+            "1.99": 0.5304
+          },
+          "K_at": {
+            "0.1": 320,
+            "0.25": 320,
+            "0.5": 319,
+            "0.75": 287,
+            "1.0": 149,
+            "1.25": 41,
+            "1.5": 11,
+            "1.75": 4,
+            "1.9": 3,
+            "1.99": 3
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 1.9,
+            "ARI": 0.8817,
+            "K": 3,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "lambda",
+            "default": null,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "DP-means is not a library estimator and Kulis and Jordan 2012 give no default lambda, so there is no DEFAULT condition to report. That absence is itself the cost of the method and is reported, not papered over with an invented value"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 1.0,
+                "ARI": 0.0531
+              },
+              "planted8": {
+                "value": 1.25,
+                "ARI": 0.3954
+              }
+            },
+            "worst_source": "twogroup",
+            "worst_ARI": 0.0531,
+            "worst_value": 1.0,
+            "best_source": "planted8",
+            "best_ARI": 0.3954,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "cosine_components": {
+          "grid": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95
+          ],
+          "grid_e4": [
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95
+          ],
+          "grid_extended_beyond_e4": [
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4
+          ],
+          "sweep": {
+            "0.05": 0.0,
+            "0.1": 0.0,
+            "0.2": 0.0,
+            "0.3": 0.4993,
+            "0.4": 0.9365,
+            "0.5": 0.5422,
+            "0.6": 0.04,
+            "0.7": 0.0015,
+            "0.8": 0.0,
+            "0.9": 0.0,
+            "0.95": 0.0
+          },
+          "K_at": {
+            "0.05": 1,
+            "0.1": 1,
+            "0.2": 1,
+            "0.3": 4,
+            "0.4": 16,
+            "0.5": 77,
+            "0.6": 255,
+            "0.7": 307,
+            "0.8": 320,
+            "0.9": 320,
+            "0.95": 320
+          },
+          "oracle": {
+            "condition": "ORACLE",
+            "value": 0.4,
+            "ARI": 0.9365,
+            "K": 16,
+            "note": "best on the test labels, an upper bound"
+          },
+          "library_default": {
+            "library": null,
+            "knob": "similarity cut",
+            "default": null,
+            "note": "not a library estimator, no shipped default"
+          },
+          "default": {
+            "condition": "DEFAULT",
+            "value": null,
+            "ARI": null,
+            "available": false,
+            "note": "not a library estimator, no shipped default"
+          },
+          "transferred": {
+            "condition": "TRANSFERRED",
+            "per_source": {
+              "twogroup": {
+                "value": 0.05,
+                "ARI": 0.0
+              },
+              "planted8": {
+                "value": 0.05,
+                "ARI": 0.0
+              }
+            },
+            "worst_source": "twogroup",
+            "worst_ARI": 0.0,
+            "worst_value": 0.05,
+            "best_source": "twogroup",
+            "best_ARI": 0.0,
+            "note": "E4 reports the worst transfer; the best is carried here too"
+          }
+        },
+        "_meta": {
+          "n": 320,
+          "dim": 2728,
+          "true_K": 3,
+          "representation": "matched",
+          "seconds": 6.4
+        }
+      }
+    }
+  },
+  "implementation_checks": {
+    "matched": {
+      "twogroup": {
+        "dp_means_implementation_check": {
+          "n_records_checked": 400,
+          "per_lam": [
+            {
+              "lam": 0.1,
+              "identical": true
+            },
+            {
+              "lam": 0.25,
+              "identical": true
+            },
+            {
+              "lam": 0.5,
+              "identical": true
+            },
+            {
+              "lam": 0.75,
+              "identical": true
+            },
+            {
+              "lam": 1.0,
+              "identical": true
+            },
+            {
+              "lam": 1.25,
+              "identical": true
+            },
+            {
+              "lam": 1.5,
+              "identical": true
+            },
+            {
+              "lam": 1.75,
+              "identical": true
+            },
+            {
+              "lam": 1.9,
+              "identical": true
+            },
+            {
+              "lam": 1.99,
+              "identical": true
+            }
+          ],
+          "all_identical": true
+        },
+        "agglo_implementation_check": {
+          "what": "sklearn AgglomerativeClustering, which is what this experiment uses, against a scipy linkage cut at the same distance, which was rejected",
+          "used": "sklearn.cluster.AgglomerativeClustering",
+          "per_threshold": [
+            {
+              "threshold": 0.1,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 1899,
+              "K_scipy": 1899
+            },
+            {
+              "threshold": 0.3,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 289,
+              "K_scipy": 289
+            },
+            {
+              "threshold": 0.5,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 2,
+              "K_scipy": 2
+            },
+            {
+              "threshold": 0.7,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 2,
+              "K_scipy": 2
+            },
+            {
+              "threshold": 0.9,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 2,
+              "K_scipy": 2
+            },
+            {
+              "threshold": 0.99,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 2,
+              "K_scipy": 2
+            }
+          ],
+          "all_identical": true
+        }
+      },
+      "planted8": {
+        "dp_means_implementation_check": {
+          "n_records_checked": 400,
+          "per_lam": [
+            {
+              "lam": 0.1,
+              "identical": true
+            },
+            {
+              "lam": 0.25,
+              "identical": true
+            },
+            {
+              "lam": 0.5,
+              "identical": true
+            },
+            {
+              "lam": 0.75,
+              "identical": true
+            },
+            {
+              "lam": 1.0,
+              "identical": true
+            },
+            {
+              "lam": 1.25,
+              "identical": true
+            },
+            {
+              "lam": 1.5,
+              "identical": true
+            },
+            {
+              "lam": 1.75,
+              "identical": true
+            },
+            {
+              "lam": 1.9,
+              "identical": true
+            },
+            {
+              "lam": 1.99,
+              "identical": true
+            }
+          ],
+          "all_identical": true
+        },
+        "agglo_implementation_check": {
+          "what": "sklearn AgglomerativeClustering, which is what this experiment uses, against a scipy linkage cut at the same distance, which was rejected",
+          "used": "sklearn.cluster.AgglomerativeClustering",
+          "per_threshold": [
+            {
+              "threshold": 0.1,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 2472,
+              "K_scipy": 2472
+            },
+            {
+              "threshold": 0.3,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 493,
+              "K_scipy": 493
+            },
+            {
+              "threshold": 0.5,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 8,
+              "K_scipy": 8
+            },
+            {
+              "threshold": 0.7,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 8,
+              "K_scipy": 8
+            },
+            {
+              "threshold": 0.9,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 8,
+              "K_scipy": 8
+            },
+            {
+              "threshold": 0.99,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 8,
+              "K_scipy": 8
+            }
+          ],
+          "all_identical": true
+        }
+      },
+      "wikipedia": {
+        "dp_means_implementation_check": {
+          "n_records_checked": 320,
+          "per_lam": [
+            {
+              "lam": 0.1,
+              "identical": true
+            },
+            {
+              "lam": 0.25,
+              "identical": true
+            },
+            {
+              "lam": 0.5,
+              "identical": true
+            },
+            {
+              "lam": 0.75,
+              "identical": true
+            },
+            {
+              "lam": 1.0,
+              "identical": true
+            },
+            {
+              "lam": 1.25,
+              "identical": true
+            },
+            {
+              "lam": 1.5,
+              "identical": true
+            },
+            {
+              "lam": 1.75,
+              "identical": true
+            },
+            {
+              "lam": 1.9,
+              "identical": true
+            },
+            {
+              "lam": 1.99,
+              "identical": true
+            }
+          ],
+          "all_identical": true
+        },
+        "agglo_implementation_check": {
+          "what": "sklearn AgglomerativeClustering, which is what this experiment uses, against a scipy linkage cut at the same distance, which was rejected",
+          "used": "sklearn.cluster.AgglomerativeClustering",
+          "per_threshold": [
+            {
+              "threshold": 0.1,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 320,
+              "K_scipy": 320
+            },
+            {
+              "threshold": 0.3,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 308,
+              "K_scipy": 308
+            },
+            {
+              "threshold": 0.5,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 153,
+              "K_scipy": 153
+            },
+            {
+              "threshold": 0.7,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 18,
+              "K_scipy": 18
+            },
+            {
+              "threshold": 0.9,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 3,
+              "K_scipy": 3
+            },
+            {
+              "threshold": 0.99,
+              "agreement_ARI": 1.0,
+              "K_sklearn": 1,
+              "K_scipy": 1
+            }
+          ],
+          "all_identical": true
+        }
+      }
+    }
+  },
+  "reading": {
+    "per_cell": [
+      "matched/twogroup: ESCROW 1.0 (K=2), best untuned baseline 1.0 (kmeans_silhouette (cosine)), best oracle 1.0.",
+      "matched/planted8: ESCROW 1.0 (K=8), best untuned baseline 1.0 (kmeans_silhouette (cosine)), best oracle 1.0.",
+      "matched/wikipedia: ESCROW 0.679 (K=5), best untuned baseline 0.9898 (kmeans_silhouette (cosine)), best oracle 0.9898."
+    ],
+    "summary": "THE FALSIFIER FIRES on the matched representation, on twogroup, planted8, wikipedia. A distance baseline reaches or passes ESCROW on ESCROW's own representation with no knob tuned on the test labels, so on those streams the criterion is not what is doing the work. This is reported because it is what was measured. Read the two arms against each other rather than each on its own: the point of the experiment is that a baseline's score is a property of the pair (rule, representation) and moves a long way when the representation changes with the rule held fixed.",
+    "falsifier_fires_strict_anywhere": true,
+    "cells_where_it_fires_strict": [
+      "matched/twogroup",
+      "matched/planted8",
+      "matched/wikipedia"
+    ],
+    "matched_cells_where_it_fires_strict": [
+      "twogroup",
+      "planted8",
+      "wikipedia"
+    ],
+    "matched_cells_where_it_fires_lenient": [
+      "twogroup",
+      "planted8",
+      "wikipedia"
+    ]
+  },
+  "seed_family_matched": {
+    "twogroup": {
+      "per_seed": [
+        {
+          "seed": 0,
+          "escrow_ARI": 1.0,
+          "escrow_K": 2,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 5,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.0,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 1,
+          "escrow_ARI": 1.0,
+          "escrow_K": 2,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 5,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.0,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 2,
+          "escrow_ARI": 1.0,
+          "escrow_K": 2,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 5,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.0,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 3,
+          "escrow_ARI": 1.0,
+          "escrow_K": 2,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 5,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.0,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 4,
+          "escrow_ARI": 1.0,
+          "escrow_K": 2,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 5,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.0,
+            "cosine_components": 0.05
+          }
+        }
+      ],
+      "escrow_ARI_mean": 1.0,
+      "best_untuned_ARI_mean": 1.0,
+      "seeds_where_untuned_matches_or_beats_escrow": 5
+    },
+    "planted8": {
+      "per_seed": [
+        {
+          "seed": 0,
+          "escrow_ARI": 1.0,
+          "escrow_K": 8,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 20,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.25,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 1,
+          "escrow_ARI": 1.0,
+          "escrow_K": 8,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 20,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.25,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 2,
+          "escrow_ARI": 1.0,
+          "escrow_K": 8,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 20,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.25,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 3,
+          "escrow_ARI": 1.0,
+          "escrow_K": 8,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 20,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.25,
+            "cosine_components": 0.05
+          }
+        },
+        {
+          "seed": 4,
+          "escrow_ARI": 1.0,
+          "escrow_K": 8,
+          "best_untuned_strict_ARI": 1.0,
+          "kmeans_oracleK_ARI": 1.0,
+          "best_oracle_ARI": 1.0,
+          "oracle_values": {
+            "hdbscan": 20,
+            "agglo_threshold": 0.5,
+            "dp_means": 1.25,
+            "cosine_components": 0.05
+          }
+        }
+      ],
+      "escrow_ARI_mean": 1.0,
+      "best_untuned_ARI_mean": 1.0,
+      "seeds_where_untuned_matches_or_beats_escrow": 5
+    },
+    "wikipedia": {
+      "per_seed": [
+        {
+          "seed": 0,
+          "escrow_ARI": 0.679,
+          "escrow_K": 5,
+          "best_untuned_strict_ARI": 0.9898,
+          "kmeans_oracleK_ARI": 0.9898,
+          "best_oracle_ARI": 0.9898,
+          "oracle_values": {
+            "hdbscan": 3,
+            "agglo_threshold": 0.9,
+            "dp_means": 1.9,
+            "cosine_components": 0.4
+          }
+        },
+        {
+          "seed": 1,
+          "escrow_ARI": 0.6553,
+          "escrow_K": 3,
+          "best_untuned_strict_ARI": 0.9898,
+          "kmeans_oracleK_ARI": 0.9898,
+          "best_oracle_ARI": 0.9898,
+          "oracle_values": {
+            "hdbscan": 3,
+            "agglo_threshold": 0.9,
+            "dp_means": 1.75,
+            "cosine_components": 0.4
+          }
+        },
+        {
+          "seed": 2,
+          "escrow_ARI": 0.9608,
+          "escrow_K": 4,
+          "best_untuned_strict_ARI": 0.9898,
+          "kmeans_oracleK_ARI": 0.9898,
+          "best_oracle_ARI": 0.9898,
+          "oracle_values": {
+            "hdbscan": 3,
+            "agglo_threshold": 0.9,
+            "dp_means": 1.75,
+            "cosine_components": 0.4
+          }
+        },
+        {
+          "seed": 3,
+          "escrow_ARI": 0.6408,
+          "escrow_K": 4,
+          "best_untuned_strict_ARI": 0.9898,
+          "kmeans_oracleK_ARI": 0.9898,
+          "best_oracle_ARI": 0.9898,
+          "oracle_values": {
+            "hdbscan": 3,
+            "agglo_threshold": 0.9,
+            "dp_means": 1.75,
+            "cosine_components": 0.4
+          }
+        },
+        {
+          "seed": 4,
+          "escrow_ARI": 0.9488,
+          "escrow_K": 4,
+          "best_untuned_strict_ARI": 0.9898,
+          "kmeans_oracleK_ARI": 0.9898,
+          "best_oracle_ARI": 0.9898,
+          "oracle_values": {
+            "hdbscan": 3,
+            "agglo_threshold": 0.9,
+            "dp_means": 1.75,
+            "cosine_components": 0.4
+          }
+        }
+      ],
+      "escrow_ARI_mean": 0.7769,
+      "best_untuned_ARI_mean": 0.9898,
+      "seeds_where_untuned_matches_or_beats_escrow": 5
+    }
+  },
+  "seconds_total": 541.44,
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

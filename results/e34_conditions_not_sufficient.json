@@ -1,0 +1,294 @@
+{
+  "experiment": "E34 the scope conditions are necessary, not sufficient",
+  "question": "E31 places every benchmark correctly with two conditions read off the price. Does meeting them predict that the rule will work?",
+  "answer": "no, and this is the measured counterexample",
+  "t_star_used": 24,
+  "fixture": {
+    "n": 1500,
+    "groups": 8,
+    "keys_per_group": 3,
+    "values_per_key": 8,
+    "noise": 0.1,
+    "set_size_weights": [
+      0.5,
+      0.3,
+      0.2
+    ],
+    "note": "the E33 cover fixture; private = 0 means no group owns a key of its own, so key presence never names the group"
+  },
+  "rows": [
+    {
+      "shared_key_pool": 12,
+      "private_keys_per_group": 0,
+      "true_groups": 8,
+      "K_mean": 2.7,
+      "omega_mean": 0.2582,
+      "seed_cohort_min_over_seeds": 36,
+      "seed_cohort_median_over_seeds": 44,
+      "groups_meeting_the_seeding_condition_mean": 8,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 3,
+          "omega": 0.3458,
+          "seed_cohort_min": 37,
+          "seed_cohort_median": 44,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -15.33,
+            "evidence_bits": 39.75,
+            "price_bits": 55.08,
+            "cohort": 3,
+            "support": 11,
+            "bits_per_member": 13.25,
+            "required_bits_per_member": 9.23
+          }
+        },
+        {
+          "seed": 1,
+          "K": 4,
+          "omega": 0.4284,
+          "seed_cohort_min": 36,
+          "seed_cohort_median": 42,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -25.58,
+            "evidence_bits": 43.15,
+            "price_bits": 68.73,
+            "cohort": 4,
+            "support": 9,
+            "bits_per_member": 10.79,
+            "required_bits_per_member": 8.74
+          }
+        },
+        {
+          "seed": 2,
+          "K": 1,
+          "omega": 0.0004,
+          "seed_cohort_min": 40,
+          "seed_cohort_median": 44,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -18.3,
+            "evidence_bits": 53.26,
+            "price_bits": 71.55,
+            "cohort": 5,
+            "support": 12,
+            "bits_per_member": 10.65,
+            "required_bits_per_member": 8.38
+          }
+        }
+      ]
+    },
+    {
+      "shared_key_pool": 24,
+      "private_keys_per_group": 0,
+      "true_groups": 8,
+      "K_mean": 5,
+      "omega_mean": 0.5681,
+      "seed_cohort_min_over_seeds": 37,
+      "seed_cohort_median_over_seeds": 44,
+      "groups_meeting_the_seeding_condition_mean": 8,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 4,
+          "omega": 0.4833,
+          "seed_cohort_min": 43,
+          "seed_cohort_median": 44,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -20.31,
+            "evidence_bits": 58.89,
+            "price_bits": 79.2,
+            "cohort": 5,
+            "support": 13,
+            "bits_per_member": 11.78,
+            "required_bits_per_member": 8.38
+          }
+        },
+        {
+          "seed": 1,
+          "K": 5,
+          "omega": 0.5879,
+          "seed_cohort_min": 37,
+          "seed_cohort_median": 44,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -17.37,
+            "evidence_bits": 56.55,
+            "price_bits": 73.92,
+            "cohort": 5,
+            "support": 16,
+            "bits_per_member": 11.31,
+            "required_bits_per_member": 8.38
+          }
+        },
+        {
+          "seed": 2,
+          "K": 6,
+          "omega": 0.6331,
+          "seed_cohort_min": 41,
+          "seed_cohort_median": 45,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -22.02,
+            "evidence_bits": 38.34,
+            "price_bits": 60.36,
+            "cohort": 2,
+            "support": 9,
+            "bits_per_member": 19.17,
+            "required_bits_per_member": 9.96
+          }
+        }
+      ]
+    },
+    {
+      "shared_key_pool": 12,
+      "private_keys_per_group": 1,
+      "true_groups": 8,
+      "K_mean": 7,
+      "omega_mean": 0.6834,
+      "seed_cohort_min_over_seeds": 40,
+      "seed_cohort_median_over_seeds": 46,
+      "groups_meeting_the_seeding_condition_mean": 8,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 7,
+          "omega": 0.7125,
+          "seed_cohort_min": 40,
+          "seed_cohort_median": 46,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -30.59,
+            "evidence_bits": 47.76,
+            "price_bits": 78.35,
+            "cohort": 5,
+            "support": 3,
+            "bits_per_member": 9.55,
+            "required_bits_per_member": 8.38
+          }
+        },
+        {
+          "seed": 1,
+          "K": 7,
+          "omega": 0.6499,
+          "seed_cohort_min": 40,
+          "seed_cohort_median": 43,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -26.54,
+            "evidence_bits": 52.73,
+            "price_bits": 79.27,
+            "cohort": 4,
+            "support": 8,
+            "bits_per_member": 13.18,
+            "required_bits_per_member": 8.74
+          }
+        },
+        {
+          "seed": 2,
+          "K": 7,
+          "omega": 0.6877,
+          "seed_cohort_min": 43,
+          "seed_cohort_median": 48,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -19.89,
+            "evidence_bits": 77.53,
+            "price_bits": 97.42,
+            "cohort": 8,
+            "support": 18,
+            "bits_per_member": 9.69,
+            "required_bits_per_member": 7.64
+          }
+        }
+      ]
+    },
+    {
+      "shared_key_pool": 12,
+      "private_keys_per_group": 2,
+      "true_groups": 8,
+      "K_mean": 8.3,
+      "omega_mean": 0.793,
+      "seed_cohort_min_over_seeds": 38,
+      "seed_cohort_median_over_seeds": 47,
+      "groups_meeting_the_seeding_condition_mean": 8,
+      "per_seed": [
+        {
+          "seed": 0,
+          "K": 8,
+          "omega": 0.7544,
+          "seed_cohort_min": 43,
+          "seed_cohort_median": 47,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -32.83,
+            "evidence_bits": 71.37,
+            "price_bits": 104.2,
+            "cohort": 7,
+            "support": 15,
+            "bits_per_member": 10.2,
+            "required_bits_per_member": 7.84
+          }
+        },
+        {
+          "seed": 1,
+          "K": 8,
+          "omega": 0.8275,
+          "seed_cohort_min": 38,
+          "seed_cohort_median": 43,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -24.66,
+            "evidence_bits": 56.53,
+            "price_bits": 81.19,
+            "cohort": 4,
+            "support": 8,
+            "bits_per_member": 14.13,
+            "required_bits_per_member": 8.74
+          }
+        },
+        {
+          "seed": 2,
+          "K": 9,
+          "omega": 0.7971,
+          "seed_cohort_min": 43,
+          "seed_cohort_median": 48,
+          "groups_meeting_the_seeding_condition": 8,
+          "best_live_candidate": {
+            "margin": -32.68,
+            "evidence_bits": 51.73,
+            "price_bits": 84.42,
+            "cohort": 4,
+            "support": 12,
+            "bits_per_member": 12.93,
+            "required_bits_per_member": 8.74
+          }
+        }
+      ]
+    }
+  ],
+  "headline": {
+    "hardest_cell": {
+      "shared_key_pool": 12,
+      "private_keys_per_group": 0
+    },
+    "seeding_condition_met": true,
+    "seed_cohort_min": 36,
+    "price_condition_met_by_the_best_live_candidate": true,
+    "K_found": 2.7,
+    "K_true": 8,
+    "omega": 0.2582,
+    "reading": "Both conditions hold with room to spare and the rule still fails. The candidates alive at the end carry cohorts far below what their seed pairs allow, so the accrual is not reaching the candidates the seeds should feed. That is candidate generation and pool management rather than the price, and it is reported here as open rather than explained."
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

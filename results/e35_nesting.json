@@ -1,0 +1,1070 @@
+{
+  "experiment": "E35 nesting",
+  "question": "can a hierarchy be read off the cover this construction returns?",
+  "why_it_might": "the output is a cover, so one record can activate a general node and a special one at once, and the escrow ratio is taken against the current OWNER of a key rather than the background, so a child is charged only for what its parent does not already explain",
+  "falsifier": "one level only, at any setting",
+  "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
+  "containment_threshold_for_an_edge": 0.8,
+  "two_level": [
+    {
+      "seed": 0,
+      "A": {
+        "K": 3,
+        "nodes": [
+          {
+            "node": 20,
+            "size": 1029,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 2)",
+            "species_purity": 0.352,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s0k0",
+              "f1s0k1",
+              "f1s0k2",
+              "f1s1k0",
+              "f1s1k1"
+            ],
+            "support_size": 12
+          },
+          {
+            "node": 28,
+            "size": 980,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 1)",
+            "species_purity": 0.349,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s0k2",
+              "f2s1k0",
+              "f2s1k1"
+            ],
+            "support_size": 12
+          },
+          {
+            "node": 32,
+            "size": 991,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 2)",
+            "species_purity": 0.35,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s0k0",
+              "f0s0k1",
+              "f0s0k2",
+              "f0s1k0",
+              "f0s1k1"
+            ],
+            "support_size": 12
+          }
+        ],
+        "family_level_nodes": 3,
+        "species_level_nodes": 0,
+        "both_levels_present": false,
+        "edges_found": 0,
+        "edges_correct": 0,
+        "planted_edges": 9,
+        "edge_precision": 0.0,
+        "edge_recall": 0.0,
+        "edges": [],
+        "bits": 87816.9,
+        "inlining": {
+          "nodes": [
+            {
+              "node": 20,
+              "members": 1029,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            },
+            {
+              "node": 28,
+              "members": 980,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            },
+            {
+              "node": 32,
+              "members": 991,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            }
+          ],
+          "nodes_carrying_both_levels": 3,
+          "share": 1.0
+        }
+      },
+      "B": {
+        "K": 8,
+        "nodes": [
+          {
+            "node": 2,
+            "size": 317,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 0)",
+            "species_purity": 0.997,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s0k0",
+              "f0s0k1",
+              "f0s0k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 3,
+            "size": 590,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 0)",
+            "species_purity": 0.537,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s0k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 4,
+            "size": 694,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 1)",
+            "species_purity": 0.491,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s0k0",
+              "f1s0k1",
+              "f1s0k2",
+              "f1s1k0",
+              "f1s1k1"
+            ],
+            "support_size": 9
+          },
+          {
+            "node": 5,
+            "size": 348,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 2)",
+            "species_purity": 0.997,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s2k0",
+              "f0s2k1",
+              "f0s2k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 7,
+            "size": 357,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 2)",
+            "species_purity": 1.0,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s2k0",
+              "f1s2k1",
+              "f1s2k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 8,
+            "size": 338,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 1)",
+            "species_purity": 0.985,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s1k0",
+              "f2s1k1",
+              "f2s1k2"
+            ],
+            "support_size": 7
+          },
+          {
+            "node": 9,
+            "size": 315,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 2)",
+            "species_purity": 1.0,
+            "support": [
+              "f2k0",
+              "f2k2",
+              "f2s2k0",
+              "f2s2k1",
+              "f2s2k2"
+            ],
+            "support_size": 5
+          },
+          {
+            "node": 10,
+            "size": 331,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 1)",
+            "species_purity": 0.991,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s1k0",
+              "f0s1k1",
+              "f0s1k2",
+              "f0s2k1",
+              "f0s2k2"
+            ],
+            "support_size": 8
+          }
+        ],
+        "family_level_nodes": 2,
+        "species_level_nodes": 6,
+        "both_levels_present": true,
+        "edges_found": 0,
+        "edges_correct": 0,
+        "planted_edges": 9,
+        "edge_precision": 0.0,
+        "edge_recall": 0.0,
+        "edges": [],
+        "bits": 78267.6,
+        "inlining": {
+          "nodes": [
+            {
+              "node": 2,
+              "members": 317,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 3,
+              "members": 590,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 4,
+              "members": 694,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 6,
+              "carries_both_levels": true
+            },
+            {
+              "node": 5,
+              "members": 348,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 7,
+              "members": 357,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 8,
+              "members": 338,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 4,
+              "carries_both_levels": true
+            },
+            {
+              "node": 9,
+              "members": 315,
+              "family_keys_in_support": 2,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 10,
+              "members": 331,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 5,
+              "carries_both_levels": true
+            }
+          ],
+          "nodes_carrying_both_levels": 8,
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "A": {
+        "K": 3,
+        "nodes": [
+          {
+            "node": 15,
+            "size": 969,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 0)",
+            "species_purity": 0.348,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s0k0",
+              "f1s0k1",
+              "f1s0k2",
+              "f1s1k0",
+              "f1s1k1"
+            ],
+            "support_size": 12
+          },
+          {
+            "node": 19,
+            "size": 1038,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 0)",
+            "species_purity": 0.351,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s0k0",
+              "f0s0k1",
+              "f0s0k2",
+              "f0s1k0",
+              "f0s1k1"
+            ],
+            "support_size": 12
+          },
+          {
+            "node": 22,
+            "size": 993,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 0)",
+            "species_purity": 0.337,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s0k2",
+              "f2s1k0",
+              "f2s1k1"
+            ],
+            "support_size": 12
+          }
+        ],
+        "family_level_nodes": 3,
+        "species_level_nodes": 0,
+        "both_levels_present": false,
+        "edges_found": 0,
+        "edges_correct": 0,
+        "planted_edges": 9,
+        "edge_precision": 0.0,
+        "edge_recall": 0.0,
+        "edges": [],
+        "bits": 88836.3,
+        "inlining": {
+          "nodes": [
+            {
+              "node": 15,
+              "members": 969,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            },
+            {
+              "node": 19,
+              "members": 1038,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            },
+            {
+              "node": 22,
+              "members": 993,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            }
+          ],
+          "nodes_carrying_both_levels": 3,
+          "share": 1.0
+        }
+      },
+      "B": {
+        "K": 9,
+        "nodes": [
+          {
+            "node": 1,
+            "size": 335,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 1)",
+            "species_purity": 0.994,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s1k0",
+              "f1s1k1",
+              "f1s1k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 2,
+            "size": 358,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 2)",
+            "species_purity": 0.947,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s2k0",
+              "f0s2k1",
+              "f0s2k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 4,
+            "size": 327,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 2)",
+            "species_purity": 1.0,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s2k0",
+              "f2s2k1",
+              "f2s2k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 5,
+            "size": 292,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 2)",
+            "species_purity": 0.997,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s2k0",
+              "f1s2k1",
+              "f1s2k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 6,
+            "size": 477,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 0)",
+            "species_purity": 0.706,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s0k0",
+              "f1s0k1",
+              "f1s0k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 9,
+            "size": 354,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 1)",
+            "species_purity": 0.938,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s0k0",
+              "f0s1k0",
+              "f0s1k1",
+              "f0s1k2"
+            ],
+            "support_size": 7
+          },
+          {
+            "node": 19,
+            "size": 366,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 1)",
+            "species_purity": 0.893,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s1k0",
+              "f2s1k1",
+              "f2s1k2"
+            ],
+            "support_size": 8
+          },
+          {
+            "node": 27,
+            "size": 375,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 0)",
+            "species_purity": 0.893,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s0k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 35,
+            "size": 449,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 0)",
+            "species_purity": 0.806,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s0k0",
+              "f0s0k1",
+              "f0s0k2"
+            ],
+            "support_size": 6
+          }
+        ],
+        "family_level_nodes": 0,
+        "species_level_nodes": 8,
+        "both_levels_present": false,
+        "edges_found": 0,
+        "edges_correct": 0,
+        "planted_edges": 9,
+        "edge_precision": 0.0,
+        "edge_recall": 0.0,
+        "edges": [],
+        "bits": 77564.6,
+        "inlining": {
+          "nodes": [
+            {
+              "node": 1,
+              "members": 335,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 2,
+              "members": 358,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 4,
+              "members": 327,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 5,
+              "members": 292,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 6,
+              "members": 477,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 9,
+              "members": 354,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 4,
+              "carries_both_levels": true
+            },
+            {
+              "node": 19,
+              "members": 366,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 5,
+              "carries_both_levels": true
+            },
+            {
+              "node": 27,
+              "members": 375,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 35,
+              "members": 449,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            }
+          ],
+          "nodes_carrying_both_levels": 9,
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "A": {
+        "K": 4,
+        "nodes": [
+          {
+            "node": 2,
+            "size": 985,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 1)",
+            "species_purity": 0.346,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s1k0",
+              "f0s1k1",
+              "f0s1k2",
+              "f0s2k0",
+              "f0s2k1"
+            ],
+            "support_size": 9
+          },
+          {
+            "node": 3,
+            "size": 1043,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 0)",
+            "species_purity": 0.369,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s0k0",
+              "f1s0k1",
+              "f1s0k2",
+              "f1s1k0",
+              "f1s1k1"
+            ],
+            "support_size": 12
+          },
+          {
+            "node": 6,
+            "size": 970,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 1)",
+            "species_purity": 0.364,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s0k2",
+              "f2s1k0",
+              "f2s1k1"
+            ],
+            "support_size": 12
+          },
+          {
+            "node": 14,
+            "size": 305,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 0)",
+            "species_purity": 1.0,
+            "support": [
+              "f0s0k0",
+              "f0s0k1",
+              "f0s0k2"
+            ],
+            "support_size": 3
+          }
+        ],
+        "family_level_nodes": 3,
+        "species_level_nodes": 1,
+        "both_levels_present": true,
+        "edges_found": 1,
+        "edges_correct": 1,
+        "planted_edges": 9,
+        "edge_precision": 1.0,
+        "edge_recall": 0.111,
+        "edges": [
+          {
+            "child": 14,
+            "parent": 2,
+            "containment": 0.993,
+            "child_species": "(0, 0)",
+            "parent_family": "0"
+          }
+        ],
+        "bits": 86825.9,
+        "inlining": {
+          "nodes": [
+            {
+              "node": 2,
+              "members": 985,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 6,
+              "carries_both_levels": true
+            },
+            {
+              "node": 3,
+              "members": 1043,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            },
+            {
+              "node": 6,
+              "members": 970,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 9,
+              "carries_both_levels": true
+            },
+            {
+              "node": 14,
+              "members": 305,
+              "family_keys_in_support": 0,
+              "species_keys_in_support": 3,
+              "carries_both_levels": false
+            }
+          ],
+          "nodes_carrying_both_levels": 3,
+          "share": 0.75
+        }
+      },
+      "B": {
+        "K": 8,
+        "nodes": [
+          {
+            "node": 2,
+            "size": 442,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 1)",
+            "species_purity": 0.771,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s1k0",
+              "f0s1k1",
+              "f0s1k2",
+              "f0s2k1"
+            ],
+            "support_size": 7
+          },
+          {
+            "node": 3,
+            "size": 329,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 1)",
+            "species_purity": 1.0,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s1k0",
+              "f1s1k1",
+              "f1s1k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 5,
+            "size": 355,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 2)",
+            "species_purity": 0.938,
+            "support": [
+              "f0k0",
+              "f0k1",
+              "f0k2",
+              "f0s2k0",
+              "f0s2k1",
+              "f0s2k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 6,
+            "size": 332,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 0)",
+            "species_purity": 0.97,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s0k1",
+              "f2s0k2",
+              "f2s2k0",
+              "f2s2k2"
+            ],
+            "support_size": 8
+          },
+          {
+            "node": 7,
+            "size": 658,
+            "family_label": "2",
+            "family_purity": 1.0,
+            "species_label": "(2, 1)",
+            "species_purity": 0.536,
+            "support": [
+              "f2k0",
+              "f2k1",
+              "f2k2",
+              "f2s0k0",
+              "f2s1k0",
+              "f2s1k1",
+              "f2s1k2",
+              "f2s2k0"
+            ],
+            "support_size": 10
+          },
+          {
+            "node": 8,
+            "size": 464,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 0)",
+            "species_purity": 0.83,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s0k0",
+              "f1s0k1",
+              "f1s0k2"
+            ],
+            "support_size": 6
+          },
+          {
+            "node": 10,
+            "size": 357,
+            "family_label": "1",
+            "family_purity": 1.0,
+            "species_label": "(1, 2)",
+            "species_purity": 0.902,
+            "support": [
+              "f1k0",
+              "f1k1",
+              "f1k2",
+              "f1s1k2",
+              "f1s2k0",
+              "f1s2k1",
+              "f1s2k2"
+            ],
+            "support_size": 7
+          },
+          {
+            "node": 12,
+            "size": 304,
+            "family_label": "0",
+            "family_purity": 1.0,
+            "species_label": "(0, 0)",
+            "species_purity": 1.0,
+            "support": [
+              "f0k1",
+              "f0k2",
+              "f0s0k0",
+              "f0s0k1",
+              "f0s0k2"
+            ],
+            "support_size": 5
+          }
+        ],
+        "family_level_nodes": 1,
+        "species_level_nodes": 6,
+        "both_levels_present": true,
+        "edges_found": 0,
+        "edges_correct": 0,
+        "planted_edges": 9,
+        "edge_precision": 0.0,
+        "edge_recall": 0.0,
+        "edges": [],
+        "bits": 79830.4,
+        "inlining": {
+          "nodes": [
+            {
+              "node": 2,
+              "members": 442,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 4,
+              "carries_both_levels": true
+            },
+            {
+              "node": 3,
+              "members": 329,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 5,
+              "members": 355,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 6,
+              "members": 332,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 5,
+              "carries_both_levels": true
+            },
+            {
+              "node": 7,
+              "members": 658,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 7,
+              "carries_both_levels": true
+            },
+            {
+              "node": 8,
+              "members": 464,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            },
+            {
+              "node": 10,
+              "members": 357,
+              "family_keys_in_support": 3,
+              "species_keys_in_support": 4,
+              "carries_both_levels": true
+            },
+            {
+              "node": 12,
+              "members": 304,
+              "family_keys_in_support": 2,
+              "species_keys_in_support": 3,
+              "carries_both_levels": true
+            }
+          ],
+          "nodes_carrying_both_levels": 8,
+          "share": 1.0
+        }
+      }
+    }
+  ],
+  "three_level": [
+    {
+      "seed": 0,
+      "K": 4,
+      "nodes_by_deepest_level_in_support": {
+        "3": 4
+      }
+    },
+    {
+      "seed": 1,
+      "K": 4,
+      "nodes_by_deepest_level_in_support": {
+        "3": 4
+      }
+    },
+    {
+      "seed": 2,
+      "K": 5,
+      "nodes_by_deepest_level_in_support": {
+        "3": 5
+      }
+    }
+  ],
+  "headline": {
+    "protocol_A_shipped": {
+      "mean_K": 3.3,
+      "mean_family_level_nodes": 3,
+      "mean_species_level_nodes": 0.3,
+      "mean_bits": 87826.0
+    },
+    "protocol_B_repair_deferred": {
+      "mean_K": 8.3,
+      "mean_family_level_nodes": 1,
+      "mean_species_level_nodes": 6.7,
+      "mean_bits": 78554.0
+    },
+    "mean_edge_recall_A": 0.037,
+    "mean_edge_recall_B": 0.0,
+    "nodes_carrying_both_levels_B": 1.0,
+    "verdict": "one level, not two, under either protocol, so the planted tree is not recoverable from the node set",
+    "reading": "The construction can express a hierarchy in principle, since the output is a cover and a child is charged only for what its parent does not already explain, but it does not produce one. It returns a single granularity, and WHICH granularity is selected by the repair cadence: repairing during the stream returns the three families, deferring every repair to the end returns the eight or nine species at a codelength about nine thousand bits lower. The leaves inline their parent rather than pointing at it, every species node carrying its family's three keys as well as its own, so the family structure is written down three times. A separate diagnostic build that seeds candidates on every key rather than only on keys the background still owns does return both levels, three family nodes beside five to seven species nodes, but at a HIGHER codelength, 82,906 against 78,268 bits. So the objective prefers the flat answer: nothing in this code rewards factoring shared structure out into a parent. A tree needs a move that proposes the factorisation and a term that pays for it, and this paper has neither."
+  },
+  "provenance": {
+    "date": "2026-09-06",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}
