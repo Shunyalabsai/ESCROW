@@ -1,0 +1,372 @@
+{
+  "experiment": "E44 what the AutoPKG key-identity benchmark ranks",
+  "gold": {
+    "definition": "a pair is positive when norm_key(a) == norm_key(b), norm_key = lowercase then strip non-alphanumeric",
+    "positive_pairs": 328,
+    "negative_pairs": 22921,
+    "collisions_dropped": 12
+  },
+  "reference_numbers_this_is_a_floor_for": {
+    "autopkg_kgd_llm_f1": 0.6355,
+    "escrow_f1": 0.0008
+  },
+  "fixed_rules": {
+    "norm_key_the_golds_own_definition": {
+      "tp": 328,
+      "fp": 26,
+      "fn": 0,
+      "precision": 0.9266,
+      "recall": 1.0,
+      "f1": 0.9619
+    },
+    "casefold_only": {
+      "tp": 227,
+      "fp": 0,
+      "fn": 101,
+      "precision": 1.0,
+      "recall": 0.6921,
+      "f1": 0.818
+    },
+    "lowercase_strip_non_alphanumeric": {
+      "tp": 328,
+      "fp": 26,
+      "fn": 0,
+      "precision": 0.9266,
+      "recall": 1.0,
+      "f1": 0.9619
+    },
+    "lowercase_strip_whitespace": {
+      "tp": 231,
+      "fp": 0,
+      "fn": 97,
+      "precision": 1.0,
+      "recall": 0.7043,
+      "f1": 0.8265
+    }
+  },
+  "swept_rules": {
+    "edit_ratio": {
+      "oracle_best_on_test_labels": {
+        "tp": 299,
+        "fp": 29,
+        "fn": 29,
+        "precision": 0.9116,
+        "recall": 0.9116,
+        "f1": 0.9116,
+        "knob": 0.85
+      },
+      "sweep": [
+        {
+          "tp": 327,
+          "fp": 979,
+          "fn": 1,
+          "precision": 0.2504,
+          "recall": 0.997,
+          "f1": 0.4002,
+          "knob": 0.5
+        },
+        {
+          "tp": 325,
+          "fp": 485,
+          "fn": 3,
+          "precision": 0.4012,
+          "recall": 0.9909,
+          "f1": 0.5712,
+          "knob": 0.6
+        },
+        {
+          "tp": 305,
+          "fp": 215,
+          "fn": 23,
+          "precision": 0.5865,
+          "recall": 0.9299,
+          "f1": 0.7193,
+          "knob": 0.7
+        },
+        {
+          "tp": 301,
+          "fp": 62,
+          "fn": 27,
+          "precision": 0.8292,
+          "recall": 0.9177,
+          "f1": 0.8712,
+          "knob": 0.8
+        },
+        {
+          "tp": 299,
+          "fp": 29,
+          "fn": 29,
+          "precision": 0.9116,
+          "recall": 0.9116,
+          "f1": 0.9116,
+          "knob": 0.85
+        },
+        {
+          "tp": 268,
+          "fp": 9,
+          "fn": 60,
+          "precision": 0.9675,
+          "recall": 0.8171,
+          "f1": 0.886,
+          "knob": 0.9
+        },
+        {
+          "tp": 235,
+          "fp": 0,
+          "fn": 93,
+          "precision": 1.0,
+          "recall": 0.7165,
+          "f1": 0.8348,
+          "knob": 0.95
+        },
+        {
+          "tp": 227,
+          "fp": 0,
+          "fn": 101,
+          "precision": 1.0,
+          "recall": 0.6921,
+          "f1": 0.818,
+          "knob": 1.0
+        }
+      ]
+    },
+    "token_jaccard": {
+      "oracle_best_on_test_labels": {
+        "tp": 323,
+        "fp": 2,
+        "fn": 5,
+        "precision": 0.9938,
+        "recall": 0.9848,
+        "f1": 0.9893,
+        "knob": 1.0
+      },
+      "sweep": [
+        {
+          "tp": 325,
+          "fp": 598,
+          "fn": 3,
+          "precision": 0.3521,
+          "recall": 0.9909,
+          "f1": 0.5196,
+          "knob": 0.3
+        },
+        {
+          "tp": 323,
+          "fp": 167,
+          "fn": 5,
+          "precision": 0.6592,
+          "recall": 0.9848,
+          "f1": 0.7897,
+          "knob": 0.5
+        },
+        {
+          "tp": 323,
+          "fp": 20,
+          "fn": 5,
+          "precision": 0.9417,
+          "recall": 0.9848,
+          "f1": 0.9627,
+          "knob": 0.6
+        },
+        {
+          "tp": 323,
+          "fp": 3,
+          "fn": 5,
+          "precision": 0.9908,
+          "recall": 0.9848,
+          "f1": 0.9878,
+          "knob": 0.7
+        },
+        {
+          "tp": 323,
+          "fp": 3,
+          "fn": 5,
+          "precision": 0.9908,
+          "recall": 0.9848,
+          "f1": 0.9878,
+          "knob": 0.8
+        },
+        {
+          "tp": 323,
+          "fp": 3,
+          "fn": 5,
+          "precision": 0.9908,
+          "recall": 0.9848,
+          "f1": 0.9878,
+          "knob": 0.9
+        },
+        {
+          "tp": 323,
+          "fp": 2,
+          "fn": 5,
+          "precision": 0.9938,
+          "recall": 0.9848,
+          "f1": 0.9893,
+          "knob": 1.0
+        }
+      ]
+    },
+    "char_trigram_cosine": {
+      "oracle_best_on_test_labels": {
+        "tp": 238,
+        "fp": 11,
+        "fn": 90,
+        "precision": 0.9558,
+        "recall": 0.7256,
+        "f1": 0.825,
+        "knob": 0.8
+      },
+      "sweep": [
+        {
+          "tp": 311,
+          "fp": 301,
+          "fn": 17,
+          "precision": 0.5082,
+          "recall": 0.9482,
+          "f1": 0.6617,
+          "knob": 0.5
+        },
+        {
+          "tp": 306,
+          "fp": 141,
+          "fn": 22,
+          "precision": 0.6846,
+          "recall": 0.9329,
+          "f1": 0.7897,
+          "knob": 0.6
+        },
+        {
+          "tp": 265,
+          "fp": 59,
+          "fn": 63,
+          "precision": 0.8179,
+          "recall": 0.8079,
+          "f1": 0.8129,
+          "knob": 0.7
+        },
+        {
+          "tp": 238,
+          "fp": 11,
+          "fn": 90,
+          "precision": 0.9558,
+          "recall": 0.7256,
+          "f1": 0.825,
+          "knob": 0.8
+        },
+        {
+          "tp": 227,
+          "fp": 0,
+          "fn": 101,
+          "precision": 1.0,
+          "recall": 0.6921,
+          "f1": 0.818,
+          "knob": 0.9
+        },
+        {
+          "tp": 227,
+          "fp": 0,
+          "fn": 101,
+          "precision": 1.0,
+          "recall": 0.6921,
+          "f1": 0.818,
+          "knob": 0.95
+        },
+        {
+          "tp": 108,
+          "fp": 0,
+          "fn": 220,
+          "precision": 1.0,
+          "recall": 0.3293,
+          "f1": 0.4954,
+          "knob": 1.0
+        }
+      ]
+    },
+    "shared_prefix": {
+      "oracle_best_on_test_labels": {
+        "tp": 307,
+        "fp": 580,
+        "fn": 21,
+        "precision": 0.3461,
+        "recall": 0.936,
+        "f1": 0.5053,
+        "knob": 3
+      },
+      "sweep": [
+        {
+          "tp": 307,
+          "fp": 580,
+          "fn": 21,
+          "precision": 0.3461,
+          "recall": 0.936,
+          "f1": 0.5053,
+          "knob": 3
+        },
+        {
+          "tp": 283,
+          "fp": 527,
+          "fn": 45,
+          "precision": 0.3494,
+          "recall": 0.8628,
+          "f1": 0.4974,
+          "knob": 4
+        },
+        {
+          "tp": 229,
+          "fp": 435,
+          "fn": 99,
+          "precision": 0.3449,
+          "recall": 0.6982,
+          "f1": 0.4617,
+          "knob": 5
+        },
+        {
+          "tp": 177,
+          "fp": 333,
+          "fn": 151,
+          "precision": 0.3471,
+          "recall": 0.5396,
+          "f1": 0.4224,
+          "knob": 6
+        },
+        {
+          "tp": 94,
+          "fp": 185,
+          "fn": 234,
+          "precision": 0.3369,
+          "recall": 0.2866,
+          "f1": 0.3097,
+          "knob": 8
+        },
+        {
+          "tp": 39,
+          "fp": 89,
+          "fn": 289,
+          "precision": 0.3047,
+          "recall": 0.1189,
+          "f1": 0.1711,
+          "knob": 10
+        }
+      ]
+    }
+  },
+  "headline": {
+    "best_string_method": {
+      "name": "token_jaccard",
+      "f1": 0.9893
+    },
+    "plain_lowercase_f1": 0.818,
+    "autopkg_kgd_llm_f1": 0.6355,
+    "escrow_f1": 0.0008,
+    "beats_the_language_model": [
+      "casefold_only",
+      "char_trigram_cosine",
+      "edit_ratio",
+      "lowercase_strip_non_alphanumeric",
+      "lowercase_strip_whitespace",
+      "norm_key_the_golds_own_definition",
+      "token_jaccard"
+    ],
+    "reading": "the gold is a string function, so this benchmark ranks normalisers; it does not record whether two different names carry one role, which is the decision the paper says is open"
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "experiment": "E41 the symmetric test: the language model on our tasks",
+  "model": "Qwen/Qwen2.5-14B-Instruct",
+  "records_per_stream": 200,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "prompt_protocol": "imported from llm_graph_formation.py, unchanged",
+  "null": [
+    {
+      "seed": 0,
+      "llm_nodes": 80,
+      "escrow_nodes": 0,
+      "llm_node_names": [
+        "node0",
+        "node1",
+        "node2",
+        "node3",
+        "node4",
+        "node5",
+        "node6",
+        "node7",
+        "node8",
+        "node9",
+        "node10",
+        "node11"
+      ],
+      "tokens": 27578,
+      "seconds": 393.7,
+      "llm_nodes_after_each_chunk": [
+        20,
+        36,
+        49,
+        65,
+        65,
+        79,
+        80,
+        80,
+        80,
+        80
+      ],
+      "records_after_each_chunk": [
+        20,
+        40,
+        60,
+        80,
+        100,
+        120,
+        140,
+        160,
+        180,
+        200
+      ]
+    },
+    {
+      "seed": 1,
+      "llm_nodes": 195,
+      "escrow_nodes": 0,
+      "llm_node_names": [
+        "node_k0_v2_k1_v9_k2_v1_k3_v4",
+        "node_k0_v1_k1_v7_k2_v7_k3_v7",
+        "node_k0_v6_k1_v3_k2_v1_k3_v7",
+        "node_k0_v0_k1_v6_k2_v6_k3_v9",
+        "node_k0_v0_k1_v7_k2_v4_k3_v3",
+        "node_k0_v9_k1_v1_k2_v5_k3_v0",
+        "node_k0_v0_k1_v0_k2_v8_k3_v0",
+        "node_k0_v6_k1_v3_k2_v6_k3_v0",
+        "node_k0_v8_k1_v3_k2_v7_k3_v7",
+        "node_k0_v8_k1_v3_k2_v5_k3_v3",
+        "node_k0_v3_k1_v7_k2_v4_k3_v0",
+        "node_k0_v6_k1_v8_k2_v1_k3_v2"
+      ],
+      "tokens": 50819,
+      "seconds": 657.8,
+      "llm_nodes_after_each_chunk": [
+        20,
+        38,
+        58,
+        76,
+        96,
+        115,
+        135,
+        155,
+        175,
+        195
+      ],
+      "records_after_each_chunk": [
+        20,
+        40,
+        60,
+        80,
+        100,
+        120,
+        140,
+        160,
+        180,
+        200
+      ]
+    },
+    {
+      "seed": 2,
+      "llm_nodes": 195,
+      "escrow_nodes": 0,
+      "llm_node_names": [
+        "node_k0_v0_k1_v1_k2_v1_k3_v5",
+        "node_k0_v2_k1_v4_k2_v4_k3_v9",
+        "node_k0_v3_k1_v9_k2_v0_k3_v9",
+        "node_k0_v2_k1_v6_k2_v6_k3_v8",
+        "node_k0_v5_k1_v8_k2_v7_k3_v8",
+        "node_k0_v4_k1_v0_k2_v0_k3_v5",
+        "node_k0_v7_k1_v5_k2_v6_k3_v6",
+        "node_k0_v8_k1_v2_k2_v8_k3_v2",
+        "node_k0_v3_k1_v3_k2_v0_k3_v2",
+        "node_k0_v5_k1_v2_k2_v2_k3_v8",
+        "node_k0_v8_k1_v5_k2_v8_k3_v8",
+        "node_k0_v2_k1_v7_k2_v6_k3_v8"
+      ],
+      "tokens": 49637,
+      "seconds": 914.5,
+      "llm_nodes_after_each_chunk": [
+        20,
+        39,
+        59,
+        78,
+        98,
+        118,
+        138,
+        156,
+        175,
+        195
+      ],
+      "records_after_each_chunk": [
+        20,
+        40,
+        60,
+        80,
+        100,
+        120,
+        140,
+        160,
+        180,
+        200
+      ]
+    }
+  ],
+  "planted": [
+    {
+      "seed": 0,
+      "llm_ARI": 1.0,
+      "llm_nodes": 8,
+      "escrow_ARI": 0.8623,
+      "escrow_nodes": 6,
+      "tokens": 12852
+    },
+    {
+      "seed": 1,
+      "llm_ARI": 1.0,
+      "llm_nodes": 8,
+      "escrow_ARI": 0.91,
+      "escrow_nodes": 6,
+      "tokens": 13835
+    },
+    {
+      "seed": 2,
+      "llm_ARI": 0.1984,
+      "llm_nodes": 72,
+      "escrow_ARI": 1.0,
+      "escrow_nodes": 7,
+      "tokens": 32443
+    }
+  ],
+  "headline": {
+    "llm_nodes_on_noise": [
+      80,
+      195,
+      195
+    ],
+    "escrow_nodes_on_noise": [
+      0,
+      0,
+      0
+    ],
+    "llm_ARI_on_planted": [
+      1.0,
+      1.0,
+      0.1984
+    ],
+    "escrow_ARI_on_planted": [
+      0.8623,
+      0.91,
+      1.0
+    ],
+    "reading": "E20 gave the model a task built for it and it won. This gives it the two the price is built for. Abstention is the one that matters: a rule that cannot decline on noise will invent kinds on any stream."
+  },
+  "trajectory_provenance": "The per-chunk node counts were read from this run's own stdout, which run_llm in llm_graph_formation.py prints for every chunk, and each series is asserted to end at the final count already recorded here. e41_symmetric.py now records them directly, and the rerun that produces this file from the script alone supersedes this note."
+}

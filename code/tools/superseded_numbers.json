@@ -1,0 +1,210 @@
+{
+  "note": "Every value that has ever been printed for a quantity, with the value that is true now. A value under 'superseded' must not appear anywhere in the paper or the talk. Add a row whenever a number changes, and record why, so a stale value cannot survive an edit. Values are matched as plain substrings, so keep them distinctive.",
+  "quantities": [
+    {
+      "id": "e7_deferred_mints",
+      "what": "E7 deferred arm, number of mint events",
+      "source": "results/e7_immediate_vs_deferred.json:deferred.total_mints",
+      "superseded": [
+        "288 mint receipts",
+        "288 mint events",
+        "$288$ mint"
+      ],
+      "why": "288 came from an engine state that no longer reproduces; the protocol was unified and three defects fixed"
+    },
+    {
+      "id": "e7_deficit",
+      "what": "E7 unseeded arm, mean deficit in bits",
+      "source": "results/e7_immediate_vs_deferred.json:unseeded.mean_deficit_bits",
+      "superseded": [
+        "41.85 bits",
+        "deficit of 41.85"
+      ],
+      "why": "the background block no longer holds cells a node owns, so the uninformed guess is measured against an honest incumbent"
+    },
+    {
+      "id": "wiki_llm_ari",
+      "what": "ESCROW ARI on Wikipedia in the language-model comparison",
+      "source": "results/llm_graph_formation.json:datasets.wikipedia.methods.escrow.ari",
+      "superseded": [
+        "0.9513",
+        "0.9407"
+      ],
+      "why": "numpy-path and cell-ownership defects"
+    },
+    {
+      "id": "wiki_llm_purity",
+      "what": "ESCROW purity on Wikipedia in the language-model comparison",
+      "source": "results/llm_graph_formation.json:datasets.wikipedia.methods.escrow.purity",
+      "superseded": [
+        "0.9906",
+        "0.9938"
+      ],
+      "why": "same"
+    },
+    {
+      "id": "lazada_background",
+      "what": "Lazada records left in the background by ESCROW",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.background_or_unparsed",
+      "superseded": [
+        "765 of the 1,000",
+        "765 of 1,000",
+        "765 records"
+      ],
+      "why": "same"
+    },
+    {
+      "id": "lazada_wall",
+      "what": "ESCROW wall time on the Lazada thousand",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods.escrow.wall_s",
+      "superseded": [
+        "4.5 s for ESCROW",
+        "4.48 s",
+        "about 2.4 s",
+        "2.4 s for ESCROW",
+        "0 tokens, 2.4 s",
+        "in about 2.4 s"
+      ],
+      "why": "the corrected merge pricing removed most of the repair work",
+      "note": "matched with context: the talk's animation budget is also 2.4 s and is not this quantity"
+    },
+    {
+      "id": "e4_wiki",
+      "what": "ESCROW on Wikipedia in the E4 harness",
+      "source": "results/e4_first_tier.json:wikipedia.ours",
+      "superseded": [
+        "0.8482",
+        "0.8846",
+        "0.6568"
+      ],
+      "why": "protocol unification and the three defects"
+    },
+    {
+      "id": "wiki_demo_composition",
+      "what": "the Wikipedia demo graph",
+      "source": "results/wikipedia_demo.json:nodes",
+      "superseded": [
+        "films 114, people 110, mountains 87",
+        "114, people 110",
+        "TV films",
+        "television films",
+        "TV-film",
+        "television-film",
+        "every one 100\\% pure",
+        "every one 100 percent pure",
+        "film $122$",
+        "122 ($120$ film",
+        "122 (120 film",
+        "purity $0.9939$",
+        "purity 0.9939",
+        "mountain $74$ and $19$",
+        "mountain 74 and 19",
+        "0.9939",
+        "114/110/87"
+      ],
+      "why": "no run of the shipped code produces the all-pure five-node graph with a television-film node; and the middle regeneration (122/112/74/19 at purity 0.9939) was superseded by the cell-ownership fix, which gives 130/101/86/10/1 at purity 0.9665"
+    },
+    {
+      "id": "e5_wiki_spread",
+      "what": "the Wikipedia spread over 20 record orders",
+      "source": "results/e5_order_dependence.json:streams.wikipedia.ARI",
+      "superseded": [
+        "0.8635",
+        "0.9103",
+        "0.8448",
+        "0.6332",
+        "0.6594",
+        "0.617"
+      ],
+      "why": "each engine fix moved the spread"
+    },
+    {
+      "id": "catchall_share",
+      "what": "the language model's catch-all node share on Lazada",
+      "source": "results/llm_graph_formation.json:datasets.lazada.methods (largest_node_share)",
+      "superseded": [
+        "40 to 85 percent",
+        "40 to 85\\%"
+      ],
+      "why": "the measured shares are 0.2315 to 0.8527, so the low end is 23 percent, not 40"
+    },
+    {
+      "id": "tree_arms_max",
+      "what": "false nodes invented by the streaming trees on noise",
+      "source": "results/e8_tree_arms.json",
+      "superseded": [
+        "up to ninety-one",
+        "up to 91 false"
+      ],
+      "why": "91 is a five-seed mean; the maximum over seeds is 111, so quote mean and maximum"
+    },
+    {
+      "id": "reverb_merges",
+      "what": "ReVerb45K node count",
+      "source": "results/e10_reverb45k_full.json:K",
+      "superseded": [
+        "our 96 merges",
+        "96 merges"
+      ],
+      "why": "96 is a node count; the run records 6,420 mints"
+    },
+    {
+      "id": "lazada_rawkey_run",
+      "what": "Lazada raw-key run: node count, coverage, throughput, repair time, case-variant buckets, silver ARI",
+      "source": "results/lazada_c2_rawkey.json",
+      "superseded": [
+        "K = 52",
+        "8{,}393 records",
+        "15.49 records per second",
+        "1{,}180.6 of the 1{,}384.7",
+        "1 of 340 case-variant",
+        "252 with neither",
+        "ARI 0.0008"
+      ],
+      "why": "The values printed came from a run that predated the engine fixes. The committed results file records K 68 over 9,752 records at 1.73 records per second, repair 12,282.0 of 12,365.5 seconds, 2 of 340 case-variant pairs in a shared node, 260 with neither key supported, and silver ARI 0.0013."
+    },
+    {
+      "id": "e28_restart_curve",
+      "what": "E28 restart curve: the mean accuracy when k orders are run and the shortest description is kept",
+      "source": "results/e28_order_variance.json",
+      "superseded": [
+        "0.8761",
+        "0.9253",
+        "0.9366",
+        "0.9422",
+        "0.9591"
+      ],
+      "why": "The first pass estimated the curve from subsets of only twenty runs, so almost every large subset contained the same shortest-description run, which flattered both the mean and the spread. The committed file uses sixty independent orders and random subsets: 0.8691, 0.9138, 0.9284, 0.9399, 0.9508, 0.9579, 0.9666 for k of 1, 2, 3, 5, 10, 20, 40."
+    },
+    {
+      "id": "e21_matched_baseline",
+      "what": "E21: the best untuned baseline on the matched representation",
+      "source": "results/e21_matched_representation.json",
+      "superseded": [
+        "0.7926",
+        "0.7909",
+        "0.9587 & 1.0"
+      ],
+      "why": "The first version of the matched representation gave the baselines a column per (key, value) pair but none per key, withholding the key presence the engine prices through its absence code. With the key columns the untuned baseline reaches 0.9898 on Wikipedia and 1.0 on the eight-group stream."
+    },
+    {
+      "id": "e25_cover_omega",
+      "what": "E25 cover fixture, ESCROW omega index and membership F1, and the best partition baseline",
+      "source": "results/e25_multi_membership.json:reading.per_fixture.cover",
+      "superseded": [
+        "omega index of 0.741",
+        "membership F1 of 0.903",
+        "against 0.205 and 0.741"
+      ],
+      "why": "the paper's prose kept the values of an earlier E25 run. The shipped result file gives ESCROW omega 0.8876 and membership F1 0.9486 against 0.4411 and 0.7402 for the best oracle-tuned partition baseline. Found on 2026-09-06 while re-examining whether the cover result is a fair fight"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "wiki_llm_purity",
+      "file": "paper/sections/appendix_tables.tex",
+      "line_contains": "token Jaccard",
+      "why": "0.9938 is the recall of the token Jaccard rule on the AutoPKG key-identity gold in Table tab:floor-keys (results/e44_string_algorithms_on_key_identity.json, swept_rules.token_jaccard.oracle_best_on_test_labels.recall). It is a current measured value of a different quantity that happens to equal a superseded ESCROW purity."
+    }
+  ]
+}

@@ -1,0 +1,1296 @@
+{
+  "experiment": "E43 methods older than the transformer on the tasks a language model wins",
+  "note": "every method reads the identical records the language model read, in the identical file, and chooses its own k with no label; the oracle column is an upper bound it could not have in use",
+  "reference_numbers_this_is_a_floor_for": {
+    "wikipedia": {
+      "llm_sampled_mean_ARI": 0.9905,
+      "llm_greedy_ARI": 0.9896,
+      "escrow_ARI": 0.8744
+    },
+    "lazada": {
+      "llm_agreement_across_seeds": 0.1647,
+      "escrow_agreement": 1.0
+    }
+  },
+  "streams": {
+    "wikipedia": {
+      "records": 320,
+      "true_types": 3,
+      "methods": {
+        "words": {
+          "label_free_by_silhouette": {
+            "k": 3,
+            "ARI": 1.0
+          },
+          "oracle_best_k_on_test_labels": 1.0,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.0469,
+              "ARI": 0.502
+            },
+            {
+              "k": 3,
+              "silhouette": 0.0638,
+              "ARI": 1.0
+            },
+            {
+              "k": 4,
+              "silhouette": 0.0568,
+              "ARI": 0.9323
+            },
+            {
+              "k": 5,
+              "silhouette": 0.0425,
+              "ARI": 0.7729
+            },
+            {
+              "k": 6,
+              "silhouette": 0.0322,
+              "ARI": 0.5832
+            },
+            {
+              "k": 7,
+              "silhouette": 0.0386,
+              "ARI": 0.6187
+            },
+            {
+              "k": 8,
+              "silhouette": 0.0294,
+              "ARI": 0.4965
+            },
+            {
+              "k": 9,
+              "silhouette": 0.0297,
+              "ARI": 0.4698
+            },
+            {
+              "k": 10,
+              "silhouette": 0.03,
+              "ARI": 0.4602
+            },
+            {
+              "k": 11,
+              "silhouette": 0.0315,
+              "ARI": 0.3629
+            },
+            {
+              "k": 12,
+              "silhouette": 0.0342,
+              "ARI": 0.4064
+            },
+            {
+              "k": 13,
+              "silhouette": 0.0288,
+              "ARI": 0.3162
+            },
+            {
+              "k": 14,
+              "silhouette": 0.0325,
+              "ARI": 0.3391
+            },
+            {
+              "k": 15,
+              "silhouette": 0.0362,
+              "ARI": 0.3355
+            },
+            {
+              "k": 16,
+              "silhouette": 0.035,
+              "ARI": 0.2992
+            },
+            {
+              "k": 17,
+              "silhouette": 0.0321,
+              "ARI": 0.3057
+            },
+            {
+              "k": 18,
+              "silhouette": 0.033,
+              "ARI": 0.2727
+            },
+            {
+              "k": 19,
+              "silhouette": 0.0338,
+              "ARI": 0.3241
+            },
+            {
+              "k": 20,
+              "silhouette": 0.0375,
+              "ARI": 0.2868
+            }
+          ]
+        },
+        "chars": {
+          "label_free_by_silhouette": {
+            "k": 3,
+            "ARI": 1.0
+          },
+          "oracle_best_k_on_test_labels": 1.0,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.087,
+              "ARI": 0.502
+            },
+            {
+              "k": 3,
+              "silhouette": 0.1249,
+              "ARI": 1.0
+            },
+            {
+              "k": 4,
+              "silhouette": 0.1129,
+              "ARI": 0.9305
+            },
+            {
+              "k": 5,
+              "silhouette": 0.089,
+              "ARI": 0.7564
+            },
+            {
+              "k": 6,
+              "silhouette": 0.0669,
+              "ARI": 0.5888
+            },
+            {
+              "k": 7,
+              "silhouette": 0.0695,
+              "ARI": 0.5966
+            },
+            {
+              "k": 8,
+              "silhouette": 0.0677,
+              "ARI": 0.4991
+            },
+            {
+              "k": 9,
+              "silhouette": 0.0691,
+              "ARI": 0.5311
+            },
+            {
+              "k": 10,
+              "silhouette": 0.0513,
+              "ARI": 0.3859
+            },
+            {
+              "k": 11,
+              "silhouette": 0.0589,
+              "ARI": 0.3919
+            },
+            {
+              "k": 12,
+              "silhouette": 0.0656,
+              "ARI": 0.5492
+            },
+            {
+              "k": 13,
+              "silhouette": 0.0521,
+              "ARI": 0.3487
+            },
+            {
+              "k": 14,
+              "silhouette": 0.06,
+              "ARI": 0.3536
+            },
+            {
+              "k": 15,
+              "silhouette": 0.0555,
+              "ARI": 0.3043
+            },
+            {
+              "k": 16,
+              "silhouette": 0.0662,
+              "ARI": 0.2869
+            },
+            {
+              "k": 17,
+              "silhouette": 0.0578,
+              "ARI": 0.3072
+            },
+            {
+              "k": 18,
+              "silhouette": 0.0743,
+              "ARI": 0.2943
+            },
+            {
+              "k": 19,
+              "silhouette": 0.065,
+              "ARI": 0.2668
+            },
+            {
+              "k": 20,
+              "silhouette": 0.0614,
+              "ARI": 0.2311
+            }
+          ]
+        },
+        "keys_only": {
+          "label_free_by_silhouette": {
+            "k": 3,
+            "ARI": 0.9797
+          },
+          "oracle_best_k_on_test_labels": 0.9797,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.2861,
+              "ARI": 0.5985
+            },
+            {
+              "k": 3,
+              "silhouette": 0.3595,
+              "ARI": 0.9797
+            },
+            {
+              "k": 4,
+              "silhouette": 0.3019,
+              "ARI": 0.8526
+            },
+            {
+              "k": 5,
+              "silhouette": 0.2845,
+              "ARI": 0.8037
+            },
+            {
+              "k": 6,
+              "silhouette": 0.1393,
+              "ARI": 0.6021
+            },
+            {
+              "k": 7,
+              "silhouette": 0.1514,
+              "ARI": 0.5647
+            },
+            {
+              "k": 8,
+              "silhouette": 0.1542,
+              "ARI": 0.4923
+            },
+            {
+              "k": 9,
+              "silhouette": 0.1599,
+              "ARI": 0.4763
+            },
+            {
+              "k": 10,
+              "silhouette": 0.1592,
+              "ARI": 0.472
+            },
+            {
+              "k": 11,
+              "silhouette": 0.1533,
+              "ARI": 0.3542
+            },
+            {
+              "k": 12,
+              "silhouette": 0.1405,
+              "ARI": 0.3314
+            },
+            {
+              "k": 13,
+              "silhouette": 0.1557,
+              "ARI": 0.3306
+            },
+            {
+              "k": 14,
+              "silhouette": 0.1523,
+              "ARI": 0.2981
+            },
+            {
+              "k": 15,
+              "silhouette": 0.1427,
+              "ARI": 0.2894
+            },
+            {
+              "k": 16,
+              "silhouette": 0.1347,
+              "ARI": 0.2429
+            },
+            {
+              "k": 17,
+              "silhouette": 0.1591,
+              "ARI": 0.2563
+            },
+            {
+              "k": 18,
+              "silhouette": 0.1461,
+              "ARI": 0.2475
+            },
+            {
+              "k": 19,
+              "silhouette": 0.1416,
+              "ARI": 0.2204
+            },
+            {
+              "k": 20,
+              "silhouette": 0.1504,
+              "ARI": 0.2328
+            }
+          ]
+        },
+        "values_only": {
+          "label_free_by_silhouette": {
+            "k": 2,
+            "ARI": 0.1205
+          },
+          "oracle_best_k_on_test_labels": 0.393,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.1,
+              "ARI": 0.1205
+            },
+            {
+              "k": 3,
+              "silhouette": -0.024,
+              "ARI": 0.2874
+            },
+            {
+              "k": 4,
+              "silhouette": 0.0744,
+              "ARI": 0.1976
+            },
+            {
+              "k": 5,
+              "silhouette": -0.0177,
+              "ARI": 0.3609
+            },
+            {
+              "k": 6,
+              "silhouette": -0.0438,
+              "ARI": 0.3549
+            },
+            {
+              "k": 7,
+              "silhouette": -0.0243,
+              "ARI": 0.392
+            },
+            {
+              "k": 8,
+              "silhouette": -0.0168,
+              "ARI": 0.3328
+            },
+            {
+              "k": 9,
+              "silhouette": -0.0298,
+              "ARI": 0.3313
+            },
+            {
+              "k": 10,
+              "silhouette": -0.0737,
+              "ARI": 0.164
+            },
+            {
+              "k": 11,
+              "silhouette": -0.0554,
+              "ARI": 0.3152
+            },
+            {
+              "k": 12,
+              "silhouette": 0.0486,
+              "ARI": 0.1619
+            },
+            {
+              "k": 13,
+              "silhouette": -0.0454,
+              "ARI": 0.3492
+            },
+            {
+              "k": 14,
+              "silhouette": -0.0115,
+              "ARI": 0.393
+            },
+            {
+              "k": 15,
+              "silhouette": -0.1039,
+              "ARI": 0.2039
+            },
+            {
+              "k": 16,
+              "silhouette": -0.1032,
+              "ARI": 0.2024
+            },
+            {
+              "k": 17,
+              "silhouette": -0.0818,
+              "ARI": 0.2118
+            },
+            {
+              "k": 18,
+              "silhouette": -0.0236,
+              "ARI": 0.3647
+            },
+            {
+              "k": 19,
+              "silhouette": -0.0459,
+              "ARI": 0.35
+            },
+            {
+              "k": 20,
+              "silhouette": -0.041,
+              "ARI": 0.1958
+            }
+          ]
+        },
+        "multihot": {
+          "label_free_by_silhouette": {
+            "k": 3,
+            "ARI": 0.9797
+          },
+          "oracle_best_k_on_test_labels": 0.9797,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.1329,
+              "ARI": 0.5985
+            },
+            {
+              "k": 3,
+              "silhouette": 0.1368,
+              "ARI": 0.9797
+            },
+            {
+              "k": 4,
+              "silhouette": 0.1342,
+              "ARI": 0.9104
+            },
+            {
+              "k": 5,
+              "silhouette": 0.1238,
+              "ARI": 0.8082
+            },
+            {
+              "k": 6,
+              "silhouette": 0.1163,
+              "ARI": 0.7144
+            },
+            {
+              "k": 7,
+              "silhouette": 0.1245,
+              "ARI": 0.7446
+            },
+            {
+              "k": 8,
+              "silhouette": 0.0701,
+              "ARI": 0.7026
+            },
+            {
+              "k": 9,
+              "silhouette": 0.0351,
+              "ARI": 0.5367
+            },
+            {
+              "k": 10,
+              "silhouette": 0.1069,
+              "ARI": 0.6289
+            },
+            {
+              "k": 11,
+              "silhouette": 0.0397,
+              "ARI": 0.523
+            },
+            {
+              "k": 12,
+              "silhouette": 0.0315,
+              "ARI": 0.4049
+            },
+            {
+              "k": 13,
+              "silhouette": 0.0426,
+              "ARI": 0.3887
+            },
+            {
+              "k": 14,
+              "silhouette": 0.0259,
+              "ARI": 0.3901
+            },
+            {
+              "k": 15,
+              "silhouette": 0.0218,
+              "ARI": 0.3958
+            },
+            {
+              "k": 16,
+              "silhouette": 0.019,
+              "ARI": 0.4309
+            },
+            {
+              "k": 17,
+              "silhouette": 0.0245,
+              "ARI": 0.3978
+            },
+            {
+              "k": 18,
+              "silhouette": 0.0079,
+              "ARI": 0.334
+            },
+            {
+              "k": 19,
+              "silhouette": 0.0244,
+              "ARI": 0.2812
+            },
+            {
+              "k": 20,
+              "silhouette": 0.0291,
+              "ARI": 0.373
+            }
+          ]
+        },
+        "keyset": {
+          "label_free_by_silhouette": {
+            "k": 3,
+            "ARI": 0.9898
+          },
+          "oracle_best_k_on_test_labels": 0.9898,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.2753,
+              "ARI": 0.6102
+            },
+            {
+              "k": 3,
+              "silhouette": 0.3817,
+              "ARI": 0.9898
+            },
+            {
+              "k": 4,
+              "silhouette": 0.3212,
+              "ARI": 0.8664
+            },
+            {
+              "k": 5,
+              "silhouette": 0.2765,
+              "ARI": 0.7904
+            },
+            {
+              "k": 6,
+              "silhouette": 0.2244,
+              "ARI": 0.6629
+            },
+            {
+              "k": 7,
+              "silhouette": 0.2058,
+              "ARI": 0.5775
+            },
+            {
+              "k": 8,
+              "silhouette": 0.1347,
+              "ARI": 0.4587
+            },
+            {
+              "k": 9,
+              "silhouette": 0.1456,
+              "ARI": 0.4644
+            },
+            {
+              "k": 10,
+              "silhouette": 0.1377,
+              "ARI": 0.4052
+            },
+            {
+              "k": 11,
+              "silhouette": 0.1345,
+              "ARI": 0.3547
+            },
+            {
+              "k": 12,
+              "silhouette": 0.133,
+              "ARI": 0.3328
+            },
+            {
+              "k": 13,
+              "silhouette": 0.1364,
+              "ARI": 0.3126
+            },
+            {
+              "k": 14,
+              "silhouette": 0.1368,
+              "ARI": 0.3108
+            },
+            {
+              "k": 15,
+              "silhouette": 0.1404,
+              "ARI": 0.2956
+            },
+            {
+              "k": 16,
+              "silhouette": 0.1358,
+              "ARI": 0.261
+            },
+            {
+              "k": 17,
+              "silhouette": 0.1332,
+              "ARI": 0.2554
+            },
+            {
+              "k": 18,
+              "silhouette": 0.1365,
+              "ARI": 0.2299
+            },
+            {
+              "k": 19,
+              "silhouette": 0.1256,
+              "ARI": 0.2139
+            },
+            {
+              "k": 20,
+              "silhouette": 0.1307,
+              "ARI": 0.214
+            }
+          ]
+        }
+      },
+      "best_label_free": {
+        "method": "words",
+        "k": 3,
+        "ARI": 1.0
+      },
+      "best_oracle": 1.0
+    },
+    "lazada": {
+      "records": 998,
+      "true_types": 759,
+      "methods": {
+        "words": {
+          "label_free_by_silhouette": {
+            "k": 19,
+            "ARI": 0.0023
+          },
+          "oracle_best_k_on_test_labels": 0.0027,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.0121,
+              "ARI": 0.0002
+            },
+            {
+              "k": 3,
+              "silhouette": 0.0182,
+              "ARI": 0.0006
+            },
+            {
+              "k": 4,
+              "silhouette": 0.0212,
+              "ARI": 0.0008
+            },
+            {
+              "k": 5,
+              "silhouette": 0.0239,
+              "ARI": 0.0007
+            },
+            {
+              "k": 6,
+              "silhouette": 0.0261,
+              "ARI": 0.0006
+            },
+            {
+              "k": 7,
+              "silhouette": 0.032,
+              "ARI": 0.0007
+            },
+            {
+              "k": 8,
+              "silhouette": 0.0317,
+              "ARI": 0.001
+            },
+            {
+              "k": 9,
+              "silhouette": 0.0376,
+              "ARI": 0.0014
+            },
+            {
+              "k": 10,
+              "silhouette": 0.039,
+              "ARI": 0.0012
+            },
+            {
+              "k": 11,
+              "silhouette": 0.0342,
+              "ARI": 0.0011
+            },
+            {
+              "k": 12,
+              "silhouette": 0.0373,
+              "ARI": 0.001
+            },
+            {
+              "k": 13,
+              "silhouette": 0.0466,
+              "ARI": 0.001
+            },
+            {
+              "k": 14,
+              "silhouette": 0.0436,
+              "ARI": 0.0014
+            },
+            {
+              "k": 15,
+              "silhouette": 0.0446,
+              "ARI": 0.0017
+            },
+            {
+              "k": 16,
+              "silhouette": 0.0455,
+              "ARI": 0.0017
+            },
+            {
+              "k": 17,
+              "silhouette": 0.0502,
+              "ARI": 0.0022
+            },
+            {
+              "k": 18,
+              "silhouette": 0.0472,
+              "ARI": 0.0018
+            },
+            {
+              "k": 19,
+              "silhouette": 0.0541,
+              "ARI": 0.0023
+            },
+            {
+              "k": 20,
+              "silhouette": 0.0504,
+              "ARI": 0.0027
+            }
+          ]
+        },
+        "chars": {
+          "label_free_by_silhouette": {
+            "k": 19,
+            "ARI": 0.0039
+          },
+          "oracle_best_k_on_test_labels": 0.0047,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.0196,
+              "ARI": 0.0005
+            },
+            {
+              "k": 3,
+              "silhouette": 0.0268,
+              "ARI": 0.0005
+            },
+            {
+              "k": 4,
+              "silhouette": 0.0272,
+              "ARI": 0.0006
+            },
+            {
+              "k": 5,
+              "silhouette": 0.0318,
+              "ARI": 0.0009
+            },
+            {
+              "k": 6,
+              "silhouette": 0.0364,
+              "ARI": 0.0011
+            },
+            {
+              "k": 7,
+              "silhouette": 0.043,
+              "ARI": 0.0012
+            },
+            {
+              "k": 8,
+              "silhouette": 0.0447,
+              "ARI": 0.0021
+            },
+            {
+              "k": 9,
+              "silhouette": 0.0492,
+              "ARI": 0.002
+            },
+            {
+              "k": 10,
+              "silhouette": 0.0473,
+              "ARI": 0.0017
+            },
+            {
+              "k": 11,
+              "silhouette": 0.0545,
+              "ARI": 0.0027
+            },
+            {
+              "k": 12,
+              "silhouette": 0.0529,
+              "ARI": 0.0024
+            },
+            {
+              "k": 13,
+              "silhouette": 0.06,
+              "ARI": 0.0025
+            },
+            {
+              "k": 14,
+              "silhouette": 0.0577,
+              "ARI": 0.0027
+            },
+            {
+              "k": 15,
+              "silhouette": 0.0643,
+              "ARI": 0.0036
+            },
+            {
+              "k": 16,
+              "silhouette": 0.0623,
+              "ARI": 0.0031
+            },
+            {
+              "k": 17,
+              "silhouette": 0.0641,
+              "ARI": 0.0041
+            },
+            {
+              "k": 18,
+              "silhouette": 0.0689,
+              "ARI": 0.0038
+            },
+            {
+              "k": 19,
+              "silhouette": 0.0732,
+              "ARI": 0.0039
+            },
+            {
+              "k": 20,
+              "silhouette": 0.0671,
+              "ARI": 0.0047
+            }
+          ]
+        },
+        "keys_only": {
+          "label_free_by_silhouette": {
+            "k": 20,
+            "ARI": 0.0017
+          },
+          "oracle_best_k_on_test_labels": 0.0018,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.1151,
+              "ARI": 0.0005
+            },
+            {
+              "k": 3,
+              "silhouette": 0.1185,
+              "ARI": 0.0005
+            },
+            {
+              "k": 4,
+              "silhouette": 0.1168,
+              "ARI": 0.0003
+            },
+            {
+              "k": 5,
+              "silhouette": 0.1204,
+              "ARI": 0.0006
+            },
+            {
+              "k": 6,
+              "silhouette": 0.1171,
+              "ARI": 0.0009
+            },
+            {
+              "k": 7,
+              "silhouette": 0.1075,
+              "ARI": 0.0008
+            },
+            {
+              "k": 8,
+              "silhouette": 0.1246,
+              "ARI": 0.0016
+            },
+            {
+              "k": 9,
+              "silhouette": 0.1314,
+              "ARI": 0.0004
+            },
+            {
+              "k": 10,
+              "silhouette": 0.1221,
+              "ARI": 0.0012
+            },
+            {
+              "k": 11,
+              "silhouette": 0.1168,
+              "ARI": 0.0013
+            },
+            {
+              "k": 12,
+              "silhouette": 0.1018,
+              "ARI": 0.0015
+            },
+            {
+              "k": 13,
+              "silhouette": 0.1199,
+              "ARI": 0.0008
+            },
+            {
+              "k": 14,
+              "silhouette": 0.1161,
+              "ARI": 0.0011
+            },
+            {
+              "k": 15,
+              "silhouette": 0.1241,
+              "ARI": 0.001
+            },
+            {
+              "k": 16,
+              "silhouette": 0.0843,
+              "ARI": 0.0017
+            },
+            {
+              "k": 17,
+              "silhouette": 0.1249,
+              "ARI": 0.0018
+            },
+            {
+              "k": 18,
+              "silhouette": 0.1287,
+              "ARI": 0.0011
+            },
+            {
+              "k": 19,
+              "silhouette": 0.1169,
+              "ARI": 0.001
+            },
+            {
+              "k": 20,
+              "silhouette": 0.135,
+              "ARI": 0.0017
+            }
+          ]
+        },
+        "values_only": {
+          "label_free_by_silhouette": {
+            "k": 2,
+            "ARI": 0.0001
+          },
+          "oracle_best_k_on_test_labels": 0.0003,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.243,
+              "ARI": 0.0001
+            },
+            {
+              "k": 3,
+              "silhouette": 0.2359,
+              "ARI": 0.0001
+            },
+            {
+              "k": 4,
+              "silhouette": 0.0681,
+              "ARI": 0.0001
+            },
+            {
+              "k": 5,
+              "silhouette": -0.079,
+              "ARI": 0.0001
+            },
+            {
+              "k": 6,
+              "silhouette": -0.0157,
+              "ARI": 0.0001
+            },
+            {
+              "k": 7,
+              "silhouette": -0.0123,
+              "ARI": 0.0003
+            },
+            {
+              "k": 8,
+              "silhouette": 0.0162,
+              "ARI": 0.0
+            },
+            {
+              "k": 9,
+              "silhouette": -0.0151,
+              "ARI": 0.0001
+            },
+            {
+              "k": 10,
+              "silhouette": -0.002,
+              "ARI": 0.0002
+            },
+            {
+              "k": 11,
+              "silhouette": -0.1729,
+              "ARI": 0.0001
+            },
+            {
+              "k": 12,
+              "silhouette": -0.0768,
+              "ARI": 0.0002
+            },
+            {
+              "k": 13,
+              "silhouette": -0.0203,
+              "ARI": 0.0002
+            },
+            {
+              "k": 14,
+              "silhouette": 0.0043,
+              "ARI": 0.0002
+            },
+            {
+              "k": 15,
+              "silhouette": -0.0332,
+              "ARI": 0.0003
+            },
+            {
+              "k": 16,
+              "silhouette": -0.016,
+              "ARI": 0.0001
+            },
+            {
+              "k": 17,
+              "silhouette": -0.0045,
+              "ARI": 0.0003
+            },
+            {
+              "k": 18,
+              "silhouette": -0.1306,
+              "ARI": 0.0002
+            },
+            {
+              "k": 19,
+              "silhouette": -0.0093,
+              "ARI": 0.0003
+            },
+            {
+              "k": 20,
+              "silhouette": -0.0579,
+              "ARI": 0.0002
+            }
+          ]
+        },
+        "multihot": {
+          "label_free_by_silhouette": {
+            "k": 3,
+            "ARI": 0.0
+          },
+          "oracle_best_k_on_test_labels": 0.0013,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.0563,
+              "ARI": 0.0004
+            },
+            {
+              "k": 3,
+              "silhouette": 0.0644,
+              "ARI": 0.0
+            },
+            {
+              "k": 4,
+              "silhouette": 0.0496,
+              "ARI": 0.0003
+            },
+            {
+              "k": 5,
+              "silhouette": 0.0092,
+              "ARI": 0.0006
+            },
+            {
+              "k": 6,
+              "silhouette": 0.0098,
+              "ARI": 0.0007
+            },
+            {
+              "k": 7,
+              "silhouette": 0.0307,
+              "ARI": 0.0006
+            },
+            {
+              "k": 8,
+              "silhouette": -0.0835,
+              "ARI": 0.0008
+            },
+            {
+              "k": 9,
+              "silhouette": 0.0182,
+              "ARI": 0.0011
+            },
+            {
+              "k": 10,
+              "silhouette": -0.0117,
+              "ARI": 0.0007
+            },
+            {
+              "k": 11,
+              "silhouette": -0.0304,
+              "ARI": 0.0006
+            },
+            {
+              "k": 12,
+              "silhouette": -0.1059,
+              "ARI": 0.0006
+            },
+            {
+              "k": 13,
+              "silhouette": 0.0085,
+              "ARI": 0.0007
+            },
+            {
+              "k": 14,
+              "silhouette": 0.0185,
+              "ARI": 0.0012
+            },
+            {
+              "k": 15,
+              "silhouette": -0.0215,
+              "ARI": 0.0008
+            },
+            {
+              "k": 16,
+              "silhouette": 0.0456,
+              "ARI": 0.0011
+            },
+            {
+              "k": 17,
+              "silhouette": -0.0661,
+              "ARI": 0.0013
+            },
+            {
+              "k": 18,
+              "silhouette": -0.0948,
+              "ARI": 0.0005
+            },
+            {
+              "k": 19,
+              "silhouette": -0.0624,
+              "ARI": 0.0009
+            },
+            {
+              "k": 20,
+              "silhouette": 0.0058,
+              "ARI": 0.0013
+            }
+          ]
+        },
+        "keyset": {
+          "label_free_by_silhouette": {
+            "k": 20,
+            "ARI": 0.0041
+          },
+          "oracle_best_k_on_test_labels": 0.0041,
+          "sweep": [
+            {
+              "k": 2,
+              "silhouette": 0.1253,
+              "ARI": 0.0004
+            },
+            {
+              "k": 3,
+              "silhouette": 0.1338,
+              "ARI": 0.0004
+            },
+            {
+              "k": 4,
+              "silhouette": 0.1401,
+              "ARI": 0.0004
+            },
+            {
+              "k": 5,
+              "silhouette": 0.1406,
+              "ARI": 0.0006
+            },
+            {
+              "k": 6,
+              "silhouette": 0.1519,
+              "ARI": 0.0006
+            },
+            {
+              "k": 7,
+              "silhouette": 0.1438,
+              "ARI": 0.001
+            },
+            {
+              "k": 8,
+              "silhouette": 0.152,
+              "ARI": 0.0018
+            },
+            {
+              "k": 9,
+              "silhouette": 0.1445,
+              "ARI": 0.0019
+            },
+            {
+              "k": 10,
+              "silhouette": 0.1577,
+              "ARI": 0.0021
+            },
+            {
+              "k": 11,
+              "silhouette": 0.1482,
+              "ARI": 0.0018
+            },
+            {
+              "k": 12,
+              "silhouette": 0.1309,
+              "ARI": 0.002
+            },
+            {
+              "k": 13,
+              "silhouette": 0.1572,
+              "ARI": 0.0025
+            },
+            {
+              "k": 14,
+              "silhouette": 0.1507,
+              "ARI": 0.0024
+            },
+            {
+              "k": 15,
+              "silhouette": 0.1591,
+              "ARI": 0.0026
+            },
+            {
+              "k": 16,
+              "silhouette": 0.1681,
+              "ARI": 0.003
+            },
+            {
+              "k": 17,
+              "silhouette": 0.1621,
+              "ARI": 0.003
+            },
+            {
+              "k": 18,
+              "silhouette": 0.1602,
+              "ARI": 0.0026
+            },
+            {
+              "k": 19,
+              "silhouette": 0.1685,
+              "ARI": 0.003
+            },
+            {
+              "k": 20,
+              "silhouette": 0.1735,
+              "ARI": 0.0041
+            }
+          ]
+        }
+      },
+      "best_label_free": {
+        "method": "keyset",
+        "k": 20,
+        "ARI": 0.0041
+      },
+      "best_oracle": 0.0047
+    }
+  },
+  "headline": {
+    "wikipedia_language_model_best": 0.9905,
+    "wikipedia_best_method_with_no_model_in_it": 1.0,
+    "wikipedia_that_method": "words",
+    "wikipedia_escrow": 0.8744,
+    "reading": "if the floor is level with the language model then the encyclopedia stream does not measure semantics and no paper should read it that way"
+  }
+}
