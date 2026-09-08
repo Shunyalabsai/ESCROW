@@ -52,7 +52,7 @@
         200
       ],
       "tokens": 27578,
-      "seconds": 390.7
+      "seconds": 387.5
     },
     {
       "seed": 1,
@@ -97,7 +97,7 @@
         200
       ],
       "tokens": 50819,
-      "seconds": 652.0
+      "seconds": 643.7
     },
     {
       "seed": 2,
@@ -142,7 +142,7 @@
         200
       ],
       "tokens": 49637,
-      "seconds": 648.5
+      "seconds": 641.4
     }
   ],
   "planted": [
@@ -193,5 +193,13 @@
       1.0
     ],
     "reading": "E20 gave the model a task built for it and it won. This gives it the two the price is built for. Abstention is the one that matters: a rule that cannot decline on noise will invent kinds on any stream."
+  },
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
   }
 }

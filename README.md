@@ -70,7 +70,7 @@ on the reviewer's own advice that they would add less than the items above.
 | `code/experiments/theorem1/` | the measurements behind the theorem finding, kept apart because the paper prints their answer and not their tables |
 | `code/tests/` | 25 tests, including the Kraft identities, the invariant that every cell is coded exactly once, and the guard that E44's copy of E20's gold builder has not drifted |
 | `code/tools/check_numbers.py` | fails if a superseded number is still printed anywhere in the paper or the talk |
-| `results/` | 69 result files. 35 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
+| `results/` | 69 result files. 36 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
 | `findings/` | the decision record: what was measured, what it refuted, and what was decided as a result |
 | `related_work/` | 54 papers, downloaded and extracted, each read in full rather than from its abstract |
 | `talk/` | the reveal.js deck. It is never published |
