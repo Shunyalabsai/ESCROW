@@ -56,8 +56,11 @@ nodes where the truth is three types. A prompt that says outright that a stream 
 it still builds 82. This rule returns 0 under all seven, because there is no sentence in it to change
 (`results/e42_prompt_sensitivity.json`).
 
-What is open. Key identity itself, which no operator in version 1 can decide. The strengthening
-experiments in item 7 of `findings/TODO.md` are deliberately not started,
+What is open. Key identity itself, which no operator in version 1 can decide, and which E45 shows
+cannot yet be scored either: of the 6,352 key merges the incumbent's own graph declares, nine have
+both sides on a key any method reads, two of those collapse distinct concepts, and seven sit on
+cohorts the price excludes anyway. A version 2 needs keys labelled by hand before it needs an
+operator. The strengthening experiments in item 7 of `findings/TODO.md` are deliberately not started,
 on the reviewer's own advice that they would add less than the items above.
 
 ## Where to look
@@ -70,7 +73,7 @@ on the reviewer's own advice that they would add less than the items above.
 | `code/experiments/theorem1/` | the measurements behind the theorem finding, kept apart because the paper prints their answer and not their tables |
 | `code/tests/` | 25 tests, including the Kraft identities, the invariant that every cell is coded exactly once, and the guard that E44's copy of E20's gold builder has not drifted |
 | `code/tools/check_numbers.py` | fails if a superseded number is still printed anywhere in the paper or the talk |
-| `results/` | 69 result files. 36 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
+| `results/` | 70 result files. 37 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
 | `findings/` | the decision record: what was measured, what it refuted, and what was decided as a result |
 | `related_work/` | 54 papers, downloaded and extracted, each read in full rather than from its abstract |
 | `talk/` | the reveal.js deck. It is never published |
@@ -96,6 +99,7 @@ python3 code/experiments/e41_symmetric.py     # the same language model on the t
 python3 code/experiments/e43_traditional_on_semantic.py            # what the encyclopedia stream ranks
 python3 code/experiments/e44_string_algorithms_on_key_identity.py  # what the key-identity gold ranks
 python3 code/experiments/e42_prompt_sensitivity.py    # how much of a model's result is the prompt
+python3 code/experiments/e45_is_there_a_key_identity_gold.py  # can the open decision be scored at all
 
 python3 code/tools/check_numbers.py                    # run before every paper build
 ```

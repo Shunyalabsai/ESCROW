@@ -1,0 +1,91 @@
+{
+  "experiment": "E45 is there a key-identity gold in this data that is not a string function",
+  "source": "baselines/autopkg/data/lazada_autopkg_kg_nodes.csv, node_type 'Attribute Key'",
+  "label_status": "silver: these merges are AutoPKG's pipeline output, not human labels, so their own agent must never be scored on them",
+  "counts": {
+    "raw_keys_in_the_stream": 3033,
+    "attribute_key_nodes": 15964,
+    "synonym_pairs_declared": 6352,
+    "canonical_names_that_align_with_a_raw_stream_key": 294,
+    "pairs_with_both_sides_on_a_raw_stream_key": 9,
+    "of_those_already_merged_by_the_string_function": 1,
+    "of_those_a_string_function_cannot_see": 8
+  },
+  "every_evaluable_pair": [
+    {
+      "a": "Output Tray Capacity",
+      "b": "Input Tray Capacity",
+      "string_function_merges_them": false,
+      "records_carrying_a": 1,
+      "records_carrying_b": 1
+    },
+    {
+      "a": "Seat Capacity",
+      "b": "Seating Capacity",
+      "string_function_merges_them": false,
+      "records_carrying_a": 4,
+      "records_carrying_b": 1
+    },
+    {
+      "a": "Wheel Size",
+      "b": "Wheel Diameter",
+      "string_function_merges_them": false,
+      "records_carrying_a": 1,
+      "records_carrying_b": 4
+    },
+    {
+      "a": "Battery Capacity",
+      "b": "Power Bank Capacity",
+      "string_function_merges_them": false,
+      "records_carrying_a": 28,
+      "records_carrying_b": 3
+    },
+    {
+      "a": "Alcohol-Free",
+      "b": "Alcohol Content",
+      "string_function_merges_them": false,
+      "records_carrying_a": 37,
+      "records_carrying_b": 2
+    },
+    {
+      "a": "Alcohol-Free",
+      "b": "Alcohol Free",
+      "string_function_merges_them": true,
+      "records_carrying_a": 37,
+      "records_carrying_b": 37
+    },
+    {
+      "a": "Life Stage",
+      "b": "Recommended Age",
+      "string_function_merges_them": false,
+      "records_carrying_a": 10,
+      "records_carrying_b": 690
+    },
+    {
+      "a": "Gauge",
+      "b": "Thickness",
+      "string_function_merges_them": false,
+      "records_carrying_a": 3,
+      "records_carrying_b": 6
+    },
+    {
+      "a": "Horsepower",
+      "b": "Wattage",
+      "string_function_merges_them": false,
+      "records_carrying_a": 1,
+      "records_carrying_b": 1
+    }
+  ],
+  "verdict": {
+    "usable_as_a_benchmark": false,
+    "reading": "9 evaluable pairs is not a benchmark. Their canonical names are their model's own invention, so only 294 of 15964 align with a key any method actually reads, and the synonym lists mostly relate one invented name to another. Read the pair list above before using any of it: some collapse distinct concepts, which AutoPKG's own paper names as a failure mode of its merge step. So no key-identity gold exists on this data that is not a string function, which is why E20's gold is one, and a version 2 operator has nothing to be scored against until keys are labelled by hand."
+  },
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}
