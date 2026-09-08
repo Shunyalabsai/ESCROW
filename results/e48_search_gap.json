@@ -1,0 +1,85 @@
+{
+  "experiment": "E48 how much of the loss is the criterion and how much is the search",
+  "definitions": {
+    "objective_gap_bits": "L(repair from truth) - L(truth); negative means the objective prefers something other than the truth",
+    "search_gap_bits": "L(engine from scratch) - L(repair from truth); positive means the search leaves bits on the table"
+  },
+  "cover_fixture": [
+    {
+      "truth": {
+        "K": 8,
+        "L": 45029.3,
+        "omega": 1.0
+      },
+      "repair_from_truth": {
+        "K": 5,
+        "L": 41960.8,
+        "omega": 0.6814
+      },
+      "engine_from_scratch": {
+        "K": 4,
+        "L": 43618.0,
+        "omega": 0.3982
+      },
+      "objective_gap_bits": -3068.5,
+      "search_gap_bits": 1657.2,
+      "seed": 0
+    },
+    {
+      "truth": {
+        "K": 8,
+        "L": 41968.0,
+        "omega": 1.0
+      },
+      "repair_from_truth": {
+        "K": 6,
+        "L": 40630.9,
+        "omega": 0.7611
+      },
+      "engine_from_scratch": {
+        "K": 4,
+        "L": 44024.2,
+        "omega": 0.3784
+      },
+      "objective_gap_bits": -1337.1,
+      "search_gap_bits": 3393.3,
+      "seed": 1
+    },
+    {
+      "truth": {
+        "K": 8,
+        "L": 45153.9,
+        "omega": 1.0
+      },
+      "repair_from_truth": {
+        "K": 6,
+        "L": 43180.7,
+        "omega": 0.791
+      },
+      "engine_from_scratch": {
+        "K": 2,
+        "L": 48081.4,
+        "omega": 0.2633
+      },
+      "objective_gap_bits": -1973.2,
+      "search_gap_bits": 4900.7,
+      "seed": 2
+    }
+  ],
+  "headline": {
+    "objective_gap_bits_mean": -2126.3,
+    "search_gap_bits_mean": 3317.1,
+    "omega_truth": 1.0,
+    "omega_reachable_by_the_shipped_moves": 0.7,
+    "omega_we_report": 0.3,
+    "reading": "the objective's own preference costs part of the agreement and the search costs the rest; compare the two gaps in bits before deciding what to fix"
+  },
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

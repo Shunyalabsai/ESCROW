@@ -1,0 +1,273 @@
+{
+  "experiment": "E52 the language model at one record at a time",
+  "changed": "chunk size only, 20 to 1",
+  "held_fixed": [
+    "the shipped system prompt",
+    "the node list carried forward",
+    "the parser",
+    "greedy decoding",
+    "the cap on output length",
+    "the records and their order"
+  ],
+  "stream_lengths": {
+    "noise": 100,
+    "encyclopedia": 120,
+    "seeds": [
+      0,
+      1
+    ]
+  },
+  "escrow_reference": {
+    "encyclopedia": {
+      "K": 3,
+      "ARI": 0.8895
+    },
+    "noise": {
+      "0": {
+        "K": 0
+      },
+      "1": {
+        "K": 0
+      }
+    }
+  },
+  "models": [
+    {
+      "model": "Qwen/Qwen3.5-2B",
+      "was_cached_before_this_run": false,
+      "runs": [
+        {
+          "chunk": 20,
+          "noise": {
+            "0": {
+              "nodes": 1,
+              "seconds": 235.2,
+              "assigned": 100,
+              "tokens": 8290
+            },
+            "1": {
+              "nodes": 1,
+              "seconds": 228.5,
+              "assigned": 100,
+              "tokens": 8290
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.0026,
+            "nodes": 116,
+            "assigned": 120,
+            "seconds": 148.6,
+            "tokens": 20320
+          }
+        },
+        {
+          "chunk": 1,
+          "noise": {
+            "0": {
+              "nodes": 1,
+              "seconds": 294.0,
+              "assigned": 100,
+              "tokens": 32181
+            },
+            "1": {
+              "nodes": 1,
+              "seconds": 261.9,
+              "assigned": 100,
+              "tokens": 30865
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.121,
+            "nodes": 76,
+            "assigned": 113,
+            "seconds": 719.3,
+            "tokens": 90150
+          }
+        }
+      ],
+      "loaded_through": "AutoModelForCausalLM",
+      "reasoning_trace_turned_off": false
+    },
+    {
+      "model": "Qwen/Qwen3.5-4B",
+      "was_cached_before_this_run": false,
+      "runs": [
+        {
+          "chunk": 20,
+          "noise": {
+            "0": {
+              "nodes": 40,
+              "seconds": 243.4,
+              "assigned": 100,
+              "tokens": 11067
+            },
+            "1": {
+              "nodes": 20,
+              "seconds": 205.7,
+              "assigned": 100,
+              "tokens": 8475
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.0005,
+            "nodes": 119,
+            "assigned": 120,
+            "seconds": 378.3,
+            "tokens": 22022
+          }
+        },
+        {
+          "chunk": 1,
+          "noise": {
+            "0": {
+              "nodes": 1,
+              "seconds": 194.3,
+              "assigned": 100,
+              "tokens": 28293
+            },
+            "1": {
+              "nodes": 1,
+              "seconds": 196.6,
+              "assigned": 100,
+              "tokens": 28289
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.0407,
+            "nodes": 94,
+            "assigned": 120,
+            "seconds": 368.8,
+            "tokens": 87653
+          }
+        }
+      ],
+      "loaded_through": "AutoModelForCausalLM",
+      "reasoning_trace_turned_off": true
+    },
+    {
+      "model": "Qwen/Qwen3.5-9B",
+      "was_cached_before_this_run": false,
+      "runs": [
+        {
+          "chunk": 20,
+          "noise": {
+            "0": {
+              "nodes": 20,
+              "seconds": 199.0,
+              "assigned": 100,
+              "tokens": 8624
+            },
+            "1": {
+              "nodes": 29,
+              "seconds": 217.3,
+              "assigned": 100,
+              "tokens": 9611
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.0005,
+            "nodes": 119,
+            "assigned": 120,
+            "seconds": 348.2,
+            "tokens": 24741
+          }
+        },
+        {
+          "chunk": 1,
+          "noise": {
+            "0": {
+              "nodes": 1,
+              "seconds": 200.2,
+              "assigned": 100,
+              "tokens": 28397
+            },
+            "1": {
+              "nodes": 1,
+              "seconds": 174.9,
+              "assigned": 100,
+              "tokens": 28501
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.0016,
+            "nodes": 118,
+            "assigned": 120,
+            "seconds": 350.4,
+            "tokens": 116437
+          }
+        }
+      ],
+      "loaded_through": "AutoModelForCausalLM",
+      "reasoning_trace_turned_off": true
+    }
+  ],
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  },
+  "headline": {
+    "escrow_encyclopedia_ARI": 0.7864,
+    "escrow_noise_nodes": {
+      "0": 0,
+      "1": 0
+    },
+    "encyclopedia_ARI_at_chunk_20": {
+      "Qwen/Qwen3.5-2B": 0.0026,
+      "Qwen/Qwen3.5-4B": 0.0005,
+      "Qwen/Qwen3.5-9B": 0.0005
+    },
+    "encyclopedia_ARI_at_chunk_1": {
+      "Qwen/Qwen3.5-2B": 0.121,
+      "Qwen/Qwen3.5-4B": 0.0407,
+      "Qwen/Qwen3.5-9B": 0.0016
+    },
+    "noise_nodes_at_chunk_20": {
+      "Qwen/Qwen3.5-2B": {
+        "0": 1,
+        "1": 1
+      },
+      "Qwen/Qwen3.5-4B": {
+        "0": 40,
+        "1": 20
+      },
+      "Qwen/Qwen3.5-9B": {
+        "0": 20,
+        "1": 29
+      }
+    },
+    "noise_nodes_at_chunk_1": {
+      "Qwen/Qwen3.5-2B": {
+        "0": 1,
+        "1": 1
+      },
+      "Qwen/Qwen3.5-4B": {
+        "0": 1,
+        "1": 1
+      },
+      "Qwen/Qwen3.5-9B": {
+        "0": 1,
+        "1": 1
+      }
+    },
+    "reading": "at chunk one the model answers the question the rule answers, with no lookahead. A win that survives is domain knowledge the rule has given up by construction; a win that does not survive was the lookahead."
+  },
+  "escrow_reference_superseded_by_the_label_fix": {
+    "encyclopedia": {
+      "K": 3,
+      "ARI": 0.7864
+    },
+    "noise": {
+      "0": {
+        "K": 0
+      },
+      "1": {
+        "K": 0
+      }
+    }
+  },
+  "note_on_the_reference": "the run recorded an ESCROW reference of 0.7864 on the encyclopedia stream, built by iterating the node dictionary unsorted so a record in more than one node took whichever label came out last. The rule is escrow.protocol.record_labels, largest node wins, and it gives 0.8895 on the same run. The language model numbers are untouched, since a model assigns each record exactly one node."
+}

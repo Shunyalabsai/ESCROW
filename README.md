@@ -56,6 +56,35 @@ nodes where the truth is three types. A prompt that says outright that a stream 
 it still builds 82. This rule returns 0 under all seven, because there is no sentence in it to change
 (`results/e42_prompt_sensitivity.json`).
 
+Nine more models have since been given the same two decisions, on the same records, under the same
+prompt, the same parser and greedy decoding. None of them declines. On a stream of 100 records with
+nothing in it, where the truth is no nodes at all, a served frontier model released in September 2026
+builds 18 and 11, and the 2024 checkpoints build up to 199 on 200 records. Then the one asymmetry
+that could have explained the gap was removed: the model reads twenty records per call and this rule
+reads one, so the chunk was set to one and the model was asked exactly the question the rule answers.
+On noise the frontier model then mints a node for almost every record it sees, 85 in its first 86,
+which is the degeneracy the myopic-minting lemma rules out for any valid code; the smaller open
+models collapse the other way, to a single node for the whole stream. Those are the two degenerate
+answers, and at one record per call every model tested lands on one of them while this rule lands on
+neither. The encyclopedia stream then separates the reason. Given one record at a time the served
+model reaches ARI 0.9681 against this rule's 0.8895 on the same 120 records, because it already knows
+what a film and a mountain are, while the smaller models return 0.0016 to 0.1210 at 76 to 118 nodes
+where the truth is three types. Where a model has prior knowledge of the domain it does well with no
+lookahead; where it has none it degenerates. This rule has no such knowledge by construction, which
+is the cost of being one engine on every stream
+(`results/e50_abstention_across_models.json`, `results/e52_one_record_at_a_time.json`,
+`results/e53_gemini_api.json`).
+
+A scoring defect was found and fixed on 2026-09-08, and it was understating this rule rather than
+flattering it. Thirteen experiments turned the cover into one label per record by iterating a
+dictionary unsorted, so a record sitting in more than one node took whichever label came out last
+instead of the largest node containing it. On the encyclopedia stream that moved 9 records of 320,
+and across sixty arrival orders it changed the reported agreement in 27 of them. The rule now lives
+in one place, `escrow.protocol.record_labels`, and `code/tests/test_record_labels_are_consistent.py`
+fails if any experiment writes its own copy again. Every affected experiment was re-run. The
+shortest-of-three figure on the encyclopedia stream is 0.9374, not the 0.9284 previously reported,
+and a single arrival order averages 0.8764 rather than 0.8691.
+
 What is open. Key identity itself, which no operator in version 1 can decide, and which E45 shows
 cannot yet be scored either: of the 6,352 key merges the incumbent's own graph declares, nine have
 both sides on a key any method reads, two of those collapse distinct concepts, and seven sit on
@@ -71,15 +100,12 @@ on the reviewer's own advice that they would add less than the items above.
 | `code/escrow/` | the engine: the codelength primitives, the insertion process, the batch objective and its repair operators |
 | `code/experiments/` | every experiment and demonstration, one file each, writing into `results/` |
 | `code/experiments/theorem1/` | the measurements behind the theorem finding, kept apart because the paper prints their answer and not their tables |
-| `code/tests/` | 25 tests, including the Kraft identities, the invariant that every cell is coded exactly once, and the guard that E44's copy of E20's gold builder has not drifted |
-| `code/tools/check_numbers.py` | fails if a superseded number is still printed anywhere in the paper or the talk |
-| `results/` | 70 result files. 37 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
-| `findings/` | the decision record: what was measured, what it refuted, and what was decided as a result |
-| `related_work/` | 54 papers, downloaded and extracted, each read in full rather than from its abstract |
-| `talk/` | the reveal.js deck. It is never published |
+| `code/tests/` | 28 tests, including the Kraft identities, the invariant that every cell is coded exactly once, the guard that E44's copy of E20's gold builder has not drifted, and the guard that every experiment turns a cover into record labels the same way |
+| `results/` | 151 result files. 37 carry a provenance stamp, the md5 of the three engine sources and the date, written by `code/escrow/provenance.py`. The rest predate that helper and are dated by the run they record |
 | `DATA.md` | every external input a benchmark run needs, where it comes from and where to put it |
 
-`findings/TODO.md` is the current list of what is left, with the state of each item.
+`findings/`, `related_work/`, `code/tools/` and the deck stay in the working tree and are not part of
+this repository.
 
 ## Running things
 
@@ -100,8 +126,12 @@ python3 code/experiments/e43_traditional_on_semantic.py            # what the en
 python3 code/experiments/e44_string_algorithms_on_key_identity.py  # what the key-identity gold ranks
 python3 code/experiments/e42_prompt_sensitivity.py    # how much of a model's result is the prompt
 python3 code/experiments/e45_is_there_a_key_identity_gold.py  # can the open decision be scored at all
+python3 code/experiments/e50_abstention_across_models.py   # is the failure to abstain one model's?
+python3 code/experiments/e52_one_record_at_a_time.py       # the model with no lookahead, as the rule gets it
 
-python3 code/tools/check_numbers.py                    # run before every paper build
+# the served-model arm needs a key in the environment and reaches an OpenAI-compatible endpoint:
+GEMINI_API_KEY=... python3 code/experiments/e53_gemini_api.py --list
+GEMINI_API_KEY=... ESCROW_E53_MODELS=gemini-3.8-flash python3 code/experiments/e53_gemini_api.py
 ```
 
 The engine and the tests are pure Python over the standard library. The benchmark runners need data,

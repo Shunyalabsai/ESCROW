@@ -50,7 +50,7 @@
           "min_ari": 1.0,
           "max_ari": 1.0,
           "mean_ari_planted_only": 1.0,
-          "mean_seconds": 0.11,
+          "mean_seconds": 0.07,
           "regime": "converged_to_K_star"
         },
         "3000": {
@@ -68,7 +68,7 @@
           "min_ari": 1.0,
           "max_ari": 1.0,
           "mean_ari_planted_only": 1.0,
-          "mean_seconds": 0.27,
+          "mean_seconds": 0.21,
           "regime": "converged_to_K_star"
         },
         "10000": {
@@ -86,7 +86,7 @@
           "min_ari": 1.0,
           "max_ari": 1.0,
           "mean_ari_planted_only": 1.0,
-          "mean_seconds": 1.7,
+          "mean_seconds": 0.75,
           "regime": "converged_to_K_star"
         }
       },
@@ -106,7 +106,7 @@
           "min_ari": 0.2577,
           "max_ari": 0.7386,
           "mean_ari_planted_only": 0.6713,
-          "mean_seconds": 0.95,
+          "mean_seconds": 0.51,
           "regime": "plateau_below_K_star"
         },
         "3000": {
@@ -124,7 +124,7 @@
           "min_ari": 0.1251,
           "max_ari": 0.7402,
           "mean_ari_planted_only": 0.6797,
-          "mean_seconds": 3.76,
+          "mean_seconds": 3.29,
           "regime": "plateau_below_K_star"
         },
         "10000": {
@@ -142,7 +142,7 @@
           "min_ari": 0.1295,
           "max_ari": 0.7352,
           "mean_ari_planted_only": 0.6902,
-          "mean_seconds": 37.19,
+          "mean_seconds": 19.47,
           "regime": "plateau_below_K_star"
         }
       },
@@ -162,7 +162,513 @@
           "min_ari": 0.0,
           "max_ari": 0.0,
           "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.28,
+          "mean_seconds": 0.14,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.36,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.9,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.3": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.13,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.35,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.82,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.4": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.13,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.34,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.86,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.5": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.13,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.34,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.82,
+          "regime": "plateau_below_K_star"
+        }
+      }
+    },
+    "K8": {
+      "0.0": {
+        "1000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.08,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.19,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 1.0,
+          "min_ari": 1.0,
+          "max_ari": 1.0,
+          "mean_ari_planted_only": 1.0,
+          "mean_seconds": 0.76,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.1": {
+        "1000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.7505,
+          "min_ari": 0.6931,
+          "max_ari": 0.8073,
+          "mean_ari_planted_only": 0.8676,
+          "mean_seconds": 0.21,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.8535,
+          "min_ari": 0.841,
+          "max_ari": 0.863,
+          "mean_ari_planted_only": 0.9421,
+          "mean_seconds": 1.82,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.8954,
+          "min_ari": 0.8902,
+          "max_ari": 0.899,
+          "mean_ari_planted_only": 0.9748,
+          "mean_seconds": 11.61,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.2": {
+        "1000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.4481,
+          "min_ari": 0.4302,
+          "max_ari": 0.4736,
+          "mean_ari_planted_only": 0.6767,
+          "mean_seconds": 0.3,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.5596,
+          "min_ari": 0.5445,
+          "max_ari": 0.5823,
+          "mean_ari_planted_only": 0.7931,
+          "mean_seconds": 2.3,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.6188,
+          "min_ari": 0.5964,
+          "max_ari": 0.6515,
+          "mean_ari_planted_only": 0.8367,
+          "mean_seconds": 16.28,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.3": {
+        "1000": {
+          "K": [
+            0,
+            1,
+            1,
+            3,
+            5
+          ],
+          "mean_K": 2.0,
+          "min_K": 0,
+          "max_K": 5,
+          "mean_ari": 0.0807,
+          "min_ari": 0.0,
+          "max_ari": 0.2357,
+          "mean_ari_planted_only": 0.119,
+          "mean_seconds": 0.49,
+          "regime": "converged_to_K_star"
+        },
+        "3000": {
+          "K": [
+            6,
+            7,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 7.4,
+          "min_K": 6,
+          "max_K": 8,
+          "mean_ari": 0.397,
+          "min_ari": 0.3251,
+          "max_ari": 0.5044,
+          "mean_ari_planted_only": 0.5352,
+          "mean_seconds": 8.95,
+          "regime": "converged_to_K_star"
+        },
+        "10000": {
+          "K": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mean_K": 8.0,
+          "min_K": 8,
+          "max_K": 8,
+          "mean_ari": 0.4426,
+          "min_ari": 0.3976,
+          "max_ari": 0.4714,
+          "mean_ari_planted_only": 0.5921,
+          "mean_seconds": 52.26,
+          "regime": "converged_to_K_star"
+        }
+      },
+      "0.4": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            1,
+            2
+          ],
+          "mean_K": 0.6,
+          "min_K": 0,
+          "max_K": 2,
+          "mean_ari": 0.012,
+          "min_ari": 0.0,
+          "max_ari": 0.053,
+          "mean_ari_planted_only": 0.0062,
+          "mean_seconds": 0.24,
+          "regime": "plateau_below_K_star"
+        },
+        "3000": {
+          "K": [
+            0,
+            1,
+            1,
+            1,
+            2
+          ],
+          "mean_K": 1.0,
+          "min_K": 0,
+          "max_K": 2,
+          "mean_ari": 0.0187,
+          "min_ari": 0.0,
+          "max_ari": 0.0452,
+          "mean_ari_planted_only": 0.0088,
+          "mean_seconds": 1.46,
+          "regime": "plateau_below_K_star"
+        },
+        "10000": {
+          "K": [
+            1,
+            2,
+            3,
+            4,
+            4
+          ],
+          "mean_K": 2.8,
+          "min_K": 1,
+          "max_K": 4,
+          "mean_ari": 0.0166,
+          "min_ari": 0.0046,
+          "max_ari": 0.0408,
+          "mean_ari_planted_only": 0.0061,
+          "mean_seconds": 14.8,
+          "regime": "plateau_below_K_star"
+        }
+      },
+      "0.5": {
+        "1000": {
+          "K": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mean_K": 0.0,
+          "min_K": 0,
+          "max_K": 0,
+          "mean_ari": 0.0,
+          "min_ari": 0.0,
+          "max_ari": 0.0,
+          "mean_ari_planted_only": 0.0,
+          "mean_seconds": 0.18,
           "regime": "plateau_below_K_star"
         },
         "3000": {
@@ -198,513 +704,7 @@
           "min_ari": 0.0,
           "max_ari": 0.0,
           "mean_ari_planted_only": 0.0,
-          "mean_seconds": 2.22,
-          "regime": "plateau_below_K_star"
-        }
-      },
-      "0.3": {
-        "1000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.23,
-          "regime": "plateau_below_K_star"
-        },
-        "3000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.45,
-          "regime": "plateau_below_K_star"
-        },
-        "10000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 1.95,
-          "regime": "plateau_below_K_star"
-        }
-      },
-      "0.4": {
-        "1000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.21,
-          "regime": "plateau_below_K_star"
-        },
-        "3000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.45,
-          "regime": "plateau_below_K_star"
-        },
-        "10000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 2.54,
-          "regime": "plateau_below_K_star"
-        }
-      },
-      "0.5": {
-        "1000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.19,
-          "regime": "plateau_below_K_star"
-        },
-        "3000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.47,
-          "regime": "plateau_below_K_star"
-        },
-        "10000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 1.9,
-          "regime": "plateau_below_K_star"
-        }
-      }
-    },
-    "K8": {
-      "0.0": {
-        "1000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 1.0,
-          "min_ari": 1.0,
-          "max_ari": 1.0,
-          "mean_ari_planted_only": 1.0,
-          "mean_seconds": 0.11,
-          "regime": "converged_to_K_star"
-        },
-        "3000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 1.0,
-          "min_ari": 1.0,
-          "max_ari": 1.0,
-          "mean_ari_planted_only": 1.0,
-          "mean_seconds": 0.25,
-          "regime": "converged_to_K_star"
-        },
-        "10000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 1.0,
-          "min_ari": 1.0,
-          "max_ari": 1.0,
-          "mean_ari_planted_only": 1.0,
-          "mean_seconds": 1.37,
-          "regime": "converged_to_K_star"
-        }
-      },
-      "0.1": {
-        "1000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.7526,
-          "min_ari": 0.6955,
-          "max_ari": 0.8113,
-          "mean_ari_planted_only": 0.87,
-          "mean_seconds": 0.49,
-          "regime": "converged_to_K_star"
-        },
-        "3000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.854,
-          "min_ari": 0.8419,
-          "max_ari": 0.863,
-          "mean_ari_planted_only": 0.9426,
-          "mean_seconds": 2.08,
-          "regime": "converged_to_K_star"
-        },
-        "10000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.8955,
-          "min_ari": 0.8905,
-          "max_ari": 0.8992,
-          "mean_ari_planted_only": 0.9749,
-          "mean_seconds": 19.79,
-          "regime": "converged_to_K_star"
-        }
-      },
-      "0.2": {
-        "1000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.4565,
-          "min_ari": 0.4408,
-          "max_ari": 0.4808,
-          "mean_ari_planted_only": 0.6897,
-          "mean_seconds": 0.52,
-          "regime": "converged_to_K_star"
-        },
-        "3000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.5629,
-          "min_ari": 0.5478,
-          "max_ari": 0.5849,
-          "mean_ari_planted_only": 0.798,
-          "mean_seconds": 2.61,
-          "regime": "converged_to_K_star"
-        },
-        "10000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.6205,
-          "min_ari": 0.598,
-          "max_ari": 0.6535,
-          "mean_ari_planted_only": 0.8392,
-          "mean_seconds": 25.19,
-          "regime": "converged_to_K_star"
-        }
-      },
-      "0.3": {
-        "1000": {
-          "K": [
-            0,
-            1,
-            1,
-            3,
-            5
-          ],
-          "mean_K": 2.0,
-          "min_K": 0,
-          "max_K": 5,
-          "mean_ari": 0.0809,
-          "min_ari": 0.0,
-          "max_ari": 0.2357,
-          "mean_ari_planted_only": 0.1193,
-          "mean_seconds": 1.06,
-          "regime": "converged_to_K_star"
-        },
-        "3000": {
-          "K": [
-            6,
-            7,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 7.4,
-          "min_K": 6,
-          "max_K": 8,
-          "mean_ari": 0.3971,
-          "min_ari": 0.3251,
-          "max_ari": 0.5051,
-          "mean_ari_planted_only": 0.5355,
-          "mean_seconds": 11.05,
-          "regime": "converged_to_K_star"
-        },
-        "10000": {
-          "K": [
-            8,
-            8,
-            8,
-            8,
-            8
-          ],
-          "mean_K": 8.0,
-          "min_K": 8,
-          "max_K": 8,
-          "mean_ari": 0.4429,
-          "min_ari": 0.3982,
-          "max_ari": 0.4717,
-          "mean_ari_planted_only": 0.5927,
-          "mean_seconds": 74.71,
-          "regime": "converged_to_K_star"
-        }
-      },
-      "0.4": {
-        "1000": {
-          "K": [
-            0,
-            0,
-            0,
-            1,
-            2
-          ],
-          "mean_K": 0.6,
-          "min_K": 0,
-          "max_K": 2,
-          "mean_ari": 0.012,
-          "min_ari": 0.0,
-          "max_ari": 0.053,
-          "mean_ari_planted_only": 0.0062,
-          "mean_seconds": 0.46,
-          "regime": "plateau_below_K_star"
-        },
-        "3000": {
-          "K": [
-            0,
-            1,
-            1,
-            1,
-            2
-          ],
-          "mean_K": 1.0,
-          "min_K": 0,
-          "max_K": 2,
-          "mean_ari": 0.0187,
-          "min_ari": 0.0,
-          "max_ari": 0.0452,
-          "mean_ari_planted_only": 0.0088,
-          "mean_seconds": 1.99,
-          "regime": "plateau_below_K_star"
-        },
-        "10000": {
-          "K": [
-            1,
-            2,
-            3,
-            4,
-            4
-          ],
-          "mean_K": 2.8,
-          "min_K": 1,
-          "max_K": 4,
-          "mean_ari": 0.0166,
-          "min_ari": 0.0046,
-          "max_ari": 0.0408,
-          "mean_ari_planted_only": 0.0061,
-          "mean_seconds": 21.34,
-          "regime": "plateau_below_K_star"
-        }
-      },
-      "0.5": {
-        "1000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.36,
-          "regime": "plateau_below_K_star"
-        },
-        "3000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.71,
-          "regime": "plateau_below_K_star"
-        },
-        "10000": {
-          "K": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "mean_K": 0.0,
-          "min_K": 0,
-          "max_K": 0,
-          "mean_ari": 0.0,
-          "min_ari": 0.0,
-          "max_ari": 0.0,
-          "mean_ari_planted_only": 0.0,
-          "mean_seconds": 2.08,
+          "mean_seconds": 1.27,
           "regime": "plateau_below_K_star"
         }
       }
@@ -726,7 +726,7 @@
           "min_ari": 1.0,
           "max_ari": 1.0,
           "mean_ari_planted_only": 1.0,
-          "mean_seconds": 0.23,
+          "mean_seconds": 0.1,
           "regime": "converged_to_K_star"
         },
         "3000": {
@@ -744,7 +744,7 @@
           "min_ari": 1.0,
           "max_ari": 1.0,
           "mean_ari_planted_only": 1.0,
-          "mean_seconds": 0.31,
+          "mean_seconds": 0.27,
           "regime": "converged_to_K_star"
         },
         "10000": {
@@ -762,7 +762,7 @@
           "min_ari": 1.0,
           "max_ari": 1.0,
           "mean_ari_planted_only": 1.0,
-          "mean_seconds": 1.48,
+          "mean_seconds": 1.0,
           "regime": "converged_to_K_star"
         }
       },
@@ -778,11 +778,11 @@
           "mean_K": 20.0,
           "min_K": 20,
           "max_K": 20,
-          "mean_ari": 0.6743,
-          "min_ari": 0.6513,
+          "mean_ari": 0.6709,
+          "min_ari": 0.6429,
           "max_ari": 0.6974,
-          "mean_ari_planted_only": 0.823,
-          "mean_seconds": 0.42,
+          "mean_ari_planted_only": 0.8187,
+          "mean_seconds": 0.21,
           "regime": "converged_to_K_star"
         },
         "3000": {
@@ -796,11 +796,11 @@
           "mean_K": 20.0,
           "min_K": 20,
           "max_K": 20,
-          "mean_ari": 0.8268,
+          "mean_ari": 0.8256,
           "min_ari": 0.8107,
           "max_ari": 0.8429,
-          "mean_ari_planted_only": 0.921,
-          "mean_seconds": 2.25,
+          "mean_ari_planted_only": 0.9196,
+          "mean_seconds": 1.94,
           "regime": "converged_to_K_star"
         },
         "10000": {
@@ -814,11 +814,11 @@
           "mean_K": 20.0,
           "min_K": 20,
           "max_K": 20,
-          "mean_ari": 0.8934,
-          "min_ari": 0.8877,
+          "mean_ari": 0.8931,
+          "min_ari": 0.8874,
           "max_ari": 0.9002,
-          "mean_ari_planted_only": 0.9641,
-          "mean_seconds": 40.2,
+          "mean_ari_planted_only": 0.9637,
+          "mean_seconds": 31.93,
           "regime": "converged_to_K_star"
         }
       },
@@ -834,11 +834,11 @@
           "mean_K": 15.6,
           "min_K": 14,
           "max_K": 18,
-          "mean_ari": 0.2829,
-          "min_ari": 0.2473,
-          "max_ari": 0.3332,
-          "mean_ari_planted_only": 0.5119,
-          "mean_seconds": 0.57,
+          "mean_ari": 0.2791,
+          "min_ari": 0.244,
+          "max_ari": 0.328,
+          "mean_ari_planted_only": 0.5046,
+          "mean_seconds": 0.3,
           "regime": "converged_to_K_star"
         },
         "3000": {
@@ -852,11 +852,11 @@
           "mean_K": 20.0,
           "min_K": 20,
           "max_K": 20,
-          "mean_ari": 0.4956,
-          "min_ari": 0.4731,
-          "max_ari": 0.5099,
-          "mean_ari_planted_only": 0.7846,
-          "mean_seconds": 3.79,
+          "mean_ari": 0.4919,
+          "min_ari": 0.4689,
+          "max_ari": 0.507,
+          "mean_ari_planted_only": 0.7775,
+          "mean_seconds": 3.12,
           "regime": "converged_to_K_star"
         },
         "10000": {
@@ -870,11 +870,11 @@
           "mean_K": 20.0,
           "min_K": 20,
           "max_K": 20,
-          "mean_ari": 0.6795,
-          "min_ari": 0.6682,
-          "max_ari": 0.6964,
-          "mean_ari_planted_only": 0.9002,
-          "mean_seconds": 75.51,
+          "mean_ari": 0.6776,
+          "min_ari": 0.6653,
+          "max_ari": 0.6936,
+          "mean_ari_planted_only": 0.8964,
+          "mean_seconds": 60.34,
           "regime": "converged_to_K_star"
         }
       },
@@ -894,7 +894,7 @@
           "min_ari": 0.0146,
           "max_ari": 0.0664,
           "mean_ari_planted_only": 0.0299,
-          "mean_seconds": 0.57,
+          "mean_seconds": 0.3,
           "regime": "converged_to_K_star"
         },
         "3000": {
@@ -908,11 +908,11 @@
           "mean_K": 19.6,
           "min_K": 18,
           "max_K": 20,
-          "mean_ari": 0.4088,
-          "min_ari": 0.2858,
+          "mean_ari": 0.4083,
+          "min_ari": 0.2852,
           "max_ari": 0.4727,
-          "mean_ari_planted_only": 0.546,
-          "mean_seconds": 13.06,
+          "mean_ari_planted_only": 0.5443,
+          "mean_seconds": 11.65,
           "regime": "converged_to_K_star"
         },
         "10000": {
@@ -926,11 +926,11 @@
           "mean_K": 20.0,
           "min_K": 20,
           "max_K": 20,
-          "mean_ari": 0.5037,
-          "min_ari": 0.4714,
+          "mean_ari": 0.503,
+          "min_ari": 0.4703,
           "max_ari": 0.5336,
-          "mean_ari_planted_only": 0.7417,
-          "mean_seconds": 150.32,
+          "mean_ari_planted_only": 0.7392,
+          "mean_seconds": 124.82,
           "regime": "converged_to_K_star"
         }
       },
@@ -950,7 +950,7 @@
           "min_ari": 0.0,
           "max_ari": 0.0,
           "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.4,
+          "mean_seconds": 0.2,
           "regime": "converged_to_K_star"
         },
         "3000": {
@@ -968,7 +968,7 @@
           "min_ari": 0.0995,
           "max_ari": 0.1657,
           "mean_ari_planted_only": 0.0478,
-          "mean_seconds": 9.15,
+          "mean_seconds": 6.28,
           "regime": "converged_to_K_star"
         },
         "10000": {
@@ -986,7 +986,7 @@
           "min_ari": 0.4498,
           "max_ari": 0.4756,
           "mean_ari_planted_only": 0.3395,
-          "mean_seconds": 244.12,
+          "mean_seconds": 207.61,
           "regime": "converged_to_K_star"
         }
       },
@@ -1006,7 +1006,7 @@
           "min_ari": 0.0,
           "max_ari": 0.0,
           "mean_ari_planted_only": 0.0,
-          "mean_seconds": 0.33,
+          "mean_seconds": 0.14,
           "regime": "plateau_below_K_star"
         },
         "3000": {
@@ -1024,7 +1024,7 @@
           "min_ari": 0.0,
           "max_ari": 0.018,
           "mean_ari_planted_only": 0.0006,
-          "mean_seconds": 3.53,
+          "mean_seconds": 1.68,
           "regime": "plateau_below_K_star"
         },
         "10000": {
@@ -1042,7 +1042,7 @@
           "min_ari": 0.0091,
           "max_ari": 0.0441,
           "mean_ari_planted_only": 0.0043,
-          "mean_seconds": 24.23,
+          "mean_seconds": 19.44,
           "regime": "plateau_below_K_star"
         }
       }
@@ -1175,9 +1175,9 @@
           "10000": 8.0
         },
         "mean_ari_by_T": {
-          "1000": 0.7526,
-          "3000": 0.854,
-          "10000": 0.8955
+          "1000": 0.7505,
+          "3000": 0.8535,
+          "10000": 0.8954
         }
       },
       "0.2": {
@@ -1191,9 +1191,9 @@
           "10000": 8.0
         },
         "mean_ari_by_T": {
-          "1000": 0.4565,
-          "3000": 0.5629,
-          "10000": 0.6205
+          "1000": 0.4481,
+          "3000": 0.5596,
+          "10000": 0.6188
         }
       },
       "0.3": {
@@ -1207,9 +1207,9 @@
           "10000": 8.0
         },
         "mean_ari_by_T": {
-          "1000": 0.0809,
-          "3000": 0.3971,
-          "10000": 0.4429
+          "1000": 0.0807,
+          "3000": 0.397,
+          "10000": 0.4426
         }
       },
       "0.4": {
@@ -1273,9 +1273,9 @@
           "10000": 20.0
         },
         "mean_ari_by_T": {
-          "1000": 0.6743,
-          "3000": 0.8268,
-          "10000": 0.8934
+          "1000": 0.6709,
+          "3000": 0.8256,
+          "10000": 0.8931
         }
       },
       "0.2": {
@@ -1289,9 +1289,9 @@
           "10000": 20.0
         },
         "mean_ari_by_T": {
-          "1000": 0.2829,
-          "3000": 0.4956,
-          "10000": 0.6795
+          "1000": 0.2791,
+          "3000": 0.4919,
+          "10000": 0.6776
         }
       },
       "0.3": {
@@ -1306,8 +1306,8 @@
         },
         "mean_ari_by_T": {
           "1000": 0.0378,
-          "3000": 0.4088,
-          "10000": 0.5037
+          "3000": 0.4083,
+          "10000": 0.503
         }
       },
       "0.4": {
@@ -1362,9 +1362,9 @@
       "first_noise_not_converging_to_K_star": 0.4,
       "mean_ari_at_max_T_by_noise": {
         "0.0": 1.0,
-        "0.1": 0.8955,
-        "0.2": 0.6205,
-        "0.3": 0.4429,
+        "0.1": 0.8954,
+        "0.2": 0.6188,
+        "0.3": 0.4426,
         "0.4": 0.0166,
         "0.5": 0.0
       }
@@ -1374,23 +1374,23 @@
       "first_noise_not_converging_to_K_star": 0.5,
       "mean_ari_at_max_T_by_noise": {
         "0.0": 1.0,
-        "0.1": 0.8934,
-        "0.2": 0.6795,
-        "0.3": 0.5037,
+        "0.1": 0.8931,
+        "0.2": 0.6776,
+        "0.3": 0.503,
         "0.4": 0.4607,
         "0.5": 0.0245
       }
     }
   },
-  "runtime_seconds": 544.4,
-  "workers": 8,
+  "runtime_seconds": 473.3,
+  "workers": 7,
   "reading": "The fixture can now fail. With value noise, key noise and a fraction of fully random records all driven by one dial, the noise level at which mean ARI at the longest stream first falls below 0.5 is 0.2 for K* = 2, 0.3 for K* = 8, 0.4 for K* = 20; the breakdown comes later the more groups are planted, which is what key noise predicts, since with few groups a swapped key lands on one of very few alternatives and wipes the key set out faster. Of the 18 rows in the grid, 10 converge to K*, 8 plateau below K*, 0 sit above K* without climbing, and 0 grow with T. Some rows do climb with stream length, up to a slope of 8.7063 in log T and 0.00208955 in T, but every one of them is climbing toward K* from below and the largest K in any single run anywhere in the grid is exactly K*, so the growth is recovery and not the Kearns failure of noise absorbed as structure; past the breakdown noise the engine writes the structure off instead, which is the opposite failure.",
   "provenance": {
-    "date": "2026-09-05",
+    "date": "2026-09-08",
     "engine_md5": {
-      "engine.py": "21cc574ad69acb8c4a0d27fdd4b4b18d",
-      "batch.py": "9bf3a5f3550970e6e1df924fbb75de96",
-      "codes.py": "d45ce4330686488e78522e19803307b4"
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
     }
   }
 }

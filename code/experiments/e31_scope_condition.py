@@ -139,7 +139,7 @@ def recurrence(recs):
 def escrow(recs, truth):
     g, b = run_stream(recs)
     lab = [-1] * len(recs)
-    for v in g.nodes.values():
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
         for m in v.members:
             lab[m - 1] = v.nid
     return {"ARI": round(_ari(truth, lab), 4), "K": int(g.K),

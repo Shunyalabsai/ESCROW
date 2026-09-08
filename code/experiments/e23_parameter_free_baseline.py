@@ -600,7 +600,7 @@ def kstar_validity_check(seeds=(0, 1, 2)):
 def escrow_arm(records, truth):
     g, b = run_stream(records)
     lab = [-1] * len(records)
-    for v in g.nodes.values():
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
         for m in v.members:
             lab[m - 1] = v.nid
     return dict(K=g.K, ARI=round(_ari(truth, lab), 6),

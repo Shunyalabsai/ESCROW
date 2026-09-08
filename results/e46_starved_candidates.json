@@ -1,0 +1,165 @@
+{
+  "experiment": "E46 why the rule under-mints where its own conditions say it should not",
+  "mechanism": "a cell feeds its candidate only while the background owns it, so the first node to take a shared key starves every other candidate",
+  "switch": "EscrowGraph(accrue_owned_cells=...), default False is the shipped rule",
+  "gates": {
+    "null": [
+      {
+        "seed": 0,
+        "K_shipped": 0,
+        "K_accrue_owned": 0,
+        "seconds_shipped": 0.5,
+        "seconds_accrue_owned": 0.5
+      },
+      {
+        "seed": 1,
+        "K_shipped": 0,
+        "K_accrue_owned": 0,
+        "seconds_shipped": 0.5,
+        "seconds_accrue_owned": 0.5
+      },
+      {
+        "seed": 2,
+        "K_shipped": 0,
+        "K_accrue_owned": 0,
+        "seconds_shipped": 0.5,
+        "seconds_accrue_owned": 0.5
+      },
+      {
+        "seed": 3,
+        "K_shipped": 0,
+        "K_accrue_owned": 0,
+        "seconds_shipped": 0.5,
+        "seconds_accrue_owned": 0.6
+      }
+    ],
+    "null_still_silent": true,
+    "positive_controls": [
+      {
+        "stream": "two_group",
+        "true_K": 2,
+        "shipped": {
+          "K": 2,
+          "ARI": 1.0
+        },
+        "accrue_owned": {
+          "K": 2,
+          "ARI": 1.0
+        }
+      },
+      {
+        "stream": "planted8",
+        "true_K": 8,
+        "shipped": {
+          "K": 8,
+          "ARI": 1.0
+        },
+        "accrue_owned": {
+          "K": 8,
+          "ARI": 1.0
+        }
+      }
+    ],
+    "e34_cover_fixture": [
+      {
+        "shared_key_pool": 12,
+        "seed": 0,
+        "true_groups": 8,
+        "shipped": {
+          "K": 4,
+          "omega": 0.3792
+        },
+        "accrue_owned": {
+          "K": 4,
+          "omega": 0.4506
+        }
+      },
+      {
+        "shared_key_pool": 12,
+        "seed": 1,
+        "true_groups": 8,
+        "shipped": {
+          "K": 4,
+          "omega": 0.2003
+        },
+        "accrue_owned": {
+          "K": 4,
+          "omega": 0.2418
+        }
+      },
+      {
+        "shared_key_pool": 12,
+        "seed": 2,
+        "true_groups": 8,
+        "shipped": {
+          "K": 2,
+          "omega": 0.1473
+        },
+        "accrue_owned": {
+          "K": 2,
+          "omega": 0.1516
+        }
+      },
+      {
+        "shared_key_pool": 24,
+        "seed": 0,
+        "true_groups": 8,
+        "shipped": {
+          "K": 4,
+          "omega": 0.3963
+        },
+        "accrue_owned": {
+          "K": 5,
+          "omega": 0.478
+        }
+      },
+      {
+        "shared_key_pool": 24,
+        "seed": 1,
+        "true_groups": 8,
+        "shipped": {
+          "K": 6,
+          "omega": 0.3746
+        },
+        "accrue_owned": {
+          "K": 6,
+          "omega": 0.3621
+        }
+      },
+      {
+        "shared_key_pool": 24,
+        "seed": 2,
+        "true_groups": 8,
+        "shipped": {
+          "K": 5,
+          "omega": 0.3439
+        },
+        "accrue_owned": {
+          "K": 5,
+          "omega": 0.3479
+        }
+      }
+    ]
+  },
+  "headline": {
+    "null_still_silent": true,
+    "e34_mean_K": {
+      "truth": 8,
+      "shipped": 4.17,
+      "accrue_owned": 4.33
+    },
+    "e34_mean_omega": {
+      "shipped": 0.3069,
+      "accrue_owned": 0.3387
+    },
+    "reading": "if the null stays silent and K moves toward 8, the under-minting E34 found is a starvation in candidate feeding and not a limit of the price"
+  },
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

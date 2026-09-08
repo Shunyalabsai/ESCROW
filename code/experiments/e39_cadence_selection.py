@@ -71,7 +71,7 @@ def run(recs, every):
 
 def partition_labels(g, n):
     lab = [-1] * n
-    for v in g.nodes.values():
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
         for m in v.members:
             lab[m - 1] = v.nid
     return lab

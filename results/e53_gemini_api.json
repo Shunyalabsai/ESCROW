@@ -1,0 +1,97 @@
+{
+  "experiment": "E53 the same two decisions given to a served frontier model",
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai",
+  "held_fixed": [
+    "the shipped system prompt",
+    "the node list carried forward",
+    "the parser",
+    "temperature 0",
+    "the cap on output length",
+    "the records and their order"
+  ],
+  "note_on_the_prompt": "the served runner folds the system prompt into the user turn, because that is what the other served run in this paper does; the text is identical",
+  "reasoning_effort": "none",
+  "note_on_reasoning": "these models bill a private trace against the same output budget as the answer, so at the shipped cap the answer is cut off mid JSON and the parser sees one record of twenty. The trace is turned off, which is what the local runs do through the chat template. On the same probe chunk effort low built 13 nodes where none built 9, so the setting moves the count and is reported rather than buried",
+  "stream_lengths": {
+    "noise": 100,
+    "encyclopedia": 120,
+    "seeds": [
+      0,
+      1
+    ]
+  },
+  "escrow_reference": {
+    "encyclopedia": {
+      "K": 3,
+      "ARI": 0.8895
+    },
+    "noise": {
+      "0": {
+        "K": 0
+      },
+      "1": {
+        "K": 0
+      }
+    },
+    "tokens": 0
+  },
+  "models": [
+    {
+      "model": "gemini-3.8-flash",
+      "runs": [
+        {
+          "chunk": 20,
+          "noise": {
+            "0": {
+              "nodes": 18,
+              "seconds": 22.6,
+              "assigned": 100,
+              "tokens_in": 4933,
+              "tokens_out": 2436,
+              "nodes_after_each_chunk": [
+                8,
+                11,
+                14,
+                16,
+                18
+              ],
+              "calls": 5
+            },
+            "1": {
+              "nodes": 11,
+              "seconds": 20.2,
+              "assigned": 100,
+              "tokens_in": 4831,
+              "tokens_out": 2312,
+              "nodes_after_each_chunk": [
+                10,
+                11,
+                11,
+                11,
+                11
+              ],
+              "calls": 5
+            }
+          },
+          "encyclopedia": {
+            "ARI": 0.9382,
+            "nodes": 4,
+            "assigned": 120,
+            "seconds": 18.0,
+            "tokens_in": 15020,
+            "tokens_out": 1910,
+            "calls": 6
+          }
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

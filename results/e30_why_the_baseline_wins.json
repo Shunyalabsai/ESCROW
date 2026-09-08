@@ -17,28 +17,28 @@
         "mean_occurrences_of_a_key": 28.9
       },
       "shipped_example": {
-        "ARI": 0.679,
+        "ARI": 0.6781,
         "K": 5,
         "bits": 28407.5
       },
       "presence_facets_example": {
-        "ARI": 0.6328,
-        "K": 24,
-        "bits": 35655.7
+        "ARI": 0.772,
+        "K": 23,
+        "bits": 35668.9
       },
       "escrow_shipped": {
-        "mean_ARI": 0.8447,
-        "sd": 0.1312
+        "mean_ARI": 0.8521,
+        "sd": 0.1376
       },
       "escrow_with_presence_facets": {
-        "mean_ARI": 0.3698,
-        "sd": 0.2628
+        "mean_ARI": 0.3303,
+        "sd": 0.3539
       }
     },
     "planted8": {
       "where_the_baseline_signal_is": {
         "keys_only": 1.0,
-        "key_value_only": 1.0,
+        "key_value_only": 0.8826,
         "both": 1.0
       },
       "value_repetition": {
@@ -95,8 +95,8 @@
         "sd": 0.0
       },
       "escrow_with_presence_facets": {
-        "mean_ARI": 0.9891,
-        "sd": 0.0219
+        "mean_ARI": 1.0,
+        "sd": 0.0
       }
     }
   },
@@ -109,7 +109,7 @@
       "two_group": 1.0
     },
     "accuracy_by_stream": {
-      "wikipedia": 0.8447,
+      "wikipedia": 0.8521,
       "planted8": 1.0,
       "two_group": 1.0
     },
@@ -117,9 +117,9 @@
     "what_the_diagnosis_licenses": "letting a key seed a candidate on the absence evidence the engine already computes, with no new facet. Not implemented here and not claimed"
   },
   "provenance": {
-    "date": "2026-09-06",
+    "date": "2026-09-08",
     "engine_md5": {
-      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
       "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
       "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
     }

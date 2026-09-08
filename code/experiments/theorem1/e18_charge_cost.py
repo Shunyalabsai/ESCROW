@@ -63,7 +63,7 @@ def set_arm(tight, seed_on, mode, gamma):
 
 def labels(g, n):
     lab = [-1] * n
-    for v in g.nodes.values():
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
         for m in v.members:
             lab[m - 1] = v.nid
     return lab

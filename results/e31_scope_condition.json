@@ -239,7 +239,7 @@
       },
       "escrow_mean_ARI": 0.0001,
       "escrow_mean_K": 0.3,
-      "matched_kmeans_ARI": 0.289
+      "matched_kmeans_ARI": 0.5088
     },
     {
       "alphabet": 64,
@@ -281,7 +281,7 @@
       },
       "escrow_mean_ARI": 0.0,
       "escrow_mean_K": 0,
-      "matched_kmeans_ARI": 0.0026
+      "matched_kmeans_ARI": 0.0297
     },
     {
       "alphabet": 2000,
@@ -529,9 +529,9 @@
     "reading": "Two conditions, both read off the price. A candidate is named by one (key, value) pair and accrues only on records carrying it, so a kind is reachable only if one of its characteristic pairs recurs at least t* times, and E9 puts t* between 3 and 24. Separately the price charges about log2(n/t) bits to name each member. A deduplication benchmark asks for clusters of two: its seed cohort is at most two, below the most favourable t*, and its price demands thirteen bits from each of two records. The method cannot do entity resolution, and that is a statement about its price rather than about its tuning. What it can do is the converse case, a modest number of kinds each holding many records whose values recur, which is what a catalogue of listings is."
   },
   "provenance": {
-    "date": "2026-09-06",
+    "date": "2026-09-08",
     "engine_md5": {
-      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
       "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
       "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
     }

@@ -77,7 +77,15 @@ class Receipt:
 
 
 class EscrowGraph:
-    def __init__(self, cand_pool_cap: int = 4096) -> None:
+    def __init__(self, cand_pool_cap: int = 4096,
+                 accrue_owned_cells: bool = False) -> None:
+        # accrue_owned_cells is an experiment switch, default off so the shipped
+        # behaviour is unchanged. Off: a (key, value) cell feeds its candidate only
+        # while the background still owns it, so the first node to take a shared key
+        # stops that key feeding every other candidate. On: every cell of the record
+        # feeds its own signature's candidate, with the evidence still charged
+        # against the CURRENT OWNER's code, which is what the delta below already
+        # computes. E46 measures which is right.
         self.n = 0
         self.K = 0
         self.next_id = 0                        # monotone node ids: NEVER reused
@@ -107,6 +115,7 @@ class EscrowGraph:
         # in memory for the repair pass's overlap accounting; a later phase replaces
         # this with per-node published-member bitmaps)
         self.cand_pool_cap = cand_pool_cap
+        self.accrue_owned_cells = accrue_owned_cells
         self.mint_log: list = []
 
     # ------------------------------------------------------------------ #
@@ -201,7 +210,8 @@ class EscrowGraph:
                     q[kid] += 1
 
         # --- 6 (moved before updates). ACCRUE ESCROW with pre-record statistics -- #
-        resid = [(kid, vid_of[kid]) for kid in K_r if own[kid] == 0]
+        resid = [(kid, vid_of[kid]) for kid in K_r
+                 if self.accrue_owned_cells or own[kid] == 0]
         touched: list[Candidate] = []
         for sig in resid:
             c = self.pool.get(sig)

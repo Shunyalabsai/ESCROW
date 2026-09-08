@@ -38,3 +38,24 @@ def run_stream(records, every=REPAIR_EVERY, objective_cls=BatchObjective, on_pro
 def describe(every=REPAIR_EVERY, objective_cls=BatchObjective):
     return (f"EscrowGraph + {objective_cls.__name__}(g).install(); repair() every {every} records; "
             f"final repair(full=True)")
+
+
+def record_labels(g, n):
+    """One label per record, for scoring the cover against a single-label gold.
+
+    The output is a cover, so a record can sit in several nodes, while ARI and the rest of the
+    single-label metrics want exactly one label each. The rule is the one the language model
+    comparison has always used: the record takes the node with the most members that contains it,
+    and the lowest node id breaks a tie. A record in no node takes -1, so the background is one
+    cluster rather than a cluster each.
+
+    This lives here because it was written out by hand in more than one experiment and the copies
+    disagreed. Iterating `g.nodes.values()` unsorted leaves the label of a multi-node record to
+    dictionary order, which on the 320 record encyclopedia stream moves 9 of them and the reported
+    agreement by 0.04. Call this instead of writing the loop again.
+    """
+    lab = [-1] * n
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
+        for m in v.members:
+            lab[m - 1] = v.nid
+    return lab

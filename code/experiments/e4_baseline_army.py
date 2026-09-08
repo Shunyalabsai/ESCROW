@@ -134,7 +134,7 @@ def _ari(truth, pred):
 def escrow_labels(recs):
     g, b = run_stream(recs)
     lab = [-1] * len(recs)                      # background = one cluster, honest
-    for v in g.nodes.values():
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
         for m in v.members:
             lab[m - 1] = v.nid
     return lab, g.K

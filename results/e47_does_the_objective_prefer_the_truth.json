@@ -1,0 +1,87 @@
+{
+  "experiment": "E47 does L_batch have the planted truth as its optimum",
+  "fixture": "the E33/E34 cover fixture, 1500 records, 8 groups, all keys from a shared pool",
+  "oracle": "every cell is given to the group that generated its value, where that group is one the record belongs to; noise cells stay in the background",
+  "rows": [
+    {
+      "shared_key_pool": 12,
+      "seed": 0,
+      "L_empty": 48052.7,
+      "L_engine": 43618.0,
+      "K_engine": 4,
+      "L_truth": 45029.3,
+      "K_truth": 8,
+      "truth_minus_engine_bits": 1411.3,
+      "objective_prefers_the_truth": false
+    },
+    {
+      "shared_key_pool": 12,
+      "seed": 1,
+      "L_empty": 47990.3,
+      "L_engine": 44024.2,
+      "K_engine": 4,
+      "L_truth": 41968.0,
+      "K_truth": 8,
+      "truth_minus_engine_bits": -2056.2,
+      "objective_prefers_the_truth": true
+    },
+    {
+      "shared_key_pool": 12,
+      "seed": 2,
+      "L_empty": 50434.6,
+      "L_engine": 48081.4,
+      "K_engine": 2,
+      "L_truth": 45153.9,
+      "K_truth": 8,
+      "truth_minus_engine_bits": -2927.5,
+      "objective_prefers_the_truth": true
+    },
+    {
+      "shared_key_pool": 24,
+      "seed": 0,
+      "L_empty": 52418.3,
+      "L_engine": 46677.2,
+      "K_engine": 4,
+      "L_truth": 49184.4,
+      "K_truth": 8,
+      "truth_minus_engine_bits": 2507.2,
+      "objective_prefers_the_truth": false
+    },
+    {
+      "shared_key_pool": 24,
+      "seed": 1,
+      "L_empty": 52988.2,
+      "L_engine": 44074.2,
+      "K_engine": 6,
+      "L_truth": 47316.5,
+      "K_truth": 8,
+      "truth_minus_engine_bits": 3242.4,
+      "objective_prefers_the_truth": false
+    },
+    {
+      "shared_key_pool": 24,
+      "seed": 2,
+      "L_empty": 54427.7,
+      "L_engine": 47521.8,
+      "K_engine": 5,
+      "L_truth": 47259.9,
+      "K_truth": 8,
+      "truth_minus_engine_bits": -261.9,
+      "objective_prefers_the_truth": true
+    }
+  ],
+  "headline": {
+    "cells_where_the_objective_prefers_the_truth": 3,
+    "of": 6,
+    "mean_truth_minus_engine_bits": 319.2,
+    "reading": "negative bits mean the truth is the shorter description and the search is at fault; positive bits mean the objective ranks the engine's wrong answer above the planted truth, which no search can repair"
+  },
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}

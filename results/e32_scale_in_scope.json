@@ -44,68 +44,68 @@
         "kinds_total": 8
       },
       "escrow": {
-        "mean_ARI": 0.8753,
-        "sd": 0.0587,
-        "min": 0.7929,
-        "max": 0.9633,
-        "spread": 0.1704,
+        "mean_ARI": 0.8824,
+        "sd": 0.0551,
+        "min": 0.7912,
+        "max": 0.9675,
+        "spread": 0.1763,
         "mean_K": 9.1,
         "per_order": [
           {
-            "ARI": 0.8655,
+            "ARI": 0.8746,
             "K": 10,
             "bits": 28816.0,
             "background": 12,
-            "seconds": 0.2
+            "seconds": 0.5
           },
           {
             "ARI": 0.8819,
             "K": 8,
             "bits": 29394.0,
             "background": 1,
-            "seconds": 0.2
+            "seconds": 0.6
           },
           {
-            "ARI": 0.9041,
+            "ARI": 0.8979,
             "K": 9,
             "bits": 28643.8,
             "background": 7,
-            "seconds": 0.2
+            "seconds": 0.6
           },
           {
-            "ARI": 0.9526,
+            "ARI": 0.9548,
             "K": 10,
             "bits": 27973.0,
             "background": 1,
-            "seconds": 0.2
+            "seconds": 0.6
           },
           {
-            "ARI": 0.7929,
+            "ARI": 0.7912,
             "K": 9,
             "bits": 28898.0,
             "background": 5,
-            "seconds": 0.2
+            "seconds": 0.7
           },
           {
             "ARI": 0.8297,
             "K": 8,
             "bits": 29131.4,
             "background": 13,
-            "seconds": 0.2
+            "seconds": 0.5
           },
           {
-            "ARI": 0.9633,
+            "ARI": 0.9675,
             "K": 9,
             "bits": 28758.9,
             "background": 8,
-            "seconds": 0.2
+            "seconds": 0.5
           },
           {
-            "ARI": 0.8123,
+            "ARI": 0.8617,
             "K": 10,
             "bits": 29101.1,
             "background": 2,
-            "seconds": 0.1
+            "seconds": 0.5
           }
         ]
       },
@@ -146,7 +146,7 @@
           "oracle": {
             "condition": "ORACLE",
             "value": 5,
-            "ARI": 0.948,
+            "ARI": 0.9465,
             "K": 9,
             "note": "best on the test labels, an upper bound"
           },
@@ -159,7 +159,7 @@
           "default": {
             "condition": "DEFAULT",
             "value": 5,
-            "ARI": 0.948,
+            "ARI": 0.9465,
             "K": 9,
             "metric": "cosine",
             "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
@@ -168,7 +168,7 @@
             "condition": "DEFAULT, constructor exactly",
             "value": 5,
             "metric": "euclidean",
-            "ARI": 0.9512,
+            "ARI": 0.9467,
             "K": 9
           }
         },
@@ -254,68 +254,68 @@
         "kinds_total": 8
       },
       "escrow": {
-        "mean_ARI": 0.8741,
-        "sd": 0.0275,
-        "min": 0.8216,
-        "max": 0.91,
-        "spread": 0.0884,
+        "mean_ARI": 0.8772,
+        "sd": 0.0273,
+        "min": 0.8274,
+        "max": 0.9086,
+        "spread": 0.0812,
         "mean_K": 10.2,
         "per_order": [
           {
-            "ARI": 0.8816,
+            "ARI": 0.8889,
             "K": 9,
             "bits": 58972.4,
             "background": 16,
-            "seconds": 0.6
+            "seconds": 1.4
           },
           {
-            "ARI": 0.8778,
+            "ARI": 0.8771,
             "K": 10,
             "bits": 58071.2,
             "background": 6,
-            "seconds": 0.3
+            "seconds": 1.1
           },
           {
-            "ARI": 0.8689,
+            "ARI": 0.8696,
             "K": 13,
             "bits": 61283.4,
             "background": 4,
-            "seconds": 0.4
+            "seconds": 1.2
           },
           {
-            "ARI": 0.8216,
+            "ARI": 0.8274,
             "K": 11,
             "bits": 60541.8,
             "background": 2,
-            "seconds": 0.6
+            "seconds": 1.3
           },
           {
-            "ARI": 0.8799,
+            "ARI": 0.9027,
             "K": 11,
             "bits": 60787.3,
             "background": 12,
-            "seconds": 0.5
+            "seconds": 1.5
           },
           {
-            "ARI": 0.907,
+            "ARI": 0.9086,
             "K": 11,
             "bits": 60044.6,
             "background": 4,
-            "seconds": 0.4
+            "seconds": 1.2
           },
           {
-            "ARI": 0.8459,
+            "ARI": 0.8436,
             "K": 9,
             "bits": 60728.6,
             "background": 6,
-            "seconds": 0.5
+            "seconds": 1.2
           },
           {
-            "ARI": 0.91,
+            "ARI": 0.8999,
             "K": 8,
             "bits": 61460.1,
             "background": 8,
-            "seconds": 0.5
+            "seconds": 1.4
           }
         ]
       },
@@ -356,7 +356,7 @@
           "oracle": {
             "condition": "ORACLE",
             "value": 5,
-            "ARI": 0.9606,
+            "ARI": 0.9594,
             "K": 9,
             "note": "best on the test labels, an upper bound"
           },
@@ -369,7 +369,7 @@
           "default": {
             "condition": "DEFAULT",
             "value": 5,
-            "ARI": 0.9606,
+            "ARI": 0.9594,
             "K": 9,
             "metric": "cosine",
             "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
@@ -378,7 +378,7 @@
             "condition": "DEFAULT, constructor exactly",
             "value": 5,
             "metric": "euclidean",
-            "ARI": 0.9661,
+            "ARI": 0.9628,
             "K": 9
           }
         },
@@ -464,68 +464,68 @@
         "kinds_total": 8
       },
       "escrow": {
-        "mean_ARI": 0.8971,
-        "sd": 0.0329,
-        "min": 0.8391,
-        "max": 0.9385,
-        "spread": 0.0994,
+        "mean_ARI": 0.9135,
+        "sd": 0.0157,
+        "min": 0.8956,
+        "max": 0.9405,
+        "spread": 0.0449,
         "mean_K": 10.9,
         "per_order": [
           {
-            "ARI": 0.9337,
+            "ARI": 0.9405,
             "K": 10,
             "bits": 123581.6,
             "background": 15,
-            "seconds": 2.3
+            "seconds": 6.1
           },
           {
-            "ARI": 0.8524,
+            "ARI": 0.9162,
             "K": 12,
             "bits": 127542.5,
             "background": 17,
-            "seconds": 1.9
+            "seconds": 6.1
           },
           {
-            "ARI": 0.9106,
+            "ARI": 0.9086,
             "K": 10,
             "bits": 124755.3,
             "background": 4,
-            "seconds": 2.0
+            "seconds": 5.8
           },
           {
-            "ARI": 0.897,
+            "ARI": 0.8956,
             "K": 10,
             "bits": 127751.8,
             "background": 15,
-            "seconds": 2.1
+            "seconds": 6.0
           },
           {
-            "ARI": 0.9036,
+            "ARI": 0.9059,
             "K": 13,
             "bits": 128598.7,
             "background": 0,
-            "seconds": 1.6
+            "seconds": 5.1
           },
           {
-            "ARI": 0.9385,
+            "ARI": 0.9371,
             "K": 9,
             "bits": 123588.7,
             "background": 11,
-            "seconds": 1.9
+            "seconds": 4.9
           },
           {
-            "ARI": 0.902,
+            "ARI": 0.9051,
             "K": 11,
             "bits": 126367.2,
             "background": 6,
-            "seconds": 1.6
+            "seconds": 4.4
           },
           {
-            "ARI": 0.8391,
+            "ARI": 0.8988,
             "K": 12,
             "bits": 126488.4,
             "background": 7,
-            "seconds": 1.8
+            "seconds": 5.2
           }
         ]
       },
@@ -566,7 +566,7 @@
           "oracle": {
             "condition": "ORACLE",
             "value": 10,
-            "ARI": 0.967,
+            "ARI": 0.9667,
             "K": 9,
             "note": "best on the test labels, an upper bound"
           },
@@ -579,7 +579,7 @@
           "default": {
             "condition": "DEFAULT",
             "value": 5,
-            "ARI": 0.9466,
+            "ARI": 0.9462,
             "K": 10,
             "metric": "cosine",
             "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
@@ -619,7 +619,7 @@
           "oracle": {
             "condition": "ORACLE",
             "value": 1.75,
-            "ARI": 0.9464,
+            "ARI": 0.9462,
             "K": 15,
             "note": "best on the test labels, an upper bound"
           },
@@ -674,68 +674,68 @@
         "kinds_total": 8
       },
       "escrow": {
-        "mean_ARI": 0.8985,
-        "sd": 0.0343,
-        "min": 0.8153,
-        "max": 0.9255,
-        "spread": 0.1102,
+        "mean_ARI": 0.9126,
+        "sd": 0.0153,
+        "min": 0.8794,
+        "max": 0.9296,
+        "spread": 0.0502,
         "mean_K": 12.8,
         "per_order": [
           {
-            "ARI": 0.92,
+            "ARI": 0.914,
             "K": 12,
             "bits": 264744.7,
             "background": 28,
-            "seconds": 8.2
+            "seconds": 22.8
           },
           {
-            "ARI": 0.925,
+            "ARI": 0.9236,
             "K": 11,
             "bits": 262027.0,
             "background": 9,
-            "seconds": 7.9
+            "seconds": 21.4
           },
           {
-            "ARI": 0.8951,
+            "ARI": 0.9139,
             "K": 12,
             "bits": 265979.9,
             "background": 18,
-            "seconds": 8.2
+            "seconds": 22.8
           },
           {
-            "ARI": 0.8889,
+            "ARI": 0.8794,
             "K": 12,
             "bits": 266546.6,
             "background": 4,
-            "seconds": 6.5
+            "seconds": 18.3
           },
           {
-            "ARI": 0.9255,
+            "ARI": 0.928,
             "K": 13,
             "bits": 261102.8,
             "background": 15,
-            "seconds": 9.9
+            "seconds": 25.0
           },
           {
-            "ARI": 0.8153,
+            "ARI": 0.9108,
             "K": 13,
             "bits": 267542.9,
             "background": 12,
-            "seconds": 8.5
+            "seconds": 22.6
           },
           {
-            "ARI": 0.9202,
+            "ARI": 0.9296,
             "K": 15,
             "bits": 262511.6,
             "background": 33,
-            "seconds": 9.6
+            "seconds": 26.1
           },
           {
-            "ARI": 0.8979,
+            "ARI": 0.9014,
             "K": 14,
             "bits": 262729.3,
             "background": 6,
-            "seconds": 7.0
+            "seconds": 19.9
           }
         ]
       },
@@ -766,68 +766,68 @@
         "kinds_total": 8
       },
       "escrow": {
-        "mean_ARI": 0.919,
-        "sd": 0.0394,
-        "min": 0.8416,
-        "max": 0.9514,
-        "spread": 0.1098,
+        "mean_ARI": 0.9382,
+        "sd": 0.0167,
+        "min": 0.9013,
+        "max": 0.953,
+        "spread": 0.0517,
         "mean_K": 15,
         "per_order": [
           {
-            "ARI": 0.9467,
+            "ARI": 0.9482,
             "K": 14,
             "bits": 483373.5,
             "background": 33,
-            "seconds": 35.2
+            "seconds": 74.0
           },
           {
-            "ARI": 0.9514,
+            "ARI": 0.9474,
             "K": 16,
             "bits": 480803.7,
             "background": 36,
-            "seconds": 94.2
+            "seconds": 90.1
           },
           {
-            "ARI": 0.8416,
+            "ARI": 0.9376,
             "K": 15,
             "bits": 487810.9,
             "background": 40,
-            "seconds": 73.6
+            "seconds": 74.3
           },
           {
-            "ARI": 0.8678,
+            "ARI": 0.9428,
             "K": 14,
             "bits": 489605.0,
             "background": 47,
-            "seconds": 67.2
+            "seconds": 89.8
           },
           {
-            "ARI": 0.9307,
+            "ARI": 0.9013,
             "K": 14,
             "bits": 485488.3,
             "background": 68,
-            "seconds": 93.9
+            "seconds": 114.2
           },
           {
-            "ARI": 0.9506,
+            "ARI": 0.9523,
             "K": 15,
             "bits": 480487.5,
             "background": 23,
-            "seconds": 44.1
+            "seconds": 69.9
           },
           {
-            "ARI": 0.9483,
+            "ARI": 0.953,
             "K": 15,
             "bits": 478124.9,
             "background": 23,
-            "seconds": 49.2
+            "seconds": 78.6
           },
           {
-            "ARI": 0.9151,
+            "ARI": 0.9228,
             "K": 17,
             "bits": 479572.3,
             "background": 24,
-            "seconds": 38.6
+            "seconds": 67.9
           }
         ]
       },
@@ -852,12 +852,12 @@
       4500
     ],
     "ARI_from_to": [
-      0.8753,
-      0.919
+      0.8824,
+      0.9382
     ],
     "spread_from_to": [
-      0.1704,
-      0.1098
+      0.1763,
+      0.0517
     ],
     "pairs_clearing_t_star_from_to": [
       0.0018,
@@ -868,9 +868,9 @@
     "verdict": "the prediction holds: the same stream gets easier as it grows"
   },
   "provenance": {
-    "date": "2026-09-06",
+    "date": "2026-09-08",
     "engine_md5": {
-      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
       "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
       "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
     }

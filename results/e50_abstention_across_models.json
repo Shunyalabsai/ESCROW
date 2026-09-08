@@ -1,0 +1,110 @@
+{
+  "experiment": "E50 is the failure to abstain a property of one model or of prompting",
+  "held_fixed": [
+    "the shipped system prompt",
+    "the records",
+    "their order",
+    "chunk size 20",
+    "greedy decoding",
+    "the parser"
+  ],
+  "escrow_reference": {
+    "nodes_on_noise": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
+    "encyclopedia_ARI": 0.833
+  },
+  "models": [
+    {
+      "model": "Qwen/Qwen2.5-14B-Instruct",
+      "was_cached_before_this_run": true,
+      "nodes_on_noise": [
+        80,
+        195,
+        195
+      ],
+      "encyclopedia_ARI": 0.9896,
+      "encyclopedia_nodes": 4,
+      "abstains": false,
+      "competent_on_the_easy_stream": true
+    },
+    {
+      "model": "meta-llama/Llama-3.1-8B-Instruct",
+      "was_cached_before_this_run": false,
+      "error": "OSError('You are trying to access a gated repo.\\nMake sure to have access to it at https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct.\\n401 Client Error. (Request ID: Root=1-6a9fe6e4-4bc4d9132efea7bd3bdfaa09;12b979dd-0239-4d9f-b34c-be11e20dfa90)\\n\\nCannot access gated repo for url https://huggi"
+    },
+    {
+      "model": "google/gemma-2-9b-it",
+      "was_cached_before_this_run": false,
+      "error": "OSError('You are trying to access a gated repo.\\nMake sure to have access to it at https://huggingface.co/google/gemma-2-9b-it.\\n401 Client Error. (Request ID: Root=1-6a9fe6e4-40184c113fb7b1172cecf774;e94c0218-b26d-4991-bc24-8b1e135358ed)\\n\\nCannot access gated repo for url https://huggingface.co/go"
+    },
+    {
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "was_cached_before_this_run": false,
+      "nodes_on_noise": [
+        61,
+        2,
+        11
+      ],
+      "encyclopedia_ARI": 0.6405,
+      "encyclopedia_nodes": 74,
+      "abstains": false,
+      "competent_on_the_easy_stream": false
+    },
+    {
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "was_cached_before_this_run": false,
+      "nodes_on_noise": [
+        196,
+        199,
+        44
+      ],
+      "encyclopedia_ARI": 0.892,
+      "encyclopedia_nodes": 6,
+      "abstains": false,
+      "competent_on_the_easy_stream": true
+    }
+  ],
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  },
+  "headline": {
+    "models_run": 3,
+    "models_that_abstained_on_noise": [],
+    "nodes_on_noise_by_model": {
+      "Qwen/Qwen2.5-14B-Instruct": [
+        80,
+        195,
+        195
+      ],
+      "mistralai/Mistral-7B-Instruct-v0.3": [
+        61,
+        2,
+        11
+      ],
+      "Qwen/Qwen2.5-7B-Instruct": [
+        196,
+        199,
+        44
+      ]
+    },
+    "encyclopedia_ARI_by_model": {
+      "Qwen/Qwen2.5-14B-Instruct": 0.9896,
+      "mistralai/Mistral-7B-Instruct-v0.3": 0.6405,
+      "Qwen/Qwen2.5-7B-Instruct": 0.892
+    },
+    "escrow_nodes_on_noise": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
+    "reading": "a model that returns zero or one node on the noise stream while still scoring on the encyclopedia stream would show abstention is reachable by prompting, and the paper's sentence would have to be narrowed"
+  }
+}

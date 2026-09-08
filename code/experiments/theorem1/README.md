@@ -1,9 +1,10 @@
 # The Theorem 1 measurements
 
-These are the scripts behind `results/e16_supermartingale_check.json`, and the arm outputs they
-produced are in `results/theorem1_arms/`. They are kept apart from the numbered experiments because
-they do not produce a result the paper prints. They answer one question about the engine, and the
-paper cites their answer.
+These are the scripts behind `results/e16_supermartingale_check.json`, `findings/THEOREM1.md` and
+`findings/THEOREM1_CORRECTIONS.md`, and the arm outputs they produced are in
+`results/theorem1_arms/`. They are kept apart from the numbered experiments because they do not
+produce a result the paper prints; they answer one question about the engine, and the paper cites
+their answer.
 
 The question. The shipped value block is a sub-probability, so the martingale step of Theorem 1 is
 not exact as written. Two corrections are principled: charging the escape only for the values it can
@@ -20,13 +21,13 @@ default to off, so the shipped behaviour is unchanged and every committed result
 | `quick_controls.py` | the positive controls under each arm: both synthetic streams, the null, and the deferred arm |
 | `planted8_margin.py` | how far the best leftover candidate falls short of its price when the seed key's evidence is excluded, which is what shows the drift is load-bearing |
 | `e13_subset.py`, `e13_k20_tail.py` | the creation-bias grid under the tight charge, including the three high-noise cells that refuted the expectation that it was free |
+| `compare.py`, `drive.sh` | the harness: run an arm over the experiments in a scratch tree and diff its results against the committed ones |
 | `e18_seed_charge_null.py` | E18: the null accumulator's supremum and drift as the stream grows, and the uniform slack Gamma each level would need, for the shipped statistic and for the one with the seed key's term removed |
 | `e18_charge_cost.py` | E18: what the price-side seed naming charge costs the mint, over the two codes, the tight naming charge and a sweep of the uniform slack, on the canonical controls, E5's twenty orders, E7's deferred arm and the Wikipedia demonstration |
 | `e18_report.py` | E18: collects every arm's exceedance and every control into `results/e18_seed_naming_charge.json` |
 | `_run.py` | runs any script in this directory. The files here still carry the `sys.path` line from when they sat in `code/experiments/`, so run directly they raise ModuleNotFoundError; this puts `code` on the path and leaves the scripts unmodified |
 
-Every flag defaults to off, so a clone reproduces the shipped behaviour without setting anything.
-To run one arm, turn its flag on for that command alone:
+How to run one arm without touching the repository's results:
 
 ```bash
 ESCROW_TIGHT_NAMING=1 python3 code/experiments/theorem1/_run.py e16_wide.py
@@ -34,8 +35,8 @@ ESCROW_SEED_NAMING_CHARGE=1 ESCROW_SEED_NAMING_MODE=av \
     python3 code/experiments/theorem1/_run.py e16_wide.py
 ```
 
-An arm overwrites the results file it names, so copy the repository first if you want to keep the
-committed run to compare against.
+`drive.sh` copies the tree to a scratch directory first, which is the safe way to run the flags on
+across every experiment at once. Read it before using it; it hardcodes a scratch path.
 
 The finding, in one line: the tight charge makes the martingale step exactly true and does not
 restore the bound, because the released statistic is computed on a subsequence the data chose.

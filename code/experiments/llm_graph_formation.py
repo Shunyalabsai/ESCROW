@@ -58,6 +58,8 @@ MODEL_PREF = ["Qwen/Qwen2.5-14B-Instruct", "Qwen/Qwen2.5-7B-Instruct"]
 CHUNK = 20
 MAX_NEW = 1600
 LAZADA_LIMIT = 1000
+API_TIMEOUT = int(os.environ.get("ESCROW_API_TIMEOUT", "90"))
+API_RETRIES = int(os.environ.get("ESCROW_API_RETRIES", "4"))
 LAZADA_TOTAL = 21365
 
 
@@ -253,11 +255,17 @@ def gen_config(model, arm):
     return gc
 
 
-def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
+def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0, extra_body=None):
     """The same experiment against an OpenAI-compatible endpoint instead of a local
     checkpoint. Prompts, chunking, parsing, counters and the record order are the
     ones above, so the two arms are comparable; only the call changes. Used for the
-    second model, which is served rather than loaded."""
+    second model, which is served rather than loaded.
+
+    extra_body is merged into the request for endpoints that need one more field. The case it
+    exists for is a served reasoning model: some of them count a private trace against the same
+    output budget as the answer, so the answer is cut off mid JSON and the parser sees one record
+    out of twenty. That is a measurement of the harness rather than of the model, and passing
+    reasoning_effort through fixes it. Whatever is passed is recorded in the run file."""
     import urllib.request
     random.seed(seed)
     recs = ds["records"]
@@ -287,23 +295,37 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
                 "messages": [{"role": "user", "content": user}],
                 "max_tokens": MAX_NEW,
                 "temperature": _temp if sampled else 0.0}
+        if extra_body:
+            body.update(extra_body)
         req = urllib.request.Request(
             base_url.rstrip("/") + "/chat/completions",
             data=json.dumps(body).encode(),
             headers={"Content-Type": "application/json",
                      "Authorization": "Bearer " + (api_key or "EMPTY")})
         tc = time.time()
-        try:
-            with urllib.request.urlopen(req, timeout=600) as r:
-                resp = json.load(r)
-            ans = resp["choices"][0]["message"]["content"] or ""
-            usage = resp.get("usage") or {}
-            n_in = int(usage.get("prompt_tokens") or 0) or max(1, len(user) // 4)
-            n_out = int(usage.get("completion_tokens") or 0) or max(1, len(ans) // 4)
-            finished = (resp["choices"][0].get("finish_reason") == "stop")
-        except Exception as e:                              # noqa: BLE001
-            print(f"[api {ds['name']} {arm} s{seed}] chunk {c} failed: {e!r}", flush=True)
-            ans, n_in, n_out, finished = "", 0, 0, False
+        # A served endpoint throttles, and one long stall costs more than the whole run: at one
+        # record per call a stream is hundreds of calls, so a single 600 second hang ends it. Short
+        # timeout, a few retries, and a wait that grows between them.
+        ans, n_in, n_out, finished = "", 0, 0, False
+        for attempt in range(API_RETRIES):
+            try:
+                with urllib.request.urlopen(req, timeout=API_TIMEOUT) as r:
+                    resp = json.load(r)
+                ans = resp["choices"][0]["message"]["content"] or ""
+                usage = resp.get("usage") or {}
+                n_in = int(usage.get("prompt_tokens") or 0) or max(1, len(user) // 4)
+                n_out = int(usage.get("completion_tokens") or 0) or max(1, len(ans) // 4)
+                finished = (resp["choices"][0].get("finish_reason") == "stop")
+                break
+            except Exception as e:                          # noqa: BLE001
+                wait = 2 ** attempt
+                last = repr(e)[:120]
+                if attempt + 1 < API_RETRIES:
+                    print(f"[api {ds['name']} {arm} s{seed}] chunk {c} attempt "
+                          f"{attempt + 1} failed, waiting {wait}s: {last}", flush=True)
+                    time.sleep(wait)
+                else:
+                    print(f"[api {ds['name']} {arm} s{seed}] chunk {c} gave up: {last}", flush=True)
         objs = parse_answer(ans)
         K0 = len(nodes)
         a = apply_answer(objs, nodes, ids, C, c)
@@ -320,7 +342,7 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0):
               f"out={n_out} assigned={len(a)}/{len(chunk)} K={len(nodes)} {dt:.1f}s", flush=True)
     wall = time.time() - t0
     return dict(dataset=ds["name"], method="llm", arm=arm, seed=seed, model=model_name,
-                served_by=base_url,
+                served_by=base_url, extra_body=dict(extra_body or {}),
                 generation=dict(do_sample=sampled, temperature=_temp if sampled else 0.0,
                                 top_p=None, top_k=None, repetition_penalty=1.0,
                                 max_new_tokens=MAX_NEW),

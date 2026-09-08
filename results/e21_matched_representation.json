@@ -57,7 +57,7 @@
           },
           {
             "baseline": "kmeans_default (k=8)",
-            "ARI": 0.3056,
+            "ARI": 0.3222,
             "beats_escrow": false,
             "matches_or_beats": false
           }
@@ -107,7 +107,7 @@
           },
           {
             "baseline": "hdbscan TRANSFERRED worst (3 from wikipedia)",
-            "ARI": 0.8119,
+            "ARI": 0.7894,
             "beats_escrow": false,
             "matches_or_beats": false
           }
@@ -154,13 +154,13 @@
           },
           {
             "baseline": "hdbscan DEFAULT library metric",
-            "ARI": 0.9587,
+            "ARI": 0.9874,
             "beats_escrow": false,
             "matches_or_beats": false
           },
           {
             "baseline": "hdbscan DEFAULT (5)",
-            "ARI": 0.9004,
+            "ARI": 0.8694,
             "beats_escrow": false,
             "matches_or_beats": false
           },
@@ -204,7 +204,7 @@
           },
           {
             "baseline": "hdbscan TRANSFERRED best (twogroup)",
-            "ARI": 0.9004,
+            "ARI": 0.8694,
             "beats_escrow": false,
             "matches_or_beats": false
           },
@@ -216,7 +216,7 @@
           },
           {
             "baseline": "hdbscan TRANSFERRED worst (3 from wikipedia)",
-            "ARI": 0.1419,
+            "ARI": 0.1907,
             "beats_escrow": false,
             "matches_or_beats": false
           }
@@ -224,7 +224,7 @@
       },
       "wikipedia": {
         "representation": "matched",
-        "escrow_ARI": 0.679,
+        "escrow_ARI": 0.6781,
         "escrow_K": 5,
         "best_untuned_strict": {
           "baseline": "kmeans_silhouette (cosine)",
@@ -289,7 +289,7 @@
           },
           {
             "baseline": "hdbscan TRANSFERRED worst (20 from planted8)",
-            "ARI": 0.9551,
+            "ARI": 0.9498,
             "beats_escrow": true,
             "matches_or_beats": true
           },
@@ -470,14 +470,14 @@
   ],
   "environment": "the repository venv carries numpy, scipy and scikit-learn but not torch or sentence-transformers, so the embedding arm needs both. They were installed with pip --target into a scratch directory put on PYTHONPATH for the run; the repository venv was not modified. torch 2.14.0, sentence-transformers 6.0.1, transformers 5.16.1, scikit-learn 1.9.0, numpy 2.5.2. These are newer than whatever produced results/e4_first_tier.json, which is why the embedding arm is checked against it rather than assumed identical.",
   "deviations": {
-    "embedding_arm": "skipped by --no-embedding. The embedding numbers already in results/e4_first_tier.json are the comparison."
+    "embedding_arm": "skipped: ModuleNotFoundError: No module named 'sentence_transformers'. The embedding numbers already in results/e4_first_tier.json are the comparison."
   },
   "escrow": {
     "twogroup": {
       "ARI": 1.0,
       "K": 2,
       "background": 0,
-      "seconds": 0.08,
+      "seconds": 0.3,
       "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
       "representation": "the records themselves, read as (key, value) facets; no vector"
     },
@@ -485,15 +485,15 @@
       "ARI": 1.0,
       "K": 8,
       "background": 0,
-      "seconds": 0.12,
+      "seconds": 0.4,
       "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
       "representation": "the records themselves, read as (key, value) facets; no vector"
     },
     "wikipedia": {
-      "ARI": 0.679,
+      "ARI": 0.6781,
       "K": 5,
       "background": 1,
-      "seconds": 0.17,
+      "seconds": 0.53,
       "protocol": "EscrowGraph + BatchObjective(g).install(); repair() every 100 records; final repair(full=True)",
       "representation": "the records themselves, read as (key, value) facets; no vector"
     }
@@ -529,76 +529,76 @@
               "euclidean": 0.3319
             },
             "3": {
-              "cosine": 0.3003,
-              "euclidean": 0.1799
+              "cosine": 0.303,
+              "euclidean": 0.1814
             },
             "4": {
-              "cosine": 0.0483,
-              "euclidean": 0.0266
+              "cosine": 0.0529,
+              "euclidean": 0.0291
             },
             "5": {
-              "cosine": 0.0591,
-              "euclidean": 0.0325
+              "cosine": 0.0571,
+              "euclidean": 0.0314
             },
             "6": {
               "cosine": 0.0666,
               "euclidean": 0.0366
             },
             "7": {
-              "cosine": 0.07,
-              "euclidean": 0.0385
+              "cosine": 0.0748,
+              "euclidean": 0.0411
             },
             "8": {
-              "cosine": 0.0815,
-              "euclidean": 0.0447
+              "cosine": 0.0824,
+              "euclidean": 0.0452
             },
             "9": {
-              "cosine": 0.0975,
+              "cosine": 0.0974,
               "euclidean": 0.0534
             },
             "10": {
-              "cosine": 0.1093,
-              "euclidean": 0.0598
+              "cosine": 0.1034,
+              "euclidean": 0.0566
             },
             "11": {
-              "cosine": 0.1185,
-              "euclidean": 0.0649
+              "cosine": 0.1205,
+              "euclidean": 0.066
             },
             "12": {
-              "cosine": 0.1224,
-              "euclidean": 0.0668
+              "cosine": 0.1328,
+              "euclidean": 0.0725
             },
             "13": {
-              "cosine": 0.14,
-              "euclidean": 0.0765
+              "cosine": 0.1427,
+              "euclidean": 0.078
             },
             "14": {
-              "cosine": 0.1756,
-              "euclidean": 0.0959
+              "cosine": 0.1609,
+              "euclidean": 0.0879
             },
             "15": {
-              "cosine": 0.1773,
-              "euclidean": 0.0968
+              "cosine": 0.192,
+              "euclidean": 0.1048
             },
             "16": {
               "cosine": 0.2046,
               "euclidean": 0.1116
             },
             "17": {
-              "cosine": 0.1807,
-              "euclidean": 0.0987
+              "cosine": 0.1816,
+              "euclidean": 0.0992
             },
             "18": {
-              "cosine": 0.1694,
-              "euclidean": 0.0926
+              "cosine": 0.1691,
+              "euclidean": 0.0925
             },
             "19": {
-              "cosine": 0.1605,
-              "euclidean": 0.0875
+              "cosine": 0.1738,
+              "euclidean": 0.0947
             },
             "20": {
-              "cosine": 0.1587,
-              "euclidean": 0.0867
+              "cosine": 0.1678,
+              "euclidean": 0.0917
             }
           },
           "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
@@ -607,7 +607,7 @@
           "condition": "DEFAULT",
           "knob": "n_clusters",
           "value": 8,
-          "ARI": 0.3056,
+          "ARI": 0.3222,
           "K": 8,
           "note": "sklearn.cluster.KMeans() ships n_clusters=8"
         },
@@ -630,7 +630,7 @@
           ],
           "grid_extended_beyond_e4": [],
           "sweep": {
-            "3": 0.8119,
+            "3": 0.7894,
             "5": 1.0,
             "10": 1.0,
             "20": 1.0,
@@ -638,7 +638,7 @@
             "100": 1.0
           },
           "K_at": {
-            "3": 11,
+            "3": 12,
             "5": 2,
             "10": 2,
             "20": 2,
@@ -682,11 +682,11 @@
               },
               "wikipedia": {
                 "value": 3,
-                "ARI": 0.8119
+                "ARI": 0.7894
               }
             },
             "worst_source": "wikipedia",
-            "worst_ARI": 0.8119,
+            "worst_ARI": 0.7894,
             "worst_value": 3,
             "best_source": "planted8",
             "best_ARI": 1.0,
@@ -730,8 +730,8 @@
             "0.05": 0.0001,
             "0.1": 0.0001,
             "0.2": 0.0021,
-            "0.3": 0.0074,
-            "0.4": 0.0352,
+            "0.3": 0.0073,
+            "0.4": 0.0376,
             "0.5": 1.0,
             "0.6": 1.0,
             "0.7": 1.0,
@@ -744,9 +744,9 @@
           "K_at": {
             "0.05": 1899,
             "0.1": 1899,
-            "0.2": 761,
-            "0.3": 289,
-            "0.4": 63,
+            "0.2": 768,
+            "0.3": 290,
+            "0.4": 60,
             "0.5": 2,
             "0.6": 2,
             "0.7": 2,
@@ -988,7 +988,7 @@
           "dim": 88,
           "true_K": 2,
           "representation": "matched",
-          "seconds": 7.37
+          "seconds": 14.58
         }
       },
       "planted8": {
@@ -1052,44 +1052,44 @@
               "euclidean": 0.2985
             },
             "11": {
-              "cosine": 0.4369,
-              "euclidean": 0.2645
+              "cosine": 0.3726,
+              "euclidean": 0.2252
             },
             "12": {
               "cosine": 0.3705,
               "euclidean": 0.2238
             },
             "13": {
-              "cosine": 0.25,
-              "euclidean": 0.1504
+              "cosine": 0.2521,
+              "euclidean": 0.1515
             },
             "14": {
-              "cosine": 0.255,
-              "euclidean": 0.1533
+              "cosine": 0.2548,
+              "euclidean": 0.1532
             },
             "15": {
               "cosine": 0.1957,
               "euclidean": 0.117
             },
             "16": {
-              "cosine": 0.1978,
-              "euclidean": 0.1182
+              "cosine": 0.1408,
+              "euclidean": 0.0834
             },
             "17": {
-              "cosine": 0.0786,
-              "euclidean": 0.0454
+              "cosine": 0.1371,
+              "euclidean": 0.0811
             },
             "18": {
-              "cosine": 0.1416,
-              "euclidean": 0.0837
+              "cosine": 0.1433,
+              "euclidean": 0.0846
             },
             "19": {
-              "cosine": 0.2099,
-              "euclidean": 0.1252
+              "cosine": 0.2108,
+              "euclidean": 0.1258
             },
             "20": {
-              "cosine": 0.0903,
-              "euclidean": 0.0521
+              "cosine": 0.0901,
+              "euclidean": 0.0519
             }
           },
           "note": "E4 selected by the euclidean silhouette; both metrics are reported here"
@@ -1121,17 +1121,17 @@
           ],
           "grid_extended_beyond_e4": [],
           "sweep": {
-            "3": 0.1419,
-            "5": 0.9004,
-            "10": 0.7618,
+            "3": 0.1907,
+            "5": 0.8694,
+            "10": 0.7699,
             "20": 1.0,
             "50": 1.0,
             "100": 1.0
           },
           "K_at": {
-            "3": 185,
-            "5": 27,
-            "10": 25,
+            "3": 211,
+            "5": 31,
+            "10": 26,
             "20": 8,
             "50": 8,
             "100": 8
@@ -1152,8 +1152,8 @@
           "default": {
             "condition": "DEFAULT",
             "value": 5,
-            "ARI": 0.9004,
-            "K": 27,
+            "ARI": 0.8694,
+            "K": 31,
             "metric": "cosine",
             "note": "min_cluster_size=5 as shipped, on the cosine metric this experiment uses for both representations"
           },
@@ -1161,26 +1161,26 @@
             "condition": "DEFAULT, constructor exactly",
             "value": 5,
             "metric": "euclidean",
-            "ARI": 0.9587,
-            "K": 17
+            "ARI": 0.9874,
+            "K": 12
           },
           "transferred": {
             "condition": "TRANSFERRED",
             "per_source": {
               "twogroup": {
                 "value": 5,
-                "ARI": 0.9004
+                "ARI": 0.8694
               },
               "wikipedia": {
                 "value": 3,
-                "ARI": 0.1419
+                "ARI": 0.1907
               }
             },
             "worst_source": "wikipedia",
-            "worst_ARI": 0.1419,
+            "worst_ARI": 0.1907,
             "worst_value": 3,
             "best_source": "twogroup",
-            "best_ARI": 0.9004,
+            "best_ARI": 0.8694,
             "note": "E4 reports the worst transfer; the best is carried here too"
           }
         },
@@ -1220,9 +1220,9 @@
           "sweep": {
             "0.05": 0.002,
             "0.1": 0.002,
-            "0.2": 0.0154,
-            "0.3": 0.0332,
-            "0.4": 0.1056,
+            "0.2": 0.0151,
+            "0.3": 0.0351,
+            "0.4": 0.1045,
             "0.5": 1.0,
             "0.6": 1.0,
             "0.7": 1.0,
@@ -1235,9 +1235,9 @@
           "K_at": {
             "0.05": 2472,
             "0.1": 2472,
-            "0.2": 916,
-            "0.3": 493,
-            "0.4": 147,
+            "0.2": 941,
+            "0.3": 488,
+            "0.4": 146,
             "0.5": 8,
             "0.6": 8,
             "0.7": 8,
@@ -1479,7 +1479,7 @@
           "dim": 803,
           "true_K": 8,
           "representation": "matched",
-          "seconds": 103.99
+          "seconds": 120.07
         }
       },
       "wikipedia": {
@@ -1531,8 +1531,8 @@
               "euclidean": 0.0472
             },
             "8": {
-              "cosine": 0.0811,
-              "euclidean": 0.043
+              "cosine": 0.0814,
+              "euclidean": 0.0432
             },
             "9": {
               "cosine": 0.0705,
@@ -1547,12 +1547,12 @@
               "euclidean": 0.0436
             },
             "12": {
-              "cosine": 0.0753,
-              "euclidean": 0.0402
+              "cosine": 0.0756,
+              "euclidean": 0.0404
             },
             "13": {
-              "cosine": 0.0726,
-              "euclidean": 0.0384
+              "cosine": 0.0723,
+              "euclidean": 0.0383
             },
             "14": {
               "cosine": 0.061,
@@ -1567,16 +1567,16 @@
               "euclidean": 0.0312
             },
             "17": {
-              "cosine": 0.0622,
-              "euclidean": 0.033
+              "cosine": 0.0617,
+              "euclidean": 0.0328
             },
             "18": {
               "cosine": 0.0569,
               "euclidean": 0.0306
             },
             "19": {
-              "cosine": 0.0571,
-              "euclidean": 0.0303
+              "cosine": 0.0562,
+              "euclidean": 0.0298
             },
             "20": {
               "cosine": 0.059,
@@ -1615,8 +1615,8 @@
             "3": 0.9797,
             "5": 0.9745,
             "10": 0.9694,
-            "20": 0.9551,
-            "50": 0.9251,
+            "20": 0.9498,
+            "50": 0.9201,
             "100": 0.0
           },
           "K_at": {
@@ -1664,11 +1664,11 @@
               },
               "planted8": {
                 "value": 20,
-                "ARI": 0.9551
+                "ARI": 0.9498
               }
             },
             "worst_source": "planted8",
-            "worst_ARI": 0.9551,
+            "worst_ARI": 0.9498,
             "worst_value": 20,
             "best_source": "twogroup",
             "best_ARI": 0.9745,
@@ -1729,7 +1729,7 @@
             "0.2": 320,
             "0.3": 308,
             "0.4": 270,
-            "0.5": 153,
+            "0.5": 154,
             "0.6": 60,
             "0.7": 18,
             "0.8": 5,
@@ -1905,7 +1905,7 @@
             "0.2": 0.0,
             "0.3": 0.4993,
             "0.4": 0.9365,
-            "0.5": 0.5422,
+            "0.5": 0.5553,
             "0.6": 0.04,
             "0.7": 0.0015,
             "0.8": 0.0,
@@ -1918,7 +1918,7 @@
             "0.2": 1,
             "0.3": 4,
             "0.4": 16,
-            "0.5": 77,
+            "0.5": 75,
             "0.6": 255,
             "0.7": 307,
             "0.8": 320,
@@ -1970,7 +1970,7 @@
           "dim": 2728,
           "true_K": 3,
           "representation": "matched",
-          "seconds": 6.4
+          "seconds": 26.79
         }
       }
     }
@@ -2037,8 +2037,8 @@
             {
               "threshold": 0.3,
               "agreement_ARI": 1.0,
-              "K_sklearn": 289,
-              "K_scipy": 289
+              "K_sklearn": 290,
+              "K_scipy": 290
             },
             {
               "threshold": 0.5,
@@ -2128,8 +2128,8 @@
             {
               "threshold": 0.3,
               "agreement_ARI": 1.0,
-              "K_sklearn": 493,
-              "K_scipy": 493
+              "K_sklearn": 488,
+              "K_scipy": 488
             },
             {
               "threshold": 0.5,
@@ -2224,8 +2224,8 @@
             },
             {
               "threshold": 0.5,
-              "agreement_ARI": 1.0,
-              "K_sklearn": 153,
+              "agreement_ARI": 0.999244,
+              "K_sklearn": 154,
               "K_scipy": 153
             },
             {
@@ -2247,7 +2247,7 @@
               "K_scipy": 1
             }
           ],
-          "all_identical": true
+          "all_identical": false
         }
       }
     }
@@ -2256,7 +2256,7 @@
     "per_cell": [
       "matched/twogroup: ESCROW 1.0 (K=2), best untuned baseline 1.0 (kmeans_silhouette (cosine)), best oracle 1.0.",
       "matched/planted8: ESCROW 1.0 (K=8), best untuned baseline 1.0 (kmeans_silhouette (cosine)), best oracle 1.0.",
-      "matched/wikipedia: ESCROW 0.679 (K=5), best untuned baseline 0.9898 (kmeans_silhouette (cosine)), best oracle 0.9898."
+      "matched/wikipedia: ESCROW 0.6781 (K=5), best untuned baseline 0.9898 (kmeans_silhouette (cosine)), best oracle 0.9898."
     ],
     "summary": "THE FALSIFIER FIRES on the matched representation, on twogroup, planted8, wikipedia. A distance baseline reaches or passes ESCROW on ESCROW's own representation with no knob tuned on the test labels, so on those streams the criterion is not what is doing the work. This is reported because it is what was measured. Read the two arms against each other rather than each on its own: the point of the experiment is that a baseline's score is a property of the pair (rule, representation) and moves a long way when the representation changes with the rule held fixed.",
     "falsifier_fires_strict_anywhere": true,
@@ -2435,7 +2435,7 @@
       "per_seed": [
         {
           "seed": 0,
-          "escrow_ARI": 0.679,
+          "escrow_ARI": 0.6781,
           "escrow_K": 5,
           "best_untuned_strict_ARI": 0.9898,
           "kmeans_oracleK_ARI": 0.9898,
@@ -2449,7 +2449,7 @@
         },
         {
           "seed": 1,
-          "escrow_ARI": 0.6553,
+          "escrow_ARI": 0.6429,
           "escrow_K": 3,
           "best_untuned_strict_ARI": 0.9898,
           "kmeans_oracleK_ARI": 0.9898,
@@ -2477,7 +2477,7 @@
         },
         {
           "seed": 3,
-          "escrow_ARI": 0.6408,
+          "escrow_ARI": 0.6348,
           "escrow_K": 4,
           "best_untuned_strict_ARI": 0.9898,
           "kmeans_oracleK_ARI": 0.9898,
@@ -2504,16 +2504,16 @@
           }
         }
       ],
-      "escrow_ARI_mean": 0.7769,
+      "escrow_ARI_mean": 0.7731,
       "best_untuned_ARI_mean": 0.9898,
       "seeds_where_untuned_matches_or_beats_escrow": 5
     }
   },
-  "seconds_total": 541.44,
+  "seconds_total": 836.02,
   "provenance": {
-    "date": "2026-09-06",
+    "date": "2026-09-08",
     "engine_md5": {
-      "engine.py": "8efaf7f7cc4bbcda4644f68a160cd8f3",
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
       "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
       "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
     }

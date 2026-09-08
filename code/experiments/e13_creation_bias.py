@@ -139,7 +139,7 @@ def escrow_labels(recs):
     """One ESCROW run under the one protocol. Unclaimed records are one background cluster."""
     g, _ = run_stream(recs)
     lab = [BACKGROUND] * len(recs)
-    for v in g.nodes.values():
+    for v in sorted(g.nodes.values(), key=lambda x: (x.t, -x.nid)):
         for m in v.members:
             lab[m - 1] = v.nid
     return lab, g.K

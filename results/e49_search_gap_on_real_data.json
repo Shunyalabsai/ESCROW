@@ -1,0 +1,86 @@
+{
+  "experiment": "E49 is the real-world loss the criterion or the search",
+  "restarts": 5,
+  "benchmarks": [
+    {
+      "benchmark": "wikidata_people",
+      "records": 3362,
+      "labels": 12,
+      "engine_from_scratch": {
+        "K": 14,
+        "L": 634876.8,
+        "omega": 0.2044
+      },
+      "truth_seeded": {
+        "K": 12,
+        "L": 704291.3,
+        "omega": 1.0
+      },
+      "truth_seeded_after_repair": {
+        "K": 1,
+        "L": 654722.5,
+        "omega": 0.1289
+      },
+      "best_of_orders": {
+        "K": 10,
+        "L": 637634.0,
+        "omega": 0.1273,
+        "order": 4
+      },
+      "search_gap_bits": -19845.7,
+      "restart_gain_bits": -2757.2,
+      "restart_gain_omega": -0.0771
+    },
+    {
+      "benchmark": "wikipedia_infoboxes",
+      "records": 320,
+      "labels": 3,
+      "engine_from_scratch": {
+        "K": 5,
+        "L": 27729.4,
+        "omega": 0.8771
+      },
+      "truth_seeded": {
+        "K": 3,
+        "L": 27449.8,
+        "omega": 1.0
+      },
+      "truth_seeded_after_repair": {
+        "K": 3,
+        "L": 27449.8,
+        "omega": 1.0
+      },
+      "best_of_orders": {
+        "K": 4,
+        "L": 27670.0,
+        "omega": 0.9496,
+        "order": 1
+      },
+      "search_gap_bits": 279.6,
+      "restart_gain_bits": 59.4,
+      "restart_gain_omega": 0.0725
+    }
+  ],
+  "headline": {
+    "wikidata_people": {
+      "search_gap_bits": -19845.7,
+      "omega_shipped": 0.2044,
+      "omega_truth_seeded_after_repair": 0.1289,
+      "omega_best_of_orders": 0.1273
+    },
+    "wikipedia_infoboxes": {
+      "search_gap_bits": 279.6,
+      "omega_shipped": 0.8771,
+      "omega_truth_seeded_after_repair": 1.0,
+      "omega_best_of_orders": 0.9496
+    }
+  },
+  "provenance": {
+    "date": "2026-09-08",
+    "engine_md5": {
+      "engine.py": "b6407eb9c0819ed7262234d92dacb198",
+      "batch.py": "cacd9de96657fa9dd25b2b2a67700d83",
+      "codes.py": "97ccc913557e0ea1bfcce4011811e23f"
+    }
+  }
+}
