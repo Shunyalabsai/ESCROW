@@ -55,7 +55,7 @@ WIKI_DIR = OUT_DIR
 RUN_DIR = os.path.join(OUT_DIR, "llm_gf_runs")
 FINAL = os.path.join(OUT_DIR, "llm_graph_formation.json")
 MODEL_PREF = ["Qwen/Qwen2.5-14B-Instruct", "Qwen/Qwen2.5-7B-Instruct"]
-CHUNK = 20
+CHUNK = 1
 MAX_NEW = 1600
 LAZADA_LIMIT = 1000
 API_TIMEOUT = int(os.environ.get("ESCROW_API_TIMEOUT", "90"))
@@ -108,7 +108,10 @@ def load_data(name):
 SYSTEM = ("You build a graph of nodes from a stream of records. Each record describes one "
           "item as key=value lines. A node stands for one kind of item. Records of the same "
           "kind of item attach to the same node. Reuse an existing node whenever one fits. "
-          "Create a new node only when no existing node fits. Reply with JSON only.")
+          "Create a new node when recurring structure warrants it. You may leave a record "
+          "in the background or defer an uncertain assignment. No assignment is compulsory. "
+          "Only decide for the current record; this protocol does not allow edits of past records. "
+          "Reply with JSON only.")
 
 
 def make_prompt(nodes, chunk, start):
@@ -127,6 +130,8 @@ def make_prompt(nodes, chunk, start):
           '- existing node: {"record": <id>, "node": "<existing node name, exactly as listed>"}',
           '- new node: {"record": <id>, "node": "<new node name>", "new": true, '
           '"description": "<one line saying what kind of item the node stands for>"}',
+          '- background: {"record": <id>, "action": "background"}',
+          '- unresolved assignment: {"record": <id>, "action": "defer"}',
           "A node created for an earlier record in this same answer may be reused by later "
           "records by name. Output the JSON array only."]
     return "\n".join(L)
@@ -160,11 +165,12 @@ def norm_name(s):
     return NORM_RE.sub("", str(s).lower())
 
 
-def apply_answer(objs, nodes, chunk_ids, C, chunk_no):
+def apply_answer(objs, nodes, chunk_ids, C, chunk_no, decisions=None):
     """nodes: OrderedDict name -> {'description', 'created_chunk'}; returns {rid: node}."""
     assign = {}
     loose = {norm_name(n): n for n in nodes}
     ids = set(chunk_ids)
+    decisions = {} if decisions is None else decisions
     for o in objs:
         try:
             rid = int(o.get("record"))
@@ -177,31 +183,51 @@ def apply_answer(objs, nodes, chunk_ids, C, chunk_no):
         if rid in assign:
             C["duplicate_record_entry"] += 1
             continue
+        action = o.get("action", "assign")
+        if action in ("background", "defer"):
+            if o.get("new") or o.get("node"):
+                C["conflicting_action"] += 1
+                continue
+            assign[rid] = None
+            decisions[rid] = action
+            C["background_records" if action == "background" else "deferred_records"] += 1
+            continue
+        if action not in ("assign", "create"):
+            C["unknown_action"] += 1
+            continue
         name = o.get("node")
         if not isinstance(name, str) or not name.strip():
             C["missing_node_name"] += 1
             continue
         name = name.strip()
-        is_new = bool(o.get("new"))
+        is_new = o.get("new") is True or action == "create"
         if name in nodes:
             if is_new:
                 C["new_flag_on_existing_name"] += 1
             assign[rid] = name
+            decisions[rid] = "assigned"
             continue
         key = norm_name(name)
         if key in loose:
             C["loose_name_match"] += 1                    # case/punct variant of a listed name
             assign[rid] = loose[key]
+            decisions[rid] = "assigned"
             continue
         if not is_new:
-            C["implicit_new_node"] += 1                   # referenced a node that does not exist
+            C["unknown_node_reference"] += 1
+            continue
         desc = o.get("description")
         nodes[name] = dict(description=desc if isinstance(desc, str) and desc.strip()
                            else "(no description given)", created_chunk=chunk_no)
         loose[key] = name
         C["new_nodes"] += 1
         assign[rid] = name
-    C["unparsed_records"] += sum(1 for r in chunk_ids if r not in assign)
+        decisions[rid] = "created"
+    missing = [r for r in chunk_ids if r not in assign]
+    for rid in missing:
+        decisions[rid] = "parse_failure"
+    C["unparsed_records"] += len(missing)
+    C["parse_failure_records"] += len(missing)
     return assign
 
 
@@ -273,7 +299,7 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0, extr
     nodes = collections.OrderedDict()
     assign = [None] * N
     C = collections.Counter()
-    chunks_log, raw = [], []
+    chunks_log, raw, decisions = [], [], {}
     _temp = arm_temperature(arm)
     sampled = _temp is not None and _temp > 0
     tin = tout = 0
@@ -328,7 +354,7 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0, extr
                     print(f"[api {ds['name']} {arm} s{seed}] chunk {c} gave up: {last}", flush=True)
         objs = parse_answer(ans)
         K0 = len(nodes)
-        a = apply_answer(objs, nodes, ids, C, c)
+        a = apply_answer(objs, nodes, ids, C, c, decisions)
         for rid, name in a.items():
             assign[rid] = name
         tin += n_in
@@ -349,7 +375,9 @@ def run_llm_api(base_url, model_name, api_key, ds, arm, seed, max_chunks=0, extr
                 chunk_size=CHUNK, n_records=N, n_chunks=n_chunks,
                 tokens_in=tin, tokens_out=tout, wall_s=round(wall, 1),
                 counters=dict(C), nodes=[dict(name=n, **v) for n, v in nodes.items()],
-                assignments=assign, chunks=chunks_log, raw_outputs=raw)
+                assignments=assign, decisions=decisions,
+                revision_allowance=dict(past_records=False, node_edits=False, relationships=False),
+                primary_streaming=CHUNK == 1, chunks=chunks_log, raw_outputs=raw)
 
 
 def run_llm(model_name, tok, model, ds, arm, seed, max_chunks=0):
@@ -361,7 +389,7 @@ def run_llm(model_name, tok, model, ds, arm, seed, max_chunks=0):
     nodes = collections.OrderedDict()
     assign = [None] * N
     C = collections.Counter()
-    chunks_log, raw = [], []
+    chunks_log, raw, decisions = [], [], {}
     gc = gen_config(model, arm)
     eos = gc.eos_token_id if isinstance(gc.eos_token_id, list) else [gc.eos_token_id]
     tin = tout = 0
@@ -388,7 +416,7 @@ def run_llm(model_name, tok, model, ds, arm, seed, max_chunks=0):
         ans = tok.decode(gen, skip_special_tokens=True)
         objs = parse_answer(ans)
         K0 = len(nodes)
-        a = apply_answer(objs, nodes, ids, C, c)
+        a = apply_answer(objs, nodes, ids, C, c, decisions)
         for rid, name in a.items():
             assign[rid] = name
         tin += n_in
@@ -410,7 +438,9 @@ def run_llm(model_name, tok, model, ds, arm, seed, max_chunks=0):
                 chunk_size=CHUNK, n_records=N, n_chunks=n_chunks,
                 tokens_in=tin, tokens_out=tout, wall_s=round(wall, 1),
                 counters=dict(C), nodes=[dict(name=n, **v) for n, v in nodes.items()],
-                assignments=assign, chunks=chunks_log, raw_outputs=raw)
+                assignments=assign, decisions=decisions,
+                revision_allowance=dict(past_records=False, node_edits=False, relationships=False),
+                primary_streaming=CHUNK == 1, chunks=chunks_log, raw_outputs=raw)
 
 
 def cmd_llm(args):

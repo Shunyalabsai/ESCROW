@@ -14,9 +14,20 @@ by log2(1+overlap) per cell otherwise).
 from __future__ import annotations
 
 import math
+import os
 
 from . import codes as C
 from .codes import L_KT_block, L_N, L_col, L_supp, kt, lg2, naming_charge
+
+# The split and the residual mint. SPLIT_CAND_CAP bounds how many cells the operator proposes and
+# never what it accepts: the naming charge is computed from the number actually considered, so a
+# smaller pool is charged less and the gate stays exact for the pool it searched. It has the same
+# standing as the candidate pool cap the consensus pass already carries, which is an efficiency
+# bound rather than a quantity of the criterion. SPLIT_MIN_HALF is the smallest half worth proposing
+# and exists so the operator does not spend its time on pairs of records.
+SPLIT_MOVES = os.environ.get("ESCROW_SPLIT", "1") != "0"
+SPLIT_CAND_CAP = int(os.environ.get("ESCROW_SPLIT_CAP", "64"))
+SPLIT_MIN_HALF = 2
 
 
 def L_vblock(counts: dict, naming: float) -> float:
@@ -436,7 +447,7 @@ class BatchObjective:
                 moved += m
         return moved
 
-    def repair(self, max_rounds: int = 50, full: bool = None) -> int:
+    def repair(self, max_rounds: int = 50, full: bool = None, final: bool = None) -> int:
         """Greedy best-merge-first pass; accept iff dL < 0; terminate at fixpoint.
         Returns the number of moves applied.
 
@@ -450,6 +461,14 @@ class BatchObjective:
         why the full pass exists; between full passes the incremental schedule
         is an efficiency choice, not a change of objective."""
         g = self.g
+        # The split and the residual mint run on the last pass only, and the signature already
+        # separates the two kinds of full pass. A full pass the schedule chose for itself arrives
+        # with full=None and is computed here; a caller's deliberate final pass passes full=True.
+        # So an explicit full=True means final unless the caller says otherwise, which is what makes
+        # the twenty-seven experiments that hand-roll their own final repair get the moves without
+        # each of them having to remember a second flag.
+        if final is None:
+            final = full is True
         if full is None:
             full = g.n >= 2 * max(1, g.last_full_repair_n)
         if full:
@@ -501,6 +520,47 @@ class BatchObjective:
                 self._apply_delete(best[1])
                 moves += 1
                 progressed = True
+            # 4. split a node holding several kinds, and mint a node out of the residual.
+            #    Neither state is reachable by the three moves above: reassign can only move a
+            #    record to a node that already exists, and every move above acts on a node, so
+            #    records in no node are out of reach of all of them. Measured on the value fixture
+            #    E75, where the objective prefers the planted truth by 3,616 to 16,899 bits, these
+            #    two moves take mean ARI from 0.6099 to 0.9995 and K from 5.0 to exactly 8.
+            # These two run on the FINAL pass only, and the reason is the deferral argument
+            # rather than convenience. Mid-stream a node is still accumulating, so splitting it or
+            # minting out of the residual decides on partial evidence, which is the mistake the
+            # escrow mechanism exists to avoid. Measured on the encyclopedia stream: one residual
+            # mint taken mid-stream lowered L_batch by 134.9 bits at the moment it was applied and
+            # left the final state 85 bits WORSE and 0.0356 lower in agreement, because repair is
+            # greedy at the time of the move and the move put the search on a worse path. The delta
+            # was right and the timing was wrong.
+            if SPLIT_MOVES and final:
+                from .split import (apply_residual_mint, apply_split, best_residual_mint,
+                                    best_split)
+                while True:
+                    best = None
+                    for v in sorted(g.nodes.values(), key=lambda x: (x.birth_n, x.nid)):
+                        if v.t < 2 * SPLIT_MIN_HALF:
+                            continue
+                        b = best_split(self, v, cap=SPLIT_CAND_CAP)
+                        if b is not None and (best is None or b[0] < best[0]):
+                            best = (b[0], v, b[1])
+                    if best is None:
+                        break
+                    apply_split(self, best[1], best[2])
+                    moves += 1
+                    progressed = True
+                # The residual is the whole stream until the first node exists, so proposing out
+                # of it on every intermediate pass costs more than it can return. It runs on the
+                # full passes only, the same power-of-two checkpoint the pass already keeps for the
+                # background terms, which is a schedule and not a change of objective.
+                while True:
+                    b = best_residual_mint(self, cap=SPLIT_CAND_CAP)
+                    if b is None:
+                        break
+                    apply_residual_mint(self, b[1], b[3])
+                    moves += 1
+                    progressed = True
             if not progressed:
                 break
         g.dirty.clear()

@@ -323,8 +323,12 @@ def main():
             print(f"[stream] n={i+1} K={g.K} pool={len(g.pool)} "
                   f"elapsed={el:.1f}s rate={(i+1)/el:.1f} rec/s "
                   f"(proc {t_proc:.1f}s repair {t_rep:.1f}s)", flush=True)
+    # The final pass is a FULL one, which is what `protocol.run_stream` does and what the protocol
+    # string above claims. It was an incremental `repair()` here, so this experiment alone ran
+    # without the final full pass every other experiment ends with, and without the split and the
+    # residual mint that a deliberate full pass carries.
     ts = time.time()
-    b.repair()
+    b.repair(full=True)
     t_rep += time.time() - ts
     repair_calls += 1
     t_stream = time.time() - t_stream0
